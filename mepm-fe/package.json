@@ -1,0 +1,52 @@
+{
+  "name": "mepm-fe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "npm run lint -- --fix && vue-cli-service serve",
+    "build": "npm run lint -- --fix && vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "eslint": "eslint -f checkstyle --ext .js,.vue src -o eslint_result.xml"
+  },
+  "dependencies": {
+    "core-js": "^3.6.2",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.4",
+    "@vue/cli-plugin-eslint": "^4.5.4",
+    "@vue/cli-service": "^4.5.4",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.2.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/base",
+      "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}
