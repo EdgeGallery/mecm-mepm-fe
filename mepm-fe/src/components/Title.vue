@@ -15,34 +15,38 @@
   -->
 
 <template>
-  <div id="app">
-    <Navbar />
-    <router-view />
+  <div class="my-comp-title">
+    <div class="title1">
+      <span>{{ this.title }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from './components/Nav'
 export default {
-  name: 'App',
-  components: {
-    Navbar
+  props: {
+    title: {
+      type: String,
+      default: function () {
+        return ''
+      }
+    }
   },
-  beforeCreate () {
-    if (sessionStorage.getItem('before_route')) {
-      this.$router.push(sessionStorage.getItem('before_route'))
+  methods: {},
+  mounted () {}
+}
+
+</script>
+<style lang='less' scoped>
+.my-comp-title{
+  .title1{
+    border-left: 2px solid #29ABE0;
+    span{
+      margin-left: 5px;
+      font-size: 18px;
+      font-weight: 800;
     }
   }
 }
-</script>
 
-<style>
-#app {
-  font-family: Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #f5f5f5;
-  background-size:cover;
-  overflow: auto;
-}
 </style>
