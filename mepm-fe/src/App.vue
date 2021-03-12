@@ -16,29 +16,33 @@
 
 <template>
   <div id="app">
-    <router-view/>
+    <Navbar />
+    <router-view />
   </div>
 </template>
 
+<script>
+import Navbar from './components/Nav'
+export default {
+  name: 'App',
+  components: {
+    Navbar
+  },
+  beforeCreate () {
+    if (sessionStorage.getItem('before_route')) {
+      this.$router.push(sessionStorage.getItem('before_route'))
+    }
+  }
+}
+</script>
+
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  background: #f5f5f5;
+  background-size:cover;
+  overflow: auto;
 }
 </style>
