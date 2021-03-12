@@ -1,0 +1,259 @@
+/*
+ *  Copyright 2020 Huawei Technologies Co., Ltd.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+html,body,p,h1,h2,h3,h4,h5,h6,ul,li{
+  margin:0;
+  padding:0;
+  font-size:15px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+#app,html,body{
+  height:100%;
+}
+a{
+  text-decoration: none;
+  color:#fff;
+}
+.lt{
+  float: left;
+}
+.rt{
+  float: right;
+}
+.clearfix{
+  clear: both;
+}
+.blue{
+  color:#409EFF;
+}
+.breadcrumb{
+  line-height: 50px;
+  padding: 25px 5%;
+  margin-top: 60px;
+}
+.pageBar{
+  padding:25px 0;
+}
+.error{
+  color:#F56C6C;
+}
+.success{
+  color:#67C23A;
+}
+.wait{
+  color:#E6A23C;
+}
+.primary{
+  color:#409EFF;
+}
+.mt20{
+  margin-top:20px;
+}
+.flex{
+  display: flex
+}
+.h100{
+  height: 100%;
+}
+.cp{
+  cursor: pointer;
+}
+
+
+.title{
+  margin:15px 3px;
+  font-size:18px;
+}
+.title::before{
+  content:'';
+  display:inline-block;
+  width:3px;
+  height:17px;
+  margin-right:3px;
+  background: #409EFF;
+  position: relative;
+  top:2px;
+}
+
+.btn-p{
+  height: 40px;
+  padding:15px 0;
+    position: relative;
+    top: -80px;
+    float: left;
+  .rt{
+      margin-bottom:15px;
+    }
+}
+/* dialog */
+.el-dialog__body{
+  padding-top:15px!important;
+}
+.el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close,.el-dialog__title,.el-icon-close,.el-dialog__headerbtn .el-dialog__close{
+  color:#fff;
+}
+
+.el-dialog__headerbtn .el-dialog__close{
+  color:#fff !important;
+  position: relative;
+  top: -7px;
+}
+
+.el-dialog__header{
+  background: #409EFF;
+  padding:10px!important;
+}
+
+.search .el-button--small,.search .el-button--small.is-round{
+  padding: 8px 15px !important;
+  position: relative !important;
+  top: 0 !important;
+}
+
+.el-dialog__title{
+  color:#fff !important;
+}
+
+.el-message{
+  top: 65px !important;
+  z-index:10000 !important;
+}
+
+.el-table--mini, .el-table--small, .el-table__expand-icon ,.el-form-item__label,.el-button--mini, .el-button--small, .el-button ,.el-breadcrumb{
+  font-size:14px!important;
+}
+
+/* navBar */
+.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow{
+  margin-top:3px!important;
+}
+.el-icon-arrow-right{
+  margin-top:-4px!important;
+}
+
+/* 表格统一样式 */
+.el-table .has-gutter th{
+  background: #F0F3FA;
+  height:32px;
+}
+body .el-table th.gutter{
+  display: table-cell !important;
+}
+
+/* area-link样式 */
+.area-select>.area-selected-trigger{
+  padding-top:0px !important;
+}
+
+/* el-upload样式 */
+.el-upload{
+  width:100% !important;
+}
+
+.el-upload-dragger{
+  width:100% !important;
+}
+/* system form样式 */
+.appstoreList .el-form-item__content,.applcmList .el-form-item__content{
+    line-height: 25px;
+  }
+.appstoreList .el-form-item__label,.applcmList .el-form-item__label{
+  line-height:25px;
+  font-weight: bold;
+}
+
+.el-form-item__label{
+  color:#827979;
+}
+
+.el-upload__tip{
+  padding-bottom:15px;
+}
+
+
+.applcmList,.appstoreList{
+  width: 100%;
+  padding:15px 0;
+  display:flex;
+  flex-wrap: wrap;
+  .content {
+    width: 25%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    .list {
+      padding:15px 0 15px 15px;
+      border: 3px solid#1ececa;
+      border-left: 10px solid #1ececa;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      transition: transform 0.3s ease-in;
+      background-color: #f8f8f8;
+      .el-form{
+      width:100%;
+      .el-form-item{
+        margin-bottom: 8px;
+        .button:nth-child(2){
+          margin-right:15px;
+        }
+      }
+    }
+    }
+    .list:hover{
+      transform: translate3d(0,-10px,0);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background-color: #fff;
+      border: 3px solid#9163cc;
+      border-left: 10px solid #9163cc;
+    }
+  }
+}
+
+
+.mecm-overview .el-row{
+  margin:0 !important;
+}
+.search .el-input__inner{
+  height: 34px !important;
+}
+
+.el-dialog__body{
+  padding:20px 20px 0 20px !important;
+}
+
+@media (min-width:0px){
+  html{font-size:12px;}
+}
+@media (min-width: 320px){
+  html{font-size:12px;}
+}
+@media (min-width: 340px){
+  html{font-size:13px;}
+}
+@media (min-width: 360px){
+  html{font-size:14px;}
+}
+@media (min-width: 380px){
+  html{font-size:15px;}
+}
+@media (min-width: 400px){
+  html{font-size:15px;}
+}
+@media (min-width: 420px){
+  html{font-size:16px;}
+}
