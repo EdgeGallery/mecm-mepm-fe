@@ -567,7 +567,6 @@ export default {
       this.currForm = row
     },
     handleModify (row) {
-      this.getList()
       this.editType = 2
       this.title = this.$t('system.edgeNodes.nodeModify')
       this.isDisable = true
@@ -668,7 +667,7 @@ export default {
     },
     async submitUpload (content) {
       let params = new FormData()
-      params.append('file', content.file)
+      params.append('configFile', content.file)
       params.append('hostIp', this.currForm.mechostIp)
       if (this.currForm.mechostIp) {
         lcmController.uploadConfig(params).then(response => {
@@ -736,7 +735,7 @@ export default {
               }
             })
           } else {
-            lcmController.modifyHost(1, this.currForm, this.currForm.mechostIp).then(response => {
+            lcmController.modifyHost(this.currForm).then(response => {
               this.showMessage('success', this.$t('tip.sucToModNode'), 1500)
               this.getNodeListInPage()
               this.dialogVisible = false

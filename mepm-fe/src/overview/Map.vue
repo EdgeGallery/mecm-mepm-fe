@@ -92,19 +92,16 @@ export default {
   },
   methods: {
     getNodeList () {
-      lcmController.getHostList(2).then(res => {
+      lcmController.getHostList().then(res => {
         if (res.data && res.data.length > 0) {
           res.data.forEach((item, index) => {
             item.coordinates = item.coordinates.split(',')
           })
           this.nodeData = res.data
-          this.mapChart('mapChart')
-          this.$emit('area', res.data, '')
         }
       }, error => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
           this.nodeData = []
-          this.mapChart('mapChart')
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))
         }
