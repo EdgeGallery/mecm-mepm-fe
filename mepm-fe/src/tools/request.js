@@ -112,8 +112,8 @@ let lcmController = {
   getHostList () {
     return GET(lcmcontrollerApi + '/hosts')
   },
-  modifyHost (params, ip) {
-    return PUT(lcmcontrollerApi + '/hosts' + '/' + ip, params)
+  modifyHost (params) {
+    return PUT(lcmcontrollerApi + '/hosts', params)
   },
   deleteHost (params) {
     return DELETE(lcmcontrollerApi + '/hosts' + '/' + params)
@@ -121,14 +121,18 @@ let lcmController = {
   uploadConfig (params) {
     return POST(lcmcontrollerApi + '/configuration', params)
   },
+  uploadPackage (params) {
+    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages', params)
+  },
   getHwCapa (hostip) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/mechosts/' + hostip + '/capabilities')
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostip + '/mep_capabilities')
   },
   getAppPackageList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
   },
   confirmToDistribute (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages', params)
+    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages/' + params.packageId,
+      params)
   },
   getDistributionList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
@@ -156,7 +160,7 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_create', params)
   },
   getInstanceInfo (instanceId) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instance_infos/' + instanceId)
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
   instantiateApp (instanceId) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
@@ -165,7 +169,7 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_instantiate', params)
   },
   getInstanceList () {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instance_infos')
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances')
   },
   getInstanceDetail (appInstanceId) {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + appInstanceId)

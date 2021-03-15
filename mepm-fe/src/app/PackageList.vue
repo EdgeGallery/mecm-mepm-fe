@@ -472,7 +472,7 @@ export default {
         this.num++
         if (this.num === response.data.length) {
           this.paginationData = this.tableData
-          // this.checkProjectData()
+          this.checkProjectData()
           if (this.appType) this.filterTableData(this.appType, 'type')
         }
         this.dataLoading = false
@@ -531,40 +531,41 @@ export default {
     async submitUpload () {
       this.loading = true
       this.isSecureBackend = sessionStorage.getItem('isSecureBackend')
-      console.log(this.fileList)
+      console.log('file list' + this.fileList[0])
       console.log(this.currForm)
       this.uploadPkgDialogVisible = false
+      let params = new FormData()
+      params.append('package', this.fileList[0])
+      params.append('origin', 'MEPM')
+      lcmController.uploadPackage(params).then(response => {
+        this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
+        this.dialogVisible = false
+        this.getPackageList()
+      }).catch((error) => {
+        if (error.response.status === 400 && error.response.data.details[0] === 'Record already exist') {
+          this.$message.error(error.response.data.details[0])
+        } else if (error.response.status === 403) {
+          this.$message.error(this.$t('tip.loginOperation'))
+        } else {
+          this.$message.error(error.response.data)
+        }
+      })
     },
     async confirm () {
       this.loading = true
       let selectedMecHost = []
       this.nodeSelection.forEach(data => {
-        let obj = {}
-        obj.hostIp = data.mechostIp
-        selectedMecHost.push(obj)
+        console.log('host ip', data.mechostIp)
+        selectedMecHost.push(data.mechostIp)
       })
       this.$refs.multipleEdgeNodeTable.clearSelection()
-      this.isSecureBackend = sessionStorage.getItem('isSecureBackend')
-      let address = 'http://'
-      if (this.isSecureBackend === 'true') {
-        address = 'https://'
-      }
+      console.log('current row data', this.currentRowData)
       let params = {
-        appPkgId: this.currentRowData.packageId,
-        appId: this.currentRowData.appId,
-        appPkgName: this.currentRowData.name,
-        appPkgVersion: this.currentRowData.appPkgVersion,
-        appPkgDesc: this.currentRowData.shortDesc ? this.currentRowData.shortDesc : 'none',
-        appPkgAffinity: this.currentRowData.affinity,
-        appPkgPath: address + this.currentRowData.appstoreIp + ':' + this.currentRowData.appstorePort + '/mec/appstore/v1/apps/' + this.currentRowData.appId + '/packages/' + this.currentRowData.packageId + '/action/download',
-        appIconUrl: address + this.currentRowData.appstoreIp + ':' + this.currentRowData.appstorePort + '/mec/appstore/v1/apps/' + this.currentRowData.appId + '/icon',
-        appProvider: this.currentRowData.provider,
-        mecHostInfo: selectedMecHost,
-        createdTime: new Date().toString(),
-        modifiedTime: new Date().toString()
+        packageId: this.currentRowData.packageId,
+        hostIp: selectedMecHost
       }
-      console.log(params)
-      if (params.appPkgVersion && params.mecHostInfo.length > 0) {
+      console.log('distribute params', params)
+      if (params.hostIp.length > 0) {
         lcmController.confirmToDistribute(params).then(response => {
           this.showMessage('success', this.$t('tip.sucToDownload'), 1500)
           sessionStorage.setItem('appId', params.appId)
@@ -577,7 +578,7 @@ export default {
         })
       } else {
         this.loading = false
-        if (params.mecHostInfo.length === 0) {
+        if (params.hostIp.length === 0) {
           this.$message.warning(this.$t('tip.mecHost'))
         } else {
           this.$message.warning(this.$t('tip.version'))

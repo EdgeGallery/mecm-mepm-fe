@@ -19,289 +19,115 @@
     <div>
       <el-row style="height: 100%; padding: 30px; width: 100%; :gutter=25;">
         <el-col
-          :span="12"
+          :span="24"
           class="node-stats-card"
         >
-          <el-card shadow="always">
-            <h6 class="text-muted fs-16">
-              Applications Overview
-            </h6>
-            <el-row>
-              <el-col
-                :span="12"
-                style="display: flex;flex-direction: column; align-items: flex-start; margin-top: 40px"
-              >
-                <p style="padding: 3px">
-                  <span>{{ $t('Package Uploaded : ') }}</span>
-                  <span>{{ this.nodeNum }}</span>
-                </p>
-                <p style="padding: 3px">
-                  <span>{{ $t('Distributed: ') }}</span>
-                  <span>{{ this.nodeNum }}</span>
-                </p>
-                <p style="padding: 3px">
-                  <span>{{ $t('Deployed : 0') }}</span>
-                </p>
-              </el-col>
-              <el-col :span="12">
-                <vue-bar-graph
-                  :points="[3,5,2]"
-                  :width="200"
-                  :height="200"
-                  :show-values="true"
-                  :use-custom-labels="true"
-                  :labels="['Uploaded', 'Distributed', 'Deployed']"
-                />
-              </el-col>
-            </el-row>
-          </el-card>
+          <!-- Application overview-->
 
-          <!--          <el-col-->
-          <!--            :span="12"-->
-          <!--            class="stats-card"-->
-          <!--          >-->
-          <!--            <el-card shadow="always">-->
-          <!--              <el-row style="display: flex;align-items: center;">-->
-          <!--                <el-col-->
-          <!--                  :span="12"-->
-          <!--                  style="display: flex; justify-content: center"-->
-          <!--                >-->
-          <!--                  <img-->
-          <!--                    class="cp"-->
-          <!--                    src="../assets/images/distribution.svg"-->
-          <!--                    alt=""-->
-          <!--                  >-->
-          <!--                </el-col>-->
-          <!--                <el-col :span="12">-->
-          <!--                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">-->
-          <!--                    <span>10</span>-->
-          <!--                  </div>-->
-          <!--                  <div style="padding-top: 14px; font-size: large; text-align: center">-->
-          <!--                    <span>Package Uploaded</span>-->
-          <!--                  </div>-->
-          <!--                </el-col>-->
-          <!--              </el-row>-->
-          <!--            </el-card>-->
-          <!--          </el-col>-->
-          <!--          <el-col-->
-          <!--            :span="12"-->
-          <!--            class="stats-card"-->
-          <!--          >-->
-          <!--            <el-card shadow="always">-->
-          <!--              <el-row style="display: flex;align-items: center;">-->
-          <!--                <el-col-->
-          <!--                  :span="12"-->
-          <!--                  style="display: flex; justify-content: center"-->
-          <!--                >-->
-          <!--                  <img-->
-          <!--                    class="cp"-->
-          <!--                    src="../assets/images/distribution.svg"-->
-          <!--                    alt=""-->
-          <!--                  >-->
-          <!--                </el-col>-->
-          <!--                <el-col :span="12">-->
-          <!--                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">-->
-          <!--                    <span>10</span>-->
-          <!--                  </div>-->
-          <!--                  <div style="padding-top: 14px; font-size: large; text-align: center">-->
-          <!--                    <span>Distributed</span>-->
-          <!--                  </div>-->
-          <!--                </el-col>-->
-          <!--              </el-row>-->
-          <!--            </el-card>-->
-          <!--          </el-col>-->
-          <!--          <el-col-->
-          <!--            :span="12"-->
-          <!--            class="stats-card"-->
-          <!--          >-->
-          <!--            <el-card shadow="always">-->
-          <!--              <el-row style="display: flex;align-items: center;">-->
-          <!--                <el-col-->
-          <!--                  :span="12"-->
-          <!--                  style="display: flex; justify-content: center"-->
-          <!--                >-->
-          <!--                  <img-->
-          <!--                    class="cp"-->
-          <!--                    src="../assets/images/distribution.svg"-->
-          <!--                    alt=""-->
-          <!--                  >-->
-          <!--                </el-col>-->
-          <!--                <el-col :span="12">-->
-          <!--                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">-->
-          <!--                    <span>10</span>-->
-          <!--                  </div>-->
-          <!--                  <div style="padding-top: 14px; font-size: large; text-align: center">-->
-          <!--                    <span>Deployed</span>-->
-          <!--                  </div>-->
-          <!--                </el-col>-->
-          <!--              </el-row>-->
-          <!--            </el-card>-->
-          <!--          </el-col>-->
-        </el-col>
-        <el-col
-          :span="12"
-          class="node-stats-card"
-        >
-          <el-card shadow="always">
-            <h6 class="text-muted fs-16">
-              EdgeNode Overview
-            </h6>
-            <el-row style="display: flex;align-items: center; padding-top: 20px">
-              <el-col
-                :span="24"
-                style="display: flex; justify-content: center"
-              >
-                <vc-donut
-                  background="white"
-                  foreground="grey"
-                  :size="175"
-                  unit="px"
-                  :thickness="20"
-                  has-legend
-                  legend-placement="bottom"
-                  :sections="sections"
-                  :total="100"
-                  :start-angle="0"
-                  :auto-adjust-text-size="true"
-                  @section-click="handleSectionClick"
+          <el-col
+            :span="8"
+            class="stats-card"
+          >
+            <el-card shadow="always">
+              <el-row style="display: flex;align-items: center;">
+                <el-col
+                  :span="12"
+                  style="display: flex; justify-content: center"
                 >
-                  <h1>{{ this.nodeNum }}</h1>
-                  <h1>Total Nodes</h1>
-                </vc-donut>
-              </el-col>
-              <el-col :span="20">
-                <p style="padding: 10px">
-                  <span>{{ $t('Total Nodes : ') }}</span>
-                  <span>{{ this.nodeNum }}</span>
-                </p>
-                <p style="padding: 20px">
-                  <span>{{ $t('Online Nodes : ') }}</span>
-                  <span>{{ this.nodeNum }}</span>
-                </p>
-                <p style="padding: 20px">
-                  <span>{{ $t('Offline Nodes : 0') }}</span>
-                </p>
-              </el-col>
-            </el-row>
-          </el-card>
+                  <img
+                    class="cp"
+                    src="../assets/images/distribution.svg"
+                    alt=""
+                  >
+                </el-col>
+                <el-col :span="12">
+                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>10</span>
+                  </div>
+                  <div style="padding-top: 14px; font-size: large; text-align: center">
+                    <span>Package Uploaded</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+          <el-col
+            :span="8"
+            class="stats-card"
+          >
+            <el-card shadow="always">
+              <el-row style="display: flex;align-items: center;">
+                <el-col
+                  :span="12"
+                  style="display: flex; justify-content: center"
+                >
+                  <img
+                    class="cp"
+                    src="../assets/images/distribution.svg"
+                    alt=""
+                  >
+                </el-col>
+                <el-col :span="12">
+                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>10</span>
+                  </div>
+                  <div style="padding-top: 14px; font-size: large; text-align: center">
+                    <span>Distributed</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+          <el-col
+            :span="8"
+            class="stats-card"
+          >
+            <el-card shadow="always">
+              <el-row style="display: flex;align-items: center;">
+                <el-col
+                  :span="12"
+                  style="display: flex; justify-content: center"
+                >
+                  <img
+                    class="cp"
+                    src="../assets/images/distribution.svg"
+                    alt=""
+                  >
+                </el-col>
+                <el-col :span="12">
+                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>10</span>
+                  </div>
+                  <div style="padding-top: 14px; font-size: large; text-align: center">
+                    <span>Deployed</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
         </el-col>
       </el-row>
       <el-row style="height: 100%; padding: 30px; width: 100%; :gutter=12;">
-        <h6
-          class="text-muted fs-16"
-          style="padding-left: 30px;"
-        >
-          EdgeNode Details
-        </h6>
-        <el-col
-          :span="6"
-          class="edge-nodes-card"
-        >
-          <el-card
-            shadow="always"
-            class="edge-card"
+        <el-col :span="12">
+          <el-table
+            :data="mepCapData"
+            class="capaTable"
+            style="width: 100%"
+            header-row-class-name="headerClassName"
           >
-            <el-row style="display: flex;">
-              <el-col
-                :span="12"
-                style="display: flex; justify-content: left"
-              >
-                <div style="display: flex; flex-direction: column;">
-                  <img
-                    class="egde-image"
-                    src="../assets/images/cube.svg"
-                    alt=""
-                  >
-                  <span>edge1</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
-                  <span>1.1.1.1</span>
-                  <span>Schenzen, China</span>
-                  <div style="margin-top: 10px">
-                    <el-button
-                      class="edge-nodes-button"
-                      id="nodeDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showDetails()"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('Node details') }}
-                    </el-button>
-                    <el-button
-                      class="edge-nodes-button"
-                      id="AppDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showAppDetails()"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('App details') }}
-                    </el-button>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-        <el-col
-          :span="6"
-          class="edge-nodes-card"
-        >
-          <el-card
-            shadow="always"
-            class="edge-card"
-          >
-            <el-row style="display: flex;">
-              <el-col
-                :span="12"
-                style="display: flex; justify-content: left"
-              >
-                <div style="display: flex; flex-direction: column;">
-                  <img
-                    class="egde-image"
-                    src="../assets/images/cube.svg"
-                    alt=""
-                  >
-                  <span>edge1</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
-                  <span>1.1.1.1</span>
-                  <span>Schenzen, China</span>
-                  <div style="margin-top: 10px">
-                    <el-button
-                      class="edge-nodes-button"
-                      id="nodeDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showDetails()"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('Node details') }}
-                    </el-button>
-                    <el-button
-                      class="edge-nodes-button"
-                      id="AppDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showAppDetails()"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('App details') }}
-                    </el-button>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
+            <el-table-column
+              prop="capabilityName"
+              :label="$t('Application Name')"
+            />
+            <el-table-column
+              prop="status"
+              :label="$t('Application version')"
+            />
+            <el-table-column
+              prop="version"
+              :label="$t('Application ID')"
+            />
+          </el-table>
         </el-col>
         <el-col
           :span="6"
@@ -421,10 +247,8 @@
 <script>
 
 import { lcmController } from '../tools/request.js'
-import VueBarGraph from 'vue-bar-graph'
 export default {
   components: {
-    VueBarGraph
   },
   mounted () {
     console.log(this.$route.params)
@@ -433,10 +257,10 @@ export default {
   },
   data () {
     return {
-      sections: [
-        { label: 'Online Nodes', value: this.nodeNum, color: 'blue' },
-        { label: 'Offline Nodes', value: 0, color: 'grey' }
-      ],
+      distributedCount: 0,
+      deployedCount: 0,
+      packageUploadedCount: 0,
+      infoList: [],
       nodeNum: 0
     }
   },
@@ -486,6 +310,38 @@ export default {
       }).catch(() => {
         // this.$message.error(this.$t('tip.getAppInfoFailed'))
       })
+    },
+    getAppDeployedCount () {
+      lcmController.getInstanceList().then(res => {
+        this.infoList = res.data.response
+        let count = 0
+        if (this.infoList && this.infoList.length > 0) {
+          this.infoList.forEach(item => {
+            if (item.operationalStatus === 'Instantiated') {
+              count++
+            }
+          })
+          this.deployedCount = count
+        }
+      }).catch(() => {
+        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+      })
+    },
+    getAppDistributedCount () {
+      lcmController.getDistributionList().then(res => {
+        this.infoList = res.data.response
+        let count = 0
+        if (this.infoList && this.infoList.length > 0) {
+          this.infoList.forEach(item => {
+            if (item.operationalStatus === 'Instantiated') {
+              count++
+            }
+          })
+          this.deployedCount = count
+        }
+      }).catch(() => {
+        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+      })
     }
   }
 }
@@ -518,8 +374,8 @@ export default {
 .node-stats-card {
   padding: 20px;
   .el-card {
-    height: 300px;
-    border-radius: 25px;
+    height: 200px;
+    //border-radius: 25px;
   }
 }
 .edge-nodes-button {

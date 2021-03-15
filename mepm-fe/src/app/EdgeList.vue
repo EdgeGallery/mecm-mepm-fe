@@ -55,7 +55,7 @@
         >
           <template>
             <div>
-              {{ this.appPackageName }}
+              {{ this.appPkgName }}
             </div>
           </template>
         </el-table-column>
@@ -66,7 +66,7 @@
         >
           <template>
             <div>
-              {{ this.appVersion }}
+              {{ this.appPkgVersion }}
             </div>
           </template>
         </el-table-column>
@@ -77,7 +77,7 @@
         >
           <template>
             <div>
-              {{ this.provider }}
+              {{ this.appProvider }}
             </div>
           </template>
         </el-table-column>
@@ -88,7 +88,7 @@
         >
           <template>
             <div>
-              {{ this.appAffinity }}
+              {{ this.appPkgAffinity }}
             </div>
           </template>
         </el-table-column>
@@ -298,11 +298,11 @@ export default {
       selectedNum: 0,
       selectData: null,
       selectedData: [],
-      appPackageId: '',
-      appVersion: '',
-      appPackageName: '',
-      appAffinity: '',
-      provider: '',
+      appPkgId: '',
+      appPkgVersion: '',
+      appPkgName: '',
+      appPkgAffinity: '',
+      appProvider: '',
       dialogVisible: false,
       configForm: {
         podName: 'pod1',
@@ -436,18 +436,18 @@ export default {
       console.log('init list')
       console.log('appid' + this.appid)
       lcmController.getDistributionList().then(res => {
-        console.log('response ' + res.data)
+        console.log('response ', res.data)
         this.paginationData = []
         res.data.forEach(item => {
           console.log('item' + item)
           console.log('item appid' + item.appId)
           console.log('item version' + item.appPkgVersion)
           if (item.appId === this.appid) {
-            this.appPackageId = item.appPkgId
-            this.appPackageName = item.appPkgName
-            this.appVersion = item.appPkgVersion
-            this.appAffinity = item.appPkgAffinity
-            this.provider = item.appProvider
+            this.appPkgId = item.appPkgId
+            this.appPkgName = item.appPkgName
+            this.appPkgVersion = item.appPkgVersion
+            this.appPkgAffinity = item.appPkgAffinity
+            this.appProvider = item.appProvider
             this.paginationData = item.mecHostInfo
           }
         })

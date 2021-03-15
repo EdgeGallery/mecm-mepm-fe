@@ -25,11 +25,11 @@
       >
         <div
           class="edge-souces"
-          v-if="alarmStatus !== 'alarms'"
+          v-if="alarmStatus === 'nodeinfo'"
         >
           <el-row>
             <el-col
-              cols="12"
+              :span="24"
               style="padding-bottom: 20px"
             >
               <el-card class="bg-theme">
@@ -37,7 +37,7 @@
                   Node information
                 </h6>
                 <el-row>
-                  <el-col span="12">
+                  <el-col :span="12">
                     <div class="nodeBasicInfo2">
                       <p class="text-white">
                         <span>{{ $t('Name :') }}</span>{{ nodeBasicInfo.mechostName }}
@@ -47,7 +47,7 @@
                       </p>
                     </div>
                   </el-col>
-                  <el-col span="12">
+                  <el-col :span="12">
                     <div class="nodeBasicInfo2">
                       <p class="text-white">
                         <span>{{ $t('Ip :') }}</span>{{ nodeBasicInfo.mechostIp }}
@@ -60,7 +60,7 @@
           </el-row>
           <el-row>
             <el-col
-              cols="12"
+              :span="24"
               style="padding-bottom: 20px"
             >
               <el-card>
@@ -75,18 +75,18 @@
           </el-row>
           <el-row>
             <el-col
-              cols="12"
+              :span="24"
               style="padding-bottom: 20px"
             >
               <el-card>
                 <el-row class="d-flex align-items-center justify-content-between">
-                  <el-col span="16">
+                  <el-col :span="16">
                     <h6 class="text-muted fs-16">
                       MEP Capabilities
                     </h6>
                   </el-col>
                   <el-col
-                    span="8"
+                    :span="8"
                     class="text-right"
                   >
                     <el-button
@@ -100,14 +100,14 @@
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col span="12">
+                  <el-col :span="12">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
                         <span>{{ $t('Model:') }}</span>
                       </p>
                     </div>
                   </el-col>
-                  <el-col span="12">
+                  <el-col :span="12">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
                         <span>{{ $t('vendor:') }}</span>
@@ -176,7 +176,7 @@ export default {
     Usage
   },
   mounted () {
-    console.log(this.$route.params)
+    console.log('setting details', this.$route.params)
     this.detail = this.$route.params
   },
   data () {
@@ -304,11 +304,11 @@ export default {
       })
     },
     getNodeKpi (ip) {
-      lcmController.getHwCapa(ip).then(res => {
+      lcmController.getNodeKpi(ip).then(res => {
         if (res.data) {
           let str = res.data.response
           this.kpiInfo = JSON.parse(str)
-          console.log(this.kpiInfo)
+          console.log('kpi info', this.kpiInfo)
         }
       }).catch(() => {
         // this.$message.error(this.$t('tip.getKpiFailed'))
