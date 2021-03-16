@@ -71,6 +71,15 @@ const CN = {
     SERVICE_STATUS: '服务状态',
     SERVICE_STATUS_INACTINVE: '未激活',
     SERVICE_STATUS_ACTINVE: '激活',
+    TIPS_KEY_SERVICE_NAME: '服务名称：',
+    TIPS_KEY_SERVICE_VERSION: '服务版本：',
+    TIPS_KEY_SERVICE_STATE: '服务状态：',
+    TIPS_KEY_APP_NAME: '应用名称：',
+    TIPS_KEY_NAME: '名称：',
+    TIPS_KEY_SOURCE: '源端：',
+    TIPS_KEY_TARGET: '宿端：',
+    TIPS_KEY_SUBORDINATION: '从属关系',
+    TIPS_KEY_SUBSCRIBE: '订阅关系'
   },
   ...zhLocale
 }

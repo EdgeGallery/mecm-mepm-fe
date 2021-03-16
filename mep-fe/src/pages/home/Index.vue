@@ -157,8 +157,8 @@ export default {
         this.serviceData = serviceArray
         getSubscribeStatistic().then(statisticRes => {
           if (statisticRes && statisticRes.data) {
-            this.subscribeCount = statisticRes.data.appSubscribeNum 
-            this.subscribedCount  = statisticRes.data.serviceSubscribedNum
+            this.subscribeCount = statisticRes.data.subscribeNum.appSubscribeNum 
+            this.subscribedCount  = statisticRes.data.subscribeNum.serviceSubscribedNum
           }
           this.refreshShownWithLan()
         })
