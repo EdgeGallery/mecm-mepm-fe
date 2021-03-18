@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="layout" :class="{ 'topoPageStyle': isTopoPage }">
+  <div class="layout">
     <el-container style="position:absolute;height:100%;width:100%;">
       <el-main>
         <router-view/>
@@ -25,30 +25,17 @@
 </template>
 
 <script>
-import constants from '../constant/constants.js'
 export default {
   name: "Layout",
   data () {
-    return {
-      isTopoPage: false
-    }
+    return {}
   },
   watch: {
-    $route (route) {
-      if (route.path === constants.NAV_INDEX.TOPOLOGY) {
-        // this.isTopoPage = true;
-      } else {
-        this.isTopoPage = false;
-      }
-    }
   }
 }
 </script>
 
 <style lang='less'>
-.topoPageStyle {
-  background-color: #131111!important;
-}
 .layout {
   position: absolute;
   height: 100%;

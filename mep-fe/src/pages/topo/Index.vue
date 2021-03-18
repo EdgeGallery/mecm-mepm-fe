@@ -31,6 +31,110 @@ require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 
+function addSubscribLinks (subscribeRes, nodesMap, linksMap) {
+  if(subscribeRes&&subscribeRes.data&&subscribeRes.data.subscribeRelations) {
+    let len=subscribeRes.data.subscribeRelations.length
+    for(let i=0;i<len;i++) {
+      let appId=subscribeRes.data.subscribeRelations[i].subscribeAppId
+      let appIndexInNodesMap=nodesMap.get(appId).index
+      let appName=nodesMap.get(appId).name
+      let serviceIds=subscribeRes.data.subscribeRelations[i].serviceList
+      let serviceslen=serviceIds.length
+      if(serviceslen>0) {
+        for(let j=0;j<serviceslen;j++) {
+          let linkId=appId+'_'+serviceIds[j]+'_subscribeRelation'
+          if(!linksMap.has(linkId)) {
+            linksMap.set(linkId, {
+              source: appIndexInNodesMap,
+              target: nodesMap.get(serviceIds[j]).index,
+              category: 1,
+              value: '',
+              sourceName: appName,
+              targetName: nodesMap.get(serviceIds[j]).name,
+              lineStyle: {
+                color: nodesMap.get(serviceIds[j]).state==='ACTIVE'? constants.COLOR.ACTIVE_SERVICE:constants.COLOR.INACTIVE_SERVICE,
+                type: 'dashed',
+                width: 2,
+                curveness: 0.3 // 和从属关系的曲度不同，以免和从属的线重叠
+              },
+              symbol: ['circle', 'arrow'],
+              symbolSize: [4, 10]
+            })
+          }
+        }
+      }
+    }
+  }
+}
+
+function addNodsAndLinks(res, nodesMap, linksMap) {
+  if(res&&res.data) {
+    nodesMap.set('MEP', {
+      id: 'MEP',
+      name: 'MEP',
+      version: 'MEP',
+      state: 'MEP',
+      category: constants.NODE_CATEGORY.MEP,
+      draggable: true,
+      symbolSize: constants.NODE_SIZE.MEP,
+      index: nodesMap.size
+    })
+    let len=res.data.length
+    for(let i=0;i<len;i++) {
+      if(!nodesMap.has(res.data[i].serInstanceId)) {
+        nodesMap.set(res.data[i].serInstanceId, {
+          id: res.data[i].serInstanceId,
+          name: res.data[i].serName,
+          version: res.data[i].version,
+          state: res.data[i].state,
+          serCategory: res.data[i].serCategory,
+          category: res.data[i].state==='ACTIVE'? constants.NODE_CATEGORY.ACTIVE_SERVICE:constants.NODE_CATEGORY.INACTIVE_SERVICE,
+          draggable: true,
+          symbolSize: constants.NODE_SIZE.SERVICE,
+          index: nodesMap.size
+        })
+        if(!nodesMap.has(res.data[i]._links.appInstanceId)) {
+          nodesMap.set(res.data[i]._links.appInstanceId, {
+            id: res.data[i]._links.appInstanceId,
+            name: res.data[i].serCategory.name,
+            version: res.data[i].serCategory.version,
+            state: res.data[i].state,
+            category: constants.NODE_CATEGORY.APP,
+            draggable: true,
+            symbolSize: constants.NODE_SIZE.APP,
+            index: nodesMap.size
+          })
+          linksMap.set('MEP'+'_'+res.data[i]._links.appInstanceId, {
+            source: nodesMap.get('MEP').index,
+            target: nodesMap.get(res.data[i]._links.appInstanceId).index,
+            category: 0,
+            value: '',
+            sourceName: nodesMap.get(res.data[i]._links.appInstanceId).name,
+            targetName: nodesMap.get('MEP').name,
+            lineStyle: {
+              color: constants.COLOR.APP // 以APP为source的连接颜色与app图标颜色一致
+            }
+          })
+        }
+      }
+      let linkId=res.data[i]._links.appInstanceId+'_'+res.data[i].serInstanceId
+      if(!linksMap.has(linkId)) {
+        linksMap.set(linkId, {
+          source: nodesMap.get(res.data[i]._links.appInstanceId).index,
+          target: nodesMap.get(res.data[i].serInstanceId).index,
+          category: 0,
+          value: '',
+          sourceName: nodesMap.get(res.data[i].serInstanceId).name,
+          targetName: nodesMap.get(res.data[i]._links.appInstanceId).name,
+          lineStyle: {
+            color: res.data[i].state==='ACTIVE'? constants.COLOR.ACTIVE_SERVICE:constants.COLOR.INACTIVE_SERVICE
+          }
+        })
+      }
+    }
+  }
+}
+
 export default {
   components: { PageInstru },
   name: "TopCharts", $ajax: undefined,
@@ -63,7 +167,7 @@ export default {
         },
         symbol: `image://${this.symbol_mep}`,
         legend_symbol: `image://${this.legend_mep}`,
-        symbolSize: constants.NODE_SIZE.MEP, //TODO 未生效原因是data中已指定大小，包括symbol等，也可以直接在单个节点中指定
+        symbolSize: constants.NODE_SIZE.MEP, 
       }, {
         name: 'APP',
         symbol: `image://${this.symbol_app}`,
@@ -155,11 +259,10 @@ export default {
             return res
           }
         },
-        animation: true, // TODO 是否开启动画 无效果
+        animation: true,
         animationEasingUpdate: 'quinticInOut',
         animationDurationUpdate: 1500,
         legend: [{ // 节点类型, MEP, APP, Service
-          // 图例位置
           top: '5%', // top, middle, bottom, 20, 20%
           left: '83%', //right, auto, 20, 20%
           bottom: 'auto', //auto, 20, 20%
@@ -195,7 +298,6 @@ export default {
             }
           })).concat([{name: categories[6].name, icon:'circle'}])
         }, { // 服务状态
-          // 图例位置
           top: '5%', // top, middle, bottom, 20, 20%
           left: '92%', //right, auto, 20, 20%
           bottom: 'auto', //auto, 20, 20%
@@ -298,105 +400,9 @@ export default {
         getServiceList().then(res => {
           let nodesMap = new Map()
           let linksMap = new Map()
-          if (res && res.data) {
-            nodesMap.set('MEP', {
-              id: 'MEP',
-              name: 'MEP', 
-              version: 'MEP',
-              state: 'MEP',
-              category: constants.NODE_CATEGORY.MEP,
-              draggable: true,
-              symbolSize: constants.NODE_SIZE.MEP,
-              index: nodesMap.size
-            })
-            let len = res.data.length
-            for (let i = 0; i < len; i++) {
-              if (!nodesMap.has(res.data[i].serInstanceId)) {
-                nodesMap.set(res.data[i].serInstanceId, {
-                  id: res.data[i].serInstanceId,
-                  name: res.data[i].serName,
-                  version: res.data[i].version,
-                  state: res.data[i].state,
-                  serCategory: res.data[i].serCategory,
-                  category: res.data[i].state === 'ACTIVE' ? constants.NODE_CATEGORY.ACTIVE_SERVICE : constants.NODE_CATEGORY.INACTIVE_SERVICE,
-                  draggable: true,
-                  symbolSize: constants.NODE_SIZE.SERVICE,
-                  index: nodesMap.size
-                })
-                if (!nodesMap.has(res.data[i]._links.appInstanceId)) {
-                  nodesMap.set(res.data[i]._links.appInstanceId, {
-                    id: res.data[i]._links.appInstanceId,
-                    name: res.data[i].serCategory.name,
-                    version: res.data[i].serCategory.version,
-                    state: res.data[i].state,
-                    category: constants.NODE_CATEGORY.APP,
-                    draggable: true,
-                    symbolSize: constants.NODE_SIZE.APP,
-                    index: nodesMap.size
-                  })
-                  linksMap.set('MEP' + '_' + res.data[i]._links.appInstanceId, {
-                    source: nodesMap.get('MEP').index,
-                    target: nodesMap.get(res.data[i]._links.appInstanceId).index,
-                    category: 0,
-                    value: '',
-                    sourceName: nodesMap.get(res.data[i]._links.appInstanceId).name,
-                    targetName: nodesMap.get('MEP').name,
-                    lineStyle: {
-                      color: constants.COLOR.APP // 以APP为source的连接颜色与app图标颜色一致
-                    }
-                  })
-                }
-              }
-              let linkId = res.data[i]._links.appInstanceId + '_' + res.data[i].serInstanceId
-              if (!linksMap.has(linkId)) {
-                linksMap.set(linkId, {
-                  source: nodesMap.get(res.data[i]._links.appInstanceId).index,
-                  target: nodesMap.get(res.data[i].serInstanceId).index,
-                  category: 0,
-                  value: '',
-                  sourceName: nodesMap.get(res.data[i].serInstanceId).name,
-                  targetName: nodesMap.get(res.data[i]._links.appInstanceId).name,
-                  lineStyle: {
-                    color: res.data[i].state === 'ACTIVE' ? constants.COLOR.ACTIVE_SERVICE : constants.COLOR.INACTIVE_SERVICE
-                  }
-                })
-              }
-            }  
-          }
+          addNodsAndLinks(res, nodesMap, linksMap)
           getSubscribeStatistic().then(subscribeRes => {
-            if (subscribeRes && subscribeRes.data && subscribeRes.data.subscribeRelations) {
-              let len = subscribeRes.data.subscribeRelations.length
-              for (let i = 0; i < len; i++) {
-                let appId = subscribeRes.data.subscribeRelations[i].subscribeAppId
-                let appIndexInNodesMap = nodesMap.get(appId).index
-                let appName = nodesMap.get(appId).name
-                let serviceIds = subscribeRes.data.subscribeRelations[i].serviceList
-                let serviceslen = serviceIds.length
-                if (serviceslen > 0) {
-                  for (let j = 0; j < serviceslen; j++) {
-                    let linkId = appId + '_' + serviceIds[j] + '_subscribeRelation'
-                    if (!linksMap.has(linkId)) {
-                      linksMap.set(linkId, {
-                        source: appIndexInNodesMap,
-                        target: nodesMap.get(serviceIds[j]).index,
-                        category: 1,
-                        value: '',
-                        sourceName: appName,
-                        targetName: nodesMap.get(serviceIds[j]).name,
-                        lineStyle: {
-                          color: nodesMap.get(serviceIds[j]).state === 'ACTIVE' ? constants.COLOR.ACTIVE_SERVICE : constants.COLOR.INACTIVE_SERVICE, // 以Service为target的连接颜色与Service图标颜色一致
-                          type: 'dashed',
-                          width: 2,
-                          curveness: 0.3 // 和从属关系的曲度不同，以免和从属的线重叠
-                        },
-                        symbol:['circle', 'arrow'],
-                        symbolSize: [4, 10]
-                      })
-                    }
-                  }
-                }
-              }
-            }
+            addSubscribLinks(subscribeRes, nodesMap, linksMap)
             let chartData = {
               nodes: Array.from(nodesMap.values()),
               links: Array.from(linksMap.values())

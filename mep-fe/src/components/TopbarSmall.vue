@@ -24,7 +24,3 @@ export default {
   name: "TopbarSmall"
 }
 </script>
-
-<style lang="less">
-
-</style>

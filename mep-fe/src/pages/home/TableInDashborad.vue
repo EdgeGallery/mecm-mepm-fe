@@ -23,9 +23,10 @@
     <div class="panel-body panel-body-height">
       <div class="table-responsive">
         <table class="dashboardTable">
+          <caption/>
           <thead>
           <tr>
-            <th v-for="item in colNames" :key="item.name" class="dashboardTableCell">{{ item.name }}</th>
+            <th v-for="item in colNames" id="item.id" :key="item.name" class="dashboardTableCell">{{ item.name }}</th>
           </tr>
           </thead>
           <tbody>

@@ -51,7 +51,6 @@
       >
         <em
             class="el-icon-menu"
-            @click="clickSmallMenu"
         />
       </el-col>
       <el-col
@@ -63,23 +62,6 @@
         <div class="language rt">
           <span @click="changeLange">{{ language }}</span>
         </div>
-        <div
-            v-if="ifGuest"
-            class="nav-tabs rt"
-            style="visibility: hidden"
-        >
-          <span
-              @click="logout()"
-          >登录</span>
-        </div>
-        <div
-            v-else
-            class="nav-tabs rt"
-        >
-          <span
-              @click="beforeLogout()"
-          >注销</span>
-        </div>
       </el-col>
     </el-row>
     <el-collapse-transition>
@@ -89,7 +71,6 @@
       >
         <TopbarSmall
             :json-data="jsonData"
-            @closeMenu="closeMenu"
         />
       </div>
     </el-collapse-transition>
@@ -114,9 +95,6 @@ export default {
     }
   },
   methods: {
-    clickSmallMenu() {
-
-    },
     changeLange() {
       let curLan = this.$i18n.locale 
       if (curLan === 'en') {
@@ -130,15 +108,6 @@ export default {
     },
     handleSelect(index) {
       this.$emit(constants.EVENT_NAME.NAV_SELECT_CHANGE, index)
-    },
-    logout() {
-
-    },
-    beforeLogout() {
-
-    },
-    closeMenu() {
-
     },
     updateUIRes() {
       let curLan = this.$i18n.locale 

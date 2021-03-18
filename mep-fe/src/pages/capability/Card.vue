@@ -70,8 +70,7 @@ export default {
       today.setTime(targetday_milliseconds);
       let mon = today.getMonth() + 1;
       let day = today.getDate();
-      let dateStr = (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day);
-      return dateStr;  
+      return (mon < 10 ? ('0' + mon) : mon) + "-" + (day < 10 ? ('0' + day) : day)
     },
     setOptions () {
       let arr = []
