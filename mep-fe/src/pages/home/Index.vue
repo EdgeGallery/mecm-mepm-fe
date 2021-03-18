@@ -234,9 +234,6 @@ export default {
   border-radius: 50%;
   margin: 15% auto;
   text-align: center;
-
-  .img {
-  }
 }
 
 .text-center {
