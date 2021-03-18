@@ -158,7 +158,7 @@ export default {
         animation: true, // TODO 是否开启动画 无效果
         animationEasingUpdate: 'quinticInOut',
         animationDurationUpdate: 1500,
-        legend: [{ // 节点类型, MEP, APP
+        legend: [{ // 节点类型, MEP, APP, Service
           // 图例位置
           top: '5%', // top, middle, bottom, 20, 20%
           left: '83%', //right, auto, 20, 20%
@@ -241,8 +241,10 @@ export default {
             type: 'graph',
             layout: 'force', //force力引导布局
             focusNodeAdjacency: true,
+            draggable: true,
             roam: true,
             categories: categories,
+            legendHoverLink : false,
             label: {
               normal: {
                 show: true,
@@ -303,7 +305,7 @@ export default {
               version: 'MEP',
               state: 'MEP',
               category: constants.NODE_CATEGORY.MEP,
-              draggable: false,
+              draggable: true,
               symbolSize: constants.NODE_SIZE.MEP,
               index: nodesMap.size
             })
@@ -317,7 +319,7 @@ export default {
                   state: res.data[i].state,
                   serCategory: res.data[i].serCategory,
                   category: res.data[i].state === 'ACTIVE' ? constants.NODE_CATEGORY.ACTIVE_SERVICE : constants.NODE_CATEGORY.INACTIVE_SERVICE,
-                  draggable: false,
+                  draggable: true,
                   symbolSize: constants.NODE_SIZE.SERVICE,
                   index: nodesMap.size
                 })
@@ -328,7 +330,7 @@ export default {
                     version: res.data[i].serCategory.version,
                     state: res.data[i].state,
                     category: constants.NODE_CATEGORY.APP,
-                    draggable: false,
+                    draggable: true,
                     symbolSize: constants.NODE_SIZE.APP,
                     index: nodesMap.size
                   })
@@ -364,18 +366,15 @@ export default {
           getSubscribeStatistic().then(subscribeRes => {
             if (subscribeRes && subscribeRes.data && subscribeRes.data.subscribeRelations) {
               let len = subscribeRes.data.subscribeRelations.length
-              console.log("subscribes.length: " + len)
               for (let i = 0; i < len; i++) {
                 let appId = subscribeRes.data.subscribeRelations[i].subscribeAppId
                 let appIndexInNodesMap = nodesMap.get(appId).index
-                console.log('appIndex: '+ appIndexInNodesMap)
                 let appName = nodesMap.get(appId).name
                 let serviceIds = subscribeRes.data.subscribeRelations[i].serviceList
                 let serviceslen = serviceIds.length
                 if (serviceslen > 0) {
                   for (let j = 0; j < serviceslen; j++) {
                     let linkId = appId + '_' + serviceIds[j] + '_subscribeRelation'
-                    console.log('serviceIndex: '+ nodesMap.get(serviceIds[j]).index)
                     if (!linksMap.has(linkId)) {
                       linksMap.set(linkId, {
                         source: appIndexInNodesMap,
