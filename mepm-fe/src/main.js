@@ -29,6 +29,7 @@ import { pcaa } from 'area-data-vue'
 import AreaLinkageVue from 'area-linkage-vue'
 import Donut from 'vue-css-donut-chart'
 import 'vue-css-donut-chart/dist/vcdonut.css'
+import UUID from 'vue-uuid'
 Vue.prototype.showMessage = function (type, msg, time) {
   ElementUI.Message({
     showClose: true,
@@ -43,6 +44,7 @@ Vue.use(AreaLinkageVue)
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 Vue.use(Donut)
+Vue.use(UUID)
 Vue.config.productionTip = false
 
 new Vue({

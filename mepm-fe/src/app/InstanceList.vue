@@ -52,7 +52,7 @@
             width="50"
           />
           <el-table-column
-            prop="appName"
+            prop="AppName"
             sortable
             :label="$t('app.packageList.name')"
           />
@@ -61,7 +61,7 @@
             :label="$t('app.packageList.desc')"
           />
           <el-table-column
-            prop="mecHost"
+            prop="MecHost"
             :label="$t('app.distriList.mecHost')"
           />
           <el-table-column
@@ -101,7 +101,6 @@
               <el-button
                 id="detailBtn"
                 @click="checkDetail(scope.row)"
-                :disabled="scope.row.operationalStatus !== 'Instantiated'"
                 type="text"
                 size="small"
               >
@@ -119,7 +118,6 @@
                 type="text"
                 size="small"
                 @click="jump(scope.row)"
-                :disabled="scope.row.operationalStatus !== 'Instantiated'"
               >
                 {{ $t('nav.ruleConfiguration') }}
               </el-button>
@@ -276,13 +274,13 @@ export default {
           closeOnClickModal: false,
           type: 'warning'
         }).then(() => {
-          this.confirmDetlete(rows.appInstanceId)
+          this.confirmDetlete(rows.AppInsId)
         })
       }
     },
     initList () {
       lcmController.getInstanceList().then(res => {
-        this.tableData = this.paginationData = res.data.response
+        this.tableData = this.paginationData = res.data
         if (this.searchData) {
           this.getSearchData(this.searchData)
         }
@@ -325,11 +323,11 @@ export default {
       })
     },
     checkDetail (rows) {
-      lcmController.getInstanceDetail(rows.appInstanceId).then(response => {
-        let data = JSON.parse(response.data.response)
-        this.detailData = data.pods
+      lcmController.getInstanceDetail(rows.AppInsId).then(response => {
+        this.detailData = response.data.pods
         this.dialogVisible = true
       }).catch((error) => {
+        console.log('error response', error)
         if (error.response.status === 404) {
           this.$message.warning(this.$t('tip.getStatusDelay'))
         } else {
