@@ -36,32 +36,36 @@ function addSubscribLinks (subscribeRes, nodesMap, linksMap) {
     let len=subscribeRes.data.subscribeRelations.length
     for(let i=0;i<len;i++) {
       let appId=subscribeRes.data.subscribeRelations[i].subscribeAppId
-      let appIndexInNodesMap=nodesMap.get(appId).index
-      let appName=nodesMap.get(appId).name
       let serviceIds=subscribeRes.data.subscribeRelations[i].serviceList
-      let serviceslen=serviceIds.length
-      if(serviceslen>0) {
-        for(let j=0;j<serviceslen;j++) {
-          let linkId=appId+'_'+serviceIds[j]+'_subscribeRelation'
-          if(!linksMap.has(linkId)) {
-            linksMap.set(linkId, {
-              source: appIndexInNodesMap,
-              target: nodesMap.get(serviceIds[j]).index,
-              category: 1,
-              value: '',
-              sourceName: appName,
-              targetName: nodesMap.get(serviceIds[j]).name,
-              lineStyle: {
-                color: nodesMap.get(serviceIds[j]).state==='ACTIVE'? constants.COLOR.ACTIVE_SERVICE:constants.COLOR.INACTIVE_SERVICE,
-                type: 'dashed',
-                width: 2,
-                curveness: 0.3 // 和从属关系的曲度不同，以免和从属的线重叠
-              },
-              symbol: ['circle', 'arrow'],
-              symbolSize: [4, 10]
-            })
-          }
-        }
+      addOneSubscribLink(serviceIds, nodesMap, appId, linksMap)
+    }
+  }
+}
+
+function addOneSubscribLink(serviceIds, nodesMap, appId, linksMap) {
+  let serviceslen=serviceIds.length
+  let appIndexInNodesMap=nodesMap.get(appId).index
+  let appName=nodesMap.get(appId).name
+  if(serviceslen>0) {
+    for(let j=0;j<serviceslen;j++) {
+      let linkId=appId+'_'+serviceIds[j]+'_subscribeRelation'
+      if(!linksMap.has(linkId)) {
+        linksMap.set(linkId, {
+          source: appIndexInNodesMap,
+          target: nodesMap.get(serviceIds[j]).index,
+          category: 1,
+          value: '',
+          sourceName: appName,
+          targetName: nodesMap.get(serviceIds[j]).name,
+          lineStyle: {
+            color: getColorByState(nodesMap.get(serviceIds[j]).state),
+            type: 'dashed',
+            width: 2,
+            curveness: 0.3 // 和从属关系的曲度不同，以免和从属的线重叠
+          },
+          symbol: ['circle', 'arrow'],
+          symbolSize: [4, 10]
+        })
       }
     }
   }
@@ -88,7 +92,7 @@ function addNodsAndLinks(res, nodesMap, linksMap) {
           version: res.data[i].version,
           state: res.data[i].state,
           serCategory: res.data[i].serCategory,
-          category: res.data[i].state==='ACTIVE'? constants.NODE_CATEGORY.ACTIVE_SERVICE:constants.NODE_CATEGORY.INACTIVE_SERVICE,
+          category: getServiceCategory(res.data[i].state),
           draggable: true,
           symbolSize: constants.NODE_SIZE.SERVICE,
           index: nodesMap.size
@@ -127,12 +131,20 @@ function addNodsAndLinks(res, nodesMap, linksMap) {
           sourceName: nodesMap.get(res.data[i].serInstanceId).name,
           targetName: nodesMap.get(res.data[i]._links.appInstanceId).name,
           lineStyle: {
-            color: res.data[i].state==='ACTIVE'? constants.COLOR.ACTIVE_SERVICE:constants.COLOR.INACTIVE_SERVICE
+            color: getColorByState(res.data[i].state)
           }
         })
       }
     }
   }
+}
+
+function getServiceCategory(state) {
+  return state==='ACTIVE'? constants.NODE_CATEGORY.ACTIVE_SERVICE : constants.NODE_CATEGORY.INACTIVE_SERVICE
+}
+
+function getColorByState(state) {
+  return state==='ACTIVE'? constants.COLOR.ACTIVE_SERVICE:constants.COLOR.INACTIVE_SERVICE
 }
 
 export default {
@@ -275,8 +287,8 @@ export default {
           orient: 'vertical', //horizontal, vertical
 
           // 名字超长展示...
-          formatter: function (name) {
-            return echarts.format.truncateText(name, 200, '14px Microsoft Yahei', '…');
+          formatter: function (nameParam) {
+            return echarts.format.truncateText(nameParam, 200, '14px Microsoft Yahei', '…');
           },
 
           // 图例tips展示
@@ -310,8 +322,8 @@ export default {
           orient: 'vertical',
 
           // 名字超长展示...
-          formatter: function (name) {
-            return echarts.format.truncateText(name, 200, '14px Microsoft Yahei', '…');
+          formatter: function (param) {
+            return echarts.format.truncateText(param, 200, '14px Microsoft Yahei', '…');
           },
 
           // 图例tips展示
