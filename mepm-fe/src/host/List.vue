@@ -378,7 +378,8 @@ export default {
         zipCode: '',
         hwcapabilities: [],
         coordinate: '',
-        vim: 'K8S'
+        vim: 'K8S',
+        origin: 'MEPM'
       },
       capabilities: [],
       gpuModel: '',
@@ -609,7 +610,8 @@ export default {
         zipCode: '',
         hwcapabilities: [],
         coordinate: '',
-        vim: 'K8S'
+        vim: 'K8S',
+        origin: 'MEPM'
       }
       this.selectedArea = []
       this.capabilities = []

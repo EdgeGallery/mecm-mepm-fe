@@ -306,12 +306,11 @@ export default {
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
         if (res.data) {
-          let str = res.data.response
-          this.kpiInfo = JSON.parse(str)
-          console.log('kpi info', this.kpiInfo)
+          this.kpiInfo = res.data
+          console.log('kpi info after json parsing', this.kpiInfo)
         }
       }).catch(() => {
-        // this.$message.error(this.$t('tip.getKpiFailed'))
+        this.$message.error(this.$t('tip.getKpiFailed'))
       })
     },
     getServiceInfo (instanceId) {

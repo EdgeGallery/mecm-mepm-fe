@@ -12,20 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM swr.ap-southeast-1.myhuaweicloud.com/edgegallery/website-gateway
-ENV APP_HOME /usr/app
+FROM swr.ap-southeast-1.myhuaweicloud.com/edgegallery/nginx:latest
 
-ENV USER_NAME=eguser
-ENV GROUP_NAME=eggroup
-
-# Set the working directory.
-WORKDIR $APP_HOME
-
-RUN mkdir -p -m 750 $APP_HOME/configs/ &&\
-    mkdir -p -m 750 $APP_HOME/configs/static/ &&\
-    chown -R $USER_NAME:$GROUP_NAME $APP_HOME/configs/
-
-COPY --chown=$USER_NAME:$GROUP_NAME dist/ $APP_HOME/configs/static/
-
-# Change to the app user.
-USER $USER_NAME
+COPY dist/  /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/nginx.conf

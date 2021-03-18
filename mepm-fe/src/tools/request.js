@@ -18,6 +18,7 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
+import { uuid } from 'vue-uuid'
 
 let api
 if (window.location.href.indexOf('30093') > -1) {
@@ -76,6 +77,10 @@ function DELETE (url, params) {
 
 function getUserId () {
   return '00000000-0000-0000-0000-000000000000'
+}
+
+function getRandomAppInstanceId () {
+  return uuid.v4()
 }
 
 function getCookie (name) {
@@ -162,8 +167,9 @@ let lcmController = {
   getInstanceInfo (instanceId) {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
-  instantiateApp (instanceId) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
+  instantiateApp (params) {
+    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + getRandomAppInstanceId() +
+      '/instantiate', params)
   },
   batchInstantiateApp (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_instantiate', params)
@@ -175,7 +181,7 @@ let lcmController = {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + appInstanceId)
   },
   deleteInstanceApp (instanceId) {
-    return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
+    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId + '/terminate')
   },
   batchDeleteInstanceApp (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_terminate', params)

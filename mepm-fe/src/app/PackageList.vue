@@ -467,7 +467,7 @@ export default {
     },
     getPackageList () {
       lcmController.getAppPackageList().then(response => {
-        console.log(1)
+        console.log('get package list', response.data)
         this.tableData = response.data
         this.num++
         if (this.num === response.data.length) {

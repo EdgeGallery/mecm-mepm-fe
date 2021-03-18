@@ -310,7 +310,7 @@ export default {
         podNameEspace: 'default',
         podSelector: 'martchlabel',
         status: '',
-        appPackageId: '',
+        appPkgId: this.appPkgId,
         appName: '',
         appInstanceDescription: '',
         appId: this.appid,
@@ -441,9 +441,9 @@ export default {
         res.data.forEach(item => {
           console.log('item' + item)
           console.log('item appid' + item.appId)
-          console.log('item version' + item.appPkgVersion)
+          console.log('item appPkgId' + item.packageId)
           if (item.appId === this.appid) {
-            this.appPkgId = item.appPkgId
+            this.appPkgId = item.packageId
             this.appPkgName = item.appPkgName
             this.appPkgVersion = item.appPkgVersion
             this.appPkgAffinity = item.appPkgAffinity
@@ -472,14 +472,14 @@ export default {
         podNameEspace: 'default',
         podSelector: 'martchlabel',
         status: '',
-        appPackageId: '',
+        appPkgId: this.appPkgId,
         appName: '',
         appInstanceDescription: '',
         appId: this.appid,
         hwCapabilities: []
       }
       this.hostList = []
-      this.configForm.appPackageId = this.appPackageId
+      this.configForm.appPkgId = this.appPkgId
       this.configForm.appId = this.appid
       this.dialogVisible = true
       this.$nextTick(() => {
@@ -502,17 +502,16 @@ export default {
         if (valid) {
           let params = {
             appId: this.configForm.appId,
-            appPackageId: this.configForm.appPackageId,
+            packageId: this.configForm.appPkgId,
             appName: this.configForm.appName,
-            appInstanceDescription: this.configForm.appInstanceDescription,
-            mecHost: this.configForm.mecHost,
-            hwCapabilities: this.configForm.hwCapabilities
+            hostIp: this.configForm.mecHost,
+            origin: 'MEPM'
           }
           this.loading = true
-          if (typeof (params.mecHost) === 'string') {
-            lcmController.confirmToDeploy(params).then(res => {
-              let instanceId = res.data.response.app_instance_id
-              this.timer = setTimeout(() => { this.queryInstanceStatus(instanceId) }, 1000)
+          if (typeof (params.hostIp) === 'string') {
+            console.log('app deploy', params)
+            lcmController.instantiateApp(params).then(res => {
+              this.dialogVisible = false
             }).catch(() => {
               this.$message.error(this.$t('tip.deployFailed'))
               this.dialogVisible = false

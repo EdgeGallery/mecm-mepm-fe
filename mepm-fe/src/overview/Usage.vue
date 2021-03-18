@@ -125,9 +125,9 @@ export default {
       }
     }
     return {
-      cpuUsage: '70',
-      memUsage: '30',
-      diskUsage: '60',
+      cpuUsage: 0,
+      memUsage: 0,
+      diskUsage: 0,
       chartDataCpu: {
         columns: ['type', 'value'],
         rows: [
@@ -160,6 +160,9 @@ export default {
       this.chartDataCpu.rows[0].value = parseFloat((this.kpiInfo.cpuusage.used * 100).toFixed(2))
       this.chartDataMem.rows[0].value = parseFloat((this.kpiInfo.memusage.used * 100).toFixed(2))
       this.chartDataDisk.rows[0].value = isNaN(parseFloat((this.kpiInfo.diskusage.used * 100).toFixed(2))) ? 0 : parseFloat((this.kpiInfo.diskusage.used * 100).toFixed(2))
+      this.cpuUsage = parseFloat((this.kpiInfo.cpuusage.used * 100).toFixed(2))
+      this.memUsage = parseFloat((this.kpiInfo.memusage.used * 100).toFixed(2))
+      this.diskUsage = isNaN(parseFloat((this.kpiInfo.diskusage.used * 100).toFixed(2))) ? 0 : parseFloat((this.kpiInfo.diskusage.used * 100).toFixed(2))
     }
   },
   mounted () {
