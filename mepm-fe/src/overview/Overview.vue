@@ -237,9 +237,6 @@ export default {
           this.city = 'Chongqing'
         } else if (city === '全国') {
           this.city = 'All'
-        } else {
-          let pinyin = require('pinyin')
-          this.city = pinyin(city, { style: pinyin.STYLE_NORMAL }).join('').replace(/^\S/, s => s.toUpperCase())
         }
       }
       this.nodeList = msg
