@@ -20,7 +20,6 @@
     "less-loader": "^5.0.0",
     "lodash": "^4.17.20",
     "ol": "^6.4.3",
-    "pinyin": "^2.9.1",
     "sass-loader": "^8.0.2",
     "serve": "^11.3.2",
     "v-charts": "^1.19.0",
