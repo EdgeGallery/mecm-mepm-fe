@@ -265,20 +265,8 @@ export default {
                 color: '#fff',
                 fontSize: 12,
                 formatter: function (params) {
-                  if (localStorage.getItem('language') === 'en') {
-                    let pinyin = require('pinyin')
-                    let city = pinyin(params.name, { style: pinyin.STYLE_NORMAL }).join('').replace(/^\S/, s => s.toUpperCase())
-                    if (params.name === '重庆') {
-                      city = 'Chongqing'
-                    } else if (params.name === '西藏') {
-                      city = 'Xizang'
-                    }
-                    let str = city
-                    return str
-                  } else {
-                    let str = params.name
-                    return str
-                  }
+                  let str = params.name
+                  return str
                 }
               },
               emphasis: {
