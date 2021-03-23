@@ -25,14 +25,6 @@
       :status="distributionStatus"
       @getSearchData="getSearchData"
     />
-    <div class="btn-p rt">
-      <el-button
-        type="primary"
-        @click="multipleDeploy"
-      >
-        {{ $t('app.distriList.multipleDeploy') }}
-      </el-button>
-    </div>
     <div class="tableDiv">
       <el-table
         class="mt20"
@@ -78,17 +70,6 @@
           <template>
             <div>
               {{ this.appProvider }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="appPkgAffinity"
-          :label="$t('app.packageList.affinity')"
-          width="120"
-        >
-          <template>
-            <div>
-              {{ this.appPkgAffinity }}
             </div>
           </template>
         </el-table-column>
@@ -334,33 +315,6 @@ export default {
     getCurrentPageData (data) {
       this.currPageTableData = data
     },
-    multipleDeploy () {
-      this.configForm = {
-        podName: 'pod1',
-        podKind: 'dployment',
-        podNameEspace: 'default',
-        podSelector: 'martchlabel',
-        status: '',
-        appPackageId: '',
-        appName: '',
-        appInstanceDescription: '',
-        appId: this.appid,
-        hwCapabilities: []
-      }
-      if (this.selectData !== null && this.selectData.length > 0) {
-        let allStatus = []
-        this.selectData.forEach(item => {
-          allStatus.push(item.status)
-        })
-        if (!allStatus.includes('Error')) {
-          this.deploy(this.selectData, 2)
-        } else {
-          this.$message.error(this.$t('app.disriList.deleteError'))
-        }
-      } else {
-        this.$message.warning('Please select one package at least!')
-      }
-    },
     beforeDelete (rows) {
       this.$confirm(this.$t('tip.beforeDeleteFromMechost'), this.$t('common.warning'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -370,7 +324,7 @@ export default {
       }).then(() => {
         let hostIp = rows.hostIp
         let type = 1
-        lcmController.deleteDistributionApp(type, hostIp, this.appPackageId).then(res => {
+        lcmController.deleteDistributionApp(type, hostIp, this.appPkgId).then(res => {
           this.showMessage('success', this.$t('tip.deletePacFrmoHost'), 1500)
           this.initList()
         })
@@ -384,9 +338,6 @@ export default {
         console.log('response ', res.data)
         this.paginationData = []
         res.data.forEach(item => {
-          console.log('item' + item)
-          console.log('item appid' + item.appId)
-          console.log('item appPkgId' + item.packageId)
           if (item.appId === this.appid) {
             this.appPkgId = item.packageId
             this.appPkgName = item.appPkgName

@@ -17,11 +17,11 @@
 <template>
   <div class="mecm-overview">
     <el-row
-      style="height: 100%; padding: 30px; width: 100%; :gutter=25;"
+      style="height: 100%; padding: 30px; width: 100%;"
     >
       <el-col
         :span="8"
-        style=":gutter=25; padding: 30px"
+        style="padding: 30px"
       >
         <div
           class="edge-souces"
@@ -145,7 +145,7 @@
       </el-col>
       <el-col
         :span="16"
-        style="height: 600px; :gutter=25; padding: 30px"
+        style="height: 600px; padding: 30px"
       >
         <el-card style="height: 700px">
           <div

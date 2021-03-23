@@ -17,7 +17,7 @@
 <template>
   <div class="overview container mt-60">
     <div>
-      <el-row style="height: 100%; padding: 40px; width: 100%; :gutter=40;">
+      <el-row style="height: 100%; padding: 40px; width: 100%;">
         <h1 class="section-header">
           Application Statistics
         </h1>
@@ -109,7 +109,7 @@
           </el-col>
         </el-col>
       </el-row>
-      <el-row style="height: 100%; padding: 40px; width: 100%; :gutter=12;">
+      <el-row style="height: 100%; padding: 40px; width: 100%;">
         <el-col :span="12">
           <h1 class="section-header">
             Application List

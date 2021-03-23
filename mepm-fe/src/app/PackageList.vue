@@ -71,16 +71,7 @@
               <el-table-column
                 prop="appPkgDesc"
                 :label="$t('app.packageList.desc')"
-              >
-                <template slot-scope="scope">
-                  <p
-                    :title="scope.row.shortDesc"
-                    class="shortdesc"
-                  >
-                    {{ scope.row.shortDesc }}
-                  </p>
-                </template>
-              </el-table-column>
+              />
               <el-table-column
                 :label="$t('common.operation')"
                 align="center"
@@ -136,26 +127,6 @@
               :rules="rules"
             >
               <el-form-item
-                :label="$t('app.packageList.name')"
-                prop="appPackageName"
-              >
-                <el-input
-                  id="appPackageName"
-                  maxlength="20"
-                  v-model="currForm.appPackageName"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('Description')"
-                prop="description"
-              >
-                <el-input
-                  id="description"
-                  maxlength="20"
-                  v-model="currForm.description"
-                />
-              </el-form-item>
-              <el-form-item
                 :label="$t('Package')"
                 prop="package"
               >
@@ -174,12 +145,6 @@
                   <em class="el-icon-upload" />
                   <div class="el-upload__text">
                     {{ $t('system.edgeNodes.howToUpload') }}
-                  </div>
-                  <div
-                    class="el-upload__tip"
-                    slot="tip"
-                  >
-                    {{ $t('system.edgeNodes.uploadTip') }}
                   </div>
                 </el-upload>
               </el-form-item>
@@ -316,7 +281,6 @@
 
 <script>
 import { lcmController } from '../tools/request.js'
-import { TYPESFORAPP, INDUSTRY } from '../tools/constant.js'
 import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
 import Breadcrumb from '../components/BreadCrumb'
@@ -350,7 +314,6 @@ export default {
       appId: '',
       language: localStorage.getItem('language'),
       selectData: [],
-      num: 0,
       currForm: {
         appPkgName: '',
         description: ''
@@ -464,35 +427,12 @@ export default {
     getPackageList () {
       lcmController.getAppPackageList().then(response => {
         console.log('get package list', response.data)
-        this.tableData = response.data
-        this.num++
-        if (this.num === response.data.length) {
-          this.paginationData = this.tableData
-          this.checkProjectData()
-          if (this.appType) this.filterTableData(this.appType, 'type')
-        }
+        this.tableData = this.paginationData = response.data
         this.dataLoading = false
-      }).catch(() => {
+      }).catch((error) => {
+        console.log('error in catch block', error)
         this.dataLoading = false
         this.$message.error(this.$t('Failed to get app package list'))
-      })
-    },
-    checkProjectData () {
-      this.tableData.forEach(itemBe => {
-        INDUSTRY.forEach(itemFe => {
-          if (itemBe.industry.match(itemFe.label[0]) && this.language === 'cn') {
-            itemBe.industry = itemBe.industry.replace(itemFe.label[1], itemFe.label[0])
-          } else if (itemBe.industry.match(itemFe.label[1]) && this.language === 'en') {
-            itemBe.industry = itemBe.industry.replace(itemFe.label[0], itemFe.label[1])
-          }
-        })
-        TYPESFORAPP.forEach(itemFe => {
-          if (itemBe.type.match(itemFe.label[0]) && this.language === 'cn') {
-            itemBe.type = itemBe.type.replace(itemFe.label[1], itemFe.label[0])
-          } else if (itemBe.type.match(itemFe.label[1]) && this.language === 'en') {
-            itemBe.type = itemBe.type.replace(itemFe.label[0], itemFe.label[1])
-          }
-        })
       })
     },
     async getNodeList (row) {
