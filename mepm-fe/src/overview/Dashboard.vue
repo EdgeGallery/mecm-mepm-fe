@@ -183,7 +183,7 @@
                         id="nodeDetailsBtn"
                         type="text"
                         size="small"
-                        @click="showDetails()"
+                        @click="showEdgeDetails(item)"
                         :loading="loginBtnLoading"
                       >
                         {{ $t('Node details') }}
@@ -193,7 +193,7 @@
                         id="AppDetailsBtn"
                         type="text"
                         size="small"
-                        @click="checkServiceInfo(this.edgeIp)"
+                        @click="showAppDetails(item.mechostIp)"
                         :loading="loginBtnLoading"
                       >
                         {{ $t('App details') }}
@@ -219,10 +219,9 @@ export default {
   mounted () {
     console.log(this.$route.params)
     this.detail = this.$route.params
-    this.getTotalNodes()
-    this.getAppDeployedCount()
     this.getAppDistributedCount()
     this.getAppInfo()
+    this.getTotalNodes()
   },
   data () {
     return {
@@ -237,8 +236,8 @@ export default {
     }
   },
   methods: {
-    async showAppDetails () {
-      window.open('http://' + this.edgeIp + ':30095')
+    async showAppDetails (hostIp) {
+      window.open('http://' + hostIp + ':30095')
     },
     handleSectionClick (section, event) {
       console.log(`${section.label} clicked.`)
@@ -260,8 +259,9 @@ export default {
         }
       })
     },
-    showDetails (row) {
-      console.log(row)
+
+    showEdgeDetails (row) {
+      console.log('show edge details row', row)
       this.$router.push({ name: 'edge-details', params: row })
     },
 
@@ -270,22 +270,13 @@ export default {
         this.infoList = res.data
         if (this.infoList && this.infoList.length > 0) {
           this.tableData = res.data
-        }
-      }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
-      })
-    },
-    getAppDeployedCount () {
-      lcmController.getInstanceList().then(res => {
-        console.log('get app deployed count response', res)
-        this.infoList = res.data
-        if (this.infoList && this.infoList.length > 0) {
           this.deployedCount = this.infoList.length
         }
       }).catch(() => {
         // this.$message.error(this.$t('tip.getAppInfoFailed'))
       })
     },
+
     getAppDistributedCount () {
       lcmController.getDistributionList().then(res => {
         console.log('distribution count ->', res.data)
