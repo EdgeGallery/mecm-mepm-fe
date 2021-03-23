@@ -29,13 +29,19 @@
           :label="$t('app.ruleConfig.dnsRule')"
           name="dns"
         >
-          <Dnspannel />
+          <Dnspannel
+            :app-rule="appRule"
+            @onChange="getAppRules"
+          />
         </el-tab-pane>
         <el-tab-pane
           :label="$t('app.ruleConfig.trafficRule')"
           name="traffic"
         >
-          <trafficpannel />
+          <trafficpannel
+            :app-rule="appRule"
+            @onChange="getAppRules"
+          />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -46,6 +52,7 @@
 import Breadcrumb from '../components/BreadCrumb'
 import Dnspannel from './Dns.vue'
 import Trafficpannel from './Traffic.vue'
+import { appRuleMgr } from '@/tools/request'
 export default {
   components: {
     Breadcrumb,
@@ -54,11 +61,30 @@ export default {
   },
   data () {
     return {
-      activeName: 'dns'
+      activeName: 'dns',
+      appRule: {
+        appTrafficRule: [],
+        appDnsRule: [],
+        appName: '',
+        appSupportMp1: true
+      }
     }
   },
-  methods: {},
-  mounted () {}
+  methods: {
+    getAppRules () {
+      console.log('get app rules from rule config')
+      appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+        if (res.data) {
+          console.log('response for rule config ->', res.data)
+          this.type = 2
+          this.appRule = res.data
+        }
+      })
+    }
+  },
+  mounted () {
+    this.getAppRules()
+  }
 }
 
 </script>

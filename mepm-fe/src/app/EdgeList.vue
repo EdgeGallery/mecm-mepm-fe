@@ -197,61 +197,6 @@
             v-model="configForm.appName"
           />
         </el-form-item>
-        <el-form-item
-          :label="$t('app.distriList.appDesc')"
-          prop="appInstanceDescription"
-        >
-          <el-input
-            id="appdesc"
-            maxlength="120"
-            v-model="configForm.appInstanceDescription"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.edgeNodes.hwCapability')"
-          prop="hwCapabilities"
-        >
-          <el-checkbox-group
-            v-model="configForm.hwCapabilities"
-          >
-            <el-checkbox
-              v-for="item in capabilities"
-              :label="item"
-              :key="item"
-            >
-              {{ item }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <p>POD Information</p>
-        <el-form-item :label="$t('app.distriList.podName')">
-          <el-input
-            id="podname"
-            maxlength="20"
-            v-model="configForm.podName"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podKind')">
-          <el-input
-            id="podkind"
-            maxlength="30"
-            v-model="configForm.podKind"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podNameEspace')">
-          <el-input
-            id="podnameespace"
-            maxlength="30"
-            v-model="configForm.podNameEspace"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podSel')">
-          <el-input
-            id="podsel"
-            maxlength="30"
-            v-model="configForm.podSelector"
-          />
-        </el-form-item>
       </el-form>
       <span
         slot="footer"
@@ -455,6 +400,7 @@ export default {
         if (this.serchData) {
           this.getSearchData(this.serchData)
         }
+        console.log('app package id is set', this.appPkgId)
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -498,8 +444,11 @@ export default {
       }
     },
     confirmToDeploy (configForm) {
+      console.log('in confirm to deploy', configForm)
       this.$refs[configForm].validate((valid) => {
         if (valid) {
+          console.log('confirm form is valid')
+          console.log('this.configForm', this.configForm)
           let params = {
             appId: this.configForm.appId,
             packageId: this.configForm.appPkgId,

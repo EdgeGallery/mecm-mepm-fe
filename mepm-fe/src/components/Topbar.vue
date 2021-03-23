@@ -156,30 +156,30 @@ export default {
   top:6px;
   z-index: 0;
   .el-menu.el-menu--horizontal{
-  height: 50px;
-  border:none!important;
-  .el-menu-item{
     height: 50px;
-    line-height: 50px;
+    border:none!important;
+    .el-menu-item{
+      height: 50px;
+      line-height: 50px;
+    }
   }
-}
-.el-menu--horizontal>.el-submenu .el-submenu__title{
-  height: 50px !important;
-  line-height: 50px !important;
-}
-.el-menu{
-  display: flex;
-  .first-menu{
-    font-size: 18px;
-    font-weight: bold;
+  .el-menu--horizontal>.el-submenu .el-submenu__title{
+    height: 50px !important;
+    line-height: 50px !important;
   }
-  .second-menu{
-    font-size: 15px;
+  .el-menu{
+    display: flex;
+    .first-menu{
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .second-menu{
+      font-size: 15px;
+    }
+    .third-menu{
+      font-size: 12px;
+    }
   }
-  .third-menu{
-    font-size: 12px;
-  }
-}
 }
 
 </style>

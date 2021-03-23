@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div style="height:100%;">
+  <div style="height:600px;">
     <div class="content">
       <div
         id="mapChart"
@@ -81,6 +81,7 @@ export default {
     detail () {
       let arr = []
       arr.push(this.detail)
+      console.log('detail -> this.detail', this.detail)
       this.showLayers(arr)
       this.$emit('node', this.detail)
     },
@@ -98,6 +99,7 @@ export default {
             item.coordinates = item.coordinates.split(',')
           })
           this.nodeData = res.data
+          console.log('getNodeList -> this.nodeData', this.nodeData)
         }
       }, error => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
@@ -314,12 +316,16 @@ export default {
       this.$emit('area', this.nodeData, '')
     },
     openlayers (data) {
+      console.log('open layers', data)
+      data[0].coordinates = data[0].coordinates.split(',')
+      console.log('openlayers -> data', data[0].coordinates)
       let _this = this
       this.btnShow = true
       if (this.map) {
+        console.log('openlayers -> this.map', this.map)
         this.map.setView(new View({
           projection: 'EPSG:4326',
-          center: data[0].coord,
+          center: [data[0].coordinates[0], data[0].coordinates[1]],
           zoom: 16
         }))
       } else {
@@ -338,28 +344,25 @@ export default {
           ],
           view: new View({
             projection: 'EPSG:4326',
-            center: data[0].coord,
+            center: [data[0].coordinates[0], data[0].coordinates[1]],
             zoom: 16
           })
         })
+        console.log('openlayers -> this.map -> init', this.map)
       }
-      let lnglats = []
-      this.nodeData.forEach(item => {
-        lnglats.push(item.coordinates)
-      })
+      console.log('nodedata', this.nodeData)
 
-      // 创建Feature对象集合
       var features = []
-      for (var i = 0; i < lnglats.length; i++) {
-        features.push(
-          new OlFeature({
-            type: 'icon',
-            geometry: new OlGeomPoint(lnglats[i]),
-            eventTarget_: data,
-            style: './style.json'
-          })
-        )
-      }
+      console.log('features initialized')
+      features.push(
+        new OlFeature({
+          type: 'icon',
+          geometry: new OlGeomPoint([data[0].coordinates[0], data[0].coordinates[1]]),
+          eventTarget_: data,
+          style: './style.json'
+        })
+      )
+      console.log('features', features)
       var source = new OlSourceVector({
         features: features
       })

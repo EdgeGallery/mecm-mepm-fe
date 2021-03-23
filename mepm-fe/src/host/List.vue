@@ -618,8 +618,8 @@ export default {
     },
     beforeDelete (row) {
       lcmController.getInstanceList().then(res => {
-        if (res.data && res.data.response.length > 0) {
-          res.data.response.forEach(item => {
+        if (res.data && res.data.length > 0) {
+          res.data.forEach(item => {
             if (item.mecHost === row.mechostIp) {
               this.$message.error(this.$t('tip.deleteAppBeforeDeleteNode'))
             } else {

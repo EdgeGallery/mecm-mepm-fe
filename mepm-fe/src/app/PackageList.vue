@@ -69,10 +69,6 @@
                 :label="$t('app.packageList.vendor')"
               />
               <el-table-column
-                prop="appPkgAffinity"
-                :label="$t('app.packageList.affinity')"
-              />
-              <el-table-column
                 prop="appPkgDesc"
                 :label="$t('app.packageList.desc')"
               >

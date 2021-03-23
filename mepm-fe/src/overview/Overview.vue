@@ -145,9 +145,9 @@
       </el-col>
       <el-col
         :span="16"
-        style="height: 100%; :gutter=25; padding: 30px"
+        style="height: 600px; :gutter=25; padding: 30px"
       >
-        <el-card style="height: 100%">
+        <el-card style="height: 700px">
           <div
             slot="header"
             class="text-muted fs-16"
@@ -223,7 +223,6 @@ export default {
       this.getNodeKpi(val.mechostIp)
       this.getHwCapa(val.mechostIp)
       this.getMepCapa(val.mechostIp)
-      this.getAppInfo(val.mechostIp)
       this.edgeIp = val.mechostIp
     },
     clickMap (msg, city) {
@@ -302,11 +301,12 @@ export default {
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
+        console.log('kpi response from server', res)
         if (res.data) {
           this.kpiInfo = res.data
-          console.log('kpi info after json parsing', this.kpiInfo)
         }
       }).catch(() => {
+        console.log('error response from server for query kpi')
         this.$message.error(this.$t('tip.getKpiFailed'))
       })
     },

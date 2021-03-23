@@ -463,10 +463,10 @@
                   label="QCI"
                   prop="qCI"
                 >
-                  <el-input
-                    id=""
-                    maxlength="30"
+                  <el-input-number
                     v-model="trafficFilter.qCI"
+                    maxlength="30"
+                    id=""
                   />
                 </el-form-item>
               </el-col>
@@ -475,7 +475,7 @@
                   label="DSCP"
                   prop="dSCP"
                 >
-                  <el-input
+                  <el-input-number
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.dSCP"
@@ -485,7 +485,7 @@
                   label="TC"
                   prop="tc"
                 >
-                  <el-input
+                  <el-input-number
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.tC"
@@ -704,14 +704,21 @@
 </template>
 
 <script>
-import { lcmController } from '../tools/request.js'
+import { appRuleMgr } from '../tools/request.js'
 import Detail from './TrafficDetail.vue'
 export default {
+  props: {
+    appRule: {
+      required: true,
+      type: Object
+    }
+  },
   components: {
     Detail
   },
   data () {
     return {
+      isModify: false,
       dialog: false,
       timer: null,
       loading: false,
@@ -723,7 +730,7 @@ export default {
       appName: sessionStorage.getItem('instanceName'),
       rule: {
         appTrafficRule: [],
-        appDNSRule: [],
+        appDnsRule: [],
         appName: '',
         appSupportMp1: true
       },
@@ -802,9 +809,9 @@ export default {
         dstAddress: '192.168.1.1/32',
         dstPort: '8080',
         protocol: 'ANY',
-        qCI: '0',
-        dSCP: '0',
-        tC: '0',
+        qCI: 0,
+        dSCP: 0,
+        tC: 0,
         tag: 'tag',
         srcTunnelAddress: '1.1.1.1',
         srcTunnelPort: '8080',
@@ -903,6 +910,7 @@ export default {
   },
   methods: {
     showDialog () {
+      this.isModify = false
       this.index = -1
       this.operationDialog = true
     },
@@ -910,7 +918,10 @@ export default {
       return str.split(',')
     },
     changeAToS (arr) {
-      return arr.join(',')
+      if (arr && arr.length > 0) {
+        return arr.join(',')
+      }
+      return ''
     },
     handleSelectionChange (selection) {
       this.selectedData = selection
@@ -920,7 +931,7 @@ export default {
       this.operationDialog = false
     },
     getAppRules () {
-      lcmController.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+      appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
           this.type = 2
           this.rule = JSON.parse(JSON.stringify(res.data))
@@ -943,31 +954,36 @@ export default {
         }
       })
       this.loading = false
+      this.$emit('onChange')
     },
     addAppRules () {
       this.$refs.appTrafficRule.validate((valid) => {
         if (valid) {
           let data = {
-            appTrafficRule: [],
+            appTrafficRule: [...this.appRule.appTrafficRule],
+            appDnsRule: [...this.appRule.appDnsRule],
             appName: this.appName,
             appSupportMp1: true
           }
           this.operationDialog = false
-          data.appTrafficRule.push(this.appTrafficRule)
+          if (this.isModify) {
+            data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== this.appTrafficRule.trafficRuleId)
+            data.appTrafficRule.push(this.appTrafficRule)
+          } else {
+            data.appTrafficRule.push(this.appTrafficRule)
+          }
           console.log(data)
-          lcmController.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
+          appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
-              lcmController.getTaskStatus(res.data.response.apprule_task_id).then(response => {
-                if (response.data.response.configResult === 'FAILURE') {
-                  this.$message.error(this.$t('app.ruleConfig.mepError'))
+              if (res.data.configResult === 'FAILURE') {
+                this.$message.error(this.$t('app.ruleConfig.mepError'))
+              } else {
+                if (this.index === -1) {
+                  this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
                 } else {
-                  if (this.index === -1) {
-                    this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-                  } else {
-                    this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-                  }
+                  this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
                 }
-              })
+              }
               this.loading = true
               this.timer = setTimeout(() => { this.getAppRules() }, 3000)
             }
@@ -1004,6 +1020,7 @@ export default {
       this.appTrafficRule = row[index]
       this.trafficFilterData = row[index].trafficFilter
       this.dstInterfaceData = row[index].dstInterface
+      this.isModify = true
     },
     batchDeleteTrafficRule () {
       if (this.selectedData.length > 0) {
@@ -1019,22 +1036,40 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
+        console.log('parent apprule -> ', this.appRule)
         let data = {
-          appTrafficRule: [],
-          appDNSRule: []
+          appTrafficRule: [...this.appRule.appTrafficRule],
+          appDnsRule: [...this.appRule.appDnsRule],
+          appName: this.appName,
+          appSupportMp1: true
         }
         if (index !== -1) {
-          data.appTrafficRule.push(row.trafficRuleId)
+          data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== row.trafficRuleId)
         } else {
           row.forEach(item => {
-            data.appTrafficRule.push(item.trafficRuleId)
+            data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== item.trafficRuleId)
           })
         }
-        lcmController.deleteConfigRules(sessionStorage.getItem('instanceId'), data).then(res => {
-          this.showMessage('success', this.$t('app.ruleConfig.delRuleSuc'), 1500)
-          this.loading = true
-          this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-        })
+        console.log('delete data', data)
+        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(res => {
+          if (res.data) {
+            if (res.data.configResult === 'FAILURE') {
+              this.$message.error(this.$t('app.ruleConfig.mepError'))
+            } else {
+              if (this.index === -1) {
+                this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+              } else {
+                this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+              }
+            }
+            this.loading = true
+            this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+          }
+        }).catch(err => {
+          console.log('error modifying traffic rule', err)
+          this.getAppRules()
+        }
+        )
       })
     },
     modifyLines (index, row, type) {
