@@ -156,8 +156,8 @@ let lcmController = {
   getServiceInfo (instanceId) {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
-  getMepCapabilities (hostip) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostip + '/mep_capabilities')
+  getMepCapabilities (hostIp) {
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/mep_capabilities')
   },
   confirmToDeploy (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances', params)
