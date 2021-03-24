@@ -335,7 +335,7 @@ export default {
       return this.edgeNodesData.filter(data => !this.edgeNodeSearchInput || data.mechostName.toLowerCase().includes(this.edgeNodeSearchInput.toLowerCase()))
     },
     rules () {
-      const rules = {
+      return {
         mechostIp: [
           { required: true, message: this.$t('verify.ipTip'), trigger: 'blur' },
           { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
@@ -354,7 +354,6 @@ export default {
           { required: true, message: this.$t('verify.affinityTip'), trigger: 'change' }
         ]
       }
-      return rules
     }
   },
   watch: {
@@ -498,7 +497,8 @@ export default {
       console.log('current row data', this.currentRowData)
       let params = {
         packageId: this.currentRowData.packageId,
-        hostIp: selectedMecHost
+        hostIp: selectedMecHost,
+        appId: this.currentRowData.appId
       }
       console.log('distribute params', params)
       if (params.hostIp.length > 0) {

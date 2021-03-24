@@ -57,10 +57,6 @@
             :label="$t('app.packageList.name')"
           />
           <el-table-column
-            prop="appDescriptor"
-            :label="$t('app.packageList.desc')"
-          />
-          <el-table-column
             prop="MecHost"
             :label="$t('app.distriList.mecHost')"
           />
@@ -273,14 +269,18 @@ export default {
     initList () {
       lcmController.getInstanceList().then(res => {
         console.log('get instance response', res)
-        this.tableData = this.paginationData = res.data
+        if (res.data && res.data.length > 0) {
+          this.tableData = this.paginationData = res.data
+        } else {
+          this.tableData = this.paginationData = []
+        }
         if (this.searchData) {
           this.getSearchData(this.searchData)
         }
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+        if (error.status === 404 && error.data.details[0] === 'Record not found') {
           this.tableData = this.paginationData = []
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))

@@ -84,7 +84,6 @@
   </nav>
 </template>
 <script>
-// import Popup from './Popup.vue'
 import Router from 'vue-router'
 export default {
   data: () => ({
@@ -107,10 +106,7 @@ export default {
     }
   }),
   components: {
-    // Popup
   },
-  beforeDestroy () {},
-  mounted () {},
   methods: {
     onClick (location) {
       Router.push(location)

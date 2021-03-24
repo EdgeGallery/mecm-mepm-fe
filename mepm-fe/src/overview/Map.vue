@@ -267,8 +267,7 @@ export default {
                 color: '#fff',
                 fontSize: 12,
                 formatter: function (params) {
-                  let str = params.name
-                  return str
+                  return params.name
                 }
               },
               emphasis: {
@@ -336,8 +335,6 @@ export default {
               source: new XYZ({
                 // openstreet
                 url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                // 午夜蓝图
-                // url: 'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
               })
 
             })

@@ -256,7 +256,7 @@ export default {
   },
   computed: {
     rules () {
-      let rules = {
+      return {
         appName: [
           { required: true, message: this.$t('verify.appNameVerify'), trigger: 'blur' },
           { pattern: /^[a-zA-Z0-9]{4,16}$/, message: this.$t('verify.hostNameVerify') }
@@ -265,7 +265,6 @@ export default {
           { required: true, message: this.$t('verify.descVerify'), trigger: 'blur' }
         ]
       }
-      return rules
     }
   },
   mounted () {
@@ -329,11 +328,12 @@ export default {
           this.initList()
         })
       }).catch(() => {
+        console.log('failed to delete package distribution')
       })
     },
     initList () {
       console.log('init list')
-      console.log('appid' + this.appid)
+      console.log('appid -> ' + this.appid)
       lcmController.getDistributionList().then(res => {
         console.log('response ', res.data)
         this.paginationData = []
@@ -344,9 +344,12 @@ export default {
             this.appPkgVersion = item.appPkgVersion
             this.appPkgAffinity = item.appPkgAffinity
             this.appProvider = item.appProvider
-            this.paginationData = item.mecHostInfo
+            if (item.mecHostInfo && item.mecHostInfo.length > 0) {
+              this.paginationData = item.mecHostInfo
+            }
           }
         })
+        console.log('pagination data -> ', this.paginationData)
         this.tableData = this.paginationData
         if (this.serchData) {
           this.getSearchData(this.serchData)
