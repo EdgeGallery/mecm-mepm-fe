@@ -17,48 +17,50 @@
 <template>
   <div class="overview container mt-60">
     <div>
-      <el-row style="height: 100%; padding: 30px; width: 100%; :gutter=25;">
+      <el-row style="height: 100%; padding: 40px; width: 100%;">
+        <h1 class="section-header">
+          Application Statistics
+        </h1>
         <el-col
           :span="24"
           class="node-stats-card"
         >
           <!-- Application overview-->
-
           <el-col
-            :span="8"
+            :span="6"
             class="stats-card"
           >
             <el-card shadow="always">
               <el-row style="display: flex;align-items: center;">
                 <el-col
-                  :span="12"
+                  :span="6"
                   style="display: flex; justify-content: center"
                 >
                   <img
                     class="cp"
-                    src="../assets/images/distribution.svg"
+                    src="../assets/images/packageupload.svg"
                     alt=""
                   >
                 </el-col>
-                <el-col :span="12">
-                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
-                    <span>10</span>
+                <el-col :span="18">
+                  <div style="font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>{{ packageUploadedCount }}</span>
                   </div>
-                  <div style="padding-top: 14px; font-size: large; text-align: center">
-                    <span>Package Uploaded</span>
+                  <div style="font-size: small; text-align: center">
+                    <span>Available</span>
                   </div>
                 </el-col>
               </el-row>
             </el-card>
           </el-col>
           <el-col
-            :span="8"
+            :span="6"
             class="stats-card"
           >
             <el-card shadow="always">
               <el-row style="display: flex;align-items: center;">
                 <el-col
-                  :span="12"
+                  :span="6"
                   style="display: flex; justify-content: center"
                 >
                   <img
@@ -67,11 +69,11 @@
                     alt=""
                   >
                 </el-col>
-                <el-col :span="12">
-                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
-                    <span>10</span>
+                <el-col :span="18">
+                  <div style=" font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>{{ distributedCount }}</span>
                   </div>
-                  <div style="padding-top: 14px; font-size: large; text-align: center">
+                  <div style="font-size: small; text-align: center">
                     <span>Distributed</span>
                   </div>
                 </el-col>
@@ -79,26 +81,26 @@
             </el-card>
           </el-col>
           <el-col
-            :span="8"
+            :span="6"
             class="stats-card"
           >
             <el-card shadow="always">
               <el-row style="display: flex;align-items: center;">
                 <el-col
-                  :span="12"
+                  :span="6"
                   style="display: flex; justify-content: center"
                 >
                   <img
                     class="cp"
-                    src="../assets/images/distribution.svg"
+                    src="../assets/images/application.svg"
                     alt=""
                   >
                 </el-col>
-                <el-col :span="12">
-                  <div style="padding-top: 14px; font-size: 50px; font-weight: bolder; text-align: center">
-                    <span>10</span>
+                <el-col :span="18">
+                  <div style=" font-size: 50px; font-weight: bolder; text-align: center">
+                    <span>{{ deployedCount }}</span>
                   </div>
-                  <div style="padding-top: 14px; font-size: large; text-align: center">
+                  <div style=" font-size: small; text-align: center">
                     <span>Deployed</span>
                   </div>
                 </el-col>
@@ -107,137 +109,101 @@
           </el-col>
         </el-col>
       </el-row>
-      <el-row style="height: 100%; padding: 30px; width: 100%; :gutter=12;">
+      <el-row style="height: 100%; padding: 40px; width: 100%;">
         <el-col :span="12">
+          <h1 class="section-header">
+            Application List
+          </h1>
           <el-table
-            :data="mepCapData"
-            class="capaTable"
+            :data="tableData"
+            class="appInstanceTable"
             style="width: 100%"
             header-row-class-name="headerClassName"
           >
             <el-table-column
-              prop="capabilityName"
+              prop="AppName"
               :label="$t('Application Name')"
             />
             <el-table-column
-              prop="status"
-              :label="$t('Application version')"
-            />
-            <el-table-column
-              prop="version"
+              prop="AppInsId"
               :label="$t('Application ID')"
             />
+            <el-table-column
+              prop="Status"
+              :label="$t('Deployment status')"
+            >
+              <template>
+                <span
+                  class="success"
+                ><em class="el-icon-success" />{{ DeploymentStatus }}</span>
+              </template>
+            </el-table-column>
           </el-table>
         </el-col>
         <el-col
-          :span="6"
-          class="edge-nodes-card"
+          :span="12"
+          style="padding: 0px 20px"
         >
-          <el-card
-            shadow="always"
-            class="edge-card"
+          <h1 class="section-header">
+            EdgeNodes List
+          </h1>
+          <el-carousel
+            :interval="4000"
+            type="card"
+            height="200px"
           >
-            <el-row style="display: flex;">
-              <el-col
-                :span="12"
-                style="display: flex; justify-content: left"
-              >
-                <div style="display: flex; flex-direction: column;">
-                  <img
-                    class="egde-image"
-                    src="../assets/images/cube.svg"
-                    alt=""
-                  >
-                  <span>edge1</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
-                  <span>1.1.1.1</span>
-                  <span>Schenzen, China</span>
-                  <div style="margin-top: 10px">
-                    <el-button
-                      class="edge-nodes-button"
-                      id="nodeDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showDetails()"
-                      :loading="loginBtnLoading"
+            <el-carousel-item
+              class="edge-card"
+              v-for="item in nodeList"
+              :key="item"
+            >
+              <el-row style="display: flex;">
+                <el-col
+                  :span="12"
+                  style="display: flex; justify-content: left"
+                >
+                  <div style="display: flex; flex-direction: column;">
+                    <img
+                      class="egde-image"
+                      src="../assets/images/cube.svg"
+                      alt=""
                     >
-                      {{ $t('Node details') }}
-                    </el-button>
-                    <el-button
-                      class="edge-nodes-button"
-                      id="AppDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="checkServiceInfo(this.edgeIp)"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('App details') }}
-                    </el-button>
+                    <span>{{ item.mechostName }}</span>
                   </div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-        <el-col
-          :span="6"
-          class="edge-nodes-card"
-        >
-          <el-card
-            shadow="always"
-            class="edge-card"
-          >
-            <el-row style="display: flex;">
-              <el-col
-                :span="12"
-                style="display: flex; justify-content: left"
-              >
-                <div style="display: flex; flex-direction: column;">
-                  <img
-                    class="egde-image"
-                    src="../assets/images/cube.svg"
-                    alt=""
-                  >
-                  <span>edge1</span>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
-                  <span>1.1.1.1</span>
-                  <span>Schenzen, China</span>
-                  <div style="margin-top: 10px">
-                    <el-button
-                      class="edge-nodes-button"
-                      id="nodeDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="showDetails()"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('Node details') }}
-                    </el-button>
-                    <el-button
-                      class="edge-nodes-button"
-                      id="AppDetailsBtn"
-                      type="text"
-                      size="small"
-                      @click="checkServiceInfo(this.edgeIp)"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('App details') }}
-                    </el-button>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col>
+                  <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
+                    <span>{{ item.mechostIp }}</span>
+                    <span>{{ item.city }}</span>
+                    <div style="margin-top: 20px">
+                      <el-button
+                        class="edge-nodes-button"
+                        id="nodeDetailsBtn"
+                        type="text"
+                        size="small"
+                        @click="showEdgeDetails(item)"
+                        :loading="loginBtnLoading"
+                      >
+                        {{ $t('Node details') }}
+                      </el-button>
+                      <el-button
+                        class="edge-nodes-button"
+                        id="AppDetailsBtn"
+                        type="text"
+                        size="small"
+                        @click="showAppDetails(item.mechostIp)"
+                        :loading="loginBtnLoading"
+                      >
+                        {{ $t('App details') }}
+                      </el-button>
+                    </div>
                   </div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
+                </el-col>
+              </el-row>
+            </el-carousel-item>
+          </el-carousel>
         </el-col>
       </el-row>
     </div>
@@ -253,6 +219,8 @@ export default {
   mounted () {
     console.log(this.$route.params)
     this.detail = this.$route.params
+    this.getAppDistributedCount()
+    this.getAppInfo()
     this.getTotalNodes()
   },
   data () {
@@ -261,20 +229,26 @@ export default {
       deployedCount: 0,
       packageUploadedCount: 0,
       infoList: [],
-      nodeNum: 0
+      totalNodes: 0,
+      nodeList: [],
+      tableData: [],
+      DeploymentStatus: 'Instantiated'
     }
   },
   methods: {
-    async showAppDetails () {
-      window.open('http://' + this.edgeIp + ':30095')
+    async showAppDetails (hostIp) {
+      window.open('http://' + hostIp + ':30095')
     },
     handleSectionClick (section, event) {
       console.log(`${section.label} clicked.`)
     },
     getTotalNodes () {
-      lcmController.getHostList(2).then(res => {
+      lcmController.getHostList().then(res => {
         if (res.data && res.data.length > 0) {
-          this.nodeNum = res.data.length
+          this.totalNodes = res.data.length
+          res.data.forEach((item, index) => {
+            this.nodeList.push(item)
+          })
         }
       }, error => {
         this.$message.error(this.$t('tip.getCommonListFailed'))
@@ -285,59 +259,41 @@ export default {
         }
       })
     },
-    showDetails (row) {
-      console.log(row)
+
+    showEdgeDetails (row) {
+      console.log('show edge details row', row)
       this.$router.push({ name: 'edge-details', params: row })
     },
 
-    getAppInfo (ip) {
+    getAppInfo () {
       lcmController.getInstanceList().then(res => {
-        this.infoList = res.data.response
-        this.edgeAppList = []
+        this.infoList = res.data
         if (this.infoList && this.infoList.length > 0) {
-          this.infoList.forEach(item => {
-            if (item.mecHost === ip && item.operationalStatus === 'Instantiated') {
-              let obj = {}
-              obj.label = item.appName
-              obj.value = item.appInstanceId
-              obj.id = item.appPackageId
-              obj.appId = item.appId
-              this.edgeAppList.push(obj)
-            }
-          })
-          this.edgeApp = this.edgeAppList[0].value
+          this.tableData = res.data
+          this.deployedCount = this.infoList.length
         }
       }).catch(() => {
         // this.$message.error(this.$t('tip.getAppInfoFailed'))
       })
     },
-    getAppDeployedCount () {
-      lcmController.getInstanceList().then(res => {
-        this.infoList = res.data.response
-        let count = 0
-        if (this.infoList && this.infoList.length > 0) {
-          this.infoList.forEach(item => {
-            if (item.operationalStatus === 'Instantiated') {
-              count++
-            }
-          })
-          this.deployedCount = count
-        }
-      }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
-      })
-    },
+
     getAppDistributedCount () {
       lcmController.getDistributionList().then(res => {
-        this.infoList = res.data.response
+        console.log('distribution count ->', res.data)
+        this.infoList = res.data
         let count = 0
         if (this.infoList && this.infoList.length > 0) {
+          this.packageUploadedCount = this.infoList.length
           this.infoList.forEach(item => {
-            if (item.operationalStatus === 'Instantiated') {
-              count++
+            if (item.mecHostInfo && item.mecHostInfo.length > 0) {
+              item.mecHostInfo.forEach(host => {
+                if (host.status === 'Distributed') {
+                  count++
+                }
+              })
             }
           })
-          this.deployedCount = count
+          this.distributedCount = count
         }
       }).catch(() => {
         // this.$message.error(this.$t('tip.getAppInfoFailed'))
@@ -347,35 +303,47 @@ export default {
 }
 </script>
 <style lang='less'>
+.section-header {
+  font-size: 18px;
+  padding: 15px 0px;
+  color: #222;
+  font-weight: 500;
+}
 .mt-60 {
   margin-top: 60px !important;
 }
 .stats-card {
   padding: 20px;
-  .el-card {
-    height: 150px;
-    border-radius: 25px;
+  height: 100px;
+  el-card {
+    height: 100px;
+    border-radius: 5px;
   }
 }
 .edge-nodes-card {
   padding: 20px;
   .el-card {
-    height: 200px;
+    //height: 200px;
     border-radius: 25px;
   }
 }
 .edge-card {
   background-image: linear-gradient(45deg, #2d67a5, #437cf7);
   color: white;
+  padding: 15px;
   //el-button {
   //  color: #00e7ff;
   //}
 }
 .node-stats-card {
   padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   .el-card {
-    height: 200px;
-    //border-radius: 25px;
+    //height: 200px;
+    //padding: 20px 0px;
+    border-radius: 5px;
   }
 }
 .edge-nodes-button {
@@ -392,143 +360,159 @@ export default {
   background-size: cover;
   box-sizing: border-box;
 }
-  label.overviewLabel{
-    font-family: PingFangSC-Medium,sans-serif;
-    font-size: 20px;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    line-height: 24px;
-    display: block;
-    padding:8px 0;
-    background: #494b4e;
-    padding-left: 8px;
-  }
-  .mt20 {
-    margin-top: 20px;
-  }
-  .ml20 {
-    margin-left: 20px;
-  }
-  .el-table td, .el-table th{
-    padding:5px 0;
-  }
-  .nodeBasicInfo{
-    color:#F5F5F5;
-    padding: 0 0 25px 0;
-    margin-top: 15px;
-    p{
-      font-size: 16px;
-      line-height: 32px;
-      padding: 0 10px;
-      span{
-        display: inline-block;
-        color:#c0c4cc;
-      }
+label.overviewLabel{
+  font-family: PingFangSC-Medium,sans-serif;
+  font-size: 20px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 24px;
+  display: block;
+  padding:8px 0;
+  background: #494b4e;
+  padding-left: 8px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.el-table td, .el-table th{
+  padding:5px 0;
+}
+.nodeBasicInfo{
+  color:#F5F5F5;
+  padding: 0 0 25px 0;
+  margin-top: 15px;
+  p{
+    font-size: 16px;
+    line-height: 32px;
+    padding: 0 10px;
+    span{
+      display: inline-block;
+      color:#c0c4cc;
     }
   }
-  .content-right {
-      padding: 0!important;
-      background: #2f2d2d;
-      height: 100%;
-    .my-title {
+}
+.content-right {
+  padding: 0!important;
+  background: #2f2d2d;
+  height: 100%;
+  .my-title {
+    color: white;
+  }
+  .edge-souces {
+    padding: 15px 15px 0 15px;
+    .el-table {
+      border-color: #2395db !important;
       color: white;
+      .el-table__row:nth-child(2n) {
+        background: #102238 !important;
+      }
+      .el-table__row:nth-child(2n + 1) {
+        background: #2D4868 !important;
+      }
+      td {
+        padding: 3px 0;
+        .cell {
+          line-height: 30px !important;
+        }
+      }
+      .headerClassName {
+        th {
+          background: #152437 !important;
+          color: #F5F5F5;
+        }
+        .cell::before{
+          content:'';
+          display:inline-block;
+          height:13px;
+          width:2px;
+          background: #f5f5f5;
+          margin-right:4px;
+          position: relative;
+          top:3px;
+        }
+      }
     }
-    .edge-souces {
-      padding: 15px 15px 0 15px;
-      .el-table {
-        border-color: #2395db !important;
-        color: white;
-        .el-table__row:nth-child(2n) {
-          background: #102238 !important;
+    .el-table::before,
+    .el-table--border::after {
+      height: 0 !important;
+    }
+    .el-table--border th {
+      border-right: 1px solid #2395db !important;
+    }
+    .el-table tbody tr:hover > td {
+      background-color: transparent;
+    }
+    .el-table td, .el-table th.is-leaf{
+      border-bottom: none;
+    }
+    .el-select {
+      .el-input {
+        input {
+          background-color: transparent;
+          border: 1px solid #2395db;
+          color: white;
         }
-        .el-table__row:nth-child(2n + 1) {
-          background: #2D4868 !important;
-        }
-        td {
-          padding: 3px 0;
-          .cell {
-            line-height: 30px !important;
-          }
-        }
-        .headerClassName {
-          th {
-            background: #152437 !important;
-            color: #F5F5F5;
-          }
-          .cell::before{
-            content:'';
-            display:inline-block;
-            height:13px;
-            width:2px;
-            background: #f5f5f5;
-            margin-right:4px;
-            position: relative;
-            top:3px;
-          }
-        }
-      }
-      .el-table::before,
-      .el-table--border::after {
-        height: 0 !important;
-      }
-      .el-table--border th {
-        border-right: 1px solid #2395db !important;
-      }
-      .el-table tbody tr:hover > td {
-        background-color: transparent;
-      }
-      .el-table td, .el-table th.is-leaf{
-        border-bottom: none;
-      }
-      .el-select {
-        .el-input {
-          input {
-            background-color: transparent;
-            border: 1px solid #2395db;
+        .el-input__suffix {
+          i {
             color: white;
           }
-          .el-input__suffix {
-            i {
-              color: white;
-            }
-          }
         }
       }
-      .el-button {
-        background-color: #2c58a6;
-        border-color: #0263ff;
-      }
+    }
+    .el-button {
+      background-color: #2c58a6;
+      border-color: #0263ff;
     }
   }
-  .headerClassName{
-    font-size: 13px;
-  }
-  .hwCapData{
-    margin-top:15px;
-  }
-  .capaTable{
-    max-height: 185px;
-    overflow-y: auto;
-  }
-  .nodelistTable{
-    max-height: 350px;
-    overflow-y: auto;
-  }
-  .image {
-    width: 64px;
-    height: 64px;
-    display: block;
-  }
-  .cp{
-    width: 60px;
-  }
-  .egde-image{
-    width: 40px;
-  }
+}
+.headerClassName{
+  font-size: 13px;
+}
+.hwCapData{
+  margin-top:15px;
+}
+.appInstanceTable{
+  max-height: 185px;
+  overflow-y: auto;
+}
+.nodelistTable{
+  max-height: 350px;
+  overflow-y: auto;
+}
+.image {
+  width: 64px;
+  height: 64px;
+  display: block;
+}
+.cp{
+  width: 75px;
+}
+.egde-image{
+  width: 75px;
+  height: 75px;
+}
 .fs-16 {
   font-size: 16px !important;
 }
 .text-muted {
   color: #474c56;
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
 }
 </style>

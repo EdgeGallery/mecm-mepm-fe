@@ -21,13 +21,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
 let api
-if (window.location.href.indexOf('30093') > -1) {
+if (window.location.href.indexOf('30096') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
 } else {
   api = 'https://' + window.location.host
 }
 
 let lcmcontrollerApi = api + ':30204' + '/lcmcontroller/v1'
+let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
@@ -184,20 +185,27 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId + '/terminate')
   },
   batchDeleteInstanceApp (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_terminate', params)
+    return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
+
+  getTaskStatus (id) {
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/apprule_task_infos/' + id)
+  }
+}
+
+let appRuleMgr = {
   addConfigRules (type, id, params) {
     if (type === 2) {
-      return PUT(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+      return PUT(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
     } else {
-      return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+      return POST(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
     }
   },
   deleteConfigRules (id, params) {
-    return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+    return DELETE(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
   },
-  getTaskStatus (id) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/apprule_task_infos/' + id)
+  getConfigRules (id) {
+    return GET(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration')
   }
 }
 
@@ -207,5 +215,6 @@ export {
   PUT,
   DELETE,
   user,
-  lcmController
+  lcmController,
+  appRuleMgr
 }

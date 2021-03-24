@@ -163,6 +163,7 @@
               >
                 <el-input
                   id=""
+                  type="number"
                   maxlength="30"
                   v-model="dnsRule.ttl"
                 />
@@ -196,10 +197,17 @@
 </template>
 
 <script>
-import { lcmController } from '../tools/request.js'
+import { appRuleMgr } from '../tools/request.js'
 export default {
+  props: {
+    appRule: {
+      required: true,
+      type: Object
+    }
+  },
   data () {
     return {
+      isModify: false,
       dialog: false,
       index: -1,
       timer: null,
@@ -211,7 +219,7 @@ export default {
         domainName: 'domainname',
         ipAddressType: 'IP_V4',
         ipAddress: '192.5.14.68',
-        ttl: '85000'
+        ttl: 85000
       },
       ipAddressType: [
         {
@@ -227,7 +235,7 @@ export default {
       appName: sessionStorage.getItem('instanceName'),
       rule: {
         'appTrafficRule': [],
-        'appDNSRule': [],
+        'appDnsRule': [],
         'appName': '',
         'appSupportMp1': true
       }
@@ -255,52 +263,69 @@ export default {
   },
   methods: {
     getAppRules () {
-      lcmController.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+      console.log('get app rules from dns')
+      appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
+          console.log('response for dns -> ', res.data)
           this.type = 2
           this.rule = res.data
           this.appName = this.rule.appName
-          this.dnsRuleTableData = res.data.appDNSRule
+          this.dnsRuleTableData = res.data.appDnsRule
         }
       })
       this.loading = false
+      this.$emit('onChange')
     },
     resetForm (formName) {
       this.dialog = false
       this.$refs[formName].resetFields()
     },
     addAppRule (formName) {
+      console.log('add app rule called')
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          console.log('parent apprule -> ', this.appRule)
           let data = {
-            appDNSRule: [],
+            appTrafficRule: [...this.appRule.appTrafficRule],
+            appDnsRule: [...this.appRule.appDnsRule],
             appName: this.appName,
             appSupportMp1: true
           }
-          data.appDNSRule.push(this.dnsRule)
-          console.log(data)
-          lcmController.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
+          this.dialog = false
+          this.dnsRule.ttl = +this.dnsRule.ttl
+          console.log('is modify ', this.isModify)
+          if (this.isModify) {
+            data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
+            data.appDnsRule.push(this.dnsRule)
+          } else {
+            data.appDnsRule.push(this.dnsRule)
+          }
+
+          console.log('data', data)
+          appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
-              lcmController.getTaskStatus(res.data.response.apprule_task_id).then(response => {
-                if (response.data.response.configResult === 'FAILURE') {
-                  this.$message.error(this.$t('app.ruleConfig.mepError'))
+              if (res.data.configResult === 'FAILURE') {
+                this.$message.error(this.$t('app.ruleConfig.mepError'))
+              } else {
+                if (this.index === -1) {
+                  this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
                 } else {
-                  this.dialog = false
-                  if (this.index === -1) {
-                    this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-                  } else {
-                    this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-                  }
+                  this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
                 }
-              })
+              }
               this.loading = true
               this.timer = setTimeout(() => { this.getAppRules() }, 3000)
             }
-          })
+          }).catch(err => {
+            console.log('error modifying dns rule', err)
+            this.getAppRules()
+          }
+          )
         }
       })
     },
     showDialog () {
+      this.isModify = false
       this.index = -1
       this.dialog = true
       this.dnsRule = {
@@ -308,7 +333,7 @@ export default {
         domainName: 'domainname',
         ipAddressType: 'IP_V4',
         ipAddress: '192.5.14.68',
-        ttl: '85000'
+        ttl: 85000
       }
     },
     handleSelectionChange (selection) {
@@ -322,6 +347,7 @@ export default {
       this.dialog = true
       let data = JSON.parse(JSON.stringify(row[index]))
       this.dnsRule = data
+      this.isModify = true
     },
     deleteDnsRule (index, row) {
       this.$confirm(this.$t('tip.ifContinue'), this.$t('common.warning'), {
@@ -330,22 +356,41 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
+        console.log('parent apprule -> ', this.appRule)
         let data = {
-          appTrafficRule: [],
-          appDNSRule: []
+          appTrafficRule: [...this.appRule.appTrafficRule],
+          appDnsRule: [...this.appRule.appDnsRule],
+          appName: this.appName,
+          appSupportMp1: true
         }
         if (index !== -1) {
-          data.appDNSRule.push(row.dnsRuleId)
+          data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== row.dnsRuleId)
         } else {
           row.forEach(item => {
-            data.appDNSRule.push(item.dnsRuleId)
+            data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== item.dnsRuleId)
           })
         }
-        lcmController.deleteConfigRules(sessionStorage.getItem('instanceId'), data).then(res => {
-          this.showMessage('success', this.$t('app.ruleConfig.delRuleSuc'), 1500)
-          this.loading = true
-          this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-        })
+
+        console.log('delete data', data)
+        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(res => {
+          if (res.data) {
+            if (res.data.configResult === 'FAILURE') {
+              this.$message.error(this.$t('app.ruleConfig.mepError'))
+            } else {
+              if (this.index === -1) {
+                this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+              } else {
+                this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+              }
+            }
+            this.loading = true
+            this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+          }
+        }).catch(err => {
+          console.log('error modifying dns rule', err)
+          this.getAppRules()
+        }
+        )
       })
     },
     batchDeleteDnsRule () {

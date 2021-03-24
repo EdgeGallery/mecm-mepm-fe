@@ -25,14 +25,6 @@
       :status="distributionStatus"
       @getSearchData="getSearchData"
     />
-    <div class="btn-p rt">
-      <el-button
-        type="primary"
-        @click="multipleDeploy"
-      >
-        {{ $t('app.distriList.multipleDeploy') }}
-      </el-button>
-    </div>
     <div class="tableDiv">
       <el-table
         class="mt20"
@@ -78,17 +70,6 @@
           <template>
             <div>
               {{ this.appProvider }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="appPkgAffinity"
-          :label="$t('app.packageList.affinity')"
-          width="120"
-        >
-          <template>
-            <div>
-              {{ this.appPkgAffinity }}
             </div>
           </template>
         </el-table-column>
@@ -195,61 +176,6 @@
             id="appname"
             maxlength="20"
             v-model="configForm.appName"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('app.distriList.appDesc')"
-          prop="appInstanceDescription"
-        >
-          <el-input
-            id="appdesc"
-            maxlength="120"
-            v-model="configForm.appInstanceDescription"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('system.edgeNodes.hwCapability')"
-          prop="hwCapabilities"
-        >
-          <el-checkbox-group
-            v-model="configForm.hwCapabilities"
-          >
-            <el-checkbox
-              v-for="item in capabilities"
-              :label="item"
-              :key="item"
-            >
-              {{ item }}
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <p>POD Information</p>
-        <el-form-item :label="$t('app.distriList.podName')">
-          <el-input
-            id="podname"
-            maxlength="20"
-            v-model="configForm.podName"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podKind')">
-          <el-input
-            id="podkind"
-            maxlength="30"
-            v-model="configForm.podKind"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podNameEspace')">
-          <el-input
-            id="podnameespace"
-            maxlength="30"
-            v-model="configForm.podNameEspace"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('app.distriList.podSel')">
-          <el-input
-            id="podsel"
-            maxlength="30"
-            v-model="configForm.podSelector"
           />
         </el-form-item>
       </el-form>
@@ -389,33 +315,6 @@ export default {
     getCurrentPageData (data) {
       this.currPageTableData = data
     },
-    multipleDeploy () {
-      this.configForm = {
-        podName: 'pod1',
-        podKind: 'dployment',
-        podNameEspace: 'default',
-        podSelector: 'martchlabel',
-        status: '',
-        appPackageId: '',
-        appName: '',
-        appInstanceDescription: '',
-        appId: this.appid,
-        hwCapabilities: []
-      }
-      if (this.selectData !== null && this.selectData.length > 0) {
-        let allStatus = []
-        this.selectData.forEach(item => {
-          allStatus.push(item.status)
-        })
-        if (!allStatus.includes('Error')) {
-          this.deploy(this.selectData, 2)
-        } else {
-          this.$message.error(this.$t('app.disriList.deleteError'))
-        }
-      } else {
-        this.$message.warning('Please select one package at least!')
-      }
-    },
     beforeDelete (rows) {
       this.$confirm(this.$t('tip.beforeDeleteFromMechost'), this.$t('common.warning'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -425,7 +324,7 @@ export default {
       }).then(() => {
         let hostIp = rows.hostIp
         let type = 1
-        lcmController.deleteDistributionApp(type, hostIp, this.appPackageId).then(res => {
+        lcmController.deleteDistributionApp(type, hostIp, this.appPkgId).then(res => {
           this.showMessage('success', this.$t('tip.deletePacFrmoHost'), 1500)
           this.initList()
         })
@@ -439,9 +338,6 @@ export default {
         console.log('response ', res.data)
         this.paginationData = []
         res.data.forEach(item => {
-          console.log('item' + item)
-          console.log('item appid' + item.appId)
-          console.log('item appPkgId' + item.packageId)
           if (item.appId === this.appid) {
             this.appPkgId = item.packageId
             this.appPkgName = item.appPkgName
@@ -455,6 +351,7 @@ export default {
         if (this.serchData) {
           this.getSearchData(this.serchData)
         }
+        console.log('app package id is set', this.appPkgId)
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -498,8 +395,11 @@ export default {
       }
     },
     confirmToDeploy (configForm) {
+      console.log('in confirm to deploy', configForm)
       this.$refs[configForm].validate((valid) => {
         if (valid) {
+          console.log('confirm form is valid')
+          console.log('this.configForm', this.configForm)
           let params = {
             appId: this.configForm.appId,
             packageId: this.configForm.appPkgId,

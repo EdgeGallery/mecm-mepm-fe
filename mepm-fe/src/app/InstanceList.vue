@@ -67,21 +67,10 @@
           <el-table-column
             :label="$t('app.distriList.status')"
           >
-            <template slot-scope="scope">
+            <template>
               <span
-                v-if="scope.row.operationalStatus === 'Instantiated'"
                 class="success"
-              ><em class="el-icon-success" />{{ scope.row.operationalStatus }}</span>
-              <span
-                v-else-if="scope.row.operationalStatus === 'Created'"
-                class="primary"
-              ><em class="el-icon-loading" />{{ scope.row.operationalStatus }}</span>
-              <span
-                v-else
-                class="error"
-              ><em class="el-icon-error" />
-                {{ scope.row.operationalStatus }}
-              </span>
+              ><em class="el-icon-success" />{{ DeploymentStatus }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -194,7 +183,8 @@ export default {
       },
       detailData: [],
       searchData: null,
-      selectData: []
+      selectData: [],
+      DeploymentStatus: 'Instantiated'
     }
   },
   mounted () {
@@ -208,8 +198,9 @@ export default {
   },
   methods: {
     jump (row) {
-      sessionStorage.setItem('instanceId', row.appInstanceId)
-      sessionStorage.setItem('instanceName', row.appName)
+      console.log('rule config button', row)
+      sessionStorage.setItem('instanceId', row.AppInsId)
+      sessionStorage.setItem('instanceName', row.AppName)
       this.$router.push('/mecm/ruleconfig')
     },
     showReason (row) {
@@ -252,6 +243,7 @@ export default {
       this.selectData = selection
     },
     beforeDelete (rows, type) {
+      console.log(rows)
       if (type === 1) {
         // batch terminate
         if (rows.length > 0) {
@@ -280,6 +272,7 @@ export default {
     },
     initList () {
       lcmController.getInstanceList().then(res => {
+        console.log('get instance response', res)
         this.tableData = this.paginationData = res.data
         if (this.searchData) {
           this.getSearchData(this.searchData)
@@ -295,12 +288,18 @@ export default {
       })
     },
     multipleDelete (rows) {
+      console.log('multiple delete row ->', rows)
       let obj = {
-        appInstanceIds: []
+        appInstances: ''
       }
       rows.forEach(item => {
-        obj.appInstanceIds.push(item.appInstanceId)
+        if (obj.appInstances.length > 0) {
+          obj.appInstances = obj.appInstances + ',' + item.AppInsId
+        } else {
+          obj.appInstances = item.AppInsId
+        }
       })
+      console.log('data ->', obj)
       this.dataLoading = true
       lcmController.batchDeleteInstanceApp(obj).then(response => {
         setTimeout(() => {
@@ -324,7 +323,9 @@ export default {
     },
     checkDetail (rows) {
       lcmController.getInstanceDetail(rows.AppInsId).then(response => {
+        console.log('get instance detail response', response)
         this.detailData = response.data.pods
+        console.log('detail data', this.detailData)
         this.dialogVisible = true
       }).catch((error) => {
         console.log('error response', error)
