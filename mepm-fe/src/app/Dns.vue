@@ -284,6 +284,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('parent apprule -> ', this.appRule)
+          appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+            this.type = 2
+          })
           let data = {
             appTrafficRule: [...this.appRule.appTrafficRule],
             appDnsRule: [...this.appRule.appDnsRule],
@@ -293,26 +296,16 @@ export default {
           this.dialog = false
           this.dnsRule.ttl = +this.dnsRule.ttl
           console.log('is modify ', this.isModify)
+          console.log('type ', this.type)
           if (this.isModify) {
             this.type = 2
             data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
-            data.appDnsRule.push(this.dnsRule)
-          } else {
-            data.appDnsRule.push(this.dnsRule)
           }
-
+          data.appDnsRule.push(this.dnsRule)
           console.log('data', data)
           appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
-              if (res.data.configResult === 'FAILURE') {
-                this.$message.error(this.$t('app.ruleConfig.mepError'))
-              } else {
-                if (this.index === -1) {
-                  this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-                } else {
-                  this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-                }
-              }
+              this.handleResponse(res)
               this.loading = true
               this.timer = setTimeout(() => { this.getAppRules() }, 3000)
             }
@@ -323,6 +316,17 @@ export default {
           )
         }
       })
+    },
+    handleResponse (res) {
+      if (res.data.configResult === 'FAILURE') {
+        this.$message.error(this.$t('app.ruleConfig.mepError'))
+      } else {
+        if (this.index === -1) {
+          this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+        } else {
+          this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+        }
+      }
     },
     showDialog () {
       this.isModify = false
@@ -372,9 +376,9 @@ export default {
         }
 
         console.log('delete data', data)
-        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(res => {
-          if (res.data) {
-            if (res.data.configResult === 'FAILURE') {
+        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(response => {
+          if (response.data) {
+            if (response.data.configResult === 'FAILURE') {
               this.$message.error(this.$t('app.ruleConfig.mepError'))
             } else {
               if (this.index === -1) {

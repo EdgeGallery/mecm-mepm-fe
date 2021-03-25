@@ -956,6 +956,9 @@ export default {
     addAppRules () {
       this.$refs.appTrafficRule.validate((valid) => {
         if (valid) {
+          appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+            this.type = 2
+          })
           let data = {
             appTrafficRule: [...this.appRule.appTrafficRule],
             appDnsRule: [...this.appRule.appDnsRule],
@@ -965,29 +968,30 @@ export default {
           this.operationDialog = false
           if (this.isModify) {
             data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== this.appTrafficRule.trafficRuleId)
-            data.appTrafficRule.push(this.appTrafficRule)
-          } else {
-            data.appTrafficRule.push(this.appTrafficRule)
           }
+          data.appTrafficRule.push(this.appTrafficRule)
           console.log('data -> ', data)
           console.log('type -> ', this.type)
           appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
-              if (res.data.configResult === 'FAILURE') {
-                this.$message.error(this.$t('app.ruleConfig.mepError'))
-              } else {
-                if (this.index === -1) {
-                  this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-                } else {
-                  this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-                }
-              }
+              this.handleResponse(res)
               this.loading = true
               this.timer = setTimeout(() => { this.getAppRules() }, 3000)
             }
           })
         }
       })
+    },
+    handleResponse (res) {
+      if (res.data.configResult === 'FAILURE') {
+        this.$message.error(this.$t('app.ruleConfig.mepError'))
+      } else {
+        if (this.index === -1) {
+          this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+        } else {
+          this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+        }
+      }
     },
     confirmToAddTraRules () {
       let data = JSON.parse(JSON.stringify(this.trafficFilterData))
@@ -1049,9 +1053,9 @@ export default {
           })
         }
         console.log('delete data', data)
-        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(res => {
-          if (res.data) {
-            if (res.data.configResult === 'FAILURE') {
+        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(response => {
+          if (response.data) {
+            if (response.data.configResult === 'FAILURE') {
               this.$message.error(this.$t('app.ruleConfig.mepError'))
             } else {
               if (this.index === -1) {

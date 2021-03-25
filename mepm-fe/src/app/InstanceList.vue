@@ -302,24 +302,24 @@ export default {
       console.log('data ->', obj)
       this.dataLoading = true
       lcmController.batchDeleteInstanceApp(obj).then(response => {
-        setTimeout(() => {
-          this.initList()
-        }, 1500)
-        this.showMessage('success', this.$t('tip.deleteSuc'), 1500)
+        this.handleDeleteResponse()
       }).catch((error) => {
-        this.$message.error(error.response.data)
+        this.$message.error(error.data)
       })
     },
     confirmDetlete (appInstanceId) {
       this.dataLoading = true
       lcmController.deleteInstanceApp(appInstanceId).then(response => {
-        setTimeout(() => {
-          this.initList()
-        }, 1500)
-        this.showMessage('success', this.$t('tip.deleteSuc'), 1500)
+        this.handleDeleteResponse()
       }).catch((error) => {
-        this.$message.error(error.response.data)
+        this.$message.error(error.data)
       })
+    },
+    handleDeleteResponse () {
+      setTimeout(() => {
+        this.initList()
+      }, 1500)
+      this.showMessage('success', this.$t('tip.deleteSuc'), 1500)
     },
     checkDetail (rows) {
       lcmController.getInstanceDetail(rows.appInstanceId).then(response => {
