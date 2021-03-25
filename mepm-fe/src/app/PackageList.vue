@@ -322,7 +322,7 @@ export default {
   },
   mounted () {
     this.appType = this.$route.query.type ? this.$route.query.type : ''
-    this.getPackageList(1)
+    this.getPackageList()
   },
   computed: {
     edgeNodeTotalNum: function () {
@@ -431,7 +431,7 @@ export default {
       }).catch((error) => {
         console.log('error in catch block', error)
         this.dataLoading = false
-        this.$message.error(this.$t('Failed to get app package list'))
+        // this.$message.error(this.$t('Failed to get app package list'))
       })
     },
     async getNodeList (row) {

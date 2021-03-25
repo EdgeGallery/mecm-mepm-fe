@@ -32,9 +32,11 @@ let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
+    console.log('response', response)
     return response
   },
   function (error) {
+    console.log('error in interceptors', error)
     if (error.response.status === 401) {
       ElementUI.Message.error(i18n.t('tip.loginStatusFailed'))
       let host = window.location.hostname
