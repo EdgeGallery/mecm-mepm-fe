@@ -100,17 +100,24 @@
                   </el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="12">
+                  <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('Model:') }}</span>
+                        <span>{{ $t('Type :') }}</span>{{ hwCapData.hwType }}
                       </p>
                     </div>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('vendor:') }}</span>
+                        <span>{{ $t('Model :') }}</span>{{ hwCapData.hwModel }}
+                      </p>
+                    </div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="nodeBasicInfo">
+                      <p class="inner-circle-data">
+                        <span>{{ $t('vendor :') }}</span>{{ hwCapData.hwVendor }}
                       </p>
                     </div>
                   </el-col>
@@ -152,7 +159,7 @@
             slot="header"
             class="text-muted fs-16"
           >
-            <span>Address</span>
+            <span style="font-weight: bold;">Address</span>
           </div>
           <Map
             @node="clickNode"
@@ -221,7 +228,7 @@ export default {
       this.alarmStatus = 'nodeinfo'
       this.resetData()
       this.getNodeKpi(val.mechostIp)
-      this.getHwCapa(val.mechostIp)
+      this.getHwCapa()
       this.getMepCapa(val.mechostIp)
       this.edgeIp = val.mechostIp
     },
@@ -281,20 +288,19 @@ export default {
         // this.$message.error(this.$t('tip.getAppInfoFailed'))
       })
     },
-    getHwCapa (host) {
-      lcmController.getHwCapa(host).then(res => {
-        if (res && res.data) {
-          if (res.data.status !== 500) {
-            this.hwCapData = res.data.hwcapabilities
-          }
-        }
-      })
+    getHwCapa () {
+      console.log('details -> ', this.detail)
+      if (this.detail && this.detail.hwcapabilities && this.detail.hwcapabilities.length > 0) {
+        this.hwCapData = this.detail.hwcapabilities[0]
+        console.log('hw Capabilities -> ', this.hwCapData)
+      }
     },
     getMepCapa (host) {
       lcmController.getMepCapabilities(host).then(res => {
+        console.log('mep capabilities res', res)
         if (res && res.data) {
           if (res.data.status !== 500) {
-            this.mepCapData = JSON.parse(res.data.response)
+            this.mepCapData = JSON.parse(res.data)
           }
         }
       })

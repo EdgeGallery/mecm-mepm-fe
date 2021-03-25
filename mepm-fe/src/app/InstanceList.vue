@@ -52,16 +52,12 @@
             width="50"
           />
           <el-table-column
-            prop="AppName"
+            prop="appName"
             sortable
             :label="$t('app.packageList.name')"
           />
           <el-table-column
-            prop="appDescriptor"
-            :label="$t('app.packageList.desc')"
-          />
-          <el-table-column
-            prop="MecHost"
+            prop="mecHost"
             :label="$t('app.distriList.mecHost')"
           />
           <el-table-column
@@ -199,8 +195,8 @@ export default {
   methods: {
     jump (row) {
       console.log('rule config button', row)
-      sessionStorage.setItem('instanceId', row.AppInsId)
-      sessionStorage.setItem('instanceName', row.AppName)
+      sessionStorage.setItem('instanceId', row.appInstanceId)
+      sessionStorage.setItem('instanceName', row.appName)
       this.$router.push('/mecm/ruleconfig')
     },
     showReason (row) {
@@ -266,21 +262,25 @@ export default {
           closeOnClickModal: false,
           type: 'warning'
         }).then(() => {
-          this.confirmDetlete(rows.AppInsId)
+          this.confirmDetlete(rows.appInstanceId)
         })
       }
     },
     initList () {
       lcmController.getInstanceList().then(res => {
         console.log('get instance response', res)
-        this.tableData = this.paginationData = res.data
+        if (res.data && res.data.length > 0) {
+          this.tableData = this.paginationData = res.data
+        } else {
+          this.tableData = this.paginationData = []
+        }
         if (this.searchData) {
           this.getSearchData(this.searchData)
         }
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+        if (error.status === 404 && error.data.details[0] === 'Record not found') {
           this.tableData = this.paginationData = []
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))
@@ -294,9 +294,9 @@ export default {
       }
       rows.forEach(item => {
         if (obj.appInstances.length > 0) {
-          obj.appInstances = obj.appInstances + ',' + item.AppInsId
+          obj.appInstances = obj.appInstances + ',' + item.appInstanceId
         } else {
-          obj.appInstances = item.AppInsId
+          obj.appInstances = item.appInstanceId
         }
       })
       console.log('data ->', obj)
@@ -322,7 +322,7 @@ export default {
       })
     },
     checkDetail (rows) {
-      lcmController.getInstanceDetail(rows.AppInsId).then(response => {
+      lcmController.getInstanceDetail(rows.appInstanceId).then(response => {
         console.log('get instance detail response', response)
         this.detailData = response.data.pods
         console.log('detail data', this.detailData)

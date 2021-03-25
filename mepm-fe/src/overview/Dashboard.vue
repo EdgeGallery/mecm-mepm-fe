@@ -121,11 +121,11 @@
             header-row-class-name="headerClassName"
           >
             <el-table-column
-              prop="AppName"
+              prop="appName"
               :label="$t('Application Name')"
             />
             <el-table-column
-              prop="AppInsId"
+              prop="appInstanceId"
               :label="$t('Application ID')"
             />
             <el-table-column

@@ -24,7 +24,6 @@
 export default {
   name: 'Layout',
   components: {},
-  mounted () {},
   methods: {}
 }
 </script>

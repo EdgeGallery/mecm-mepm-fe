@@ -838,7 +838,7 @@ export default {
   },
   computed: {
     formInterfaceRules () {
-      let formInterfaceRules = {
+      return {
         tunnelDstAddress: [
           { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
           { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
@@ -860,18 +860,16 @@ export default {
           { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
         ]
       }
-      return formInterfaceRules
     },
     formRules () {
-      let formRules = {
+      return {
         trafficRuleId: [
           { required: true, message: this.$t('idMust'), trigger: 'blur' }
         ]
       }
-      return formRules
     },
     formTrafficfilterRules () {
-      let formTrafficfilterRules = {
+      return {
         srcAddress: [
           { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
           { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\/[1-9]\d{0,4}$/, message: this.$t('verify.normalVerify') }
@@ -905,7 +903,6 @@ export default {
           { pattern: /^\d{4,5}(,+\d{4,5})*$/, message: this.$t('verify.normalVerify') }
         ]
       }
-      return formTrafficfilterRules
     }
   },
   methods: {
@@ -972,7 +969,8 @@ export default {
           } else {
             data.appTrafficRule.push(this.appTrafficRule)
           }
-          console.log(data)
+          console.log('data -> ', data)
+          console.log('type -> ', this.type)
           appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
               if (res.data.configResult === 'FAILURE') {

@@ -492,7 +492,7 @@ export default {
   },
   computed: {
     rules () {
-      const rules = {
+      return {
         mechostIp: [
           { required: true, message: this.$t('verify.ipTip'), trigger: 'blur' },
           { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
@@ -511,7 +511,6 @@ export default {
           { required: true, message: this.$t('verify.affinityTip'), trigger: 'change' }
         ]
       }
-      return rules
     }
   },
   methods: {

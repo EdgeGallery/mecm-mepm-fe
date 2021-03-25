@@ -243,7 +243,7 @@ export default {
   },
   computed: {
     formRules () {
-      let formRules = {
+      return {
         dnsRuleId: [
           { required: true, message: this.$t('idMust'), trigger: 'blur' }
         ],
@@ -258,7 +258,6 @@ export default {
           { required: true, message: this.$t('tip.ttl'), trigger: 'blur' }
         ]
       }
-      return formRules
     }
   },
   methods: {
@@ -295,6 +294,7 @@ export default {
           this.dnsRule.ttl = +this.dnsRule.ttl
           console.log('is modify ', this.isModify)
           if (this.isModify) {
+            this.type = 2
             data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
             data.appDnsRule.push(this.dnsRule)
           } else {

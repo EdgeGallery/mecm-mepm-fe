@@ -32,9 +32,11 @@ let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
+    console.log('response', response)
     return response
   },
   function (error) {
+    console.log('error in interceptors', error)
     if (error.response.status === 401) {
       ElementUI.Message.error(i18n.t('tip.loginStatusFailed'))
       let host = window.location.hostname
@@ -156,8 +158,8 @@ let lcmController = {
   getServiceInfo (instanceId) {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
-  getMepCapabilities (hostip) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostip + '/mep_capabilities')
+  getMepCapabilities (hostIp) {
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/mep_capabilities')
   },
   confirmToDeploy (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances', params)
