@@ -27,7 +27,7 @@ const EN = {
     APP_STATICS: 'Application Statistics',
     APP_STATICS_APP: 'Application Count：',
     APP_STATICS_SERVICE: 'Service Count：',
-    APP_STATICS_SUBSCRIBED: 'Subscribed Count：',
+    SERVICE_STATICS_SUBSCRIBED: 'Subscribed Count：',
     APP_STATICS_SUBSCRIBE: 'Subscribe Count：',
     APP_TABLE: 'Appliction List',
     SERVICE_TABLE: 'Service List',

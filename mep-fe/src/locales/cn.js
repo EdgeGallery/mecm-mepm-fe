@@ -27,7 +27,7 @@ const CN = {
     APP_STATICS: '应用统计',
     APP_STATICS_APP: '应用：',
     APP_STATICS_SERVICE: '服务：',
-    APP_STATICS_SUBSCRIBED: '被订阅的应用：',
+    SERVICE_STATICS_SUBSCRIBED: '被订阅的服务：',
     APP_STATICS_SUBSCRIBE: '订阅方应用：',
     APP_TABLE: '应用列表',
     SERVICE_TABLE: '服务列表',
