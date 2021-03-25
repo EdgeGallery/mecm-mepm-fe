@@ -101,7 +101,7 @@ export default {
         },
         {
           id: 3,
-          title: this.$i18n.t('DASHBOARD_PAGE.APP_STATICS_SUBSCRIBED') + this.subscribedCount,
+          title: this.$i18n.t('DASHBOARD_PAGE.SERVICE_STATICS_SUBSCRIBED') + this.subscribedCount,
           src: require('../../assets/image/providerDashboard.png'),
         },
         {
