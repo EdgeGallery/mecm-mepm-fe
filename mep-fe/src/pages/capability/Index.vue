@@ -58,14 +58,14 @@ export default {
   beforeMount () {
     getCapabilityList().then((res) => {
       let appServices = res.data.appServices
-      appServices.forEach(element => {
-        element.id = element.name
+      appServices.forEach((element, index) => {
+        element.id = element.name + index
         element.callTimes.reverse()
       })
       this.appCapabilityies = appServices
       let mepServices = res.data.mepServices
-      mepServices.forEach(element => {
-        element.id = element.name
+      mepServices.forEach((element, index) => {
+        element.id = element.name + index
         element.callTimes.reverse()
       })
       this.mepCapabilityies = mepServices
