@@ -978,7 +978,11 @@ export default {
               this.loading = true
               this.timer = setTimeout(() => { this.getAppRules() }, 3000)
             }
-          })
+          }).catch(err => {
+            console.log('error modifying traffic rule', err)
+            this.getAppRules()
+          }
+          )
         }
       })
     },
@@ -1038,7 +1042,7 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        console.log('parent apprule -> ', this.appRule)
+        console.log('delete traffic rule, parent app rule -> ', this.appRule)
         let data = {
           appTrafficRule: [...this.appRule.appTrafficRule],
           appDnsRule: [...this.appRule.appDnsRule],

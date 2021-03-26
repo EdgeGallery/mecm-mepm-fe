@@ -17,7 +17,7 @@
 <template>
   <div class="overview container mt-60">
     <div>
-      <el-row style="height: 100%; padding: 40px; width: 100%;">
+      <el-row style=" height: 100%;padding: 0px 40px;width: 100%;margin-top: 80px;">
         <h1 class="section-header">
           Application Statistics
         </h1>
@@ -174,7 +174,7 @@
               </el-row>
               <el-row>
                 <el-col>
-                  <div style="font-size: large; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
+                  <div style="font-size: 15px; text-align: right;display: flex; flex-direction: column; margin-top: 20px">
                     <span>{{ item.mechostIp }}</span>
                     <span>{{ item.city }}</span>
                     <div style="margin-top: 20px">
@@ -207,6 +207,19 @@
         </el-col>
       </el-row>
     </div>
+    <div style="display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 8px;
+    color: #aaa;">
+      Icons made by <a
+        href="https://www.freepik.com"
+        title="Freepik"
+      >Freepik</a> from <a
+        href="https://www.flaticon.com/"
+        title="Flaticon"
+      >www.flaticon.com</a>
+    </div>
   </div>
 </template>
 
@@ -217,8 +230,6 @@ export default {
   components: {
   },
   mounted () {
-    console.log(this.$route.params)
-    this.detail = this.$route.params
     this.getAppDistributedCount()
     this.getAppInfo()
     this.getTotalNodes()
@@ -244,6 +255,7 @@ export default {
     },
     getTotalNodes () {
       lcmController.getHostList().then(res => {
+        console.log('get host list', res.data)
         if (res.data && res.data.length > 0) {
           this.totalNodes = res.data.length
           res.data.forEach((item, index) => {
@@ -252,7 +264,7 @@ export default {
         }
       }, error => {
         this.$message.error(this.$t('tip.getCommonListFailed'))
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+        if (error.status === 404 && error.data.details[0] === 'Record not found') {
           this.$message.error(this.$t('host record not found'))
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))
@@ -261,19 +273,20 @@ export default {
     },
 
     showEdgeDetails (row) {
-      console.log('show edge details row', row)
+      console.log('show edge details row -> ', row)
       this.$router.push({ name: 'edge-details', params: row })
     },
 
     getAppInfo () {
       lcmController.getInstanceList().then(res => {
+        console.log('get Instance count ->', res.data)
         this.infoList = res.data
         if (this.infoList && this.infoList.length > 0) {
           this.tableData = res.data
           this.deployedCount = this.infoList.length
         }
       }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+        console.log('Failed to get Instance count')
       })
     },
 
@@ -296,7 +309,7 @@ export default {
           this.distributedCount = count
         }
       }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+        console.log('Failed to get distribution count')
       })
     }
   }
@@ -304,10 +317,12 @@ export default {
 </script>
 <style lang='less'>
 .section-header {
-  font-size: 18px;
-  padding: 15px 0px;
+  font-size: 15px;
+  padding: 8px;
   color: #222;
-  font-weight: 500;
+  font-weight: 600;
+  background: #efefef;
+  margin-bottom: 10px;
 }
 .mt-60 {
   margin-top: 60px !important;
@@ -316,24 +331,27 @@ export default {
   padding: 20px;
   height: 100px;
   .el-card {
-    height: 100px;
     border-radius: 5px;
+  }
+  .el-card__body {
+    padding: 5px 15px;
   }
 }
 .edge-nodes-card {
   padding: 20px;
   .el-card {
-    //height: 200px;
     border-radius: 25px;
   }
+}
+.el-carousel__container {
+  position: relative;
+  height: 200px;
+  overflow: hidden
 }
 .edge-card {
   background-image: linear-gradient(45deg, #2d67a5, #437cf7);
   color: white;
   padding: 15px;
-  //el-button {
-  //  color: #00e7ff;
-  //}
 }
 .node-stats-card {
   padding: 20px;
@@ -341,8 +359,6 @@ export default {
   align-items: center;
   justify-content: space-around;
   .el-card {
-    //height: 200px;
-    //padding: 20px 0px;
     border-radius: 5px;
   }
 }
@@ -491,8 +507,8 @@ label.overviewLabel{
   width: 75px;
 }
 .egde-image{
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
 }
 .fs-16 {
   font-size: 16px !important;

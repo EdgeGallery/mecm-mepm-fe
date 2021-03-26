@@ -436,7 +436,7 @@ export default {
     },
     async getNodeList (row) {
       sessionStorage.setItem('appId', row.appId)
-      await lcmController.getHostList(2).then(response => {
+      await lcmController.getHostList().then(response => {
         this.edgeNodesData = response.data
       }).catch((error) => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
@@ -466,8 +466,8 @@ export default {
     async submitUpload () {
       this.loading = true
       this.isSecureBackend = sessionStorage.getItem('isSecureBackend')
-      console.log('file list' + this.fileList[0])
-      console.log(this.currForm)
+      console.log('file list -> ', this.fileList[0])
+      console.log('current form -> ', this.currForm)
       this.uploadPkgDialogVisible = false
       let params = new FormData()
       params.append('package', this.fileList[0])
@@ -476,7 +476,9 @@ export default {
         this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
         this.dialogVisible = false
         this.getPackageList()
+        this.loading = false
       }).catch((error) => {
+        this.loading = false
         if (error.response.status === 400 && error.response.data.details[0] === 'Record already exist') {
           this.$message.error(error.response.data.details[0])
         } else if (error.response.status === 403) {
@@ -490,17 +492,16 @@ export default {
       this.loading = true
       let selectedMecHost = []
       this.nodeSelection.forEach(data => {
-        console.log('host ip', data.mechostIp)
         selectedMecHost.push(data.mechostIp)
       })
       this.$refs.multipleEdgeNodeTable.clearSelection()
-      console.log('current row data', this.currentRowData)
+      console.log('current row data -> ', this.currentRowData)
       let params = {
         packageId: this.currentRowData.packageId,
         hostIp: selectedMecHost,
         appId: this.currentRowData.appId
       }
-      console.log('distribute params', params)
+      console.log('distribute params -> ', params)
       if (params.hostIp.length > 0) {
         lcmController.confirmToDistribute(params).then(response => {
           this.showMessage('success', this.$t('tip.sucToDownload'), 1500)

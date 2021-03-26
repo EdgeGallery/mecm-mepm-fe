@@ -262,10 +262,9 @@ export default {
   },
   methods: {
     getAppRules () {
-      console.log('get app rules from dns')
       appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
-          console.log('response for dns -> ', res.data)
+          console.log('get config rules response -> ', res.data)
           this.type = 2
           this.rule = res.data
           this.appName = this.rule.appName
@@ -280,7 +279,6 @@ export default {
       this.$refs[formName].resetFields()
     },
     addAppRule (formName) {
-      console.log('add app rule called')
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('parent apprule -> ', this.appRule)
@@ -295,14 +293,13 @@ export default {
           }
           this.dialog = false
           this.dnsRule.ttl = +this.dnsRule.ttl
-          console.log('is modify ', this.isModify)
-          console.log('type ', this.type)
           if (this.isModify) {
             this.type = 2
             data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
           }
           data.appDnsRule.push(this.dnsRule)
           console.log('data', data)
+          console.log('type ', this.type)
           appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
               this.handleResponse(res)
@@ -360,7 +357,7 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        console.log('parent apprule -> ', this.appRule)
+        console.log('delete dns, parent app rule -> ', this.appRule)
         let data = {
           appTrafficRule: [...this.appRule.appTrafficRule],
           appDnsRule: [...this.appRule.appDnsRule],
@@ -375,7 +372,7 @@ export default {
           })
         }
 
-        console.log('delete data', data)
+        console.log('delete data ->', data)
         appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(response => {
           if (response.data) {
             if (response.data.configResult === 'FAILURE') {

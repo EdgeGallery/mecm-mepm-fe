@@ -21,7 +21,7 @@
     >
       <el-col
         :span="8"
-        style="padding: 30px"
+        style="padding: 30px 0px;"
       >
         <div
           class="edge-souces"
@@ -103,21 +103,21 @@
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('Type :') }}</span>{{ hwCapData.hwType }}
+                        <span>{{ $t('Type : ') }}</span>{{ hwCapData.hwType }}
                       </p>
                     </div>
                   </el-col>
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('Model :') }}</span>{{ hwCapData.hwModel }}
+                        <span>{{ $t('Model : ') }}</span>{{ hwCapData.hwModel }}
                       </p>
                     </div>
                   </el-col>
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('vendor :') }}</span>{{ hwCapData.hwVendor }}
+                        <span>{{ $t('vendor : ') }}</span>{{ hwCapData.hwVendor }}
                       </p>
                     </div>
                   </el-col>
@@ -390,7 +390,7 @@ export default {
     padding: 0 0 25px 0;
     margin-top: 15px;
     p{
-      font-size: 16px;
+      font-size: 13px;
       line-height: 32px;
       padding: 0 10px;
       span{
@@ -402,12 +402,10 @@ export default {
 
 .nodeBasicInfo2{
   color:white;
-  padding: 0 0 25px 0;
   margin-top: 15px;
   p{
-    font-size: 16px;
-    line-height: 32px;
-    padding: 0 10px;
+    font-size: 13px;
+    line-height: 24px;
     span{
       display: inline-block;
       color:white;
@@ -522,5 +520,6 @@ export default {
   }
   .inner-circle-data {
     color: #474c56;
+    font-size: 13px;
   }
 </style>
