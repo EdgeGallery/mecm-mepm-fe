@@ -194,7 +194,6 @@ export default {
   },
   methods: {
     jump (row) {
-      console.log('rule config button', row)
       sessionStorage.setItem('instanceId', row.appInstanceId)
       sessionStorage.setItem('instanceName', row.appName)
       this.$router.push('/mecm/ruleconfig')
@@ -239,7 +238,6 @@ export default {
       this.selectData = selection
     },
     beforeDelete (rows, type) {
-      console.log(rows)
       if (type === 1) {
         // batch terminate
         if (rows.length > 0) {
@@ -268,7 +266,7 @@ export default {
     },
     initList () {
       lcmController.getInstanceList().then(res => {
-        console.log('get instance response', res)
+        console.log('get instance response -> ', res)
         if (res.data && res.data.length > 0) {
           this.tableData = this.paginationData = res.data
         } else {
@@ -288,7 +286,7 @@ export default {
       })
     },
     multipleDelete (rows) {
-      console.log('multiple delete row ->', rows)
+      console.log('multiple delete row -> ', rows)
       let obj = {
         appInstances: ''
       }
@@ -299,7 +297,7 @@ export default {
           obj.appInstances = item.appInstanceId
         }
       })
-      console.log('data ->', obj)
+      console.log('data -> ', obj)
       this.dataLoading = true
       lcmController.batchDeleteInstanceApp(obj).then(response => {
         this.handleDeleteResponse()
@@ -323,13 +321,12 @@ export default {
     },
     checkDetail (rows) {
       lcmController.getInstanceDetail(rows.appInstanceId).then(response => {
-        console.log('get instance detail response', response)
+        console.log('get instance detail response -> ', response)
         this.detailData = response.data.pods
-        console.log('detail data', this.detailData)
         this.dialogVisible = true
       }).catch((error) => {
-        console.log('error response', error)
-        if (error.response.status === 404) {
+        console.log('error response -> ', error)
+        if (error.status === 404) {
           this.$message.warning(this.$t('tip.getStatusDelay'))
         } else {
           this.$message.error('Network Error')

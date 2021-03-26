@@ -332,10 +332,9 @@ export default {
       })
     },
     initList () {
-      console.log('init list')
-      console.log('appid -> ' + this.appid)
+      console.log('app Id -> ' + this.appid)
       lcmController.getDistributionList().then(res => {
-        console.log('response ', res.data)
+        console.log('get distribution list response ', res.data)
         this.paginationData = []
         res.data.forEach(item => {
           if (item.appId === this.appid) {
@@ -354,7 +353,6 @@ export default {
         if (this.serchData) {
           this.getSearchData(this.serchData)
         }
-        console.log('app package id is set', this.appPkgId)
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -398,11 +396,8 @@ export default {
       }
     },
     confirmToDeploy (configForm) {
-      console.log('in confirm to deploy', configForm)
       this.$refs[configForm].validate((valid) => {
         if (valid) {
-          console.log('confirm form is valid')
-          console.log('this.configForm', this.configForm)
           let params = {
             appId: this.configForm.appId,
             packageId: this.configForm.appPkgId,
@@ -412,7 +407,7 @@ export default {
           }
           this.loading = true
           if (typeof (params.hostIp) === 'string') {
-            console.log('app deploy', params)
+            console.log('app deploy params -> ', params)
             lcmController.instantiateApp(params).then(res => {
               this.dialogVisible = false
             }).catch(() => {
@@ -452,7 +447,7 @@ export default {
       })
     },
     instaniateApp (instanceId) {
-      lcmController.instantiateApp(instanceId).then(response => {
+      lcmController.instantiateApp(instanceId).then(res => {
         this.handleInstantiateResponse()
       }).catch(() => {
         this.$message.error(this.$t('tip.deployFailed'))
