@@ -299,9 +299,9 @@ export default {
     },
     initMapData (mapJson) {
       let mapData = []
-      for (let i = 0; i < mapJson.features.length; i++) {
+      for (const mapJsonFeature of mapJson.features) {
         mapData.push({
-          name: mapJson.features[i].properties.name
+          name: mapJsonFeature.properties.name
         })
       }
       return mapData

@@ -700,24 +700,8 @@ export default {
     confirm (form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
+          this.setCapabilities()
           console.log(this.currForm)
-          this.currForm.hwcapabilities = []
-          if (this.capabilities.length > 0) {
-            if (this.capabilities.includes('GPU')) {
-              let obj = {}
-              obj.hwType = 'GPU'
-              obj.hwVendor = this.gpuVendor
-              obj.hwModel = this.gpuModel
-              this.currForm.hwcapabilities.push(obj)
-            }
-            if (this.capabilities.includes('NPU')) {
-              let obj = {}
-              obj.hwType = 'NPU'
-              obj.hwVendor = this.npuVendor
-              obj.hwModel = this.npuModel
-              this.currForm.hwcapabilities.push(obj)
-            }
-          }
           this.currForm.address = this.selectedArea.join('/')
           if (this.editType === 1) {
             lcmController.createHost(this.currForm).then(response => {
@@ -727,13 +711,7 @@ export default {
               this.area = false
               this.isDisable = false
             }).catch((error) => {
-              if (error.response.status === 400 && error.response.data.details[0] === 'Record already exist') {
-                this.$message.error(error.response.data.details[0])
-              } else if (error.response.status === 403) {
-                this.$message.error(this.$t('tip.loginOperation'))
-              } else {
-                this.$message.error(error.response.data)
-              }
+              this.handleError(error)
             })
           } else {
             lcmController.modifyHost(this.currForm).then(response => {
@@ -749,6 +727,36 @@ export default {
           }
         }
       })
+    },
+
+    handleError (error) {
+      if (error.status === 400 && error.data.details[0] === 'Record already exist') {
+        this.$message.error(error.data.details[0])
+      } else if (error.status === 403) {
+        this.$message.error(this.$t('tip.loginOperation'))
+      } else {
+        this.$message.error(error.data)
+      }
+    },
+
+    setCapabilities () {
+      this.currForm.hwcapabilities = []
+      if (this.capabilities.length > 0) {
+        if (this.capabilities.includes('GPU')) {
+          let obj = {}
+          obj.hwType = 'GPU'
+          obj.hwVendor = this.gpuVendor
+          obj.hwModel = this.gpuModel
+          this.currForm.hwcapabilities.push(obj)
+        }
+        if (this.capabilities.includes('NPU')) {
+          let obj = {}
+          obj.hwType = 'NPU'
+          obj.hwVendor = this.npuVendor
+          obj.hwModel = this.npuModel
+          this.currForm.hwcapabilities.push(obj)
+        }
+      }
     }
   }
 }

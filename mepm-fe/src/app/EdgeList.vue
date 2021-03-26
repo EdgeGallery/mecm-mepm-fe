@@ -453,11 +453,7 @@ export default {
     },
     instaniateApp (instanceId) {
       lcmController.instantiateApp(instanceId).then(response => {
-        this.loading = false
-        this.dialogVisible = false
-        this.$nextTick(() => {
-          this.$router.push('/mecm/ains/list')
-        })
+        this.handleInstantiateResponse()
       }).catch(() => {
         this.$message.error(this.$t('tip.deployFailed'))
         this.dialogVisible = false
@@ -472,11 +468,7 @@ export default {
         obj.appInstanceIds.push(item.appInstanceId)
       })
       lcmController.batchInstantiateApp(obj).then(response => {
-        this.loading = false
-        this.dialogVisible = false
-        this.$nextTick(() => {
-          this.$router.push('/mecm/ains/list')
-        })
+        this.handleInstantiateResponse()
       }).catch(() => {
         this.$message.error(this.$t('tip.deployFailed'))
         this.dialogVisible = false
@@ -485,6 +477,13 @@ export default {
     },
     handleSelectionChange (selection) {
       this.selectData = selection
+    },
+    handleInstantiateResponse () {
+      this.loading = false
+      this.dialogVisible = false
+      this.$nextTick(() => {
+        this.$router.push('/mecm/ains/list')
+      })
     }
   }
 }

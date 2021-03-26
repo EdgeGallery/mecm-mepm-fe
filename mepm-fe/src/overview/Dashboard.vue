@@ -315,7 +315,7 @@ export default {
 .stats-card {
   padding: 20px;
   height: 100px;
-  el-card {
+  .el-card {
     height: 100px;
     border-radius: 5px;
   }
