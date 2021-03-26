@@ -207,13 +207,11 @@
         </el-col>
       </el-row>
     </div>
-    <div
-      style="display: flex;
+    <div style="display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     font-size: 8px;
-    color: #aaa;"
-    >
+    color: #aaa;">
       Icons made by <a
         href="https://www.freepik.com"
         title="Freepik"
@@ -288,7 +286,7 @@ export default {
           this.deployedCount = this.infoList.length
         }
       }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+        console.log('Failed to get Instance count')
       })
     },
 
@@ -311,7 +309,7 @@ export default {
           this.distributedCount = count
         }
       }).catch(() => {
-        // this.$message.error(this.$t('tip.getAppInfoFailed'))
+        console.log('Failed to get distribution count')
       })
     }
   }
