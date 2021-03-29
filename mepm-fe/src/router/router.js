@@ -73,7 +73,7 @@ export default new Router({
         {
           path: 'mecm/about',
           name: 'about',
-          component: () => import('../host/List.vue')
+          component: () => import('../app/About.vue')
         }
       ]
     }
