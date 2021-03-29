@@ -268,6 +268,7 @@ const en = {
     applcmNameTip: 'App LCM should not be empty',
     normalVerify: 'Style is not right',
     hostNameVerify: '4 to 16 digits (letters, numbers)',
+    edgeNodeNameVerify: '4 to 16 characters (letters, numbers), cannot contain special symbols',
     noSymbol: 'Cannot contain special symbols',
     coordinates: 'Coordinates should not be empty',
     uriVerify: 'Try to type right Uri.',
