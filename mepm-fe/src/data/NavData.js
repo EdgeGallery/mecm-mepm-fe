@@ -54,9 +54,9 @@ const NavData = [
     'display': false
   },
   {
-    'id': '2.6',
+    'id': '2.7',
     'name': 'About',
-    'path': 'mecm/about',
+    'path': '/mecm/about',
     'pageId': '2.0.2',
     'display': false
   }

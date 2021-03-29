@@ -207,11 +207,13 @@
         </el-col>
       </el-row>
     </div>
-    <div style="display: flex;
+    <div
+      style="display: flex;
     align-items: flex-end;
     justify-content: flex-end;
     font-size: 8px;
-    color: #aaa;">
+    color: #aaa;"
+    >
       Icons made by <a
         href="https://www.freepik.com"
         title="Freepik"

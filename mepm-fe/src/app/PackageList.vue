@@ -342,7 +342,7 @@ export default {
         ],
         mechostName: [
           { required: true, message: this.$t('verify.hostnameTip'), trigger: 'blur' },
-          { pattern: /^[\da-zA-Z_\u4e00-\u9f5a]{1,16}$/, message: this.$t('verify.noSymbol') }
+          { pattern: /^[\da-zA-Z_\u4e00-\u9f5a]{1,16}$/, message: this.$t('verify.edgeNodeNameVerify') }
         ],
         city: [
           { required: true, message: this.$t('tip.typeCity'), trigger: 'change' }

@@ -266,6 +266,7 @@ const cn = {
     applcmNameTip: 'App LCM名称不能为空',
     normalVerify: '输入的内容格式不正确',
     hostNameVerify: '4到16位（字母，数字）',
+    edgeNodeNameVerify: '4至16个字符（字母，数字），不能包含特殊符号',
     noSymbol: '不能包含特殊符号',
     coordinates: '坐标不能为空',
     uriVerify: '请填写正确的Uri',
