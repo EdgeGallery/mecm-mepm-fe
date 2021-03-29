@@ -37,8 +37,8 @@
                   style="display: flex; justify-content: center"
                 >
                   <img
-                    class="cp"
-                    src="../assets/images/packageupload.svg"
+                    class="icon-available"
+                    src="../assets/images/package.svg"
                     alt=""
                   >
                 </el-col>
@@ -64,7 +64,7 @@
                   style="display: flex; justify-content: center"
                 >
                   <img
-                    class="cp"
+                    class="icon-distribution"
                     src="../assets/images/distribution.svg"
                     alt=""
                   >
@@ -91,8 +91,8 @@
                   style="display: flex; justify-content: center"
                 >
                   <img
-                    class="cp"
-                    src="../assets/images/application.svg"
+                    class="icon-deployed"
+                    src="../assets/images/deployed.svg"
                     alt=""
                   >
                 </el-col>
@@ -165,7 +165,7 @@
                   <div style="display: flex; flex-direction: column;">
                     <img
                       class="egde-image"
-                      src="../assets/images/cube.svg"
+                      src="../assets/images/edgenode.svg"
                       alt=""
                     >
                     <span>{{ item.mechostName }}</span>
@@ -206,21 +206,6 @@
           </el-carousel>
         </el-col>
       </el-row>
-    </div>
-    <div
-      style="display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    font-size: 8px;
-    color: #aaa;"
-    >
-      Icons made by <a
-        href="https://www.freepik.com"
-        title="Freepik"
-      >Freepik</a> from <a
-        href="https://www.flaticon.com/"
-        title="Flaticon"
-      >www.flaticon.com</a>
     </div>
   </div>
 </template>
@@ -507,6 +492,18 @@ label.overviewLabel{
 }
 .cp{
   width: 75px;
+}
+.icon-available{
+  width: 75px;
+  background-color: #35c7cd;
+}
+.icon-distribution{
+  width: 75px;
+  background-color: #5ddab4;
+}
+.icon-deployed{
+  width: 75px;
+  background-color: #f87875;
 }
 .egde-image{
   width: 50px;
