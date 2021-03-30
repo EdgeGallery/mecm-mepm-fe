@@ -19,7 +19,7 @@
     <div>
       <el-row style=" height: 100%;padding: 0px 40px;width: 100%;margin-top: 80px;">
         <h1 class="section-header">
-          Application Statistics
+          {{ $t('dashboard.applicationStatistics') }}
         </h1>
         <el-col
           :span="24"
@@ -47,7 +47,7 @@
                     <span>{{ packageUploadedCount }}</span>
                   </div>
                   <div style="font-size: small; text-align: center">
-                    <span>Available</span>
+                    <span>{{ $t('dashboard.available') }}</span>
                   </div>
                 </el-col>
               </el-row>
@@ -74,7 +74,7 @@
                     <span>{{ distributedCount }}</span>
                   </div>
                   <div style="font-size: small; text-align: center">
-                    <span>Distributed</span>
+                    <span>{{ $t('dashboard.distributed') }}</span>
                   </div>
                 </el-col>
               </el-row>
@@ -101,7 +101,7 @@
                     <span>{{ deployedCount }}</span>
                   </div>
                   <div style=" font-size: small; text-align: center">
-                    <span>Deployed</span>
+                    <span>{{ $t('dashboard.deployed') }}</span>
                   </div>
                 </el-col>
               </el-row>
@@ -112,7 +112,7 @@
       <el-row style="height: 100%; padding: 40px; width: 100%;">
         <el-col :span="12">
           <h1 class="section-header">
-            Application List
+            {{ $t('dashboard.appList') }}
           </h1>
           <el-table
             :data="tableData"
@@ -122,15 +122,15 @@
           >
             <el-table-column
               prop="appName"
-              :label="$t('Application Name')"
+              :label="$t('dashboard.appName')"
             />
             <el-table-column
               prop="appInstanceId"
-              :label="$t('Application ID')"
+              :label="$t('dashboard.appId')"
             />
             <el-table-column
               prop="Status"
-              :label="$t('Deployment status')"
+              :label="$t('dashboard.deploymentStatus')"
             >
               <template>
                 <span
@@ -145,7 +145,7 @@
           style="padding: 0px 20px"
         >
           <h1 class="section-header">
-            EdgeNodes List
+            {{ $t('dashboard.nodeList') }}
           </h1>
           <el-carousel
             :interval="4000"
@@ -186,7 +186,7 @@
                         @click="showEdgeDetails(item)"
                         :loading="loginBtnLoading"
                       >
-                        {{ $t('Node details') }}
+                        {{ $t('dashboard.nodeDetails') }}
                       </el-button>
                       <el-button
                         class="edge-nodes-button"
@@ -196,7 +196,7 @@
                         @click="showAppDetails(item.mechostIp)"
                         :loading="loginBtnLoading"
                       >
-                        {{ $t('App details') }}
+                        {{ $t('dashboard.appDetails') }}
                       </el-button>
                     </div>
                   </div>

@@ -130,7 +130,7 @@
                   size="small"
                   @click="showDetails(scope.row)"
                 >
-                  {{ $t('Details') }}
+                  {{ $t('edgeNode.detail') }}
                 </el-button>
                 <el-button
                   id="appDetailBtn"
@@ -138,7 +138,7 @@
                   size="small"
                   @click="showAppDetails(scope.row)"
                 >
-                  {{ $t('AppDetails') }}
+                  {{ $t('edgeNode.appDetails') }}
                 </el-button>
               </template>
             </el-table-column>

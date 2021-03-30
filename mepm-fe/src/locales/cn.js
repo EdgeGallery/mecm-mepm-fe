@@ -95,7 +95,8 @@ const cn = {
       pacVersion: '应用版本',
       status: '状态',
       sync: '同步',
-      syncTip: '请至少选择一个应用进行同步！'
+      syncTip: '请至少选择一个应用进行同步！',
+      newPackage: '新的应用程序包'
     },
     distriList: {
       mecHost: 'MEC 主机',
@@ -182,7 +183,9 @@ const cn = {
     edgeNexusPort: 'Edge Repo端口',
     applcmIp: 'App LCM IP',
     k8sUrl: 'K8S URL',
-    monitor: '监控'
+    monitor: '监控',
+    detail: '细节',
+    appDetails: '应用程式详细资料'
   },
   system: {
     appLcm: {
@@ -226,7 +229,8 @@ const cn = {
       hwCapability: '硬件能力',
       coordinates: '坐标',
       chooseLocation: '选择部署位置',
-      vim: '虚拟机'
+      vim: '虚拟机',
+      newEdge: '新边缘'
     }
   },
   common: {
@@ -376,6 +380,19 @@ const cn = {
     shandong: '山东省',
     qingdao: '青岛市',
     haier: '海尔青岛工厂'
+  },
+  dashboard: {
+    nodeDetails: '节点详细信息',
+    appDetails: '申请详情',
+    appList: '应用实例管理',
+    nodeList: '边缘节点',
+    appName: '名称',
+    appId: '应用程式识别码',
+    deploymentStatus: '状态',
+    applicationStatistics: '统计',
+    available: '可用的应用程序包',
+    distributed: '分布式应用',
+    deployed: '部署的应用程序'
   },
   ...zhLocale
 }

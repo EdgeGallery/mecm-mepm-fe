@@ -21,7 +21,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
 let api
-if (window.location.href.indexOf('30096') > -1) {
+if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
 } else {
   api = 'https://' + window.location.host

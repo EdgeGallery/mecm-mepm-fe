@@ -48,9 +48,16 @@ const NavDataCn = [
   },
   {
     'id': '2.3',
-    'name': '边缘节点',
+    'name': '边缘节点管理',
     'path': '/mecm/node/list',
     'pageId': '2.0.2',
+    'display': false
+  },
+  {
+    'id': '2.7',
+    'name': '关于',
+    'path': '/mecm/about',
+    'pageId': '2.0.3',
     'display': false
   }
 ]
