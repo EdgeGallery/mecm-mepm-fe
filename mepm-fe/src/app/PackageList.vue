@@ -34,7 +34,7 @@
           type="primary"
           @click="uploadPackage"
         >
-          {{ $t('New Package') }}
+          {{ $t('app.packageList.newPackage') }}
         </el-button>
       </div>
       <div class="tableDiv">

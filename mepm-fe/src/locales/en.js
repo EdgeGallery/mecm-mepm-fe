@@ -49,7 +49,7 @@ const en = {
     softwareCapa: 'SW Capabilities',
     capa: 'Capabilities',
     vendor: 'Vendor',
-    model: 'Model',
+    model: 'Model :',
     desc: 'Description',
     app: 'App',
     manage: 'Manage',
@@ -58,12 +58,12 @@ const en = {
     services: 'Services',
     containers: 'Containers',
     containerUsage: 'Container Usage',
-    name: 'Name: ',
+    name: 'Name : ',
     register: 'Register',
     alarms: 'Alarms',
     nodeinfo: 'Node Info',
     statistics: 'Statistics',
-    nodeIp: 'Node IP: ',
+    nodeIp: 'IP : ',
     nodeName: 'Node Name: ',
     nodeAddress: 'Node Address: ',
     nodeInfo: 'Node Information',
@@ -96,7 +96,8 @@ const en = {
       pacVersion: 'Package Version',
       status: 'Status',
       sync: 'Sync',
-      syncTip: 'Select at lease one application for synchronization!'
+      syncTip: 'Select at lease one application for synchronization!',
+      newPackage: 'New Package'
     },
     distriList: {
       mecHost: 'MEC Hosts',
@@ -184,7 +185,9 @@ const en = {
     applcmIp: 'App LCM IP',
     k8sUrl: 'K8S URL',
     monitor: 'Monitor',
-    vim: 'VIM'
+    vim: 'VIM',
+    detail: 'Details',
+    appDetails: 'AppDetails'
   },
   system: {
     appLcm: {
@@ -378,6 +381,19 @@ const en = {
     shandong: 'Shandong',
     qingdao: 'Qingdao',
     haier: 'Haier Qingdao'
+  },
+  dashboard: {
+    nodeDetails: 'Node details',
+    appDetails: 'App details',
+    appList: 'Application List',
+    nodeList: 'EdgeNodes List',
+    appName: 'Application Name',
+    appId: 'Application ID',
+    deploymentStatus: 'Deployment status',
+    applicationStatistics: 'Application Statistics',
+    available: 'Available',
+    distributed: 'Distributed',
+    deployed: 'Deployed'
   },
   ...enLocale
 }
