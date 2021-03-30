@@ -38,6 +38,8 @@ const cn = {
     ruleConfiguration: '规则配置'
   },
   overview: {
+    location: '地址',
+    address: '地址：',
     regionEdge: '边缘节点',
     k8sResc: 'K8S资源',
     cpu: 'CPU',
@@ -47,8 +49,9 @@ const cn = {
     mepInfo: 'MEP能力信息',
     softwareCapa: 'MEP软件能力',
     capa: '能力',
-    vendor: '提供商',
-    model: '品牌',
+    vendor: '提供商：',
+    model: '品牌：',
+    type: '型：',
     desc: '描述',
     app: '应用',
     manage: '管理',
@@ -96,7 +99,9 @@ const cn = {
       status: '状态',
       sync: '同步',
       syncTip: '请至少选择一个应用进行同步！',
-      newPackage: '新的应用程序包'
+      newPackage: '新的应用程序包',
+      package: '包裹',
+      uploadPackage: '上传套餐'
     },
     distriList: {
       mecHost: 'MEC 主机',

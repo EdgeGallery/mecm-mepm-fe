@@ -34,23 +34,23 @@
             >
               <el-card class="bg-theme">
                 <h6 class="text-white fs-16">
-                  Node information
+                  {{ $t('overview.nodeInfo') }}
                 </h6>
                 <el-row>
                   <el-col :span="12">
                     <div class="nodeBasicInfo2">
                       <p class="text-white">
-                        <span>{{ $t('Name :') }}</span>{{ nodeBasicInfo.mechostName }}
+                        <span>{{ $t('overview.name') }}</span>{{ nodeBasicInfo.mechostName }}
                       </p>
                       <p class="text-white">
-                        <span>{{ $t('Address :') }}</span>{{ nodeBasicInfo.city }}
+                        <span>{{ $t('overview.address') }}</span>{{ nodeBasicInfo.city }}
                       </p>
                     </div>
                   </el-col>
                   <el-col :span="12">
                     <div class="nodeBasicInfo2">
                       <p class="text-white">
-                        <span>{{ $t('Ip :') }}</span>{{ nodeBasicInfo.mechostIp }}
+                        <span>{{ $t('overview.nodeIp') }}</span>{{ nodeBasicInfo.mechostIp }}
                       </p>
                     </div>
                   </el-col>
@@ -65,7 +65,7 @@
             >
               <el-card>
                 <h6 class="text-muted fs-16">
-                  K8s Resource
+                  {{ $t('overview.k8sResc') }}
                 </h6>
                 <div class="pt-0">
                   <Usage :kpi-info="kpiInfo" />
@@ -82,7 +82,7 @@
                 <el-row class="d-flex align-items-center justify-content-between">
                   <el-col :span="16">
                     <h6 class="text-muted fs-16">
-                      MEP Capabilities
+                      {{ $t('overview.mepInfo') }}
                     </h6>
                   </el-col>
                   <el-col
@@ -103,21 +103,21 @@
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('Type : ') }}</span>{{ hwCapData.hwType }}
+                        <span>{{ $t('overview.type') }}</span>{{ hwCapData.hwType }}
                       </p>
                     </div>
                   </el-col>
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('Model : ') }}</span>{{ hwCapData.hwModel }}
+                        <span>{{ $t('overview.model') }}</span>{{ hwCapData.hwModel }}
                       </p>
                     </div>
                   </el-col>
                   <el-col :span="8">
                     <div class="nodeBasicInfo">
                       <p class="inner-circle-data">
-                        <span>{{ $t('vendor : ') }}</span>{{ hwCapData.hwVendor }}
+                        <span>{{ $t('overview.vendor') }}</span>{{ hwCapData.hwVendor }}
                       </p>
                     </div>
                   </el-col>
@@ -159,7 +159,7 @@
             slot="header"
             class="text-muted fs-16"
           >
-            <span style="font-weight: bold;">Address</span>
+            <span style="font-weight: bold;">{{ $t('overview.location') }}</span>
           </div>
           <Map
             @node="clickNode"
