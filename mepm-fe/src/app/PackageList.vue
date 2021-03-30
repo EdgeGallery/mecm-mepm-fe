@@ -115,7 +115,7 @@
         </div>
         <el-dialog
           :close-on-click-modal="false"
-          :title="$t('Upload package')"
+          :title="$t('app.packageList.uploadPackage')"
           :visible.sync="uploadPkgDialogVisible"
           width="40%"
         >
@@ -127,7 +127,7 @@
               :rules="rules"
             >
               <el-form-item
-                :label="$t('Package')"
+                :label="$t('app.packageList.package')"
                 prop="package"
               >
                 <el-upload

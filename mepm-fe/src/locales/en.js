@@ -39,17 +39,20 @@ const en = {
     ruleConfiguration: 'Rule Configuration'
   },
   overview: {
+    location: 'Address',
+    address: 'Address : ',
     regionEdge: 'Edge Nodes',
     k8sResc: 'K8S Resource',
     cpu: 'CPU',
     mem: 'MEM', // memory
     disk: 'DISK',
-    mepCapa: 'HW Capabilities',
+    mepCapa: 'HW Capabilities : ',
     mepInfo: 'MEP Information',
     softwareCapa: 'SW Capabilities',
     capa: 'Capabilities',
-    vendor: 'Vendor',
+    vendor: 'Vendor : ',
     model: 'Model :',
+    type: 'Type : ',
     desc: 'Description',
     app: 'App',
     manage: 'Manage',
@@ -97,7 +100,9 @@ const en = {
       status: 'Status',
       sync: 'Sync',
       syncTip: 'Select at lease one application for synchronization!',
-      newPackage: 'New Package'
+      newPackage: 'New Package',
+      package: 'Package',
+      uploadPackage: 'Upload Package'
     },
     distriList: {
       mecHost: 'MEC Hosts',
