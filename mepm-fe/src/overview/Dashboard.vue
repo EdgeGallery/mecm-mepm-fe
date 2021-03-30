@@ -223,10 +223,10 @@ export default {
   },
   data () {
     return {
+      retryCount: 3,
       distributedCount: 0,
       deployedCount: 0,
       packageUploadedCount: 0,
-      infoList: [],
       totalNodes: 0,
       nodeList: [],
       tableData: [],
@@ -240,23 +240,21 @@ export default {
     handleSectionClick (section, event) {
       console.log(`${section.label} clicked.`)
     },
-    getTotalNodes () {
-      lcmController.getHostList().then(res => {
-        console.log('get host list', res.data)
-        if (res.data && res.data.length > 0) {
-          this.totalNodes = res.data.length
-          res.data.forEach((item, index) => {
-            this.nodeList.push(item)
-          })
-        }
-      }, error => {
-        this.$message.error(this.$t('tip.getCommonListFailed'))
-        if (error.status === 404 && error.data.details[0] === 'Record not found') {
-          this.$message.error(this.$t('host record not found'))
-        } else {
-          this.$message.error(this.$t('tip.getCommonListFailed'))
-        }
-      })
+    async getTotalNodes () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
+        await lcmController.getHostList().then(res => {
+          if (res.data && res.data.length > 0) {
+            this.totalNodes = res.data.length
+            res.data.forEach((item, index) => {
+              this.nodeList.push(item)
+            })
+            isQuerySuccess = true
+          }
+        }).catch((error) => {
+          console.log('Failed to get host list -> ', error.response)
+        })
+      }
     },
 
     showEdgeDetails (row) {
@@ -264,40 +262,44 @@ export default {
       this.$router.push({ name: 'edge-details', params: row })
     },
 
-    getAppInfo () {
-      lcmController.getInstanceList().then(res => {
-        console.log('get Instance count ->', res.data)
-        this.infoList = res.data
-        if (this.infoList && this.infoList.length > 0) {
-          this.tableData = res.data
-          this.deployedCount = this.infoList.length
-        }
-      }).catch(() => {
-        console.log('Failed to get Instance count')
-      })
+    async getAppInfo () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
+        await lcmController.getInstanceList().then(res => {
+          if (res.data && res.data.length > 0) {
+            this.tableData = res.data
+            this.deployedCount = res.data.length
+            isQuerySuccess = true
+          }
+        }).catch((error) => {
+          console.log('Failed to get Instance count', error.response)
+        })
+      }
     },
 
-    getAppDistributedCount () {
-      lcmController.getDistributionList().then(res => {
-        console.log('distribution count ->', res.data)
-        this.infoList = res.data
+    async getAppDistributedCount () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
         let count = 0
-        if (this.infoList && this.infoList.length > 0) {
-          this.packageUploadedCount = this.infoList.length
-          this.infoList.forEach(item => {
-            if (item.mecHostInfo && item.mecHostInfo.length > 0) {
-              item.mecHostInfo.forEach(host => {
-                if (host.status === 'Distributed') {
-                  count++
-                }
-              })
-            }
-          })
-          this.distributedCount = count
-        }
-      }).catch(() => {
-        console.log('Failed to get distribution count')
-      })
+        await lcmController.getDistributionList().then(res => {
+          if (res.data && res.data.length > 0) {
+            this.packageUploadedCount = res.data.length
+            res.data.forEach(item => {
+              if (item.mecHostInfo && item.mecHostInfo.length > 0) {
+                item.mecHostInfo.forEach(host => {
+                  if (host.status === 'Distributed') {
+                    count++
+                  }
+                })
+              }
+            })
+            this.distributedCount = count
+            isQuerySuccess = true
+          }
+        }).catch((error) => {
+          console.log('Failed to get distribution count', error.response)
+        })
+      }
     }
   }
 }
