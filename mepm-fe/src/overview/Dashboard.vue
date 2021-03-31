@@ -280,18 +280,12 @@ export default {
     async getAppDistributedCount () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        let count = 0
         await lcmController.getDistributionList().then(res => {
+          let count = 0
           if (res.data && res.data.length > 0) {
             this.packageUploadedCount = res.data.length
             res.data.forEach(item => {
-              if (item.mecHostInfo && item.mecHostInfo.length > 0) {
-                item.mecHostInfo.forEach(host => {
-                  if (host.status === 'Distributed') {
-                    count++
-                  }
-                })
-              }
+              count = count + this.getDistributedCountForHost(item)
             })
             this.distributedCount = count
             isQuerySuccess = true
@@ -300,6 +294,18 @@ export default {
           console.log('Failed to get distribution count', error.response)
         })
       }
+    },
+
+    getDistributedCountForHost (resItem) {
+      let count = 0
+      if (resItem.mecHostInfo && resItem.mecHostInfo.length > 0) {
+        resItem.mecHostInfo.forEach(host => {
+          if (host.status === 'Distributed') {
+            count++
+          }
+        })
+      }
+      return count
     }
   }
 }

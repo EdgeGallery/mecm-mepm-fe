@@ -406,23 +406,13 @@ export default {
             origin: 'MEPM'
           }
           this.loading = true
-          if (typeof (params.hostIp) === 'string') {
-            console.log('app deploy params -> ', params)
-            lcmController.instantiateApp(params).then(res => {
-              this.dialogVisible = false
-            }).catch(() => {
-              this.$message.error(this.$t('tip.deployFailed'))
-              this.dialogVisible = false
-            })
-          } else {
-            lcmController.confirmToBatchDeploy(params).then(res => {
-              let instanceIds = res.data.response
-              this.timer = setTimeout(() => { this.batchInstaniateApp(instanceIds) }, 1000)
-            }).catch(() => {
-              this.$message.error(this.$t('tip.deployFailed'))
-              this.dialogVisible = false
-            })
-          }
+          console.log('app deploy params -> ', params)
+          lcmController.instantiateApp(params).then(res => {
+            this.dialogVisible = false
+          }).catch(() => {
+            this.$message.error(this.$t('tip.deployFailed'))
+            this.dialogVisible = false
+          })
         }
       })
     },
@@ -448,21 +438,6 @@ export default {
     },
     instaniateApp (instanceId) {
       lcmController.instantiateApp(instanceId).then(res => {
-        this.handleInstantiateResponse()
-      }).catch(() => {
-        this.$message.error(this.$t('tip.deployFailed'))
-        this.dialogVisible = false
-        this.loading = false
-      })
-    },
-    batchInstaniateApp (instanceId) {
-      let obj = {
-        appInstanceIds: []
-      }
-      instanceId.forEach(item => {
-        obj.appInstanceIds.push(item.appInstanceId)
-      })
-      lcmController.batchInstantiateApp(obj).then(response => {
         this.handleInstantiateResponse()
       }).catch(() => {
         this.$message.error(this.$t('tip.deployFailed'))
