@@ -15,8 +15,6 @@
  */
 
 import axios from 'axios'
-import ElementUI from 'element-ui'
-import i18n from '../locales/i18n.js'
 import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
@@ -32,18 +30,9 @@ let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
-    console.log('response', response)
     return response
   },
   function (error) {
-    console.log('error in interceptors', error)
-    if (error.response.status === 401) {
-      ElementUI.Message.error(i18n.t('tip.loginStatusFailed'))
-      let host = window.location.hostname
-      setTimeout(() => {
-        window.location.href = 'https://' + host + ':30067/index.html?enable_sms=false&return_to=' + window.location.href
-      }, 1500)
-    }
     return Promise.reject(error)
   }
 )
@@ -84,33 +73,6 @@ function getUserId () {
 
 function getRandomAppInstanceId () {
   return uuid.v4()
-}
-
-function getCookie (name) {
-  let arr = []
-  let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-  if (arr === document.cookie.match(reg)) {
-    return (arr[2])
-  } else {
-    return null
-  }
-}
-
-let user = {
-  getUserInfo () {
-    return axios.get('/auth/login-info')
-  },
-  logout () {
-    return axios({
-      method: 'POST',
-      url: '/logout',
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-      }
-    })
-  }
 }
 
 let lcmController = {
@@ -174,9 +136,6 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + getRandomAppInstanceId() +
       '/instantiate', params)
   },
-  batchInstantiateApp (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batch_instantiate', params)
-  },
   getInstanceList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances')
   },
@@ -188,10 +147,6 @@ let lcmController = {
   },
   batchDeleteInstanceApp (params) {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
-  },
-
-  getTaskStatus (id) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/apprule_task_infos/' + id)
   }
 }
 
@@ -216,7 +171,6 @@ export {
   POST,
   PUT,
   DELETE,
-  user,
   lcmController,
   appRuleMgr
 }

@@ -730,7 +730,7 @@ export default {
     },
 
     handleError (error) {
-      if (error.status === 400 && error.data.details[0] === 'Record already exist') {
+      if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
         this.$message.error(error.data.details[0])
       } else if (error.status === 403) {
         this.$message.error(this.$t('tip.loginOperation'))

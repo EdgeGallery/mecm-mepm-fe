@@ -511,7 +511,7 @@ export default {
           )
         }).catch(() => {
           this.loading = false
-          this.$message.error(this.$t('tip.failedToDownload'), 3000)
+          this.$message.error(this.$t('tip.failedToDistribute'), 3000)
         })
       } else {
         this.loading = false

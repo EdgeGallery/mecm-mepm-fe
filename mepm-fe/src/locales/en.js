@@ -30,7 +30,6 @@ const en = {
     mepList: 'MEP List',
     system: 'System',
     externalSysMan: 'External System Manager',
-    applcm: 'App LCM',
     edgeNode: 'Edge Node',
     appDetail: 'App Detail',
     appRule: 'App Rules',
@@ -195,17 +194,6 @@ const en = {
     appDetails: 'AppDetails'
   },
   system: {
-    appLcm: {
-      ip: 'Ip',
-      port: 'Port',
-      manageMecHost: 'Managed MEC Host',
-      userNmae: 'Username',
-      password: 'Password',
-      newReg: 'New Registration',
-      applcmReg: 'App LCM Registration',
-      applcmModify: 'App LCM Modify',
-      name: 'Name'
-    },
     edgeNodes: {
       systemPlatform: 'System',
       ip: 'Ip',
@@ -316,9 +304,8 @@ const en = {
     browserAdvise: 'For sure some functions work well, please use Chrome.',
     confirm: 'Confirm',
     mecHost: 'Please choose the host.',
-    failedToDownload: 'Failed to download package from app store!',
+    failedToDistribute: 'Failed to distribute package!',
     failedToGetList: 'Failed to get node list!',
-    failedToGetAppList: 'Failed to get app list from app store!',
     deployFailed: 'Deploy failed!',
     getListFailed: 'Failed to get distribution list!',
     getNodeListFailed: 'Failed to get node list!',
@@ -332,7 +319,6 @@ const en = {
     telAlSigned: 'The telephone number has been already registered, please change another one.',
     modifyPwd: 'You have successfully reset your password.',
     failedModifyPwd: 'Failed to reset your password.',
-    failedToGetAppStoreList: 'Failed to get app store list!',
     faileToGetInstanceList: 'Failed to get instance list!',
     faileToDeleteNode: 'Failed to delete edge node!',
     faileToUpload: 'Failed to upload config file.',

@@ -82,7 +82,6 @@
 <script>
 import NavData from '../data/NavData.js'
 import NavDataCn from '../data/NavDataCn.js'
-import { user } from '../tools/request.js'
 import Topbar from '../components/Topbar'
 import Topbarsmall from '../components/Topbarsmall'
 export default {
@@ -162,31 +161,8 @@ export default {
         }
       }
     },
-    beforeLogout () {
-      this.$confirm(this.$t('nav.logoutTip'), this.$t('common.warning'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        closeOnClickModal: false,
-        type: 'warning'
-      }).then(() => {
-        this.logout()
-      })
-    },
     jumpLogoTo () {
       this.$router.push('/')
-    },
-    logout () {
-      sessionStorage.removeItem('before_route')
-      sessionStorage.clear()
-      user.logout().then(res => {
-        window.location.href = window.location.href.indexOf('https') > -1
-          ? this.loginPage + '&return_to=' + 'https://' + window.location.host
-          : this.loginPage + '&return_to=' + 'http://' + window.location.host
-      }).catch(error => {
-        if (error.response.status === 401) {
-          location.reload()
-        }
-      })
     }
   }
 }

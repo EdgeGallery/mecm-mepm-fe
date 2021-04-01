@@ -30,7 +30,6 @@ const cn = {
     mepList: 'MEP列表',
     system: '系统',
     externalSysMan: '外部系统管理',
-    applcm: 'App LCM注册系统',
     edgeNode: '边缘节点注册系统',
     appRule: 'App Rule MGR 注册系统',
     appDetail: '应用详情',
@@ -193,17 +192,6 @@ const cn = {
     appDetails: '应用程式详细资料'
   },
   system: {
-    appLcm: {
-      ip: 'IP地址',
-      port: '端口',
-      manageMecHost: 'MEC主机管理',
-      userNmae: '用户名',
-      password: '密码',
-      newReg: '新增注册',
-      applcmReg: 'App LCM注册',
-      applcmModify: 'App LCM编辑',
-      name: '名称'
-    },
     edgeNodes: {
       systemPlatform: '系统',
       ip: 'IP地址',
@@ -315,9 +303,8 @@ const cn = {
     browserAdvise: '为了部分功能正常使用，我们建议使用Chrom浏览器！',
     confirm: '确认',
     mecHost: '请选择要下发的host节点！',
-    failedToDownload: '从应用商店下载应用失败！',
+    failedToDistribute: '无法分发包裹!',
     failedToGetList: '获取节点列表失败！',
-    failedToGetAppList: '获取应用列表失败！',
     deployFailed: '部署失败，请检查！',
     getListFailed: '获取分发列表失败！',
     getNodeListFailed: '获取节点列表失败！',
@@ -331,7 +318,6 @@ const cn = {
     telAlSigned: '电话号码已被注册，请重新输入或前往登录',
     modifyPwd: '重置密码成功，请登录',
     failedModifyPwd: '重置密码失败',
-    failedToGetAppStoreList: '获取应用商店列表失败',
     faileToGetInstanceList: '获取应用实例列表失败',
     faileToDeleteNode: '删除node失败!',
     faileToUpload: '上传config文件失败',
