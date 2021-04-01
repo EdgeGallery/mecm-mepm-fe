@@ -237,9 +237,7 @@ export default {
     async showAppDetails (hostIp) {
       window.open('http://' + hostIp + ':30095')
     },
-    handleSectionClick (section, event) {
-      console.log(`${section.label} clicked.`)
-    },
+
     async getTotalNodes () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
@@ -319,9 +317,11 @@ export default {
   background: #efefef;
   margin-bottom: 10px;
 }
+
 .mt-60 {
   margin-top: 60px !important;
 }
+
 .stats-card {
   padding: 20px;
   height: 100px;
@@ -332,22 +332,26 @@ export default {
     padding: 5px 15px;
   }
 }
+
 .edge-nodes-card {
   padding: 20px;
   .el-card {
     border-radius: 25px;
   }
 }
+
 .el-carousel__container {
   position: relative;
   height: 200px;
   overflow: hidden
 }
+
 .edge-card {
   background-image: linear-gradient(45deg, #2d67a5, #437cf7);
   color: white;
   padding: 15px;
 }
+
 .node-stats-card {
   padding: 20px;
   display: flex;
@@ -357,172 +361,57 @@ export default {
     border-radius: 5px;
   }
 }
+
 .edge-nodes-button {
   width: 100px;
   color: #00e7ff;
 }
-.mecm-overview {
-  position: absolute;
-  top: 65px;
-  width: 100%;
-  height:calc(100% - 65px);
-  overflow: auto;
-  background:#f5f5f5;
-  background-size: cover;
-  box-sizing: border-box;
-}
-label.overviewLabel{
-  font-family: PingFangSC-Medium,sans-serif;
-  font-size: 20px;
-  color: #FFFFFF;
-  letter-spacing: 0;
-  line-height: 24px;
-  display: block;
-  padding:8px 0;
-  background: #494b4e;
-  padding-left: 8px;
-}
+
 .mt20 {
   margin-top: 20px;
 }
+
 .ml20 {
   margin-left: 20px;
 }
+
 .el-table td, .el-table th{
   padding:5px 0;
 }
-.nodeBasicInfo{
-  color:#F5F5F5;
-  padding: 0 0 25px 0;
-  margin-top: 15px;
-  p{
-    font-size: 16px;
-    line-height: 32px;
-    padding: 0 10px;
-    span{
-      display: inline-block;
-      color:#c0c4cc;
-    }
-  }
-}
-.content-right {
-  padding: 0!important;
-  background: #2f2d2d;
-  height: 100%;
-  .my-title {
-    color: white;
-  }
-  .edge-souces {
-    padding: 15px 15px 0 15px;
-    .el-table {
-      border-color: #2395db !important;
-      color: white;
-      .el-table__row:nth-child(2n) {
-        background: #102238 !important;
-      }
-      .el-table__row:nth-child(2n + 1) {
-        background: #2D4868 !important;
-      }
-      td {
-        padding: 3px 0;
-        .cell {
-          line-height: 30px !important;
-        }
-      }
-      .headerClassName {
-        th {
-          background: #152437 !important;
-          color: #F5F5F5;
-        }
-        .cell::before{
-          content:'';
-          display:inline-block;
-          height:13px;
-          width:2px;
-          background: #f5f5f5;
-          margin-right:4px;
-          position: relative;
-          top:3px;
-        }
-      }
-    }
-    .el-table::before,
-    .el-table--border::after {
-      height: 0 !important;
-    }
-    .el-table--border th {
-      border-right: 1px solid #2395db !important;
-    }
-    .el-table tbody tr:hover > td {
-      background-color: transparent;
-    }
-    .el-table td, .el-table th.is-leaf{
-      border-bottom: none;
-    }
-    .el-select {
-      .el-input {
-        input {
-          background-color: transparent;
-          border: 1px solid #2395db;
-          color: white;
-        }
-        .el-input__suffix {
-          i {
-            color: white;
-          }
-        }
-      }
-    }
-    .el-button {
-      background-color: #2c58a6;
-      border-color: #0263ff;
-    }
-  }
-}
+
 .headerClassName{
   font-size: 13px;
 }
-.hwCapData{
-  margin-top:15px;
-}
+
 .appInstanceTable{
   max-height: 185px;
   overflow-y: auto;
 }
-.nodelistTable{
-  max-height: 350px;
-  overflow-y: auto;
-}
-.image {
-  width: 64px;
-  height: 64px;
-  display: block;
-}
-.cp{
-  width: 75px;
-}
+
 .icon-available{
   width: 75px;
   background-color: #35c7cd;
 }
+
 .icon-distribution{
   width: 75px;
   background-color: #5ddab4;
 }
+
 .icon-deployed{
   width: 75px;
   background-color: #f87875;
 }
+
 .egde-image{
   width: 50px;
   height: 50px;
 }
-.fs-16 {
-  font-size: 16px !important;
-}
+
 .text-muted {
   color: #474c56;
 }
+
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;

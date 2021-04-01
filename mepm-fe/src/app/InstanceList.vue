@@ -278,7 +278,7 @@ export default {
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
-        if (error.status === 404 && error.data.details[0] === 'Record not found') {
+        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
           this.tableData = this.paginationData = []
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))
@@ -326,7 +326,7 @@ export default {
         this.dialogVisible = true
       }).catch((error) => {
         console.log('error response -> ', error)
-        if (error.status === 404) {
+        if (error.response.status === 404) {
           this.$message.warning(this.$t('tip.getStatusDelay'))
         } else {
           this.$message.error('Network Error')
