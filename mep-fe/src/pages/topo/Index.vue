@@ -37,28 +37,28 @@ function addSubscribLinks (subscribeRes, nodesMap, linksMap) {
     for(let i=0;i<len;i++) {
       let appId=subscribeRes.data.subscribeRelations[i].subscribeAppId
       let serviceIds=subscribeRes.data.subscribeRelations[i].serviceList
-      addOneSubscribLink(serviceIds, nodesMap, appId, linksMap)
+      addOneAppSubscribLink(serviceIds, nodesMap, appId, linksMap)
     }
   }
 }
 
-function addOneSubscribLink(serviceIds, nodesMap, appId, linksMap) {
+function addOneAppSubscribLink(serviceIds, nodesMap, appId, linksMap) {
   let serviceslen=serviceIds.length
-  let appIndexInNodesMap=nodesMap.get(appId).index
-  let appName=nodesMap.get(appId).name
-  if(serviceslen>0) {
-    for(let j=0;j<serviceslen;j++) {
-      let linkId=appId+'_'+serviceIds[j]+'_subscribeRelation'
-      if(!linksMap.has(linkId)) {
+  let appInNodesMap = nodesMap.get(appId)
+  if (appInNodesMap && serviceslen > 0) {
+    for(let j = 0;j < serviceslen; j++) {
+      let linkId = appId + '_' + serviceIds[j] + '_subscribeRelation'
+      let service = nodesMap.get(serviceIds[j])
+      if((!linksMap.has(linkId)) && service) {
         linksMap.set(linkId, {
-          source: appIndexInNodesMap,
-          target: nodesMap.get(serviceIds[j]).index,
+          source: appInNodesMap.index,
+          target: service.index,
           category: 1,
           value: '',
-          sourceName: appName,
-          targetName: nodesMap.get(serviceIds[j]).name,
+          sourceName: appInNodesMap.name,
+          targetName: service.name,
           lineStyle: {
-            color: getColorByState(nodesMap.get(serviceIds[j]).state),
+            color: getColorByState(service.state),
             type: 'dashed',
             width: 2,
             curveness: 0.3 // 和从属关系的曲度不同，以免和从属的线重叠
