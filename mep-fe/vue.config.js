@@ -9,7 +9,7 @@ module.exports = {
       proxy: {
           //配置跨域-将所有/api的请求拦截，代理到target上
           '/api': {
-              target: "https://119.8.47.5:30448",
+              target: "https://127.0.0.1:30448",
               changOrigin:true,
               pathRewrite:{ //---->>>并将/api换成/
                   '^/api':'' 
