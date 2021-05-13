@@ -170,7 +170,7 @@ export default {
 
 <style lang='less' scoped>
 .navgation{
-  background: #282B33;
+  background: #280B4E;
   height: 65px;
   top: 0px;
   width: 100%;
@@ -185,17 +185,6 @@ export default {
       position: relative;
       top: 0px;
       width:150px;
-    }
-    span{
-      position: relative;
-      top:-28px;
-      font-size: 18px;
-      color:#ffffff;
-      left:20px;
-      cursor:pointer;
-    }
-    span.blue{
-      color:#409EFF;
     }
   }
   .language {

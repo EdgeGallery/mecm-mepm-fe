@@ -24,6 +24,7 @@ if (window.location.href.indexOf('30097') > -1) {
 } else {
   api = 'https://' + window.location.host
 }
+api = 'https://' + '192.168.100.36'
 
 let lcmcontrollerApi = api + ':30204' + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
