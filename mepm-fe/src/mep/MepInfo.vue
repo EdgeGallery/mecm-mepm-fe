@@ -1,18 +1,43 @@
 <template>
   <div class="box">
-    <div class="tab inner-page-padding" ref="tab">
-      <div class="tab-item" v-for="(item, index) in tabs" :key="index">
-        <div :class="{ active: active === index }" @click="switchTab(index)">
-          {{ item }}
-        </div>
+    <el-row class="tab inner-page-padding" ref="tab">
+      <div v-for="(item, index) in tabs" :key="index" class="tab-item" :class="{ active: active === index, tabgap: index > 0 }" @click="switchTab(index)">
+        {{ item }}
       </div>
-    </div>
-    <div class="tab-gap-con" />
-    <div class="cont inner-page-padding" ref="cont">
-      <div class="cont_1" ref="cont_1">内容一</div>
+    </el-row>
+    <el-row class="tab-gap-con" />
+    <el-row class="cont inner-page-padding" ref="cont">
+      <div class="cont_1" ref="cont_1">
+        <el-row :gutter="44" class="row-statics">
+          <el-col class="app-count-col" :span="6">
+            <span>应用数量：</span>
+            <span class="statics-val">200</span>
+            <span>个</span>
+          </el-col>
+          <el-col class="service-count-col" :span="6">
+            <span>服务数量：</span>
+            <span class="statics-val">200</span>
+            <span>个</span>
+          </el-col>
+          <el-col class="described-count-col" :span="6">
+            <span>被订阅服务：</span>
+            <span class="statics-val">200</span>
+            <span>个</span>
+          </el-col>
+          <el-col class="describe-count-col" :span="6">
+            <span>订阅应用：</span>
+            <span class="statics-val">200</span>
+            <span>个</span>
+          </el-col>
+        </el-row>
+        <el-row class="mep-ability-title">MEP自身能力</el-row>
+        <hr class="mep-ability-line"/>
+        <el-row class="mep-ability-title">边缘节点服务详细信息</el-row>
+        <hr class="mep-ability-line"/>
+      </div>
       <div class="cont_2" ref="cont_2">内容二</div>
       <div class="cont_3" ref="cont_3">内容三</div>
-    </div>
+    </el-row>
     <div class="back-top" @click="backTop"></div>
   </div>
 </template>
@@ -82,23 +107,28 @@ export default {
 }
 .box {
   margin-top: 65px;
-  overflow-x: auto;
-  height: 100vh;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
+//   overflow-x: auto;
+//   height: 100vh;
+//   display: -webkit-flex;
+//   display: flex;
+//   flex-direction: column;
+//   flex-grow: 1;
+//   flex-wrap: wrap;
   .tab {
+//     position: fixed;
     height: 70px;
-    background: #fff;
     line-height: 70px;
-    color: #696969;
-    display: -webkit-flex;
+//     display: -webkit-flex;
     display: flex;
-    justify-content: space-around;
-    z-index: 2;
+    align-items: center;
+//     z-index: 2;
     font-size: 18px;
+    color: #696969;
     .tab-item{
       cursor: pointer;
+    }
+    .tabgap{
+      padding-left: 44px;
     }
     .active {
       color: #280B4E;
@@ -114,33 +144,67 @@ export default {
     }
   }
   .tab-gap-con{
-    width: 100%;
     height: 10px;
     background: #F2F3F5;
   }
   .cont {
-    height: 300px;
-    flex-grow: 1;
-    overflow: auto;
+    padding-top: 10px;
+//     height: 300px;
+//     flex-grow: 1;
+//     overflow: auto;
     .cont_1 {
-      height: 400px;
+      // height: 400px;
+      .row-statics{
+        .app-count-col{
+          background: no-repeat url("../assets/images/app_cnt_bg.png");
+          background-size: 100% 100%;
+        }
+        .service-count-col{
+          background: no-repeat url("../assets/images/service_cnt_bg.png");
+          background-size: 100% 100%;
+        }
+        .described-count-col{
+          background: no-repeat url("../assets/images/described_cnt_bg.png");
+          background-size: 100% 100%;
+        }
+        .describe-count-col{
+          background: center / contain no-repeat url("../assets/images/describe_cnt_bg.png");
+          background-size: 100% 100%;
+        }
+        font-size: 16px;
+        line-height: 60px;
+        .statics-val{
+          font-size: 24px;
+        }
+      }
+      .mep-ability-title{
+        padding-top: 10px;
+        font-size: 18px;
+        color:#280B4E;
+        line-height: 30px;
+      }
+      .mep-ability-line{
+        height: 2px;
+        background-color: #F2F3F5;
+        border: none;
+      }
     }
-    .cont_2 {
-      height: 800px;
-    }
-    .cont_3 {
-      height: 100%;
-    }
-  }
-  .back-top {
-    width: 80px;
-    height: 80px;
-    background: url(../assets/images/back-top.png) center / 100%
-      100% no-repeat;
-    border-radius: 50%;
-    position: fixed;
-    bottom: 120px;
-    right: 32px;
+//     .cont_2 {
+//       height: 800px;
+//     }
+//     .cont_3 {
+//       height: 100%;
+//     }
+//   }
+//   .back-top {
+//     width: 80px;
+//     height: 80px;
+//     background: url(../assets/images/back-top.png) center / 100%
+//       100% no-repeat;
+//     border-radius: 50%;
+//     position: fixed;
+//     bottom: 120px;
+//     right: 32px;
   }
 }
 </style>
