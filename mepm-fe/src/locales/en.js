@@ -386,6 +386,31 @@ const en = {
     distributed: 'Distributed',
     deployed: 'Deployed'
   },
+  CAPABILITIES_PAGE: {
+    PAGE_DESC: 'Capabilities of an edge node and the number of times that the edge node is invoked in the last seven datys',
+    CAPABILITY_SERVICE_REGISTRATION: 'Service Registration',
+    CAPABILITY_SERVICE_DISCOVERY: 'Service Discovery',
+    CAPABILITY_DNS: 'DNS Capability',
+    CAPABILITY_LOCATION: 'Positioning Capability',
+    CAPABILITY_FACE_RECOGNITION: 'Face Recognition Capability',
+    CAPABILITY_SERVICE_REGISTRATION_DESC: 'Registers services to MEP',
+    CAPABILITY_SERVICE_DISCOVERY_DESC: 'Provides the application with the service registed on the MEP',
+    CAPABILITY_DNS_DESC: 'Provides the domain name resolution capability for applications',
+    CAPABILITY_LOCATION_DESC: 'Provides location service for applications',
+    CAPABILITY_FACE_RECOGNITION_DESC: 'Upload a photo for facial recognition and return the location of the face to be recognized',
+    CARD_DESC: 'Use Times in Last 7 Days',
+    MEP_SELF_CAPABILITY: 'MEP Capablities',
+    APP_CAPABILITY: 'APP Capabilities'
+  },
+  SERVICE_PAGE: {
+    PAGE_DESC: 'Edge Node Service Details',
+    TABLE_HEADER_SERVICE_NAME: 'Service Name',
+    TABLE_HEADER_SERVICE_STATUS: 'Service Status',
+    TABLE_HEADER_APP_NAME: 'Application Name',
+    TABLE_HEADER_SERVICE_VERSION: 'Service Version',
+    TABLE_HEADER_SERVICE_ID: 'Service ID',
+    NO_DATA_NOTICE: 'No data available.'
+  },
   ...enLocale
 }
 

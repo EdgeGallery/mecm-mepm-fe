@@ -28,6 +28,9 @@ import VCharts from 'v-charts'
 import { pcaa } from 'area-data-vue'
 import AreaLinkageVue from 'area-linkage-vue'
 import UUID from 'vue-uuid'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
+
 Vue.prototype.showMessage = function (type, msg, time) {
   ElementUI.Message({
     showClose: true,
@@ -42,6 +45,7 @@ Vue.use(AreaLinkageVue)
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 Vue.use(UUID)
+Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 
 new Vue({

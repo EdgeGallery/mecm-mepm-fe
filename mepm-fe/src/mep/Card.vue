@@ -27,9 +27,10 @@
         {{ desc }}
       </div>
     </div>
-    <div class="chartName">
-      {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
-    </div>
+    <!-- <span class="cardName">{{ name }}</span>
+    <div class="shortDesc">
+      {{ desc }}
+    </div> -->
     <div
       class="chartsDiv"
       :class="'charts-'+id"
@@ -71,7 +72,7 @@ export default {
       let myChart = echarts.init(document.getElementById('charts-' + this.id))
       myChart.setOption(this.option, true)
     },
-    getDay (n) { 
+    getDay (n) {
       let today = new Date()
       let milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * n
       today.setTime(milliseconds)
@@ -111,19 +112,43 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+.el-card /deep/ .el-card__body {
+  margin: -50px 0 0 0;
+}
 .box-card{
   width: 100%;
-  height: 100%;
+  height: 90%;
   text-align: left;
+  border: none;
+  box-shadow: 0px 1px 21px 0px rgba(201, 181, 228, 0.4);
+  border-radius: 4px;
 }
 .cardName{
-  font-weight: 600;
+  height: 15px;
+  font-size: 14px;
+  font-family: FZLanTingHeiS-L-GB;
+  font-weight: bold;
+  color: #280B4E;
+  line-height: 19px;
+}
+.cardName::before{
+  content:'';
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-right:3px;
+  background: #280B4E;
+  position: relative;
 }
 .shortDesc{
-  padding-top: 5px;
+  padding-top: 8px;
   padding-left: 10px;
+  height: 16px;
   font-size: 14px;
-  font-weight: normal;
+  font-family: FZLanTingHeiS-L-GB;
+  font-weight: 400;
+  color: #A8A5AD;
+  line-height: 19px;
 }
 .chartsDiv{
   height:250px;

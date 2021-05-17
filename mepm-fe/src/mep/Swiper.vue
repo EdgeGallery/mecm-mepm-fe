@@ -29,12 +29,22 @@
         :id="item.id"
         :call-times="item.callTimes"
       />
+      <div class="chartName">
+        {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
+      </div>
     </swiper-slide>
     <div
       class="swiper-pagination"
-      slot="pagination"></div>
-    <div class="swiper-button-prev" slot="button-prev"></div>
-    <div class="swiper-button-next" slot="button-next"></div>
+      slot="pagination"
+    />
+    <div
+      class="swiper-button-prev"
+      slot="button-prev"
+    />
+    <div
+      class="swiper-button-next"
+      slot="button-next"
+    />
   </swiper>
 </template>
 
@@ -49,9 +59,9 @@ export default {
       swiperOption: {
         observeSlideChildren: true,
         observer: true,
-        slidesPerView: 3,
-        spaceBetween: 30,
-        slidesPerGroup: 3,
+        slidesPerView: 2,
+        spaceBetween: 45,
+        slidesPerGroup: 2,
         loop: false,
         loopFillGroupWithBlank: false,
         pagination: {
@@ -80,16 +90,34 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.swiper-container{
+  overflow: unset;
+}
 .swiper {
-  height: 421px;
+  // height: 421px;
+  height: 308.5px;
   width: 100%;
   .swiper-slide {
-    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-weight: bold;
     background-color: white;
+    .chartName {
+      margin-top: 11px;
+      height: 13px;
+      font-size: 12px;
+      font-family: FZLanTingHeiS-EL-GB;
+      font-weight: 400;
+      color: #999999;
+      line-height: 22px;
+    }
+  }
+  .swiper-button-prev {
+    margin-left: -60px;
+  }
+  .swiper-button-next {
+    margin-right: -60px;
   }
 }
 </style>

@@ -1,48 +1,104 @@
 <template>
   <div class="box">
-    <el-row class="tab inner-page-padding" ref="tab">
-      <div v-for="(item, index) in tabs" :key="index" class="tab-item" :class="{ active: active === index, tabgap: index > 0 }" @click="switchTab(index)">
+    <el-row
+      class="tab inner-page-padding"
+      ref="tab"
+    >
+      <div
+        v-for="(item, index) in tabs"
+        :key="index"
+        class="tab-item"
+        :class="{ active: active === index, tabgap: index > 0 }"
+        @click="switchTab(index)"
+      >
         {{ item }}
       </div>
     </el-row>
     <el-row class="tab-gap-con" />
-    <el-row class="cont inner-page-padding" ref="cont">
-      <div class="cont_1" ref="cont_1">
-        <el-row :gutter="44" class="row-statics">
-          <el-col class="app-count-col" :span="6">
+    <el-row
+      class="cont inner-page-padding"
+      ref="cont"
+      @scroll.passive="onScroll"
+    >
+      <div
+        class="cont_1"
+        ref="cont_1"
+      >
+        <el-row
+          :gutter="44"
+          class="row-statics"
+        >
+          <el-col
+            class="app-count-col"
+            :span="6"
+          >
             <span>应用数量：</span>
             <span class="statics-val">200</span>
             <span>个</span>
           </el-col>
-          <el-col class="service-count-col" :span="6">
+          <el-col
+            class="service-count-col"
+            :span="6"
+          >
             <span>服务数量：</span>
             <span class="statics-val">200</span>
             <span>个</span>
           </el-col>
-          <el-col class="described-count-col" :span="6">
+          <el-col
+            class="described-count-col"
+            :span="6"
+          >
             <span>被订阅服务：</span>
             <span class="statics-val">200</span>
             <span>个</span>
           </el-col>
-          <el-col class="describe-count-col" :span="6">
+          <el-col
+            class="describe-count-col"
+            :span="6"
+          >
             <span>订阅应用：</span>
             <span class="statics-val">200</span>
             <span>个</span>
           </el-col>
         </el-row>
-        <el-row class="mep-ability-title">MEP自身能力</el-row>
-        <hr class="mep-ability-line"/>
-        <el-row class="mep-ability-title">边缘节点服务详细信息</el-row>
-        <hr class="mep-ability-line"/>
+        <el-row class="mep-ability-title">
+          MEP自身能力
+        </el-row>
+        <hr class="mep-ability-line">
+        <swiper :data="mepCapabilityies" />
+        <el-row class="mep-ability-title">
+          边缘节点服务详细信息
+        </el-row>
+        <hr class="mep-ability-line">
+        <service-list />
+        <swiper :data="appCapabilityies" />
       </div>
-      <div class="cont_2" ref="cont_2">内容二</div>
-      <div class="cont_3" ref="cont_3">内容三</div>
+      <div
+        class="cont_2"
+        ref="cont_2"
+      >
+        内容二
+      </div>
+      <div
+        class="cont_3"
+        ref="cont_3"
+      >
+        内容三
+      </div>
     </el-row>
-    <div class="back-top" @click="backTop"></div>
+    <div
+      class="back-top"
+      @click="backTop"
+    />
   </div>
 </template>
 <script>
+import Swiper from './Swiper.vue'
+import ServiceList from './ServiceList'
+import axios from 'axios'
+
 export default {
+  components: { Swiper, ServiceList },
   data () {
     return {
       tabs: ['边缘节点的应用和服务概况信息', '拓扑图展示', '其他'],
@@ -50,7 +106,9 @@ export default {
       cont1: null,
       cont2: null,
       cont3: null,
-      isClickTab: false
+      isClickTab: false,
+      mepCapabilityies: [],
+      appCapabilityies: []
     }
   },
   methods: {
@@ -77,14 +135,12 @@ export default {
           behavior: 'smooth'
         })
       }
-    }
-  },
-  mounted () {
-    this.cont1 = this.$refs['cont_1']
-    this.cont2 = this.$refs['cont_2']
-    this.cont3 = this.$refs['cont_3']
-    const tabH = this.$refs['tab'].offsetHeight
-    this.$refs['cont'].addEventListener('scroll', () => {
+    },
+    onScroll () {
+      this.cont1 = this.$refs['cont_1']
+      this.cont2 = this.$refs['cont_2']
+      this.cont3 = this.$refs['cont_3']
+      const tabH = this.$refs['tab'].offsetHeight
       if (this.cont3.getBoundingClientRect().top <= tabH) {
         this.active = 2
         return false
@@ -96,7 +152,29 @@ export default {
       if (this.cont1.getBoundingClientRect().top <= tabH) {
         this.active = 0
       }
+    }
+  },
+  beforeMount () {
+    axios('./ability.json').then((res) => {
+      let appServices = res.data.appServices
+      appServices.forEach((element, index) => {
+        element.id = element.name + index
+        element.callTimes.reverse()
+      })
+      this.appCapabilityies = appServices
+      let mepServices = res.data.mepServices
+      mepServices.forEach((element, index) => {
+        element.id = element.name + index
+        element.callTimes.reverse()
+      })
+      this.mepCapabilityies = mepServices
+      this.refreshShownWithLan()
     })
+  },
+  mounted () {
+    this.cont1 = this.$refs['cont_1']
+    this.cont2 = this.$refs['cont_2']
+    this.cont3 = this.$refs['cont_3']
   }
 }
 </script>
@@ -178,7 +256,7 @@ export default {
         }
       }
       .mep-ability-title{
-        padding-top: 10px;
+        margin-top: 39px;
         font-size: 18px;
         color:#280B4E;
         line-height: 30px;
@@ -187,6 +265,7 @@ export default {
         height: 2px;
         background-color: #F2F3F5;
         border: none;
+        margin-bottom: 28px;
       }
     }
 //     .cont_2 {
