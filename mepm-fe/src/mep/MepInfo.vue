@@ -24,6 +24,20 @@
         class="cont_1"
         ref="cont_1"
       >
+        <div class="parent">
+          <div class="child">
+            1
+          </div>
+          <div class="child">
+            2
+          </div>
+          <div class="child">
+            3
+          </div>
+          <div class="child">
+            4
+          </div>
+        </div>
         <el-row
           :gutter="44"
           class="row-statics"
@@ -179,6 +193,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.parent{
+  display: grid;
+  grid-gap: 44px;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 60px;
+  
+}
 .inner-page-padding{
   padding: 0 360px 0 360px;
   background-color: #FFFFFF;
@@ -233,6 +254,12 @@ export default {
     .cont_1 {
       // height: 400px;
       .row-statics{
+        font-size: 16px;
+        line-height: 60px;
+        text-align: center;
+        .statics-val{
+          font-size: 24px;
+        }
         .app-count-col{
           background: no-repeat url("../assets/images/app_cnt_bg.png");
           background-size: 100% 100%;
@@ -248,11 +275,6 @@ export default {
         .describe-count-col{
           background: center / contain no-repeat url("../assets/images/describe_cnt_bg.png");
           background-size: 100% 100%;
-        }
-        font-size: 16px;
-        line-height: 60px;
-        .statics-val{
-          font-size: 24px;
         }
       }
       .mep-ability-title{
