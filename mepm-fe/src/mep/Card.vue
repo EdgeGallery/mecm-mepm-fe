@@ -27,10 +27,6 @@
         {{ desc }}
       </div>
     </div>
-    <!-- <span class="cardName">{{ name }}</span>
-    <div class="shortDesc">
-      {{ desc }}
-    </div> -->
     <div
       class="chartsDiv"
       :class="'charts-'+id"
@@ -113,7 +109,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .el-card /deep/ .el-card__body {
-  margin: -50px 0 0 0;
+  margin: -30px 0 0 0;
 }
 .box-card{
   width: 100%;
@@ -136,13 +132,13 @@ export default {
   display:inline-block;
   width:6px;
   height:6px;
-  margin-right:3px;
+  margin-right:8px;
   background: #280B4E;
   position: relative;
 }
 .shortDesc{
   padding-top: 8px;
-  padding-left: 10px;
+  padding-left: 14px;
   height: 16px;
   font-size: 14px;
   font-family: FZLanTingHeiS-L-GB;

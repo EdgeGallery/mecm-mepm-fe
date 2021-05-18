@@ -64,10 +64,10 @@ export default {
         slidesPerGroup: 2,
         loop: false,
         loopFillGroupWithBlank: false,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
-        },
+        // pagination: {
+        //   el: '.swiper-pagination',
+        //   clickable: true
+        // },
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
@@ -94,8 +94,7 @@ export default {
   overflow: unset;
 }
 .swiper {
-  // height: 421px;
-  height: 308.5px;
+  height: 357px;
   width: 100%;
   .swiper-slide {
     justify-content: center;
@@ -110,11 +109,13 @@ export default {
       font-family: FZLanTingHeiS-EL-GB;
       font-weight: 400;
       color: #999999;
-      line-height: 22px;
+      line-height: 12px;
     }
   }
   .swiper-button-prev {
     margin-left: -60px;
+    // background: url("../assets/images/back-top.png"); // swiper相关定制
+    // background-color: white;
   }
   .swiper-button-next {
     margin-right: -60px;

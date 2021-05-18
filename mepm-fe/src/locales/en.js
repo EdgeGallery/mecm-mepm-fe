@@ -409,7 +409,9 @@ const en = {
     TABLE_HEADER_APP_NAME: 'Application Name',
     TABLE_HEADER_SERVICE_VERSION: 'Service Version',
     TABLE_HEADER_SERVICE_ID: 'Service ID',
-    NO_DATA_NOTICE: 'No data available.'
+    NO_DATA_NOTICE: 'No data available.',
+    TABLE_HEADER_APP_VERSION: 'Application Version',
+    TABLE_HEADER_OPERATION: 'Operation'
   },
   ...enLocale
 }

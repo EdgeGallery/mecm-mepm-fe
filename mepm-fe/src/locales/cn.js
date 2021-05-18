@@ -408,7 +408,9 @@ const cn = {
     TABLE_HEADER_APP_NAME: '所属应用',
     TABLE_HEADER_SERVICE_VERSION: '服务版本',
     TABLE_HEADER_SERVICE_ID: '服务ID',
-    NO_DATA_NOTICE: '暂无数据'
+    NO_DATA_NOTICE: '暂无数据',
+    TABLE_HEADER_APP_VERSION: '应用版本',
+    TABLE_HEADER_OPERATION: '操作'
   },
   ...zhLocale
 }

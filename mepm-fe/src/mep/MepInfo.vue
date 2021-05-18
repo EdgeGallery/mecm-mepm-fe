@@ -25,56 +25,27 @@
         ref="cont_1"
       >
         <div class="parent">
-          <div class="child">
-            1
-          </div>
-          <div class="child">
-            2
-          </div>
-          <div class="child">
-            3
-          </div>
-          <div class="child">
-            4
-          </div>
-        </div>
-        <el-row
-          :gutter="44"
-          class="row-statics"
-        >
-          <el-col
-            class="app-count-col"
-            :span="6"
-          >
+          <div class="child app-count-col">
             <span>应用数量：</span>
             <span class="statics-val">200</span>
             <span>个</span>
-          </el-col>
-          <el-col
-            class="service-count-col"
-            :span="6"
-          >
+          </div>
+          <div class="child service-count-col">
             <span>服务数量：</span>
             <span class="statics-val">200</span>
             <span>个</span>
-          </el-col>
-          <el-col
-            class="described-count-col"
-            :span="6"
-          >
+          </div>
+          <div class="child described-count-col">
             <span>被订阅服务：</span>
             <span class="statics-val">200</span>
             <span>个</span>
-          </el-col>
-          <el-col
-            class="describe-count-col"
-            :span="6"
-          >
+          </div>
+          <div class="child describe-count-col">
             <span>订阅应用：</span>
             <span class="statics-val">200</span>
             <span>个</span>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
         <el-row class="mep-ability-title">
           MEP自身能力
         </el-row>
@@ -85,7 +56,7 @@
         </el-row>
         <hr class="mep-ability-line">
         <service-list />
-        <swiper :data="appCapabilityies" />
+        <!-- <swiper :data="appCapabilityies" /> -->
       </div>
       <div
         class="cont_2"
@@ -193,34 +164,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.parent{
-  display: grid;
-  grid-gap: 44px;
-  grid-template-columns: 25% 25% 25% 25%;
-  grid-template-rows: 60px;
-  
-}
 .inner-page-padding{
   padding: 0 360px 0 360px;
   background-color: #FFFFFF;
 }
 .box {
   margin-top: 65px;
-//   overflow-x: auto;
-//   height: 100vh;
-//   display: -webkit-flex;
-//   display: flex;
-//   flex-direction: column;
-//   flex-grow: 1;
-//   flex-wrap: wrap;
   .tab {
-//     position: fixed;
     height: 70px;
     line-height: 70px;
-//     display: -webkit-flex;
     display: flex;
     align-items: center;
-//     z-index: 2;
     font-size: 18px;
     color: #696969;
     .tab-item{
@@ -247,47 +201,52 @@ export default {
     background: #F2F3F5;
   }
   .cont {
-    padding-top: 10px;
-//     height: 300px;
-//     flex-grow: 1;
-//     overflow: auto;
+    padding-top: 22px;
     .cont_1 {
-      // height: 400px;
-      .row-statics{
-        font-size: 16px;
-        line-height: 60px;
-        text-align: center;
+      .parent{
+        display: grid;
+        grid-gap: 44px;
+        grid-template-columns: repeat(4, calc(25% - 33px));
+        grid-template-rows: 60px;
+        .child{
+          text-align: center;
+          font-size: 16px;
+          line-height: 60px;
+          color: #FEFEFE;
+          background-position: center!important;
+          background-repeat: no-repeat!important;
+          border-radius: 6px;
+        }
         .statics-val{
           font-size: 24px;
         }
         .app-count-col{
-          background: no-repeat url("../assets/images/app_cnt_bg.png");
-          background-size: 100% 100%;
+          background: url("../assets/images/app_cnt_bg.png");
         }
         .service-count-col{
-          background: no-repeat url("../assets/images/service_cnt_bg.png");
-          background-size: 100% 100%;
+          background: url("../assets/images/service_cnt_bg.png");
         }
         .described-count-col{
-          background: no-repeat url("../assets/images/described_cnt_bg.png");
-          background-size: 100% 100%;
+          background: url("../assets/images/described_cnt_bg.png");
         }
         .describe-count-col{
-          background: center / contain no-repeat url("../assets/images/describe_cnt_bg.png");
-          background-size: 100% 100%;
+          background: url("../assets/images/describe_cnt_bg.png");
         }
       }
       .mep-ability-title{
-        margin-top: 39px;
+        margin-top: 41px;
         font-size: 18px;
-        color:#280B4E;
-        line-height: 30px;
+        font-family: FZLanTingHeiS-L-GB;
+        font-weight: 400;
+        color: #280B4E;
+        line-height: 19px;
       }
       .mep-ability-line{
         height: 2px;
         background-color: #F2F3F5;
         border: none;
-        margin-bottom: 28px;
+        margin-top: 19px;
+        margin-bottom: 30px;
       }
     }
 //     .cont_2 {
