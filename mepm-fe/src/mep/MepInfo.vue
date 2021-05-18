@@ -1,20 +1,22 @@
 <template>
   <div class="box">
-    <el-row
-      class="tab inner-page-padding"
-      ref="tab"
-    >
-      <div
-        v-for="(item, index) in tabs"
-        :key="index"
-        class="tab-item"
-        :class="{ active: active === index, tabgap: index > 0 }"
-        @click="switchTab(index)"
+    <div class="inner-nav">
+      <el-row
+        class="tab inner-page-padding"
+        ref="tab"
       >
-        {{ item }}
-      </div>
-    </el-row>
-    <el-row class="tab-gap-con" />
+        <div
+          v-for="(item, index) in tabs"
+          :key="index"
+          class="tab-item"
+          :class="{ active: active === index, tabgap: index > 0 }"
+          @click="switchTab(index)"
+        >
+          {{ item }}
+        </div>
+      </el-row>
+      <el-row class="tab-gap-con" />
+    </div>
     <el-row
       class="cont inner-page-padding"
       ref="cont"
@@ -62,35 +64,25 @@
         class="cont_2"
         ref="cont_2"
       >
-        内容二
-      </div>
-      <div
-        class="cont_3"
-        ref="cont_3"
-      >
-        内容三
+        <topology />
       </div>
     </el-row>
-    <div
-      class="back-top"
-      @click="backTop"
-    />
   </div>
 </template>
 <script>
 import Swiper from './Swiper.vue'
 import ServiceList from './ServiceList'
+import Topology from './Topology'
 import axios from 'axios'
 
 export default {
-  components: { Swiper, ServiceList },
+  components: { Swiper, ServiceList, Topology },
   data () {
     return {
-      tabs: ['边缘节点的应用和服务概况信息', '拓扑图展示', '其他'],
+      tabs: ['边缘节点的应用和服务概况信息', '拓扑图展示'],
       active: 0,
       cont1: null,
       cont2: null,
-      cont3: null,
       isClickTab: false,
       mepCapabilityies: [],
       appCapabilityies: []
@@ -114,22 +106,12 @@ export default {
           block: 'start',
           behavior: 'smooth'
         })
-      } else {
-        this.cont3.scrollIntoView({
-          block: 'start',
-          behavior: 'smooth'
-        })
       }
     },
     onScroll () {
       this.cont1 = this.$refs['cont_1']
       this.cont2 = this.$refs['cont_2']
-      this.cont3 = this.$refs['cont_3']
       const tabH = this.$refs['tab'].offsetHeight
-      if (this.cont3.getBoundingClientRect().top <= tabH) {
-        this.active = 2
-        return false
-      }
       if (this.cont2.getBoundingClientRect().top <= tabH) {
         this.active = 1
         return false
@@ -137,7 +119,8 @@ export default {
       if (this.cont1.getBoundingClientRect().top <= tabH) {
         this.active = 0
       }
-    }
+    },
+    refreshShownWithLan () {}
   },
   beforeMount () {
     axios('./ability.json').then((res) => {
@@ -159,7 +142,6 @@ export default {
   mounted () {
     this.cont1 = this.$refs['cont_1']
     this.cont2 = this.$refs['cont_2']
-    this.cont3 = this.$refs['cont_3']
   }
 }
 </script>
@@ -170,38 +152,43 @@ export default {
 }
 .box {
   margin-top: 65px;
-  .tab {
-    height: 70px;
-    line-height: 70px;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    color: #696969;
-    .tab-item{
-      cursor: pointer;
-    }
-    .tabgap{
-      padding-left: 44px;
-    }
-    .active {
-      color: #280B4E;
-      &::after {
-        display: block;
-        content: "";
-        height: 2px;
-        margin: auto;
-        margin-top: -3px;
-        background: no-repeat url("../assets/images/underline.png");
-        background-size: 100% 100%;
+  .inner-nav{
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    .tab {
+      height: 70px;
+      line-height: 70px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      color: #696969;
+      .tab-item{
+        cursor: pointer;
+      }
+      .tabgap{
+        padding-left: 44px;
+      }
+      .active {
+        color: #280B4E;
+        &::after {
+          display: block;
+          content: "";
+          height: 2px;
+          margin: auto;
+          margin-top: -3px;
+          background: no-repeat url("../assets/images/underline.png");
+          background-size: 100% 100%;
+        }
       }
     }
-  }
-  .tab-gap-con{
-    height: 10px;
-    background: #F2F3F5;
+    .tab-gap-con{
+      height: 10px;
+      background: #F2F3F5;
+    }
   }
   .cont {
-    padding-top: 22px;
+    padding-top: 102px;
     .cont_1 {
       .parent{
         display: grid;
@@ -249,22 +236,10 @@ export default {
         margin-bottom: 30px;
       }
     }
-//     .cont_2 {
-//       height: 800px;
-//     }
-//     .cont_3 {
-//       height: 100%;
-//     }
-//   }
-//   .back-top {
-//     width: 80px;
-//     height: 80px;
-//     background: url(../assets/images/back-top.png) center / 100%
-//       100% no-repeat;
-//     border-radius: 50%;
-//     position: fixed;
-//     bottom: 120px;
-//     right: 32px;
+    .cont_2 {
+      margin-top: 40px;
+      margin-bottom: 80px;
+    }
   }
 }
 </style>

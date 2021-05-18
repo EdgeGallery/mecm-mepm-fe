@@ -145,6 +145,9 @@ export default {
       this.tableHeaderId = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_SERVICE_ID')
       this.tableHeaderAppVersion = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_APP_VERSION')
       this.tableHeaderOper = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_OPERATION')
+    },
+    showCalledTimes () {
+      console.log('showCalledTimes')
     }
   },
   computed: {

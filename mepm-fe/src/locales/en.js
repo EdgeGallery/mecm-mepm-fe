@@ -413,6 +413,23 @@ const en = {
     TABLE_HEADER_APP_VERSION: 'Application Version',
     TABLE_HEADER_OPERATION: 'Operation'
   },
+  TOPOLOGY_PAGE: {
+    PAGE_DESC: 'Topology of applications and services on edge nodes',
+    NODE_TYPE: 'Node Type',
+    SERVICE: 'Service',
+    SERVICE_STATUS: 'Service Status',
+    SERVICE_STATUS_INACTINVE: 'InActive',
+    SERVICE_STATUS_ACTINVE: 'Active',
+    TIPS_KEY_SERVICE_NAME: 'Service Name：',
+    TIPS_KEY_SERVICE_VERSION: 'Service Version：',
+    TIPS_KEY_SERVICE_STATE: 'Service Status：',
+    TIPS_KEY_APP_NAME: 'APP Name：',
+    TIPS_KEY_NAME: 'Name：',
+    TIPS_KEY_SOURCE: 'Source：',
+    TIPS_KEY_TARGET: 'Target：',
+    TIPS_KEY_SUBORDINATION: 'Type of Affiliation',
+    TIPS_KEY_SUBSCRIBE: 'Subscription Relation Type'
+  },
   ...enLocale
 }
 

@@ -15,37 +15,39 @@
   -->
 
 <template>
-  <swiper
-    class="swiper"
-    :options="swiperOption"
-  >
-    <swiper-slide
-      v-for="(item, index) in data"
-      :key="index"
+  <div class="swiper-parent">
+    <swiper
+      class="swiper"
+      :options="swiperOption"
     >
-      <card
-        :name="item.name"
-        :desc="item.desc"
-        :id="item.id"
-        :call-times="item.callTimes"
+      <swiper-slide
+        v-for="(item, index) in data"
+        :key="index"
+      >
+        <card
+          :name="item.name"
+          :desc="item.desc"
+          :id="item.id"
+          :call-times="item.callTimes"
+        />
+        <div class="chartName">
+          {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
+        </div>
+      </swiper-slide>
+      <div
+        class="swiper-pagination"
+        slot="pagination"
       />
-      <div class="chartName">
-        {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
-      </div>
-    </swiper-slide>
-    <div
-      class="swiper-pagination"
-      slot="pagination"
-    />
-    <div
-      class="swiper-button-prev"
-      slot="button-prev"
-    />
-    <div
-      class="swiper-button-next"
-      slot="button-next"
-    />
-  </swiper>
+      <div
+        class="swiper-button-prev"
+        slot="button-prev"
+      />
+      <div
+        class="swiper-button-next"
+        slot="button-next"
+      />
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -90,9 +92,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.swiper-container{
-  overflow: unset;
-}
+// .swiper-container{
+//   overflow: unset;
+// }
 .swiper {
   height: 357px;
   width: 100%;
@@ -112,13 +114,13 @@ export default {
       line-height: 12px;
     }
   }
-  .swiper-button-prev {
-    margin-left: -60px;
-    // background: url("../assets/images/back-top.png"); // swiper相关定制
-    // background-color: white;
-  }
-  .swiper-button-next {
-    margin-right: -60px;
-  }
+  // .swiper-button-prev { // 放开导致把所有slider都显示出来了
+  //   margin-left: -60px;
+  //   // background: url("../assets/images/back-top.png"); // swiper相关定制
+  //   // background-color: white;
+  // }
+  // .swiper-button-next {
+  //   margin-right: -60px;
+  // }
 }
 </style>
