@@ -15,39 +15,37 @@
   -->
 
 <template>
-  <div class="swiper-parent">
-    <swiper
-      class="swiper"
-      :options="swiperOption"
+  <swiper
+    class="swiper"
+    :options="swiperOption"
+  >
+    <swiper-slide
+      v-for="(item, index) in data"
+      :key="index"
     >
-      <swiper-slide
-        v-for="(item, index) in data"
-        :key="index"
-      >
-        <card
-          :name="item.name"
-          :desc="item.desc"
-          :id="item.id"
-          :call-times="item.callTimes"
-        />
-        <div class="chartName">
-          {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
-        </div>
-      </swiper-slide>
-      <div
-        class="swiper-pagination"
-        slot="pagination"
+      <card
+        :name="item.name"
+        :desc="item.desc"
+        :id="item.id"
+        :call-times="item.callTimes"
       />
-      <div
-        class="swiper-button-prev"
-        slot="button-prev"
-      />
-      <div
-        class="swiper-button-next"
-        slot="button-next"
-      />
-    </swiper>
-  </div>
+      <div class="chartName">
+        {{ $t('CAPABILITIES_PAGE.CARD_DESC') }}
+      </div>
+    </swiper-slide>
+    <div
+      class="swiper-pagination"
+      slot="pagination"
+    />
+    <div
+      class="swiper-button-prev"
+      slot="button-prev"
+    />
+    <div
+      class="swiper-button-next"
+      slot="button-next"
+    />
+  </swiper>
 </template>
 
 <script>
@@ -66,10 +64,6 @@ export default {
         slidesPerGroup: 2,
         loop: false,
         loopFillGroupWithBlank: false,
-        // pagination: {
-        //   el: '.swiper-pagination',
-        //   clickable: true
-        // },
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
@@ -92,9 +86,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// .swiper-container{
-//   overflow: unset;
-// }
+.swiper-container{
+  margin: -20px -44px;
+  padding: 20px 44px;
+}
 .swiper {
   height: 357px;
   width: 100%;
@@ -114,13 +109,18 @@ export default {
       line-height: 12px;
     }
   }
-  // .swiper-button-prev { // 放开导致把所有slider都显示出来了
-  //   margin-left: -60px;
-  //   // background: url("../assets/images/back-top.png"); // swiper相关定制
-  //   // background-color: white;
-  // }
-  // .swiper-button-next {
-  //   margin-right: -60px;
-  // }
+  .swiper-button-prev {
+    left: 0px;
+    height: 100%;
+    top: 0px;
+    background-image: url("../assets/images/logo.png"); // swiper相关定制
+    background-color: white;
+  }
+  .swiper-button-next {
+    right: 0px;
+    height: 100%;
+    top: 0px;
+    background-color: white;
+  }
 }
 </style>
