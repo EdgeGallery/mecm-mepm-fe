@@ -90,7 +90,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { lcmController } from '../tools/request'
+// import axios from 'axios'
 
 export default {
   name: 'ServiceTable',
@@ -216,7 +217,8 @@ export default {
     }
   },
   beforeMount () {
-    axios('./service.json').then(res => {
+    // axios('./service.json')
+    lcmController.getServiceList().then(res => {
       let nodesMap = new Map()
       if (res && res.data) {
         let len = res.data.length

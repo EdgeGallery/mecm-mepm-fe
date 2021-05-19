@@ -45,22 +45,22 @@
         <div class="parent">
           <div class="child app-count-col">
             <span>应用数量：</span>
-            <span class="statics-val">200</span>
+            <span class="statics-val">{{ appCount }}</span>
             <span>个</span>
           </div>
           <div class="child service-count-col">
             <span>服务数量：</span>
-            <span class="statics-val">200</span>
+            <span class="statics-val">{{ serviceCount }}</span>
             <span>个</span>
           </div>
           <div class="child described-count-col">
             <span>被订阅服务：</span>
-            <span class="statics-val">200</span>
+            <span class="statics-val">{{ subscribedCount }}</span>
             <span>个</span>
           </div>
           <div class="child describe-count-col">
             <span>订阅应用：</span>
-            <span class="statics-val">200</span>
+            <span class="statics-val">{{ subscribeCount }}</span>
             <span>个</span>
           </div>
         </div>
@@ -104,8 +104,9 @@
 import Swiper from './Swiper.vue'
 import ServiceList from './ServiceList'
 import Topology from './Topology'
-import axios from 'axios'
+// import axios from 'axios'
 import ServiceDescribedInfo from './ServiceDescribedInfo.vue'
+import { lcmController } from '../tools/request.js'
 
 export default {
   components: { Swiper, ServiceList, Topology, ServiceDescribedInfo },
@@ -124,7 +125,11 @@ export default {
         serviceDesc: 'desc',
         serviceId: 'id',
         serviceCallTimes: [0, 0, 0, 0, 0, 0, 0]
-      }
+      },
+      subscribedCount: 0,
+      subscribeCount: 0,
+      appCount: 0,
+      serviceCount: 0
     }
   },
   methods: {
@@ -164,34 +169,67 @@ export default {
       this.showServiceSubscribeData = false
     },
     showServiceDescribeInfo (basicInfo) {
+      this.showServiceSubscribeData = true
       this.serviceDescribeBasicInfo = {
         serviceName: basicInfo.name,
         serviceDesc: basicInfo.desc,
         serviceId: basicInfo.instance,
-        serviceCallTimes: [0, 0, 0, 0, 0, 0, 0]
+        serviceCallTimes: [0, 0, 0, 0, 0, 0, 0] // TODO ability接口添加serInstanceId，方便查找指定服务的调用次数
       }
-      this.showServiceSubscribeData = true
-      // service接口添加desc
-      // ability接口添加serInstanceId，方便查找指定服务的调用次数
     }
   },
   beforeMount () {
-    axios('./ability.json').then((res) => {
-      let appServices = res.data.appServices
-      appServices.forEach((element, index) => {
-        element.id = element.name + index
-        element.callTimes.reverse()
-      })
-      this.appCapabilityies = appServices
-      console.log('调用信息All:')
-      console.log(this.appCapabilityies)
-      let mepServices = res.data.mepServices
-      mepServices.forEach((element, index) => {
-        element.id = element.name + index
-        element.callTimes.reverse()
-      })
-      this.mepCapabilityies = mepServices
-      this.refreshShownWithLan()
+    // TODO 初始化统计数据
+    // axios('./ability.json')
+    let appMap = new Map()
+    let serviceMap = new Map()
+    lcmController.getServiceList().then(res => {
+      if (res && res.data) {
+        let len = res.data.length
+        for (let i = 0; i < len; i++) {
+          if (!serviceMap.has(res.data[i].serInstanceId)) {
+            serviceMap.set(res.data[i].serInstanceId, {
+              id: res.data[i].serInstanceId,
+              name: res.data[i].serName,
+              version: res.data[i].version
+            })
+            if (!appMap.has(res.data[i].serCategory.id)) {
+              appMap.set(res.data[i].serCategory.id, {
+                id: res.data[i].serCategory.id,
+                name: res.data[i].serCategory.name,
+                version: res.data[i].serCategory.version
+              })
+            }
+          }
+        }
+        let appArray = Array.from(appMap.values())
+        let serviceArray = Array.from(serviceMap.values())
+        this.appCount = appArray.length
+        this.serviceCount = serviceArray.length
+        this.appData = appArray
+        this.serviceData = serviceArray
+        lcmController.getSubscribeInfo().then(statisticRes => {
+          if (statisticRes && statisticRes.data) {
+            this.subscribeCount = statisticRes.data.subscribeNum.appSubscribeNum
+            this.subscribedCount = statisticRes.data.subscribeNum.serviceSubscribedNum
+          }
+          lcmController.getAbilityCallTimesInfo().then((res) => {
+            let appServices = res.data.appServices
+            appServices.forEach((element, index) => {
+              element.id = element.name + index
+              element.callTimes.reverse()
+            })
+            this.appCapabilityies = appServices
+            let mepServices = res.data.mepServices
+            mepServices.forEach((element, index) => {
+              element.id = element.name + index
+              element.callTimes.reverse()
+            })
+            this.mepCapabilityies = mepServices
+            this.refreshShownWithLan()
+          })
+        })
+      }
     })
   },
   mounted () {
