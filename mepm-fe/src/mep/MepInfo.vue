@@ -1,3 +1,19 @@
+<!--
+  - Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
 <template>
   <div class="box">
     <div class="inner-nav">
@@ -57,8 +73,23 @@
           边缘节点服务详细信息
         </el-row>
         <hr class="mep-ability-line">
-        <service-list />
-        <!-- <swiper :data="appCapabilityies" /> -->
+        <div class="service-area">
+          <service-list
+            @showServiceDescribeInfo="showServiceDescribeInfo"
+          />
+          <div
+            v-show="showServiceSubscribeData"
+            class="service-subscribe"
+          >
+            <service-described-info
+              :name="serviceDescribeBasicInfo.serviceName"
+              :desc="serviceDescribeBasicInfo.serviceDesc"
+              :id="serviceDescribeBasicInfo.serviceId"
+              :call-times="serviceDescribeBasicInfo.serviceCallTimes"
+              @closeServiceDescribeInfo="closeServiceDescribeInfo"
+            />
+          </div>
+        </div>
       </div>
       <div
         class="cont_2"
@@ -74,9 +105,10 @@ import Swiper from './Swiper.vue'
 import ServiceList from './ServiceList'
 import Topology from './Topology'
 import axios from 'axios'
+import ServiceDescribedInfo from './ServiceDescribedInfo.vue'
 
 export default {
-  components: { Swiper, ServiceList, Topology },
+  components: { Swiper, ServiceList, Topology, ServiceDescribedInfo },
   data () {
     return {
       tabs: ['边缘节点的应用和服务概况信息', '拓扑图展示'],
@@ -85,7 +117,14 @@ export default {
       cont2: null,
       isClickTab: false,
       mepCapabilityies: [],
-      appCapabilityies: []
+      appCapabilityies: [],
+      showServiceSubscribeData: true,
+      serviceDescribeBasicInfo: {
+        serviceName: 'name',
+        serviceDesc: 'desc',
+        serviceId: 'id',
+        serviceCallTimes: [0, 0, 0, 0, 0, 0, 0]
+      }
     }
   },
   methods: {
@@ -120,7 +159,21 @@ export default {
         this.active = 0
       }
     },
-    refreshShownWithLan () {}
+    refreshShownWithLan () {},
+    closeServiceDescribeInfo () {
+      this.showServiceSubscribeData = false
+    },
+    showServiceDescribeInfo (basicInfo) {
+      this.serviceDescribeBasicInfo = {
+        serviceName: basicInfo.name,
+        serviceDesc: basicInfo.desc,
+        serviceId: basicInfo.instance,
+        serviceCallTimes: [0, 0, 0, 0, 0, 0, 0]
+      }
+      this.showServiceSubscribeData = true
+      // service接口添加desc
+      // ability接口添加serInstanceId，方便查找指定服务的调用次数
+    }
   },
   beforeMount () {
     axios('./ability.json').then((res) => {
@@ -130,6 +183,8 @@ export default {
         element.callTimes.reverse()
       })
       this.appCapabilityies = appServices
+      console.log('调用信息All:')
+      console.log(this.appCapabilityies)
       let mepServices = res.data.mepServices
       mepServices.forEach((element, index) => {
         element.id = element.name + index
@@ -235,9 +290,16 @@ export default {
         margin-top: 19px;
         margin-bottom: 30px;
       }
+      .service-area{
+        position: relative;
+        .service-subscribe{
+          position: absolute;
+          width: 100%;
+        }
+      }
     }
     .cont_2 {
-      margin-top: 40px;
+      margin-top: 610px;
       margin-bottom: 80px;
     }
   }

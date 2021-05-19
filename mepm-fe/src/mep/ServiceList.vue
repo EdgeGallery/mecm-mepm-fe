@@ -146,8 +146,8 @@ export default {
       this.tableHeaderAppVersion = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_APP_VERSION')
       this.tableHeaderOper = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_OPERATION')
     },
-    showCalledTimes () {
-      console.log('showCalledTimes')
+    showCalledTimes (rowData) {
+      this.$emit('showServiceDescribeInfo', rowData)
     }
   },
   computed: {
@@ -228,7 +228,8 @@ export default {
               status: res.data[i].state,
               app: res.data[i].serCategory.name,
               version: res.data[i].version,
-              appVersion: res.data[i].serCategory.version
+              appVersion: res.data[i].serCategory.version,
+              desc: res.data[i].serName // TODO 待后台接口添加后处理
             })
           }
         }
@@ -275,6 +276,9 @@ export default {
 }
 
 .pageInner {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
   box-shadow: 0px 1px 21px 0px rgba(201, 181, 228, 0.4);
   overflow: hidden;
   padding: 0 33px 39px 33px;
