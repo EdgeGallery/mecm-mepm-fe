@@ -78,7 +78,7 @@
             @showServiceDescribeInfo="showServiceDescribeInfo"
           />
           <div
-            v-show="showServiceSubscribeData"
+            v-if="showServiceSubscribeData"
             class="service-subscribe"
           >
             <service-described-info
@@ -119,7 +119,7 @@ export default {
       isClickTab: false,
       mepCapabilityies: [],
       appCapabilityies: [],
-      showServiceSubscribeData: true,
+      showServiceSubscribeData: false,
       serviceDescribeBasicInfo: {
         serviceName: 'name',
         serviceDesc: 'desc',
@@ -141,30 +141,42 @@ export default {
     },
     switchTab (index) {
       if (index === 0) {
-        this.cont1.scrollIntoView({
-          block: 'start',
-          behavior: 'smooth'
-        })
+        let scrolledY = window.scrollY
+        if (scrolledY) {
+          window.scroll({
+            top: 0, // 样式强相关数据
+            left: 0,
+            behavior: 'smooth'
+          })
+        }
       } else if (index === 1) {
         this.cont2.scrollIntoView({
           block: 'start',
-          behavior: 'smooth'
+          behavior: 'smooth',
+          inline: 'nearest'
         })
+        let offsetY = this.$refs.cont_2.offsetTop
+        if (offsetY) {
+          window.scroll({
+            top: offsetY - 102, // 样式强相关数据:102
+            left: 0,
+            behavior: 'smooth'
+          })
+        }
       }
     },
     onScroll () {
       this.cont1 = this.$refs['cont_1']
       this.cont2 = this.$refs['cont_2']
-      const tabH = this.$refs['tab'].offsetHeight
-      if (this.cont2.getBoundingClientRect().top <= tabH) {
+      if (this.cont2.getBoundingClientRect() && this.cont2.getBoundingClientRect().top <= 167) { // 样式强相关数据:167
         this.active = 1
-        return false
-      }
-      if (this.cont1.getBoundingClientRect().top <= tabH) {
+      } else {
         this.active = 0
       }
     },
-    refreshShownWithLan () {},
+    refreshShownWithLan () {
+      // TODO 界面国际化处理
+    },
     closeServiceDescribeInfo () {
       this.showServiceSubscribeData = false
     },
@@ -235,6 +247,7 @@ export default {
   mounted () {
     this.cont1 = this.$refs['cont_1']
     this.cont2 = this.$refs['cont_2']
+    window.addEventListener('scroll', this.onScroll)
   }
 }
 </script>

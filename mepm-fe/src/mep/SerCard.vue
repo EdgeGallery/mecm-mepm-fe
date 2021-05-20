@@ -74,27 +74,103 @@ export default {
       today.setTime(milliseconds)
       let mon = today.getMonth() + 1
       let day = today.getDate()
-      return (mon < 10 ? ('0' + mon) : mon) + '-' + (day < 10 ? ('0' + day) : day)
+      return (mon < 10 ? ('0' + mon) : mon) + '/' + (day < 10 ? ('0' + day) : day)
     },
     setOptions () {
       let arr = []
       for (let i = -6; i <= 0; i++) {
-        arr.push(this.getDay(i))
+        arr.push({
+          value: this.getDay(i),
+          textStyle: {
+            fontSize: 14,
+            color: '#666666'
+          }
+        })
       }
       this.option = {
         xAxis: {
           type: 'category',
-          data: arr
+          data: arr,
+          axisLine: {
+            lineStyle: {
+              type: 'solid',
+              width: 1,
+              color: '#F2F3F5'
+            }
+          },
+          axisLabel: {
+            color: '#666666',
+            fontSize: 14,
+            fontWeight: 'normal',
+            fontFamily: 'FZLanTingHeiS-L-GB'
+          },
+          axisTick: {
+            show: true
+          }
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          minInterval: 1,
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            color: '#666666',
+            fontSize: 14,
+            fontWeight: 'normal',
+            fontFamily: 'FZLanTingHeiS-L-GB'
+          },
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              type: 'solid',
+              width: 1,
+              color: '#F2F3F5'
+            }
+          }
         },
         series: [{
           data: this.callTimes,
-          type: 'line'
+          type: 'line',
+          lineStyle: {
+            color: '#531B96',
+            width: 2,
+            type: 'solid'
+          },
+          showSymbol: true,
+          symbolSize: 12,
+          itemStyle: {
+            color: '#531B96'
+          }
         }],
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+            lineStyle: {
+              color: '#531B96',
+              type: 'dashed',
+              width: 1,
+              opacity: 0.4
+            }
+          },
+          backgroundColor: '#F1EFF3',
+          textStyle: {
+            color: '#531B96',
+            fontStyle: 'normal',
+            fontWeight: 400,
+            fontFamily: 'FZLanTingHeiS-L-GB',
+            fontSize: 10,
+            lineHeight: 15
+          },
+          formatter: function (params) {
+            let res
+            res = '<div>' + '时间：' + params[0].name + '</div>'
+            res += '<div>' + '次数：' + params[0].value + '</div>'
+            return res
+          }
         }
       }
     }

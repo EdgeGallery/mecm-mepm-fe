@@ -23,7 +23,7 @@
       v-for="(item, index) in data"
       :key="index"
     >
-      <card
+      <mep-card
         :name="item.name"
         :desc="item.desc"
         :id="item.id"
@@ -50,10 +50,10 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import Card from './Card.vue'
+import MepCard from './MepCard.vue'
 
 export default {
-  components: { Swiper, SwiperSlide, Card },
+  components: { Swiper, SwiperSlide, MepCard },
   data () {
     return {
       swiperOption: {
