@@ -23,7 +23,10 @@
       class="clearfix"
     >
       <span class="cardName">{{ name }}</span>
-      <div class="shortDesc">
+      <div
+        v-if="desc"
+        class="shortDesc"
+      >
         {{ desc }}
       </div>
     </div>

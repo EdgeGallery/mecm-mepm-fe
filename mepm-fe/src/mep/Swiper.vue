@@ -112,15 +112,16 @@ export default {
   .swiper-button-prev {
     left: 0px;
     height: 100%;
+    width: 36px;
     top: 0px;
-    background-image: url("../assets/images/logo.png"); // swiper相关定制
-    background-color: white;
+    // background: url("../assets/images/pre-button.png") center center no-repeat; // TODO swiper相关定制
   }
   .swiper-button-next {
     right: 0px;
     height: 100%;
+    width: 36px;
     top: 0px;
-    background-color: white;
+    // background: url("../assets/images/next-button.png") center center no-repeat; // TODO swiper相关定制
   }
 }
 </style>

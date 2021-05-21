@@ -75,6 +75,9 @@ export default {
     right: 100px;
     top: 68px;
   }
+  .close-img:hover {
+    content: url('../assets/images/close_active.png');
+  }
   .description-content{
     margin: auto;
     width: 922px;

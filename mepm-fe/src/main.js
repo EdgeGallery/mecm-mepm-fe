@@ -30,6 +30,7 @@ import AreaLinkageVue from 'area-linkage-vue'
 import UUID from 'vue-uuid'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import './assets/style/element-variables.scss'
 
 Vue.prototype.showMessage = function (type, msg, time) {
   ElementUI.Message({

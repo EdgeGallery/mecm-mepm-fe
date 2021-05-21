@@ -1,52 +1,74 @@
-<svg id="MEP" xmlns="http://www.w3.org/2000/svg" width="99" height="99" viewBox="0 0 99 99">
-  <metadata><?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c142 79.160924, 2017/07/13-01:06:39        ">
-   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-      <rdf:Description rdf:about=""/>
-   </rdf:RDF>
-</x:xmpmeta>
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                                                                                                    
-                           
-<?xpacket end="w"?></metadata>
-<defs>
+<svg id="byjd_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="187.03" height="127.75" viewBox="0 0 187.03 127.75">
+  <defs>
     <style>
-      .cls-1 {
-        fill: #f0f2f5;
-        stroke: #9364cf;
-        stroke-width: 1px;
-        stroke-dasharray: 4 2;
+      .cls-1, .cls-7 {
+        fill: #fff;
       }
 
-      .cls-2 {
-        fill: #9364cf;
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-6, .cls-7, .cls-8 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #472475;
+      }
+
+      .cls-2, .cls-3, .cls-7 {
+        stroke-width: 1px;
       }
 
       .cls-3 {
-        fill: #fff;
-        fill-rule: evenodd;
+        stroke-dasharray: 4 2;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #512c82;
+      }
+
+      .cls-6 {
+        fill: #d6d1dc;
+      }
+
+      .cls-7 {
+        stroke: #280b4e;
+      }
+
+      .cls-8 {
+        fill: #2b0e52;
+      }
+
+      .cls-9 {
+        font-size: 16.554px;
+        fill: #3a1a65;
+        font-family: FZLanTingHeiS-L-GB;
       }
     </style>
+    <image id="image" width="1" height="69" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABFCAYAAACL3IzzAAAAZklEQVQYlXXOSwqAMAwE0LGgIIJ4AL3/WXIh/z9mFgkWu3kkQ5oUZjYkABMZSU0a0pKHdJ6B9CSRi9zk8EpzeqZs8+p0NKeRiuxk9Wrxdv5uiQUijgdaKrJWHxfR6niW/bXFrACAF6LsJ+b+fj9AAAAAAElFTkSuQmCC"/>
   </defs>
-  <circle id="椭圆_1" data-name="椭圆 1" class="cls-1" cx="49.5" cy="49.5" r="49"/>
-  <circle id="椭圆_1-2" data-name="椭圆 1" class="cls-2" cx="49.81" cy="49.813" r="38"/>
-  <path id="MEP-2" data-name="MEP" class="cls-3" d="M2902.6,533.377V518.25h-4.56l-3.27,9.121c-0.21.606-.42,1.322-0.62,2.149h-0.07a11.44,11.44,0,0,0-.56-2.129l-3.26-9.141h-4.69v15.127h2.91v-8.554q0-1.914-.12-3.819h0.08q0.345,1.669.48,2.041l3.78,10.332h2.57l3.73-10.429a17.077,17.077,0,0,0,.47-1.944h0.08c-0.09,1.283-.13,2.347-0.13,3.194v9.179h3.18Zm12.49-2.636h-5.73v-3.663h5v-2.627h-5v-3.564h5.38V518.25h-8.6v15.127h8.95v-2.636Zm7.37-2.637a6.262,6.262,0,0,0,4.26-1.343,4.566,4.566,0,0,0,1.7-3.726q0-4.785-5.64-4.785h-5.21v15.127h3.23V528.1h1.66Zm-0.24-7.354c1.88,0,2.81.8,2.81,2.412,0,1.648-.94,2.471-2.84,2.471h-1.39V520.75h1.42Z" transform="translate(-2857.5 -476.5)"/>
+  <path id="椭圆_7_拷贝" data-name="椭圆 7 拷贝" class="cls-1" d="M5690.32,2264.7c40.63,0,73.57,18.38,73.57,41.05s-32.94,41.04-73.57,41.04-73.57-18.37-73.57-41.04S5649.69,2264.7,5690.32,2264.7Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="椭圆_8_拷贝_2" data-name="椭圆 8 拷贝 2" class="cls-2" d="M5688.72,2262.31c44.14,0,79.93,20.74,79.93,46.31s-35.79,46.31-79.93,46.31-79.93-20.73-79.93-46.31S5644.58,2262.31,5688.72,2262.31Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="椭圆_8_拷贝_2-2" data-name="椭圆 8 拷贝 2" class="cls-3" d="M5688.33,2253.37c51.38,0,93.02,25.27,93.02,56.45s-41.64,56.45-93.02,56.45-93.02-25.28-93.02-56.45S5636.96,2253.37,5688.33,2253.37Z" transform="translate(-5594.81 -2239.03)"/>
+  <image id="椭圆_11_拷贝_4" data-name="椭圆 11 拷贝 4" x="129.19" y="2.97" width="1" height="68" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABECAYAAABAgF9WAAAAZElEQVQYlXXOSwqAMAwE0LEKLtSlK8H7XyUn0vpnZpFAsZtHM+RTmNmSAKxkJiADaZ2RJNKRidzk8dflsz05yUGytyiLsYa8ZHc0sTmRiTgkYpXQKlGUQl8TKnW8yKrlX0sFAB+4VSbkvvzo+QAAAABJRU5ErkJggg=="/>
+  <path id="椭圆_10_拷贝_4" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5724.92,2239.02a2.15,2.15,0,1,1-2.15,2.15A2.16,2.16,0,0,1,5724.92,2239.02Z" transform="translate(-5594.81 -2239.03)"/>
+  <use id="椭圆_11_拷贝_4-2" data-name="椭圆 11 拷贝 4" x="160.19" y="36.97" xlink:href="#image"/>
+  <path id="椭圆_10_拷贝_4-2" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5755.86,2273.41a2.145,2.145,0,1,1-2.15,2.15A2.147,2.147,0,0,1,5755.86,2273.41Z" transform="translate(-5594.81 -2239.03)"/>
+  <use id="椭圆_11_拷贝_4-3" data-name="椭圆 11 拷贝 4" x="27.19" y="36.97" xlink:href="#image"/>
+  <circle id="椭圆_10_拷贝_4-3" data-name="椭圆 10 拷贝 4" class="cls-5" cx="27.815" cy="36.535" r="2.155"/>
+  <image id="椭圆_11_拷贝_4-4" data-name="椭圆 11 拷贝 4" x="53.19" y="3.97" width="1" height="69" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABFCAYAAACL3IzzAAAAaElEQVQYlXXPSQqAMBQD0FhFUERXLr3/WXoi54FkkVLRzSOfdESMsQ8ARjKRgRSkIyA1aT02Hg9yGo0VKcmWoyW700WCx4WsTrPRXhVpry5Kl98+T0mo0HNVKAm1SvrlV5HSi98iA8AD6N0k5pUmCbAAAAAASUVORK5CYII="/>
+  <path id="椭圆_10_拷贝_4-4" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5648.41,2240.74a2.15,2.15,0,1,1-2.14,2.15A2.153,2.153,0,0,1,5648.41,2240.74Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_630_拷贝" data-name="形状 630 拷贝" class="cls-6" d="M5639.88,2311.03l-7.15,3.25,56.45,34.93,54.07-34.12-6.36-3.24-47.71,28.43Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_627_拷贝" data-name="形状 627 拷贝" class="cls-7" d="M5639.09,2292.35v18.68l49.3,30.06v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_628_拷贝" data-name="形状 628 拷贝" class="cls-7" d="M5736.89,2292.35v19.5l-48.5,29.24v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_626_拷贝" data-name="形状 626 拷贝" class="cls-7" d="M5736.89,2269.6v22.75l-49.3,28.43v-21.93Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_625_拷贝" data-name="形状 625 拷贝" class="cls-7" d="M5639.09,2268.79v23.56l48.5,28.43,0.8-21.93Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_624_拷贝" data-name="形状 624 拷贝" class="cls-7" d="M5638.58,2268.31l49.26-27.57,49.05,28.86-48.5,29.25Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4" data-name="形状 635 拷贝 4" class="cls-8" d="M5646.79,2283.88l23.46,13.19v3.59l-23.46-13.18v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-2" data-name="形状 635 拷贝 4" class="cls-8" d="M5672.59,2298.26l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-3" data-name="形状 635 拷贝 4" class="cls-8" d="M5676.11,2300.66l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-4" data-name="形状 635 拷贝 4" class="cls-8" d="M5646.79,2304.26l23.46,13.18v3.59l-23.46-13.18v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-5" data-name="形状 635 拷贝 4" class="cls-8" d="M5672.59,2318.64l2.35,1.2v3.59l-2.35-1.2v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-6" data-name="形状 635 拷贝 4" class="cls-8" d="M5676.11,2321.03l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <image id="ens_边缘节点服务_拷贝" data-name="ens 边缘节点服务 拷贝" x="67.19" y="17.97" width="49" height="24" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAYCAYAAABTPxXiAAAFGklEQVRYhZWXW4hWVRTHf/t8U2plZDMOpWU9lJSZOFNa2c2QLMsMNLIHn+ohogi6ExZWRj3US1AYUdFNiNJwsFJI01DpbmkFEyWRadSohBHecs6Odc7/fN8++zvzfdOCc/Ze66y99lp7XfY67pzj5+FcQmJPkmTzWlIj0VOrHDuoJbZGfC7B5WsnOOdedLg51MHjvb1TvLd5SpraPF2f+vTeNB3cbvigHyRNiyfNxgYtJfWDxTpSn+Jtjmfh/T0kEG7XEp6KOBdoEj6/AoEBHAH2AAN6DgffZgHbirWuIeeSSIlrW6sFHVUm+PrbnwD8DTh9elij4Ss17gbOBP5tt1kLGAG8ASzUVicBf1Wwj6wfhGuonLQR/g+wroKeRwgcA4xvGOBtk7srPFT1vAMcJ3mHcwPoEV+VAZdFnqxDKyNm45mE97Nl95qyGdk7C5cgDA8B69scTOHXJcABIUslcWszmxut6RZ5vwk6yoRCHe9LFM8o4DqR1pTj1HeJ7Xd55Ycg/CKVmrLuO2ByrDaQ4qiVI9wVEoxqe+4rPpY94TmtlBLwQS7ZH2qYlSWuyfspUmicVj1UdVqRQfPFO7lEhV1ATU98Ah8F+B9AZ5UR84DfAtyqz9wAX6lq+aTwiT4XbnF6UPkxiGd/s85NqOWC8Z0h0nJxnZ55AUbLyN3BUgvrLzS3CNobGeGnAH3BPss9vBfgtwLzc1YW4/my+ODzimFKHZXwV4colQbLwH0KvKUKtJM8ThYFPK+oIiLvPht8uyg6mRWBEXwcbRYK7cgF1+PpADCtQsECjgRnb86aDmxwsBq4o2FcnDZ1/LaIdp8rc68NFs0vjLg+jC/g+0j6hRG+rYUBIXyl+WJgJvDacBZJ2aMR8dQA2xR+evuZrVMLI8K68WhURC6O9hnbnHg+FNCt6tYrnW7UeETbTGpjR7cKUQhdwXxkZPP0JK4Q4NNIwK4In5slcA6dQV6dJyVHSPjn0brVos8Q3wzRQwVRe7I5wH9RKS78NCaycHeiSySEcRG+Qu4dnbc4/KjTsOPfK4MG1H64qMKVQJu/rOkpMsZ6Kxu3B7wzwRnPh6UcyQXcFYndYUa8HvU9y+LNfV4+rQW5RhsfjFjGquRd0LaNbBxMfPueL9k7A5qF+oYWuj1+ywO9/WZEv27bEO6knCePCF1boeS+PA/owPP1cCwAbsrP1X2So0GAuOyusE2+CYnKrdsj/scISuy0YDSOF4SvkcCloVG60vuV4F0KCYObFW6L1MydbKHn8nZkjtp5W3ei+Gdqv0DhosFgqrbaKHJfrq+7QvjEgr/onfYE5nWqpRgzxCl+C76njvlspXWuzwU8bw6xtoD9OPrxWQhZvvWKPqDQDOFK7bJFneym+JIJ245Lxby3YUApdDZqcQ9lcErKde3/q+p7/ww8nxWFcqnplnfj8A71i6tlZsQsJfbm8qd68Lwvj11VYTiBy6/WNzeM52yFrG9uq1yqbrhX3WwM47XnitCI9Uq0oxFzEa83qIw+rcWDGv9UYrX7sWoFlwOfqenzGq2sHqs8Ma+cVfGTdI90zqDIiT51odvl5peCBcb8boUi3fqxWVLhGR+FVuidEtGHxJxgBWDA5Q2iwQ4ViAnAKhr5U4f4FKfgSwaQu80XCixQdWkFTnJrwZPEBkRgf4RWPu3ny/gKA8Jldn80GWAwRCgMmZ/Wnp8bnKqd0BN2+Q3risvBQuNBlWbLAZMzymXed2bM/wAHwH8uqo6SuKOfrAAAAABJRU5ErkJggg=="/>
+  <text id="边缘节点_拷贝" data-name="边缘节点 拷贝" class="cls-9" transform="matrix(0.592, -0.335, 0.036, 0.587, 97.578, 71.528)">边缘节点</text>
 </svg>

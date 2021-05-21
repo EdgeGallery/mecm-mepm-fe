@@ -232,7 +232,7 @@ export default {
               app: res.data[i].serCategory.name,
               version: res.data[i].version,
               appVersion: res.data[i].serCategory.version,
-              desc: res.data[i].serName // TODO 待后台接口添加后处理
+              desc: '' // TODO 待后台接口添加后处理
             })
           }
         }

@@ -182,8 +182,8 @@ export default {
   data () {
     return {
       myChart: null,
-      symbol_mep: require('../assets/images/mep.png'), // require('../assets/images/MEP.svg'),
-      symbol_app: require('../assets/images/app.png'), // require('../assets/images/app.svg'),
+      symbol_mep: require('../assets/images/mep.png'), // TODO 替换为svg
+      symbol_app: require('../assets/images/app.png'),
       legend_mep: require('../assets/images/icon_mep.svg'),
       legend_app: require('../assets/images/icon_app.svg'),
       symbol_service_active: require('../assets/images/service_active.png'),

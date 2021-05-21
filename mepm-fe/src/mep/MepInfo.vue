@@ -167,7 +167,7 @@ export default {
     onScroll () {
       this.cont1 = this.$refs['cont_1']
       this.cont2 = this.$refs['cont_2']
-      if (this.cont2.getBoundingClientRect() && this.cont2.getBoundingClientRect().top <= 167) { // 样式强相关数据:167
+      if (this.cont2.getBoundingClientRect && this.cont2.getBoundingClientRect().top <= 167) { // 样式强相关数据:167
         this.active = 1
       } else {
         this.active = 0
@@ -181,11 +181,12 @@ export default {
     },
     showServiceDescribeInfo (basicInfo) {
       this.showServiceSubscribeData = true
+      let callInfo = this.appCapabilityies.find(ele => ele.name === basicInfo.name)
       this.serviceDescribeBasicInfo = {
         serviceName: basicInfo.name,
         serviceDesc: basicInfo.desc,
         serviceId: basicInfo.instance,
-        serviceCallTimes: [0, 0, 0, 0, 0, 0, 0] // TODO ability接口添加serInstanceId，方便查找指定服务的调用次数
+        serviceCallTimes: callInfo ? callInfo.callTimes : [0, 0, 0, 0, 0, 0, 0] // TODO ability接口添加id，方便查找指定服务的调用次数。
       }
     }
   },
