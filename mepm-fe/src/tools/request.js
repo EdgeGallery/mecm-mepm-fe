@@ -24,7 +24,6 @@ if (window.location.href.indexOf('30097') > -1) {
 } else {
   api = 'https://' + window.location.host
 }
-api = 'https://' + '119.8.47.5' // TODO 删除调试代码
 
 let lcmcontrollerApi = api + ':30204' + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
