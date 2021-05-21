@@ -71,7 +71,7 @@
             type="text"
             size="small"
           >
-            查看
+            {{ tableHeaderOperView }}
           </el-button>
         </template>
       </el-table-column>
@@ -91,7 +91,6 @@
 
 <script>
 import { lcmController } from '../tools/request'
-// import axios from 'axios'
 
 export default {
   name: 'ServiceTable',
@@ -104,6 +103,8 @@ export default {
       tableHeaderAppName: '',
       tableHeaderVersion: '',
       tableHeaderId: '',
+      tableHeaderOper: '',
+      tableHeaderOperView: '',
       pageSizes: [10, 20, 30],
       pageSize: 10,
       curPageSize: 10,
@@ -146,6 +147,7 @@ export default {
       this.tableHeaderId = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_SERVICE_ID')
       this.tableHeaderAppVersion = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_APP_VERSION')
       this.tableHeaderOper = this.$i18n.t('SERVICE_PAGE.TABLE_HEADER_OPERATION')
+      this.tableHeaderOperView = this.$i18n.t('SERVICE_PAGE.OPERATION_VIEW')
     },
     showCalledTimes (rowData) {
       this.$emit('showServiceDescribeInfo', rowData)
@@ -217,7 +219,6 @@ export default {
     }
   },
   beforeMount () {
-    // axios('./service.json')
     lcmController.getServiceList().then(res => {
       let nodesMap = new Map()
       if (res && res.data) {

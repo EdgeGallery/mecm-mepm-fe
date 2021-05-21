@@ -411,14 +411,22 @@ const en = {
     TABLE_HEADER_SERVICE_ID: 'Service ID',
     NO_DATA_NOTICE: 'No data available.',
     TABLE_HEADER_APP_VERSION: 'Application Version',
-    TABLE_HEADER_OPERATION: 'Operation'
+    TABLE_HEADER_OPERATION: 'Operation',
+    APP_STATICS_APP: 'Application Count：',
+    APP_STATICS_SERVICE: 'Service Count：',
+    SERVICE_STATICS_SUBSCRIBED: 'Subscribed Count：',
+    APP_STATICS_SUBSCRIBE: 'Subscribe Count：',
+    NUM: '',
+    ABILITY_MEP_SELF: 'MEP Capabilities',
+    SERVICES_DETAIL: 'Edge Node Service Details',
+    OPERATION_VIEW: 'View'
   },
   TOPOLOGY_PAGE: {
     PAGE_DESC: 'Topology of applications and services on edge nodes',
     NODE_TYPE: 'Node Type',
     SERVICE: 'Service',
     SERVICE_STATUS: 'Service Status',
-    SERVICE_STATUS_INACTINVE: 'InActive',
+    SERVICE_STATUS_INACTIVE: 'InActive',
     SERVICE_STATUS_ACTINVE: 'Active',
     TIPS_KEY_SERVICE_NAME: 'Service Name：',
     TIPS_KEY_SERVICE_VERSION: 'Service Version：',
@@ -428,7 +436,9 @@ const en = {
     TIPS_KEY_SOURCE: 'Source：',
     TIPS_KEY_TARGET: 'Target：',
     TIPS_KEY_SUBORDINATION: 'Type of Affiliation',
-    TIPS_KEY_SUBSCRIBE: 'Subscription Relation Type'
+    TIPS_KEY_SUBSCRIBE: 'Subscription Relation Type',
+    DASHBORD_TAB: 'Overview of Applications and Services on Edge Node',
+    TOPOLOGY_TAB: 'Topology'
   },
   ...enLocale
 }

@@ -28,7 +28,7 @@
           :class="{ active: active === index, tabgap: index > 0 }"
           @click="switchTab(index)"
         >
-          {{ item }}
+          {{ $t(item) }}
         </div>
       </el-row>
       <el-row class="tab-gap-con" />
@@ -44,33 +44,33 @@
       >
         <div class="parent">
           <div class="child app-count-col">
-            <span>应用数量：</span>
+            <span>{{ $t('SERVICE_PAGE.APP_STATICS_APP') }}</span>
             <span class="statics-val">{{ appCount }}</span>
-            <span>个</span>
+            <span>{{ $t('SERVICE_PAGE.NUM') }}</span>
           </div>
           <div class="child service-count-col">
-            <span>服务数量：</span>
+            <span>{{ $t('SERVICE_PAGE.APP_STATICS_SERVICE') }}</span>
             <span class="statics-val">{{ serviceCount }}</span>
-            <span>个</span>
+            <span>{{ $t('SERVICE_PAGE.NUM') }}</span>
           </div>
           <div class="child described-count-col">
-            <span>被订阅服务：</span>
+            <span>{{ $t('SERVICE_PAGE.SERVICE_STATICS_SUBSCRIBED') }}</span>
             <span class="statics-val">{{ subscribedCount }}</span>
-            <span>个</span>
+            <span>{{ $t('SERVICE_PAGE.NUM') }}</span>
           </div>
           <div class="child describe-count-col">
-            <span>订阅应用：</span>
+            <span>{{ $t('SERVICE_PAGE.APP_STATICS_SUBSCRIBE') }}</span>
             <span class="statics-val">{{ subscribeCount }}</span>
-            <span>个</span>
+            <span>{{ $t('SERVICE_PAGE.NUM') }}</span>
           </div>
         </div>
         <el-row class="mep-ability-title">
-          MEP自身能力
+          {{ $t('SERVICE_PAGE.ABILITY_MEP_SELF') }}
         </el-row>
         <hr class="mep-ability-line">
         <swiper :data="mepCapabilityies" />
         <el-row class="mep-ability-title">
-          边缘节点服务详细信息
+          {{ $t('SERVICE_PAGE.SERVICES_DETAIL') }}
         </el-row>
         <hr class="mep-ability-line">
         <div class="service-area">
@@ -104,7 +104,6 @@
 import Swiper from './Swiper.vue'
 import ServiceList from './ServiceList'
 import Topology from './Topology'
-// import axios from 'axios'
 import ServiceDescribedInfo from './ServiceDescribedInfo.vue'
 import { lcmController } from '../tools/request.js'
 
@@ -112,7 +111,7 @@ export default {
   components: { Swiper, ServiceList, Topology, ServiceDescribedInfo },
   data () {
     return {
-      tabs: ['边缘节点的应用和服务概况信息', '拓扑图展示'],
+      tabs: ['TOPOLOGY_PAGE.DASHBORD_TAB', 'TOPOLOGY_PAGE.TOPOLOGY_TAB'],
       active: 0,
       cont1: null,
       cont2: null,
@@ -191,8 +190,6 @@ export default {
     }
   },
   beforeMount () {
-    // TODO 初始化统计数据
-    // axios('./ability.json')
     let appMap = new Map()
     let serviceMap = new Map()
     lcmController.getServiceList().then(res => {

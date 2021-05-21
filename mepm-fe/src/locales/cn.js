@@ -410,14 +410,22 @@ const cn = {
     TABLE_HEADER_SERVICE_ID: '服务ID',
     NO_DATA_NOTICE: '暂无数据',
     TABLE_HEADER_APP_VERSION: '应用版本',
-    TABLE_HEADER_OPERATION: '操作'
+    TABLE_HEADER_OPERATION: '操作',
+    APP_STATICS_APP: '应用数量：',
+    APP_STATICS_SERVICE: '服务数量：',
+    SERVICE_STATICS_SUBSCRIBED: '被订阅的服务：',
+    APP_STATICS_SUBSCRIBE: '订阅方应用：',
+    NUM: '个',
+    ABILITY_MEP_SELF: 'MEP自身能力',
+    SERVICES_DETAIL: '边缘节点服务详细信息',
+    OPERATION_VIEW: '查看'
   },
   TOPOLOGY_PAGE: {
     PAGE_DESC: '边缘节点应用和服务的拓扑图',
     NODE_TYPE: '节点类型',
     SERVICE: '服务',
     SERVICE_STATUS: '服务状态',
-    SERVICE_STATUS_INACTINVE: '未激活',
+    SERVICE_STATUS_INACTIVE: '未激活',
     SERVICE_STATUS_ACTINVE: '激活',
     TIPS_KEY_SERVICE_NAME: '服务名称：',
     TIPS_KEY_SERVICE_VERSION: '服务版本：',
@@ -427,7 +435,9 @@ const cn = {
     TIPS_KEY_SOURCE: '源端：',
     TIPS_KEY_TARGET: '宿端：',
     TIPS_KEY_SUBORDINATION: '从属关系',
-    TIPS_KEY_SUBSCRIBE: '订阅关系'
+    TIPS_KEY_SUBSCRIBE: '订阅关系',
+    DASHBORD_TAB: '边缘节点的应用和服务概况信息',
+    TOPOLOGY_TAB: '拓扑图展示'
   },
   ...zhLocale
 }

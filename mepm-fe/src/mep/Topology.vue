@@ -19,6 +19,33 @@
     <div class="title-div">
       {{ $t('TOPOLOGY_PAGE.PAGE_DESC') }}
     </div>
+    <div class="legend-div">
+      <div class="type-div">
+        <div class="type-title">
+          {{ $t("TOPOLOGY_PAGE.NODE_TYPE") }}
+        </div>
+        <div class="item item-mep">
+          MEP
+        </div>
+        <div class="item item-app">
+          APP
+        </div>
+        <div class="item item-service">
+          {{ $t("TOPOLOGY_PAGE.SERVICE") }}
+        </div>
+      </div>
+      <div class="type-div">
+        <div class="type-title">
+          {{ $t("TOPOLOGY_PAGE.SERVICE_STATUS") }}
+        </div>
+        <div class="item item-service-active">
+          {{ $t("TOPOLOGY_PAGE.SERVICE_STATUS_ACTINVE") }}
+        </div>
+        <div class="item item-service-inactive">
+          {{ $t("TOPOLOGY_PAGE.SERVICE_STATUS_INACTIVE") }}
+        </div>
+      </div>
+    </div>
     <div id="relationCharts" />
   </div>
 </template>
@@ -26,7 +53,6 @@
 <script>
 import * as echarts from 'echarts'
 import { TOPOLOGY } from '../tools/constant'
-// import axios from 'axios'
 import { lcmController } from '../tools/request'
 
 require('echarts/lib/chart/bar')
@@ -156,10 +182,12 @@ export default {
   data () {
     return {
       myChart: null,
-      symbol_mep: require('../assets/images/MEP.svg'),
-      symbol_app: require('../assets/images/app.svg'),
+      symbol_mep: require('../assets/images/mep.png'), // require('../assets/images/MEP.svg'),
+      symbol_app: require('../assets/images/app.png'), // require('../assets/images/app.svg'),
       legend_mep: require('../assets/images/icon_mep.svg'),
       legend_app: require('../assets/images/icon_app.svg'),
+      symbol_service_active: require('../assets/images/service_active.png'),
+      symbol_service_inactive: require('../assets/images/service_inactive.png'),
       pageDesc: ''
     }
   },
@@ -193,13 +221,15 @@ export default {
         }
       }, {
         name: this.$i18n.t('TOPOLOGY_PAGE.SERVICE_STATUS_ACTINVE'),
+        symbol: `image://${this.symbol_service_active}`,
         itemStyle: {
           normal: {
             color: TOPOLOGY.COLOR.ACTIVE_SERVICE
           }
         }
       }, {
-        name: this.$i18n.t('TOPOLOGY_PAGE.SERVICE_STATUS_INACTINVE'),
+        name: this.$i18n.t('TOPOLOGY_PAGE.SERVICE_STATUS_INACTIVE'),
+        symbol: `image://${this.symbol_service_inactive}`,
         itemStyle: {
           normal: {
             color: TOPOLOGY.COLOR.INACTIVE_SERVICE
@@ -275,84 +305,87 @@ export default {
         animation: true,
         animationEasingUpdate: 'quinticInOut',
         animationDurationUpdate: 1500,
-        legend: [{ // 节点类型, MEP, APP, Service
-          top: '5%', // top, middle, bottom, 20, 20%
-          left: '83%', // right, auto, 20, 20%
-          bottom: 'auto', // auto, 20, 20%
-          borderRadius: 5,
-          itemWidth: 14,
-          itemHeight: 14,
-          padding: [10, 50, 10, 10],
+        legend: {
+          show: false,
+          data: [{ // 节点类型, MEP, APP, Service
+            top: '5%', // top, middle, bottom, 20, 20%
+            left: '83%', // right, auto, 20, 20%
+            bottom: 'auto', // auto, 20, 20%
+            borderRadius: 5,
+            itemWidth: 14,
+            itemHeight: 14,
+            padding: [10, 50, 10, 10],
 
-          // 图例列表布局方向
-          orient: 'vertical', // horizontal, vertical
+            // 图例列表布局方向
+            orient: 'vertical', // horizontal, vertical
 
-          // 名字超长展示...
-          formatter: function (nameParam) {
-            return echarts.format.truncateText(nameParam, 200, '14px Microsoft Yahei', '…')
-          },
+            // 名字超长展示...
+            formatter: function (nameParam) {
+              return echarts.format.truncateText(nameParam, 200, '14px Microsoft Yahei', '…')
+            },
 
-          // 图例tips展示
-          tooltip: {
-            show: true
-          },
+            // 图例tips展示
+            tooltip: {
+              show: true
+            },
 
-          backgroundColor: '#fff', // transparent
+            backgroundColor: '#fff', // transparent
 
-          data: [{ name: categories[4].name, icon: 'none' }].concat(categories.map(function (a) {
-            if (a.name === 'MEP' || a.name === 'APP') {
-              return {
-                name: a.name,
-                icon: a.legend_symbol,
-                textStyle: {
-                  color: a.itemStyle.normal.color
+            data: [{ name: categories[4].name, icon: 'none' }].concat(categories.map(function (a) {
+              if (a.name === 'MEP' || a.name === 'APP') {
+                return {
+                  name: a.name,
+                  icon: a.legend_symbol,
+                  textStyle: {
+                    color: a.itemStyle.normal.color
+                  }
                 }
               }
-            }
-          })).concat([{ name: categories[6].name, icon: 'circle' }])
-        }, { // 服务状态
-          top: '5%', // top, middle, bottom, 20, 20%
-          left: '92%', // right, auto, 20, 20%
-          bottom: 'auto', // auto, 20, 20%
-          borderRadius: 5,
-          itemWidth: 14,
-          itemHeight: 14,
-          padding: [10, 50, 33, 10],
+            })).concat([{ name: categories[6].name, icon: 'circle' }])
+          }, { // 服务状态
+            top: '5%', // top, middle, bottom, 20, 20%
+            left: '92%', // right, auto, 20, 20%
+            bottom: 'auto', // auto, 20, 20%
+            borderRadius: 5,
+            itemWidth: 14,
+            itemHeight: 14,
+            padding: [10, 50, 33, 10],
 
-          // 图例列表布局方向
-          orient: 'vertical',
+            // 图例列表布局方向
+            orient: 'vertical',
 
-          // 名字超长展示...
-          formatter: function (param) {
-            return echarts.format.truncateText(param, 200, '14px Microsoft Yahei', '…')
-          },
+            // 名字超长展示...
+            formatter: function (param) {
+              return echarts.format.truncateText(param, 200, '14px Microsoft Yahei', '…')
+            },
 
-          // 图例tips展示
-          tooltip: {
-            show: true
-          },
+            // 图例tips展示
+            tooltip: {
+              show: true
+            },
 
-          backgroundColor: '#fff',
+            backgroundColor: '#fff',
 
-          data: [{ name: categories[5].name,
-            icon: 'none',
-            textStyle: {
-              fontSize: 12
-            } }].concat(categories.map(function (a) {
-            let iconVal = 'roundRect'
-            if (a.name === categories[2].name || a.name === categories[3].name) {
-              return {
-                name: a.name,
-                icon: iconVal,
-                textStyle: {
-                  color: a.itemStyle.normal.color,
-                  fontSize: 12
+            data: [{ name: categories[5].name,
+              icon: 'none',
+              textStyle: {
+                fontSize: 12
+              } }].concat(categories.map(function (a) {
+              let iconVal = 'roundRect'
+              if (a.name === categories[2].name || a.name === categories[3].name) {
+                return {
+                  name: a.name,
+                  icon: iconVal,
+                  textStyle: {
+                    color: a.itemStyle.normal.color,
+                    fontSize: 12
+                  }
                 }
               }
-            }
-          }))
-        }
-        ],
+            }))
+          }
+          ]
+        },
         series: [
           {
             type: 'graph',
@@ -411,12 +444,10 @@ export default {
     refreshShownWithLan () {
       this.pageDesc = this.$i18n.t('TOPOLOGY_PAGE.PAGE_DESC')
       this.$nextTick(() => {
-        // axios('./service.json')
         lcmController.getServiceList().then(res => {
           let nodesMap = new Map()
           let linksMap = new Map()
           addNodsAndLinks(res, nodesMap, linksMap)
-          // axios('subscribe.json')
           lcmController.getSubscribeInfo().then(subscribeRes => {
             addSubscribLinks(subscribeRes, nodesMap, linksMap)
             let chartData = {
@@ -464,6 +495,94 @@ export default {
   #relationCharts {
     width: 100%;
     height: 852px;
+  }
+  .legend-div{
+    position: absolute;
+    right: 414px; // TODO 与屏幕大小相关
+    width: 178px;
+    font-family: FZLanTingHeiS-L-GB;
+    font-weight: 400;
+    .type-div{
+      background: #FFFFFF;
+      border: 1px solid #F2F3F5;
+      border-radius: 4px;
+      padding: 5px 23px 12px;
+      margin-bottom: 15px;
+      .type-title{
+        font-size: 16px;
+        color: #2B0E52;
+        line-height: 36px;
+      }
+      .item{
+        font-size: 13px;
+        line-height: 23px;
+      }
+      .item-mep{
+        color: #2B0E52;
+      }
+      .item-mep::before{
+        content: '';
+        display:inline-block;
+        margin-right: 13px;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+        background: #280B4E;
+        border-radius: 50%;
+      }
+      .item-app{
+        color: #9766D8;
+      }
+      .item-app::before{
+        content: '';
+        display:inline-block;
+        margin-right: 13px;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+        background: #9766D8;
+        border-radius: 50%;
+      }
+      .item-service{
+        color: #688EF3;
+      }
+      .item-service::before{
+        content: '';
+        display:inline-block;
+        margin-right: 13px;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+        background: #688EF3;
+        border-radius: 50%;
+      }
+      .item-service-active{
+        color: #688EF3;
+      }
+      .item-service-active::before{
+        content: '';
+        display:inline-block;
+        margin-right: 13px;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+        background: #688EF3;
+        border-radius: 50%;
+      }
+      .item-service-inactive{
+        color: #B7B7B7;
+      }
+      .item-service-inactive::before{
+        content: '';
+        display:inline-block;
+        margin-right: 13px;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+        background: #B7B7B7;
+        border-radius: 50%;
+      }
+    }
   }
 }
 .pageInstru {
