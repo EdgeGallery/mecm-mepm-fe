@@ -135,7 +135,7 @@
               <template>
                 <span
                   class="success"
-                ><em class="el-icon-success" />{{ DeploymentStatus }}</span> <!-- TODO 部署状态，值错误-->
+                ><em class="el-icon-success" />{{ DeploymentStatus }}</span>
               </template>
             </el-table-column>
           </el-table>
@@ -197,7 +197,7 @@
                         :loading="loginBtnLoading"
                       >
                         {{ $t('dashboard.appDetails') }}
-                      </el-button> <!-- TODO 跳转至MEP的入口，入口名称不符-->
+                      </el-button>
                     </div>
                   </div>
                 </el-col>

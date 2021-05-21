@@ -56,26 +56,6 @@ const AFFINITY = [
   }
 ]
 
-const TOPOLOGY = {
-  NODE_SIZE: {
-    MEP: 100,
-    APP: 50,
-    SERVICE: 20
-  },
-  NODE_CATEGORY: {
-    MEP: 0,
-    APP: 1,
-    ACTIVE_SERVICE: 2,
-    INACTIVE_SERVICE: 3
-  },
-  COLOR: {
-    MEP: '#9364cf',
-    APP: '#688ef3',
-    ACTIVE_SERVICE: '#1fbdba',
-    INACTIVE_SERVICE: '#6b7691'
-  }
-}
-
 export {
-  TYPES, AFFINITY, TOPOLOGY
+  TYPES, AFFINITY
 }

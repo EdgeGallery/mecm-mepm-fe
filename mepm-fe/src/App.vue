@@ -43,10 +43,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   background: #f5f5f5;
   background-size:cover;
-  /* overflow: auto; */
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  min-width: 320px;
+  overflow: auto;
 }
 </style>

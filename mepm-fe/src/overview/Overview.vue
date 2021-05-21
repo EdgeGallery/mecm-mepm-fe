@@ -92,7 +92,7 @@
                     <el-button
                       id="manageBtn"
                       type="primary"
-                      @click="checkServiceInfo(nodeBasicInfo)"
+                      @click="checkServiceInfo()"
                       :loading="loginBtnLoading"
                     >
                       {{ $t('overview.manage') }}
@@ -183,6 +183,7 @@ export default {
     Usage
   },
   mounted () {
+    console.log('setting details', this.$route.params)
     this.detail = this.$route.params
   },
   data () {
@@ -284,15 +285,19 @@ export default {
           this.edgeApp = this.edgeAppList[0].value
         }
       }).catch(() => {
+        // this.$message.error(this.$t('tip.getAppInfoFailed'))
       })
     },
     getHwCapa () {
+      console.log('details -> ', this.detail)
       if (this.detail && this.detail.hwcapabilities && this.detail.hwcapabilities.length > 0) {
         this.hwCapData = this.detail.hwcapabilities[0]
+        console.log('hw Capabilities -> ', this.hwCapData)
       }
     },
     getMepCapa (host) {
       lcmController.getMepCapabilities(host).then(res => {
+        console.log('mep capabilities res', res)
         if (res && res.data) {
           if (res.data.status !== 500) {
             this.mepCapData = JSON.parse(res.data)
@@ -302,6 +307,7 @@ export default {
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
+        console.log('kpi response from server', res)
         if (res.data) {
           this.kpiInfo = res.data
         }
@@ -326,13 +332,15 @@ export default {
             this.$message.error('Network Error')
           }
           this.loginBtnLoading = false
+          // this.$message.error(this.$t('tip.getServiceFailed'))
         })
       } else {
         this.loginBtnLoading = false
+        // this.$message.warning(this.$t('tip.noPackage'))
       }
     },
-    checkServiceInfo () {
-      this.$router.push({ name: 'mepinfo', params: { nodeIp: this.nodeBasicInfo.mechostIp } })
+    async checkServiceInfo () {
+      window.open('http://' + this.edgeIp + ':30095')
     }
   }
 }
