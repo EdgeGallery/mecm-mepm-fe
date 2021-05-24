@@ -22,7 +22,7 @@
       router
       @select="handleSelect"
       text-color="#ffffff"
-      background-color="#282B33"
+      background-color="#280B4E"
       active-text-color="#688EF3"
       mode="horizontal"
     >
