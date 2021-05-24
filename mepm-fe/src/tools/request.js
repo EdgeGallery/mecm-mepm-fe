@@ -147,15 +147,6 @@ let lcmController = {
   },
   batchDeleteInstanceApp (params) {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
-  },
-  getAbilityCallTimesInfo () {
-    return GET(lcmcontrollerApi + '/mep/kong_log')
-  },
-  getServiceList () {
-    return GET(lcmcontrollerApi + '/mep/services')
-  },
-  getSubscribeInfo () {
-    return GET(lcmcontrollerApi + '/mep/subscribe_statistic')
   }
 }
 
