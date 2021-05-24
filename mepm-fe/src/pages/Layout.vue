@@ -17,7 +17,7 @@
 <template>
   <div class="home-container">
     <router-view id="container" />
-  </div>
+  </div><!-- TODO 整理内部页面，统一样式 -->
 </template>
 
 <script>
