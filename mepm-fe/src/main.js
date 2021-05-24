@@ -40,6 +40,7 @@ Vue.prototype.showMessage = function (type, msg, time) {
     duration: time
   })
 }
+
 require('./assets/js/dark.js')
 Vue.prototype.$pcaa = pcaa
 Vue.use(AreaLinkageVue)
