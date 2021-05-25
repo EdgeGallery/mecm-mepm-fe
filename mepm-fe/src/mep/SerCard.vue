@@ -90,6 +90,8 @@ export default {
           }
         })
       }
+      let dateLabel = this.$i18n.t('SERVICE_PAGE.DATA')
+      let timesLabel = this.$i18n.t('SERVICE_PAGE.TIMES')
       this.option = {
         xAxis: {
           type: 'category',
@@ -170,8 +172,8 @@ export default {
           },
           formatter: function (params) {
             let res
-            res = '<div>' + '时间：' + params[0].name + '</div>'
-            res += '<div>' + '次数：' + params[0].value + '</div>'
+            res = '<div>' + dateLabel + params[0].name + '</div>'
+            res += '<div>' + timesLabel + params[0].value + '</div>'
             return res
           }
         }
@@ -183,6 +185,12 @@ export default {
       this.setOptions()
       this.mapChart()
     })
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.setOptions()
+      this.mapChart()
+    }
   }
 }
 </script>

@@ -235,7 +235,7 @@ export default {
   },
   methods: {
     async showAppDetails (hostIp) {
-      window.open('http://' + hostIp + ':30095')
+      this.$router.push({ name: 'mepinfo', params: { nodeIp: hostIp } })
     },
 
     async getTotalNodes () {
@@ -256,7 +256,6 @@ export default {
     },
 
     showEdgeDetails (row) {
-      console.log('show edge details row -> ', row)
       this.$router.push({ name: 'edge-details', params: row })
     },
 

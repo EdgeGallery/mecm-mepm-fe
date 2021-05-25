@@ -418,7 +418,10 @@ const cn = {
     NUM: '个',
     ABILITY_MEP_SELF: 'MEP自身能力',
     SERVICES_DETAIL: '边缘节点服务详细信息',
-    OPERATION_VIEW: '查看'
+    OPERATION_VIEW: '查看',
+    BACK_BUTTON_NAME: '返回',
+    DATA: '日期：',
+    TIMES: '次数：'
   },
   TOPOLOGY_PAGE: {
     PAGE_DESC: '边缘节点应用和服务的拓扑图',

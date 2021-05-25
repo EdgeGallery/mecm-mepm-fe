@@ -114,14 +114,17 @@ export default {
     height: 100%;
     width: 36px;
     top: 0px;
-    // background: url("../assets/images/pre-button.png") center center no-repeat; // TODO swiper相关定制
+    background: url("../assets/images/pre-button.png") center center no-repeat;
   }
   .swiper-button-next {
     right: 0px;
     height: 100%;
     width: 36px;
     top: 0px;
-    // background: url("../assets/images/next-button.png") center center no-repeat; // TODO swiper相关定制
+    background: url("../assets/images/next-button.png") center center no-repeat;
+  }
+  .swiper-button-prev:after, .swiper-button-next:after{
+    content: '';
   }
 }
 </style>
