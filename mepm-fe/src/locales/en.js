@@ -419,7 +419,10 @@ const en = {
     NUM: '',
     ABILITY_MEP_SELF: 'MEP Capabilities',
     SERVICES_DETAIL: 'Edge Node Service Details',
-    OPERATION_VIEW: 'View'
+    OPERATION_VIEW: 'View',
+    BACK_BUTTON_NAME: 'Return',
+    DATA: 'Date：',
+    TIMES: 'Times：'
   },
   TOPOLOGY_PAGE: {
     PAGE_DESC: 'Topology of applications and services on edge nodes',

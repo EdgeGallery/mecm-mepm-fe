@@ -23,6 +23,9 @@ html,body,p,h1,h2,h3,h4,h5,h6,ul,li{
 #app,html,body{
   height:100%;
 }
+html,body{
+  min-width: 1200px;
+}
 a{
   text-decoration: none;
   color:#fff;
@@ -253,4 +256,12 @@ body .el-table th.gutter{
 }
 @media (min-width: 420px){
   html{font-size:16px;}
+}
+.padding_default{
+  padding: 0 18.75%;
+}
+@media screen and (max-width:1380px){
+  .padding_default{
+    padding: 0 56px;
+  }
 }

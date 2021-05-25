@@ -498,7 +498,7 @@ export default {
   }
   .legend-div{
     position: absolute;
-    right: 414px; // TODO 与屏幕大小相关
+    right: calc(18.75% + 54px); // TODO 与屏幕大小相关
     width: 178px;
     font-family: FZLanTingHeiS-L-GB;
     font-weight: 400;
@@ -587,5 +587,10 @@ export default {
 }
 .pageInstru {
   margin-bottom: 0px!important;
+}
+@media screen and (max-width:1380px){
+  .legend-div{
+    right: 110px!important;
+  }
 }
 </style>

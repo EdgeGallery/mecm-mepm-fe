@@ -17,24 +17,32 @@
 <template>
   <div class="box">
     <div class="inner-nav">
-      <el-row
-        class="tab inner-page-padding"
-        ref="tab"
-      >
+      <div class="opera-area inner-page-background padding_default">
         <div
-          v-for="(item, index) in tabs"
-          :key="index"
-          class="tab-item"
-          :class="{ active: active === index, tabgap: index > 0 }"
-          @click="switchTab(index)"
+          class="tab"
+          ref="tab"
         >
-          {{ $t(item) }}
+          <div
+            v-for="(item, index) in tabs"
+            :key="index"
+            class="tab-item"
+            :class="{ active: active === index, tabgap: index > 0 }"
+            @click="switchTab(index)"
+          >
+            {{ $t(item) }}
+          </div>
         </div>
-      </el-row>
+        <el-button
+          plain
+          @click="returnLastPage()"
+        >
+          {{ $t('SERVICE_PAGE.BACK_BUTTON_NAME') }}
+        </el-button>
+      </div>
       <el-row class="tab-gap-con" />
     </div>
     <el-row
-      class="cont inner-page-padding"
+      class="cont inner-page-background padding_default"
       ref="cont"
       @scroll.passive="onScroll"
     >
@@ -132,6 +140,9 @@ export default {
     }
   },
   methods: {
+    returnLastPage () {
+      this.$router.back(-1)
+    },
     backTop () {
       this.cont1.scrollIntoView({
         block: 'start',
@@ -250,8 +261,8 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.inner-page-padding{
-  padding: 0 360px 0 360px;
+.inner-page-background{
+  // padding: 0 360px 0 360px;
   background-color: #FFFFFF;
 }
 .box {
@@ -260,30 +271,39 @@ export default {
     position: fixed;
     z-index: 99;
     width: 100%;
-    .tab {
-      height: 70px;
-      line-height: 70px;
+    .opera-area{
       display: flex;
       align-items: center;
-      font-size: 18px;
-      color: #696969;
-      .tab-item{
-        cursor: pointer;
-      }
-      .tabgap{
-        padding-left: 44px;
-      }
-      .active {
-        color: #280B4E;
-        &::after {
-          display: block;
-          content: "";
-          height: 2px;
-          margin: auto;
-          margin-top: -3px;
-          background: no-repeat url("../assets/images/underline.png");
-          background-size: 100% 100%;
+      .tab {
+        width: calc(100% - 93px);
+        height: 70px;
+        line-height: 70px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        color: #696969;
+        .tab-item{
+          cursor: pointer;
         }
+        .tabgap{
+          padding-left: 44px;
+        }
+        .active {
+          color: #280B4E;
+          &::after {
+            display: block;
+            content: "";
+            height: 2px;
+            margin: auto;
+            margin-top: -3px;
+            background: no-repeat url("../assets/images/underline.png");
+            background-size: 100% 100%;
+          }
+        }
+      }
+      .el-button{
+        width: 93px;
+        height: 40px; // TODO 图片UCD设计
       }
     }
     .tab-gap-con{
