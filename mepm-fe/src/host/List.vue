@@ -515,7 +515,7 @@ export default {
   },
   methods: {
     async showAppDetails (row) {
-      window.open('http://' + row.mechostIp + ':30095')
+      this.$router.push({ name: 'mepinfo', params: { nodeIp: row.mechostIp } })
     },
     showDetails (row) {
       this.$router.push({ name: 'edge-details', params: row })
