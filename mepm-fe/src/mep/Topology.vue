@@ -182,7 +182,7 @@ export default {
   data () {
     return {
       myChart: null,
-      symbol_mep: require('../assets/images/mep.svg'),
+      symbol_mep: require('../assets/images/MEP.svg'),
       symbol_app: require('../assets/images/app.svg'),
       legend_mep: require('../assets/images/icon_mep.svg'),
       legend_app: require('../assets/images/icon_app.svg'),
