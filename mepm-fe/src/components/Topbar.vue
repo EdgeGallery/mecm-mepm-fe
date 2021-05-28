@@ -32,7 +32,6 @@
           v-if="item.children && item.children.length"
           :index="item.path"
           :key="item.id"
-          :id="item.id"
         >
           <template slot="title">
             <em :class="item.icon" /><span class="first-menu">{{ item.name }}</span>
@@ -44,7 +43,6 @@
               v-if="itemChild.children && itemChild.children.length"
               :index="itemChild.path"
               :key="itemChild.id"
-              :id="item.id"
             >
               <template slot="title">
                 <em :class="itemChild.icon" /><span class="second-menu">{{ itemChild.name }}</span>
@@ -55,7 +53,6 @@
                 v-for="itemChild_Child in itemChild.children"
                 :index="itemChild_Child.path"
                 :key="itemChild_Child.id"
-                :id="item.id"
               >
                 <em :class="itemChild_Child.icon" />
                 <span slot="title">{{ itemChild_Child.name }}</span>
@@ -66,7 +63,6 @@
               v-else
               :index="itemChild.path"
               :key="itemChild.id"
-              :id="item.id"
             >
               <em :class="itemChild.icon" />
               <span
@@ -82,7 +78,6 @@
           v-else
           :index="item.path"
           :key="item.id"
-          :id="item.id"
         >
           <em :class="item.icon" />
           <span
@@ -134,6 +129,8 @@ export default {
         this.indexName = '/mecm/ains/list'
       } else if (this.indexName === '/mecm/ruleconfig') {
         this.indexName = '/mecm/ains/list'
+      } else if (this.indexName.includes('mepm/mepinfo/')) {
+        this.indexName = '/'
       }
     }
   },

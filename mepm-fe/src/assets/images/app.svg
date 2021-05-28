@@ -1,4 +1,4 @@
-<svg id="yy_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="47" height="43.65" viewBox="0 0 47 43.65">
+<svg id="yy_icon" xmlns="http://www.w3.org/2000/svg" width="47" height="43.65" viewBox="0 0 47 43.65">
   <defs>
     <style>
       .cls-1 {
@@ -28,5 +28,7 @@
   <circle id="椭圆_12_拷贝_4" data-name="椭圆 12 拷贝 4" class="cls-2" cx="22.985" cy="19.47" r="18.955"/>
   <path id="椭圆_12_拷贝_4-2" data-name="椭圆 12 拷贝 4" class="cls-3" d="M5555.16,2382.04a15.365,15.365,0,1,1-15.38,15.36A15.368,15.368,0,0,1,5555.16,2382.04Z" transform="translate(-5532.19 -2377.94)"/>
   <path id="椭圆_12_拷贝_4-3" data-name="椭圆 12 拷贝 4" class="cls-4" d="M5555.2,2386.09a11.3,11.3,0,1,1-11.3,11.3A11.3,11.3,0,0,1,5555.2,2386.09Z" transform="translate(-5532.19 -2377.94)"/>
-  <image id="应用系统_拷贝_2" data-name="应用系统 拷贝 2" x="15.81" y="12.06" width="15" height="15" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAABYElEQVQokY2SPyhFURzHP49XymLyTp3FJJOYZJJJyabkREqKwkBKJr1XZDIY5G1ioNMrGW3yRoPFJMXm5GCgFL2n9/Sr63U7797yXc499/f9/Pr9OZlCoUAo5YwCdoAxwAJ5r+1H6GtJANeAe2BOrsCK3JUzi6E3G4OGgH2gt6kUyAEHyplZYMlre9OAlTMZoJwAhRoALoGORtle2zpw/g9YVGrq2Ws7DkwCTynQAzDitZ1v9KycWQZGgUOvrWQtKWdkBfnI8wOse233ohZXAQMcZ4oLd/VY9mtgw2tbVs7IkKZkUF7binJmBtgCuiJvTeBvoC0o8QqY8Nq+KWf6o133BJ5X6bmS0N8wcBJ9nyWAoqrArSkD+orO95R4VuD2lGA1OEPlBN5OCcrDESVV9ikvrcVruwn0AaeBQaYt6oz9qwG7QLfXtvj3wm69ttPAIHABvMSSifkROIog2fkzwC+YImhtw0CALwAAAABJRU5ErkJggg=="/>
+  <path id="形状_1371" data-name="形状 1371" class="cls-3" d="M5556,2391l-7,3,6,3,7-3Z" transform="translate(-5532.19 -2377.94)"/>
+  <path id="形状_1372" data-name="形状 1372" class="cls-3" d="M5549,2396l6,3v6l-6-3v-6Z" transform="translate(-5532.19 -2377.94)"/>
+  <path id="形状_1373" data-name="形状 1373" class="cls-3" d="M5556,2399l6-3v6l-6,3v-6Z" transform="translate(-5532.19 -2377.94)"/>
 </svg>

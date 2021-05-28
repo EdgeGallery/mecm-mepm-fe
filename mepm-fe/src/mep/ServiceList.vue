@@ -219,7 +219,7 @@ export default {
     }
   },
   beforeMount () {
-    lcmController.getServiceList().then(res => {
+    lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
       let nodesMap = new Map()
       if (res && res.data) {
         let len = res.data.length

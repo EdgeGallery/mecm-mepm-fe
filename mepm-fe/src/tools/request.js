@@ -25,6 +25,7 @@ if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.host
 }
 
+api = 'https://' + '119.8.47.5' // TODO 调试代码删除
 let lcmcontrollerApi = api + ':30204' + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
 
@@ -148,14 +149,17 @@ let lcmController = {
   batchDeleteInstanceApp (params) {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
-  getAbilityCallTimesInfo () {
-    return GET(lcmcontrollerApi + '/mep/kong_log')
+  getAbilityCallTimesInfo (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/kong_log')
   },
-  getServiceList () {
-    return GET(lcmcontrollerApi + '/mep/services')
+  getServiceList (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/services') // TODO 多节点管理的场景lcm的IP信息不是mepm的
   },
-  getSubscribeInfo () {
-    return GET(lcmcontrollerApi + '/mep/subscribe_statistic')
+  getSubscribeInfo (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/subscribe_statistic')
   }
 }
 

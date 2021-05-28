@@ -70,7 +70,7 @@ const TOPOLOGY = {
   },
   COLOR: {
     MEP: '#9364cf',
-    APP: '#688ef3',
+    APP: '#9766D8',
     ACTIVE_SERVICE: '#1fbdba',
     INACTIVE_SERVICE: '#6b7691'
   }

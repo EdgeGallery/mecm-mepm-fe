@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     returnLastPage () {
-      this.$router.back(-1)
+      this.$router.back(-1) // TODO overview和nodeInfo合并后，该按钮用于返回overView页面
     },
     backTop () {
       this.cont1.scrollIntoView({
@@ -184,9 +184,6 @@ export default {
         this.active = 0
       }
     },
-    refreshShownWithLan () {
-      // TODO 界面国际化处理
-    },
     closeServiceDescribeInfo () {
       this.showServiceSubscribeData = false
     },
@@ -204,7 +201,7 @@ export default {
   beforeMount () {
     let appMap = new Map()
     let serviceMap = new Map()
-    lcmController.getServiceList().then(res => {
+    lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
       if (res && res.data) {
         let len = res.data.length
         for (let i = 0; i < len; i++) {
@@ -229,12 +226,12 @@ export default {
         this.serviceCount = serviceArray.length
         this.appData = appArray
         this.serviceData = serviceArray
-        lcmController.getSubscribeInfo().then(statisticRes => {
+        lcmController.getSubscribeInfo(this.$route.params.nodeIp).then(statisticRes => {
           if (statisticRes && statisticRes.data) {
             this.subscribeCount = statisticRes.data.subscribeNum.appSubscribeNum
             this.subscribedCount = statisticRes.data.subscribeNum.serviceSubscribedNum
           }
-          lcmController.getAbilityCallTimesInfo().then((res) => {
+          lcmController.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((res) => {
             let appServices = res.data.appServices
             appServices.forEach((element, index) => {
               element.id = element.name + index
@@ -247,7 +244,6 @@ export default {
               element.callTimes.reverse()
             })
             this.mepCapabilityies = mepServices
-            this.refreshShownWithLan()
           })
         })
       }
@@ -262,7 +258,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .inner-page-background{
-  // padding: 0 360px 0 360px;
   background-color: #FFFFFF;
 }
 .box {

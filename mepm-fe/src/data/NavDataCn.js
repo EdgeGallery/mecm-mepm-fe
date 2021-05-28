@@ -19,46 +19,34 @@ const NavDataCn = [
     'id': '2.1',
     'icon': '',
     'name': '概览',
-    'path': '/',
-    'pageId': '2.0',
-    'display': false
+    'path': '/'
   },
   {
     'id': '2.2',
     'name': '应用管理',
     'path': '/mecm/app/pakage',
-    'pageId': '2.0.1',
-    'display': false,
     'children': [
       {
         'id': '2.2.1',
         'name': '应用包管理',
-        'path': '/mecm/apac/list',
-        'pageId': '2.0.1.1',
-        'display': false
+        'path': '/mecm/apac/list'
       },
       {
         'id': '2.2.3',
         'name': '应用实例管理',
-        'path': '/mecm/ains/list',
-        'pageId': '2.0.1.3',
-        'display': false
+        'path': '/mecm/ains/list'
       }
     ]
   },
   {
     'id': '2.3',
     'name': '边缘节点管理',
-    'path': '/mecm/node/list',
-    'pageId': '2.0.2',
-    'display': false
+    'path': '/mecm/node/list'
   },
   {
     'id': '2.7',
     'name': '关于',
-    'path': '/mecm/about',
-    'pageId': '2.0.3',
-    'display': false
+    'path': '/mecm/about'
   }
 ]
 
