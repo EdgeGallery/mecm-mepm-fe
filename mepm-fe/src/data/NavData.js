@@ -19,46 +19,34 @@ const NavData = [
     'id': '2.1',
     'icon': '',
     'name': 'Overview',
-    'path': '/',
-    'pageId': '2.0',
-    'display': false
+    'path': '/'
   },
   {
     'id': '2.2',
     'name': 'APP Management',
     'path': '/mecm/app/pakage',
-    'pageId': '2.0.1',
-    'display': false,
     'children': [
       {
         'id': '2.3',
         'name': 'Package Management',
-        'path': '/mecm/apac/list',
-        'pageId': '2.0.1.1',
-        'display': false
+        'path': '/mecm/apac/list'
       },
       {
         'id': '2.5',
         'name': 'App Instance List',
-        'path': '/mecm/ains/list',
-        'pageId': '2.0.1.3',
-        'display': false
+        'path': '/mecm/ains/list'
       }
     ]
   },
   {
     'id': '2.6',
     'name': 'EdgeNodes Management',
-    'path': '/mecm/node/list',
-    'pageId': '2.0.2',
-    'display': false
+    'path': '/mecm/node/list'
   },
   {
     'id': '2.7',
     'name': 'About',
-    'path': '/mecm/about',
-    'pageId': '2.0.2',
-    'display': false
+    'path': '/mecm/about'
   }
 ]
 

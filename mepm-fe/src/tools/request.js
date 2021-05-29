@@ -148,14 +148,17 @@ let lcmController = {
   batchDeleteInstanceApp (params) {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
-  getAbilityCallTimesInfo () {
-    return GET(lcmcontrollerApi + '/mep/kong_log')
+  getAbilityCallTimesInfo (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/kong_log')
   },
-  getServiceList () {
-    return GET(lcmcontrollerApi + '/mep/services')
+  getServiceList (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/services') // TODO 多节点管理的场景lcm的IP信息不是mepm的
   },
-  getSubscribeInfo () {
-    return GET(lcmcontrollerApi + '/mep/subscribe_statistic')
+  getSubscribeInfo (nodeIp) {
+    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    return GET(lcmBasicUrl + '/mep/subscribe_statistic')
   }
 }
 

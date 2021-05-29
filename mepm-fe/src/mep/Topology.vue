@@ -182,12 +182,12 @@ export default {
   data () {
     return {
       myChart: null,
-      symbol_mep: require('../assets/images/mep.png'), // TODO 替换为svg
-      symbol_app: require('../assets/images/app.png'),
+      symbol_mep: require('../assets/images/MEP.svg'),
+      symbol_app: require('../assets/images/app.svg'),
       legend_mep: require('../assets/images/icon_mep.svg'),
       legend_app: require('../assets/images/icon_app.svg'),
-      symbol_service_active: require('../assets/images/service_active.png'),
-      symbol_service_inactive: require('../assets/images/service_inactive.png'),
+      symbol_service_active: require('../assets/images/service_active.svg'),
+      symbol_service_inactive: require('../assets/images/service_inactive.svg'),
       pageDesc: ''
     }
   },
@@ -444,11 +444,11 @@ export default {
     refreshShownWithLan () {
       this.pageDesc = this.$i18n.t('TOPOLOGY_PAGE.PAGE_DESC')
       this.$nextTick(() => {
-        lcmController.getServiceList().then(res => {
+        lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
           let nodesMap = new Map()
           let linksMap = new Map()
           addNodsAndLinks(res, nodesMap, linksMap)
-          lcmController.getSubscribeInfo().then(subscribeRes => {
+          lcmController.getSubscribeInfo(this.$route.params.nodeIp).then(subscribeRes => {
             addSubscribLinks(subscribeRes, nodesMap, linksMap)
             let chartData = {
               nodes: Array.from(nodesMap.values()),
@@ -498,7 +498,7 @@ export default {
   }
   .legend-div{
     position: absolute;
-    right: calc(18.75% + 54px); // TODO 与屏幕大小相关
+    right: calc(18.75% + 54px);
     width: 178px;
     font-family: FZLanTingHeiS-L-GB;
     font-weight: 400;
