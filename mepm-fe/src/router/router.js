@@ -24,11 +24,13 @@ export default new Router({
     {
       path: '/',
       name: 'overview',
-      component: () => import('../overview/Dashboard.vue')
+      // component: () => import('../overview/Dashboard.vue')
+      component: () => import('../overview_new/Overview.vue')
     }, {
       path: '/index',
       redirect: '/',
-      component: () => import('../overview/Dashboard.vue')
+      // component: () => import('../overview/Dashboard.vue')
+      component: () => import('../overview_new/Overview.vue')
     },
     {
       path: '/edge-details',

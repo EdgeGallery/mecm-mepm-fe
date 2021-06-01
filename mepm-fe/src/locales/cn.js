@@ -71,7 +71,14 @@ const cn = {
     edgeNodes: '节点总数',
     onlineNodes: '在线节点数',
     offlineNodes: '离线节点数',
-    returnOverview: '返回主视图'
+    returnOverview: '返回主视图',
+    nodeDetails: '查看节点详情',
+    appsInfo: '查看应用信息',
+    package: '应用程序包',
+    nodeInfoAreaTitle: '节点信息',
+    availablePackage: '可用的应用程序包',
+    distributedPackage: '已分发的应用程序包',
+    deployedPackage: '已部署的应用程序包'
   },
   app: {
     packageList: {

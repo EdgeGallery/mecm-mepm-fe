@@ -18,15 +18,19 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
+const serverPort = 30102
+
 let api
 if (window.location.href.indexOf('30097') > -1) {
-  api = 'https://' + window.location.href.split('//')[1].split(':')[0]
+  api = 'http://' + window.location.href.split('//')[1].split(':')[0]
 } else {
-  api = 'https://' + window.location.host
+  api = 'http://' + window.location.host
 }
 
-let lcmcontrollerApi = api + ':30204' + '/lcmcontroller/v1'
-let appRuleMgrApi = api + ':30206' + '/apprulemgr/v1'
+api = 'http://' + '119.8.47.5' // TODO 调试代码删除
+
+let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
+let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
