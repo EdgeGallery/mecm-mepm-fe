@@ -153,15 +153,15 @@ let lcmController = {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
   getAbilityCallTimesInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/kong_log')
   },
   getServiceList (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/services') // TODO 多节点管理的场景lcm的IP信息不是mepm的
   },
   getSubscribeInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':30204/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/subscribe_statistic')
   }
 }
