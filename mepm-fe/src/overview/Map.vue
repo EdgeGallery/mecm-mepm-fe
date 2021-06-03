@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div style="height:600px;">
+  <div>
     <div class="content">
       <div
         id="mapChart"
@@ -81,7 +81,6 @@ export default {
     detail () {
       let arr = []
       arr.push(this.detail)
-      console.log('detail -> this.detail', this.detail)
       this.showLayers(arr)
       this.$emit('node', this.detail)
     },
@@ -99,7 +98,6 @@ export default {
             item.coordinates = item.coordinates.split(',')
           })
           this.nodeData = res.data
-          console.log('getNodeList -> this.nodeData', this.nodeData)
         }
       }, error => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
@@ -309,16 +307,13 @@ export default {
       this.$emit('area', this.nodeData, '')
     },
     openlayers (data) {
-      console.log('open layers', data)
-      data[0].coordinates = data[0].coordinates.split(',')
-      console.log('openlayers -> data', data[0].coordinates)
       let _this = this
       this.btnShow = true
+      let coordinates = data[0].coordinates === '' ? ['116.41667', '39.91667'] : data[0].coordinates.split(',') // default show on beijing center
       if (this.map) {
-        console.log('openlayers -> this.map', this.map)
         this.map.setView(new View({
           projection: 'EPSG:4326',
-          center: [data[0].coordinates[0], data[0].coordinates[1]],
+          center: coordinates,
           zoom: 16
         }))
       } else {
@@ -330,30 +325,25 @@ export default {
                 // openstreet
                 url: 'http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
               })
-
             })
           ],
           view: new View({
             projection: 'EPSG:4326',
-            center: [data[0].coordinates[0], data[0].coordinates[1]],
+            center: coordinates,
             zoom: 16
           })
         })
-        console.log('openlayers -> this.map -> init', this.map)
       }
-      console.log('nodedata', this.nodeData)
 
       var features = []
-      console.log('features initialized')
       features.push(
         new OlFeature({
           type: 'icon',
-          geometry: new OlGeomPoint([data[0].coordinates[0], data[0].coordinates[1]]),
+          geometry: new OlGeomPoint(coordinates),
           eventTarget_: data,
           style: './style.json'
         })
       )
-      console.log('features', features)
       var source = new OlSourceVector({
         features: features
       })
@@ -411,7 +401,7 @@ export default {
   width: 100%;
   height: 100%;
   .chart,.chart1 {
-    height: 100%;
+    height: 800px;
   }
   .return{
     position: absolute !important;

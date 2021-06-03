@@ -72,13 +72,14 @@ const cn = {
     onlineNodes: '在线节点数',
     offlineNodes: '离线节点数',
     returnOverview: '返回主视图',
-    nodeDetails: '查看节点详情',
-    appsInfo: '查看应用信息',
+    nodeDetails: '查看节点详情>>',
+    appsInfo: '查看应用信息>>',
     package: '应用程序包',
     nodeInfoAreaTitle: '节点信息',
     availablePackage: '可用的应用程序包',
     distributedPackage: '已分发的应用程序包',
-    deployedPackage: '已部署的应用程序包'
+    deployedPackage: '已部署的应用程序包',
+    info: '提示：当前环境没有可管理的节点！'
   },
   app: {
     packageList: {

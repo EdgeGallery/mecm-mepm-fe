@@ -35,7 +35,7 @@
               <div class="nodeInfo-area-title">
                 {{ $t('overview.nodeInfo') }}
               </div>
-              <el-row class="nodeInfo-area-value">
+              <el-row class="nodeInfo-area-value pt-10">
                 <el-col :span="12">
                   <div class="nodeBasicInfo">
                     <p>
@@ -93,7 +93,7 @@
               <el-button
                 type="primary"
                 @click="checkServiceInfo()"
-                class="float-right mt-22"
+                class="float-right mt-20"
               >
                 {{ $t('overview.manage') }}
               </el-button>
@@ -215,6 +215,9 @@ export default {
 }
 </script>
 <style lang='less'>
+.pt-10{
+  padding-top: 10px
+}
 .p10{
   padding: 10px;
 }
@@ -227,8 +230,8 @@ export default {
 .pb-30{
   padding-bottom: 30px;
 }
-.mt-22{
-  margin-top: 22px;
+.mt-20{
+  margin-top: 20px;
 }
 .node-detail-area {
   width: calc(100% - 400px);
@@ -265,7 +268,7 @@ export default {
       font-weight: 400;
       color: #280B4E;
       line-height: 24px;
-      padding: 10px 0px 0px 11px;
+      padding-left: 11px;
       .nodeBasicInfo{
         p{
           padding-bottom: 10px;

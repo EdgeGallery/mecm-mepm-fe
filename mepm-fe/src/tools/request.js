@@ -27,8 +27,6 @@ if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.host
 }
 
-api = 'https://' + '119.8.47.5' // TODO 调试代码删除
-
 let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
 

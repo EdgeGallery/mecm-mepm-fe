@@ -74,13 +74,14 @@ const en = {
     onlineNodes: 'Number of Online Nodes',
     offlineNodes: 'Number of Offline Nodes',
     returnOverview: 'Back to main view',
-    nodeDetails: 'Node Details',
-    appsInfo: 'App Information',
+    nodeDetails: 'Node Details>>',
+    appsInfo: 'App Information>>',
     package: 'Application Packages',
     nodeInfoAreaTitle: 'Node Information',
     availablePackage: 'Avaliable Application Packages',
     distributedPackage: 'Distributed Application Packages',
-    deployedPackage: 'Deployed Application Packages'
+    deployedPackage: 'Deployed Application Packages',
+    info: 'hints： No manageable nodes. '
   },
   app: {
     packageList: {
