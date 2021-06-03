@@ -96,7 +96,6 @@ export default {
     }
   },
   mounted () {
-    console.log('kpi info -> ', this.kpiInfo)
     if (JSON.stringify(this.kpiInfo) !== '{}') {
       this.setData()
     }

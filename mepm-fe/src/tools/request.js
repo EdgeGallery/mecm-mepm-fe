@@ -18,6 +18,8 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
+const serverPort = 31252
+
 let api
 if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
@@ -25,8 +27,8 @@ if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.host
 }
 
-let lcmcontrollerApi = api + ':31252' + '/lcmcontroller/v1'
-let appRuleMgrApi = api + ':31252' + '/apprulemgr/v1'
+let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
+let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
 
 axios.interceptors.response.use(
   function (response) {
@@ -149,15 +151,15 @@ let lcmController = {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
   getAbilityCallTimesInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':31252/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/kong_log')
   },
   getServiceList (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':31252/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/services') // TODO 多节点管理的场景lcm的IP信息不是mepm的
   },
   getSubscribeInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':31252/lcmcontroller/v1'
+    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/subscribe_statistic')
   }
 }

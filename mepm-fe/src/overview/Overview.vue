@@ -1,5 +1,5 @@
 <!--
-  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
   -
   -  Licensed under the Apache License, Version 2.0 (the "License");
   -  you may not use this file except in compliance with the License.
@@ -15,503 +15,344 @@
   -->
 
 <template>
-  <div class="mecm-overview">
-    <el-row
-      style="height: 100%; padding: 30px; width: 100%;"
-    >
-      <el-col
-        :span="8"
-        style="padding: 30px 0px;"
+  <div class="pageContainer">
+    <div class="banner">
+      <swiper
+        v-if="nodeList.length >= 1"
+        class="swiper"
+        :options="swiperOption"
+        @slideChange="slideChange"
+        ref="mySwiper"
       >
-        <div
-          class="edge-souces"
-          v-if="alarmStatus === 'nodeinfo'"
+        <swiper-slide
+          v-for="(item, index) in nodeList"
+          :key="index"
+          class="one-node-banner"
         >
-          <el-row>
-            <el-col
-              :span="24"
-              style="padding-bottom: 20px"
-            >
-              <el-card class="bg-theme">
-                <h6 class="text-white fs-16">
-                  {{ $t('overview.nodeInfo') }}
-                </h6>
-                <el-row>
-                  <el-col :span="12">
-                    <div class="nodeBasicInfo2">
-                      <p class="text-white">
-                        <span>{{ $t('overview.name') }}</span>{{ nodeBasicInfo.mechostName }}
-                      </p>
-                      <p class="text-white">
-                        <span>{{ $t('overview.address') }}</span>{{ nodeBasicInfo.city }}
-                      </p>
-                    </div>
-                  </el-col>
-                  <el-col :span="12">
-                    <div class="nodeBasicInfo2">
-                      <p class="text-white">
-                        <span>{{ $t('overview.nodeIp') }}</span>{{ nodeBasicInfo.mechostIp }}
-                      </p>
-                    </div>
-                  </el-col>
-                </el-row>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :span="24"
-              style="padding-bottom: 20px"
-            >
-              <el-card>
-                <h6 class="text-muted fs-16">
-                  {{ $t('overview.k8sResc') }}
-                </h6>
-                <div class="pt-0">
-                  <Usage :kpi-info="kpiInfo" />
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
-              :span="24"
-              style="padding-bottom: 20px"
-            >
-              <el-card>
-                <el-row class="d-flex align-items-center justify-content-between">
-                  <el-col :span="16">
-                    <h6 class="text-muted fs-16">
-                      {{ $t('overview.mepInfo') }}
-                    </h6>
-                  </el-col>
-                  <el-col
-                    :span="8"
-                    class="text-right"
-                  >
-                    <el-button
-                      id="manageBtn"
-                      type="primary"
-                      @click="checkServiceInfo(nodeBasicInfo)"
-                      :loading="loginBtnLoading"
-                    >
-                      {{ $t('overview.manage') }}
-                    </el-button>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="8">
-                    <div class="nodeBasicInfo">
-                      <p class="inner-circle-data">
-                        <span>{{ $t('overview.type') }}</span>{{ hwCapData.hwType }}
-                      </p>
-                    </div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="nodeBasicInfo">
-                      <p class="inner-circle-data">
-                        <span>{{ $t('overview.model') }}</span>{{ hwCapData.hwModel }}
-                      </p>
-                    </div>
-                  </el-col>
-                  <el-col :span="8">
-                    <div class="nodeBasicInfo">
-                      <p class="inner-circle-data">
-                        <span>{{ $t('overview.vendor') }}</span>{{ hwCapData.hwVendor }}
-                      </p>
-                    </div>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-col :span="24">
-                    <el-table
-                      :data="mepCapData"
-                      class="capaTable"
-                      style="width: 100%"
-                      header-row-class-name="headerClassName"
-                    >
-                      <el-table-column
-                        prop="capabilityName"
-                        :label="$t('overview.softwareCapa')"
-                      />
-                      <el-table-column
-                        prop="status"
-                        :label="$t('app.packageList.status')"
-                      />
-                      <el-table-column
-                        prop="version"
-                        :label="$t('app.packageList.version')"
-                      />
-                    </el-table>
-                  </el-col>
-                </el-row>
-              </el-card>
-            </el-col>
-          </el-row>
-        </div>
-      </el-col>
-      <el-col
-        :span="16"
-        style="height: 600px; padding: 30px"
-      >
-        <el-card style="height: 700px">
-          <div
-            slot="header"
-            class="text-muted fs-16"
-          >
-            <span style="font-weight: bold;">{{ $t('overview.location') }}</span>
+          <div class="banner-title-en">
+            EDGE NODE INFORMATION DISPLAY
           </div>
-          <Map
-            @node="clickNode"
-            @area="clickMap"
-            :detail="detail"
-          />
-        </el-card>
-      </el-col>
-    </el-row>
+          <div class="banner-title-zh">
+            边缘节点信息展示
+          </div>
+          <div class="node-basic-info">
+            <span>{{ $t("overview.nodeName") + item.mechostName }}</span>
+            <span>{{ $t("overview.nodeAddress") + item.city }}</span>
+            <span>{{ $t("overview.nodeIp") + item.mechostIp }}</span>
+          </div>
+          <div class="banner-buttons">
+            <el-button
+              round
+              @click="checkNodeInfo()"
+            >
+              {{ $t("overview.nodeDetails") }}
+            </el-button>
+            <el-button
+              round
+              @click="checkServiceInfo(item.mechostIp)"
+            >
+              {{ $t("overview.appsInfo") }}
+            </el-button>
+          </div>
+        </swiper-slide>
+        <div
+          v-if="nodeList.length > 1"
+          class="swiper-button-prev"
+          slot="button-prev"
+        />
+        <div
+          v-if="nodeList.length > 1"
+          class="swiper-button-next"
+          slot="button-next"
+        />
+      </swiper>
+      <div
+        v-else
+        class="swiper"
+      >
+        <div class="one-node-banner">
+          <div class="banner-title-en">
+            EDGE NODE INFORMATION DISPLAY
+          </div>
+          <div class="banner-title-zh">
+            边缘节点信息展示
+          </div>
+          <div class="node-basic-info">
+            <span>{{ $t("overview.info") }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="division">
+      <img src="../assets/images/division_line_right.png">
+      {{ $t("overview.package") }}
+      <img src="../assets/images/division_line_left.png">
+    </div>
+    <div class="package-area">
+      <div class="package-data">
+        <img src="../assets/images/usable_package.png">
+        <div class="words-area">
+          <div class="words-area-title">
+            {{ $t("overview.availablePackage") }}
+          </div>
+          <div class="words-area-value">
+            {{ packageUploadedCount }}
+          </div>
+        </div>
+      </div>
+      <div class="package-data">
+        <img src="../assets/images/distributed_package.png">
+        <div class="words-area">
+          <div class="words-area-title">
+            {{ $t("overview.distributedPackage") }}
+          </div>
+          <div class="words-area-value">
+            {{ distributedCount }}
+          </div>
+        </div>
+      </div>
+      <div class="package-data">
+        <img src="../assets/images/deployed_package.png">
+        <div class="words-area">
+          <div class="words-area-title">
+            {{ $t("overview.deployedPackage") }}
+          </div>
+          <div class="words-area-value">
+            {{ deployedCount }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="division"
+      v-if="nodeList.length >= 1"
+    >
+      <img src="../assets/images/division_line_right.png">
+      {{ $t("overview.nodeInfoAreaTitle") }}
+      <img src="../assets/images/division_line_left.png">
+    </div>
+    <NodeDetails
+      :detail="curShownNodeInfo"
+      ref="nodeDetails"
+      v-show="nodeList.length >= 1"
+    />
   </div>
 </template>
 
 <script>
-
-import Usage from './Usage.vue'
-import Map from './Map.vue'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import NodeDetails from './NodeDetails.vue'
 import { lcmController } from '../tools/request.js'
+
 export default {
-  components: {
-    Map,
-    Usage
-  },
-  mounted () {
-    this.detail = this.$route.params
-  },
+  components: { NodeDetails, Swiper, SwiperSlide },
   data () {
     return {
-      serviceInfo: {},
-      alarmStatus: 'alarms',
-      hwCapData: [],
-      mepCapData: [],
-      edgeApp: '',
-      edgeAppList: [],
-      manageDialogStatus: false,
-      infoList: [],
-      kpiInfo: {},
-      loginBtnLoading: false,
-      chartData: {},
-      nodeBasicInfo: null,
-      nodeNum: 0,
-      city: '',
-      edgeIp: '',
+      swiperOption: {
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        on: {
+          slideChange () {
+            console.log(this.activeIndex)
+          }
+        }
+      },
+      retryCount: 3,
+      packageUploadedCount: 0,
+      distributedCount: 0,
+      deployedCount: 0,
       nodeList: [],
-      detail: {}
+      curShownNodeInfo: {}
     }
   },
-  watch: {
-    '$i18n.locale': function (val) {
-      if (val === 'en') {
-        this.city = 'All '
-      } else {
-        this.city = '全国'
-      }
-    }
-  },
+  computed: {},
+  watch: {},
   methods: {
-    resetData () {
-      this.hwCapData = []
-      this.edgeAppList = []
-      this.edgeApp = ''
-      this.edgeIp = ''
-    },
-    clickNode (val) {
-      this.nodeBasicInfo = val
-      this.alarmStatus = 'nodeinfo'
-      this.resetData()
-      this.getNodeKpi(val.mechostIp)
-      this.getHwCapa()
-      this.getMepCapa(val.mechostIp)
-      this.edgeIp = val.mechostIp
-    },
-    clickMap (msg, city) {
-      this.alarmStatus = 'alarms'
-      if (this.$i18n.locale === 'en') {
-        this.city = city
-      } else {
-        if (city === '西藏') {
-          this.city = 'Xizang'
-        } else if (city === '重庆') {
-          this.city = 'Chongqing'
-        } else if (city === '全国') {
-          this.city = 'All'
-        }
-      }
-      this.nodeList = msg
-      this.nodeList.forEach(item => {
-        item.city = item.city.split('/')[0]
-      })
-      this.nodeNum = msg.length
-      this.chartData =
-        {
-          'Total': this.nodeNum,
-          'Online': this.nodeNum,
-          'Offline': 0
-        }
-    },
-    showDetail (row) {
-      this.detail = row
-    },
-    appChange (val) {
-      this.edgeAppList.forEach(item => {
-        if (item.value === val) {
-          this.edgeApp = val
-        }
+    checkNodeInfo () {
+      let ele = this.$refs.nodeDetails.$el
+      ele.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+        inline: 'nearest'
       })
     },
-    getAppInfo (ip) {
-      lcmController.getInstanceList().then(res => {
-        this.infoList = res.data.response
-        this.edgeAppList = []
-        if (this.infoList && this.infoList.length > 0) {
-          this.infoList.forEach(item => {
-            if (item.mecHost === ip && item.operationalStatus === 'Instantiated') {
-              let obj = {}
-              obj.label = item.appName
-              obj.value = item.appInstanceId
-              obj.id = item.appPackageId
-              obj.appId = item.appId
-              this.edgeAppList.push(obj)
-            }
-          })
-          this.edgeApp = this.edgeAppList[0].value
-        }
-      }).catch(() => {
-      })
+    checkServiceInfo (mechostIp) {
+      this.$router.push({ name: 'mepinfo', params: { nodeIp: mechostIp } })
     },
-    getHwCapa () {
-      if (this.detail && this.detail.hwcapabilities && this.detail.hwcapabilities.length > 0) {
-        this.hwCapData = this.detail.hwcapabilities[0]
-      }
+    slideChange () {
+      let activeIndex = this.$refs.mySwiper.$swiper.activeIndex
+      this.curShownNodeInfo = this.nodeList[activeIndex]
     },
-    getMepCapa (host) {
-      lcmController.getMepCapabilities(host).then(res => {
-        if (res && res.data) {
-          if (res.data.status !== 500) {
-            this.mepCapData = JSON.parse(res.data)
+    async getAppDistributedCount () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
+        await lcmController.getDistributionList().then(res => {
+          let count = 0
+          if (res.data && res.data.length > 0) {
+            this.packageUploadedCount = res.data.length
+            res.data.forEach(item => {
+              count = count + this.getDistributedCountForHost(item)
+            })
+            this.distributedCount = count
+            isQuerySuccess = true
           }
-        }
-      })
-    },
-    getNodeKpi (ip) {
-      lcmController.getNodeKpi(ip).then(res => {
-        if (res.data) {
-          this.kpiInfo = res.data
-        }
-      }).catch(() => {
-        console.log('error response from server for query kpi')
-        this.$message.error(this.$t('tip.getKpiFailed'))
-      })
-    },
-    getServiceInfo (instanceId) {
-      if (this.edgeAppList.length > 0) {
-        this.loginBtnLoading = true
-        lcmController.getServiceInfo(instanceId).then(res => {
-          this.serviceInfo = JSON.parse(res.data.response)
-          this.manageDialogStatus = true
-          this.loginBtnLoading = false
         }).catch((error) => {
-          if (error.response.status === 412) {
-            this.$message.error(error.response.data.response)
-          } else if (error.response.status === 404) {
-            this.$message.warning(this.$t('tip.getStatusDelay'))
-          } else {
-            this.$message.error('Network Error')
-          }
-          this.loginBtnLoading = false
+          console.log('Failed to get distribution count', error.response)
         })
-      } else {
-        this.loginBtnLoading = false
       }
     },
-    checkServiceInfo () {
-      this.$router.push({ name: 'mepinfo', params: { nodeIp: this.nodeBasicInfo.mechostIp } })
+    getDistributedCountForHost (resItem) {
+      let count = 0
+      if (resItem.mecHostInfo && resItem.mecHostInfo.length > 0) {
+        resItem.mecHostInfo.forEach(host => {
+          if (host.status === 'Distributed') {
+            count++ // TODO 一个应用包分发给n个节点，统计计数是n
+          }
+        })
+      }
+      return count
+    },
+    async getAppInfo () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
+        await lcmController.getInstanceList().then(res => {
+          if (res.data && res.data.response && res.data.response.length > 0) {
+            this.deployedCount = res.data.response.length
+            isQuerySuccess = true
+          }
+        }).catch((error) => {
+          console.log('Failed to get Instance count', error.response)
+        })
+      }
+    },
+    async getTotalNodes () {
+      let isQuerySuccess = false
+      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
+        await lcmController.getHostList().then(res => {
+          if (res.data && res.data.length > 0) {
+            res.data.forEach((item, index) => {
+              this.nodeList.push(item)
+            })
+            isQuerySuccess = true
+            this.curShownNodeInfo = this.nodeList[0] // TODO 从别的界面跳转过来的时候可以指定显示第几个Node
+          }
+        }).catch((error) => {
+          console.log('Failed to get host list -> ', error.response)
+        })
+      }
     }
+  },
+  created () {
+    this.getAppDistributedCount()
+    this.getAppInfo()
+    this.getTotalNodes()
   }
 }
 </script>
-<style lang='less'>
-.mecm-overview {
-  position: absolute;
-  top: 65px;
-  width: 100%;
-  height:calc(100% - 65px);
-  overflow: auto;
-  background:#f5f5f5;
-  background-size: cover;
-  box-sizing: border-box;
-}
-.pt-0 {
-  padding-top: 0 !important;
-}
-  label.overviewLabel{
-    font-family: PingFangSC-Medium,sans-serif;
-    font-size: 20px;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    line-height: 24px;
-    display: block;
-    padding:8px 0;
-    background: #494b4e;
-    padding-left: 8px;
-  }
-  .fs-16 {
-    font-size: 16px !important;
-  }
-  .text-muted {
-    color: #474c56;
-  }
-  .mt20 {
-    margin-top: 20px;
-  }
-  .ml20 {
-    margin-left: 20px;
-  }
-  .el-table td, .el-table th{
-    padding:5px 0;
-  }
-  .nodeBasicInfo{
-    color:black;
-    padding: 0 0 25px 0;
-    margin-top: 15px;
-    p{
-      font-size: 13px;
-      line-height: 32px;
-      padding: 0 10px;
-      span{
-        display: inline-block;
-        color:#474c56;
+<style lang='less' scoped>
+.pageContainer{
+  margin-top: 65px;
+  background: #FFFFFF!important;
+  .banner{
+    width: 100%;
+    text-align: center;
+    .swiper{
+      height: 740px;
+      .one-node-banner{
+        width: 100%;
+        height: 100%;
+        background: no-repeat url("../assets/images/banner.png");
+        background-size: cover;
+        .banner-title-en{
+          font-size: 36px;
+          color: #FFFFFF;
+          font-family: Arial;
+          font-weight: 400;
+          line-height: 37px;
+          padding-top: 85px;
+        }
+        .banner-title-zh{
+          font-size: 78px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          color: #FFFFFF;
+          line-height: 80px;
+          padding-top: 18px;
+        }
+        .node-basic-info{
+          font-size: 19px;
+          font-family: FZLanTingHeiS-L-GB;
+          font-weight: 400;
+          color: #FFFFFF;
+          line-height: 32px;
+          padding-top: 22.5px;
+        }
+        .node-basic-info :nth-child(2), :nth-child(3){
+          padding-left: 20px;
+        }
+        .banner-buttons{
+          padding-top: 34.5px;
+          .el-button{
+            font-size: 20px!important;
+          }
+          .el-button:hover, .el-button:hover,{
+            color: #F5EA6E;
+            border-color: #F5EA6E;
+          }
+        }
+        .banner-buttons :nth-child(2) {
+          margin-left: 60px;
+        }
       }
     }
   }
+  .division{
+    text-align: center;
+    font-size: 32px;
+    font-family: FZLanTingHeiS-L-GB;
+    font-weight: 400;
+    color: #280B4E;
+    line-height: 32px;
+    padding-top: 60px;
+  }
+  .package-area{
+    width: calc(100% - 400px);
+    margin: 40px 200px 0 200px;
+    background-image: url("../assets/images/package_area_img.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    overflow: visible;
+    box-shadow: 0px 1px 29px 0px rgba(175, 175, 175, 0.21);
+    .package-data{
+      height: 160px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .words-area{
+        margin-left: 20px;
+        text-align: left;
+        .words-area-title{
+          font-size: 20px;
+          font-family: FZLanTingHeiS-L-GB;
+          font-weight: 400;
+          color: #280B4E;
+          line-height: 26px;
+        }
+        .words-area-value{
+          font-size: 36px;
+          font-family: FZZhengHeiS-B-GB;
+          font-weight: 400;
+          color: #FD8864;
+          line-height: 62px;
+        }
+      }
+    }
+  }
+}
 
-.nodeBasicInfo2{
-  color:white;
-  margin-top: 15px;
-  p{
-    font-size: 13px;
-    line-height: 24px;
-    span{
-      display: inline-block;
-      color:white;
-    }
-  }
-}
-  .content-right {
-      padding: 0!important;
-      background: #2f2d2d;
-      height: 100%;
-    .my-title {
-      color: white;
-    }
-    .edge-souces {
-      padding: 15px 15px 0 15px;
-      .el-table {
-        border-color: #2395db !important;
-        color: white;
-        .el-table__row:nth-child(2n) {
-          background: #102238 !important;
-        }
-        .el-table__row:nth-child(2n + 1) {
-          background: #2D4868 !important;
-        }
-        td {
-          padding: 3px 0;
-          .cell {
-            line-height: 30px !important;
-          }
-        }
-        .headerClassName {
-          th {
-            background: #152437 !important;
-            color: #F5F5F5;
-          }
-          .cell::before{
-            content:'';
-            display:inline-block;
-            height:13px;
-            width:2px;
-            background: #f5f5f5;
-            margin-right:4px;
-            position: relative;
-            top:3px;
-          }
-        }
-      }
-      .el-table::before,
-      .el-table--border::after {
-        height: 0 !important;
-      }
-      .el-table--border th {
-        border-right: 1px solid #2395db !important;
-      }
-      .el-table tbody tr:hover > td {
-        background-color: transparent;
-      }
-      .el-table td, .el-table th.is-leaf{
-        border-bottom: none;
-      }
-      .el-select {
-        .el-input {
-          input {
-            background-color: transparent;
-            border: 1px solid #2395db;
-            color: white;
-          }
-          .el-input__suffix {
-            i {
-              color: white;
-            }
-          }
-        }
-      }
-      .el-button {
-        background-color: #2c58a6;
-        border-color: #0263ff;
-      }
-    }
-  }
-  .headerClassName{
-    font-size: 13px;
-  }
-  .hwCapData{
-    margin-top:15px;
-  }
-  .capaTable{
-    max-height: 185px;
-    overflow-y: auto;
-  }
-  .nodelistTable{
-    max-height: 350px;
-    overflow-y: auto;
-  }
-  .bg-theme {
-    background-color: #409EFF;
-  }
-  .text-white {
-    color: white;
-  }
-  .text-right {
-    text-align: right;
-  }
-  .d-flex {
-    display: flex;
-  }
-  .align-items-center {
-    align-items: center;
-  }
-  .justify-content-between {
-    justify-content: space-between;
-  }
-  .inner-circle-data {
-    color: #474c56;
-    font-size: 13px;
-  }
 </style>
