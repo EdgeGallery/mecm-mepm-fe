@@ -1,29 +1,72 @@
+<!--
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
+  -
+  -  Licensed under the Apache License, Version 2.0 (the "License");
+  -  you may not use this file except in compliance with the License.
+  -  You may obtain a copy of the License at
+  -
+  -      http://www.apache.org/licenses/LICENSE-2.0
+  -
+  -  Unless required by applicable law or agreed to in writing, software
+  -  distributed under the License is distributed on an "AS IS" BASIS,
+  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  -  See the License for the specific language governing permissions and
+  -  limitations under the License.
+  -->
+
 <template>
   <div class="pageContainer">
     <div class="banner">
-      <div
-        v-if="nodeList.length === 1"
-        class="one-node-banner"
+      <swiper
+        v-if="nodeList.length >= 1"
+        class="swiper"
+        :options="swiperOption"
+        @slideChange="slideChange"
+        ref="mySwiper"
       >
-        <div class="banner-title-en">
-          EDGE NODE INFORMATION DISPLAY
-        </div>
-        <div class="banner-title-zh">
-          边缘节点信息展示
-        </div>
-        <div class="node-basic-info">
-          <span>{{ $t("overview.nodeName") + nodeList[0].mechostName }}</span>
-          <span>{{ $t("overview.nodeAddress") + nodeList[0].city }}</span>
-          <span>{{ $t("overview.nodeIp") + nodeList[0].mechostIp }}</span>
-        </div>
-        <div class="banner-buttons">
-          <el-button round>
-            {{ $t("overview.nodeDetails") }}
-          </el-button>
-          <el-button round>
-            {{ $t("overview.appsInfo") }}
-          </el-button>
-        </div>
+        <swiper-slide
+          v-for="(item, index) in nodeList"
+          :key="index"
+          class="one-node-banner"
+        >
+          <div class="banner-title-en">
+            EDGE NODE INFORMATION DISPLAY
+          </div>
+          <div class="banner-title-zh">
+            边缘节点信息展示
+          </div>
+          <div class="node-basic-info">
+            <span>{{ $t("overview.nodeName") + item.mechostName }}</span>
+            <span>{{ $t("overview.nodeAddress") + item.city }}</span>
+            <span>{{ $t("overview.nodeIp") + item.mechostIp }}</span>
+          </div>
+          <div class="banner-buttons">
+            <el-button
+              round
+              @click="checkNodeInfo()"
+            >
+              {{ $t("overview.nodeDetails") }}
+            </el-button>
+            <el-button
+              round
+              @click="checkServiceInfo(item.mechostIp)"
+            >
+              {{ $t("overview.appsInfo") }}
+            </el-button>
+          </div>
+        </swiper-slide>
+        <div
+          v-if="nodeList.length > 1"
+          class="swiper-button-prev"
+          slot="button-prev"
+        />
+        <div
+          v-if="nodeList.length > 1"
+          class="swiper-button-next"
+          slot="button-next"
+        />
+      </swiper>
+      <div v-else>
       </div>
     </div>
     <div class="division">
@@ -66,41 +109,76 @@
         </div>
       </div>
     </div>
-    <div class="division">
+    <div
+      class="division"
+      v-if="nodeList.length >= 1"
+    >
       <img src="../assets/images/division_line_right.png">
       {{ $t("overview.nodeInfoAreaTitle") }}
       <img src="../assets/images/division_line_left.png">
     </div>
-    <NodeDetails />
+    <NodeDetails
+      :detail="curShownNodeInfo"
+      ref="nodeDetails"
+      v-show="nodeList.length >= 1"
+    />
   </div>
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import NodeDetails from './NodeDetails.vue'
 // import { lcmController } from '../tools/request.js'
 import { apm, appo, inventory } from '../tools/request1.js'
 
 export default {
-  components: { NodeDetails },
+  components: { NodeDetails, Swiper, SwiperSlide },
   data () {
     return {
+      swiperOption: {
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        on: {
+          slideChange () {
+            console.log(this.activeIndex)
+          }
+        }
+      },
       retryCount: 3,
       packageUploadedCount: 0,
       distributedCount: 0,
       deployedCount: 0,
-      nodeList: []
+      nodeList: [],
+      curShownNodeInfo: {}
     }
   },
   computed: {},
   watch: {},
   methods: {
+    checkNodeInfo () {
+      let ele = this.$refs.nodeDetails.$el
+      ele.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+        inline: 'nearest'
+      })
+    },
+    checkServiceInfo (mechostIp) {
+      this.$router.push({ name: 'mepinfo', params: { nodeIp: mechostIp } })
+    },
+    slideChange () {
+      let activeIndex = this.$refs.mySwiper.$swiper.activeIndex
+      this.curShownNodeInfo = this.nodeList[activeIndex]
+    },
     async getAppDistributedCount () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
         await /* lcmController */apm.getDistributionList().then(res => {
           let count = 0
           if (res.data && res.data.length > 0) {
-            this.packageUploadedCount = res.data.length // TODO 待确认是否是已上传的应用包数量
+            this.packageUploadedCount = res.data.length
             res.data.forEach(item => {
               count = count + this.getDistributedCountForHost(item)
             })
@@ -126,8 +204,8 @@ export default {
     async getAppInfo () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await /* lcmController */ appo.getInstanceList().then(res => {
-          if (res.data && res.data.response && res.data.response.length > 0) { // TODO 包了一层response?
+        await /* lcmController */appo.getInstanceList().then(res => {
+          if (res.data && res.data.response && res.data.response.length > 0) {
             this.deployedCount = res.data.response.length
             isQuerySuccess = true
           }
@@ -139,12 +217,13 @@ export default {
     async getTotalNodes () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await /* lcmController.getHostList() */ inventory.getList(2).then(res => {
+        await /* lcmController.getHostList() */inventory.getList(2).then(res => {
           if (res.data && res.data.length > 0) {
             res.data.forEach((item, index) => {
               this.nodeList.push(item)
             })
             isQuerySuccess = true
+            this.curShownNodeInfo = this.nodeList[0] // TODO 从别的界面跳转过来的时候可以指定显示第几个Node
           }
         }).catch((error) => {
           console.log('Failed to get host list -> ', error.response)
@@ -156,16 +235,7 @@ export default {
     this.getAppDistributedCount()
     this.getAppInfo()
     this.getTotalNodes()
-  },
-  mounted () {
-  },
-  beforeCreate () {},
-  beforeMount () {},
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>
@@ -174,48 +244,50 @@ export default {
   background: #FFFFFF!important;
   .banner{
     width: 100%;
-    height: 740px;
     text-align: center;
-    .one-node-banner{
-      width: 100%;
-      height: 100%;
-      background: no-repeat url("../assets/images/banner.png");
-      background-size: cover;
-      .banner-title-en{
-        font-size: 36px;
-        color: #FFFFFF;
-        font-family: Arial;
-        font-weight: 400;
-        line-height: 37px;
-        padding-top: 85px;
-      }
-      .banner-title-zh{
-        font-size: 78px;
-        font-family: Microsoft YaHei;
-        font-weight: 400;
-        color: #FFFFFF;
-        line-height: 80px;
-        padding-top: 18px;
-      }
-      .node-basic-info{
-        font-size: 19px;
-        font-family: FZLanTingHeiS-L-GB;
-        font-weight: 400;
-        color: #FFFFFF;
-        line-height: 32px;
-        padding-top: 22.5px;
-      }
-      .node-basic-info :nth-child(2), :nth-child(3){
-        padding-left: 20px;
-      }
-      .banner-buttons{
-        padding-top: 34.5px;
-        .el-button{
-          font-size: 20px!important;
+    .swiper{
+      height: 740px;
+      .one-node-banner{
+        width: 100%;
+        height: 100%;
+        background: no-repeat url("../assets/images/banner.png");
+        background-size: cover;
+        .banner-title-en{
+          font-size: 36px;
+          color: #FFFFFF;
+          font-family: Arial;
+          font-weight: 400;
+          line-height: 37px;
+          padding-top: 85px;
         }
-      }
-      .banner-buttons :nth-child(2) {
-        margin-left: 60px;
+        .banner-title-zh{
+          font-size: 78px;
+          font-family: Microsoft YaHei;
+          font-weight: 400;
+          color: #FFFFFF;
+          line-height: 80px;
+          padding-top: 18px;
+        }
+        .node-basic-info{
+          font-size: 19px;
+          font-family: FZLanTingHeiS-L-GB;
+          font-weight: 400;
+          color: #FFFFFF;
+          line-height: 32px;
+          padding-top: 22.5px;
+        }
+        .node-basic-info :nth-child(2), :nth-child(3){
+          padding-left: 20px;
+        }
+        .banner-buttons{
+          padding-top: 34.5px;
+          .el-button{
+            font-size: 20px!important;
+          }
+        }
+        .banner-buttons :nth-child(2) {
+          margin-left: 60px;
+        }
       }
     }
   }

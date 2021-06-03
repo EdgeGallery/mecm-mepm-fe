@@ -51,7 +51,7 @@ const en = {
     capa: 'Capabilities',
     vendor: 'Vendor',
     model: 'Model',
-    type: 'Type',
+    type: 'SW Capabilities',
     desc: 'Description',
     app: 'App',
     manage: 'Manage',

@@ -309,10 +309,11 @@ export default {
     openlayers (data) {
       let _this = this
       this.btnShow = true
+      let coordinates = data[0].coordinates === '' ? ['0', '0'] : data[0].coordinates.split(',')
       if (this.map) {
         this.map.setView(new View({
           projection: 'EPSG:4326',
-          center: [data[0].coordinates[0], data[0].coordinates[1]],
+          center: coordinates,
           zoom: 16
         }))
       } else {
@@ -328,7 +329,7 @@ export default {
           ],
           view: new View({
             projection: 'EPSG:4326',
-            center: [data[0].coordinates[0], data[0].coordinates[1]],
+            center: coordinates,
             zoom: 16
           })
         })
@@ -338,7 +339,7 @@ export default {
       features.push(
         new OlFeature({
           type: 'icon',
-          geometry: new OlGeomPoint([data[0].coordinates[0], data[0].coordinates[1]]),
+          geometry: new OlGeomPoint(coordinates),
           eventTarget_: data,
           style: './style.json'
         })
@@ -400,7 +401,7 @@ export default {
   width: 100%;
   height: 100%;
   .chart,.chart1 {
-    height: 851px;
+    height: 800px;
   }
   .return{
     position: absolute !important;

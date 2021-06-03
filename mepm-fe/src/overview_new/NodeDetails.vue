@@ -1,5 +1,5 @@
 <!--
-  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -  Copyright 2021 Huawei Technologies Co., Ltd.
   -
   -  Licensed under the Apache License, Version 2.0 (the "License");
   -  you may not use this file except in compliance with the License.
@@ -40,11 +40,7 @@
                   <div class="nodeBasicInfo">
                     <p>
                       <span class="node-label-icon hostName-icon">{{ $t('overview.name') }}</span>
-                      {{ nodeBasicInfo.mechostName }}
-                    </p>
-                    <p>
-                      <span class="node-label-icon address-icon">{{ $t('overview.address') }}</span>
-                      {{ nodeBasicInfo.city }}
+                      {{ detail.mechostName }}
                     </p>
                   </div>
                 </el-col>
@@ -52,7 +48,17 @@
                   <div class="nodeBasicInfo">
                     <p>
                       <span class="node-label-icon ip-icon">{{ $t('overview.nodeIp') }}</span>
-                      {{ nodeBasicInfo.mechostIp }}
+                      {{ detail.mechostIp }}
+                    </p>
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row class="nodeInfo-area-value">
+                <el-col :span="24">
+                  <div class="nodeBasicInfo">
+                    <p>
+                      <span class="node-label-icon address-icon">{{ $t('overview.address') }}</span>
+                      {{ detail.city }}
                     </p>
                   </div>
                 </el-col>
@@ -75,81 +81,64 @@
           </el-row>
           <el-row>
             <el-col
-              :span="24"
+              :span="16"
             >
-              <el-row>
-                <div class="nodeInfo-area-title">
-                  {{ $t('overview.mepInfo') }}
-                </div>
-              </el-row>
-              <el-row class="pt-16">
-                <el-table
-                  :data="hwCapData"
-                  stripe
-                >
-                  <el-table-column
-                    prop="hwCapData"
-                    :label="$t('overview.type')"
-                    width="180"
-                  />
-                  <el-table-column
-                    prop="hwModel"
-                    :label="$t('overview.model')"
-                    width="180"
-                  />
-                  <el-table-column
-                    prop="hwVendor"
-                    :label="$t('overview.vendor')"
-                  />
-                </el-table>
-              </el-row>
-              <el-row class="pt-16">
-                <el-col :span="18">
-                  <el-select
-                    v-model="value"
-                    placeholder="请选择"
-                  >
-                    <el-option
-                      v-for="item in edgeAppList"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    />
-                  </el-select>
-                </el-col>
-                <el-col
-                  :span="6"
-                >
-                  <el-button
-                    type="primary"
-                    @click="checkServiceInfo(nodeBasicInfo)"
-                    class="float-right"
-                  >
-                    {{ $t('overview.manage') }}
-                  </el-button>
-                </el-col>
-              </el-row>
-              <el-row class="pt-16">
-                <el-col :span="24">
-                  <el-table
-                    :data="mepCapData"
-                    header-row-class-name="headerClassName"
-                  >
-                    <el-table-column
-                      prop="capabilityName"
-                      :label="$t('overview.softwareCapa')"
-                    />
-                    <el-table-column
-                      prop="status"
-                      :label="$t('app.packageList.status')"
-                    />
-                    <el-table-column
-                      prop="version"
-                      :label="$t('app.packageList.version')"
-                    />
-                  </el-table>
-                </el-col>
-              </el-row>
+              <div class="nodeInfo-area-title">
+                {{ $t('overview.mepInfo') }}
+              </div>
+            </el-col>
+            <el-col
+              :span="8"
+            >
+              <el-button
+                type="primary"
+                @click="checkServiceInfo()"
+                class="float-right mt-22"
+              >
+                {{ $t('overview.manage') }}
+              </el-button>
+            </el-col>
+          </el-row>
+          <el-row class="pt-16">
+            <el-table
+              :data="detail.hwcapabilities"
+              stripe
+            >
+              <el-table-column
+                prop="hwType"
+                :label="$t('overview.type')"
+                width="180"
+              />
+              <el-table-column
+                prop="hwModel"
+                :label="$t('overview.model')"
+                width="180"
+              />
+              <el-table-column
+                prop="hwVendor"
+                :label="$t('overview.vendor')"
+              />
+            </el-table>
+          </el-row>
+          <el-row class="pt-16">
+            <el-col :span="24">
+              <el-table
+                :data="mepCapData"
+                header-row-class-name="headerClassName"
+              >
+                <el-table-column
+                  prop="capabilityName"
+                  :label="$t('overview.softwareCapa')"
+                />
+                <el-table-column
+                  prop="status"
+                  :label="$t('app.packageList.status')"
+                />
+                <el-table-column
+                  prop="version"
+                  :label="$t('app.packageList.version')"
+                />
+              </el-table>
             </el-col>
           </el-row>
         </div>
@@ -158,11 +147,12 @@
         class="shadow ml-30"
         :span="16"
       >
-        <Map
-          @node="clickNode"
-          @area="clickMap"
-          :detail="detail"
-        />
+        <div class="p10">
+          <Map
+            @node="clickNode"
+            :detail="detail"
+          />
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -178,145 +168,26 @@ export default {
     Map,
     Usage
   },
-  mounted () {
-    this.detail = { // TODO
-      mechostIp: '192.168.100.29',
-      mechostName: 'vm',
-      zipCode: '',
-      city: '北京市',
-      address: '1/1.1/116.35,39.979508',
-      ffinity: 'X86',
-      userName: '',
-      applcmIp: '159.138.139.166',
-      appRuleIp: '159.138.139.166',
-      coordinates: [
-        '116.35',
-        '39.979508'
-      ],
-      hwcapabilities: [
-        {
-          hwType: 'GPU',
-          hwVendor: '',
-          hwModel: 'huawei'
-        }
-      ],
-      vim: 'OpenStack',
-      configUploadStatus: 'Uploaded',
-      coord: [
-        '116.35',
-        '39.979508'
-      ],
-      edgeAppList: []
+  beforeMount () {
+    this.getNodeKpi(this.detail.mechostIp)
+    this.getMepCapa(this.detail.mechostIp)
+  },
+  props: {
+    detail: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
     return {
-      serviceInfo: {},
       alarmStatus: 'alarms',
-      hwCapData: [],
       mepCapData: [],
-      edgeApp: '',
-      edgeAppList: [],
-      manageDialogStatus: false,
-      infoList: [],
-      kpiInfo: {},
-      loginBtnLoading: false,
-      chartData: {},
-      nodeBasicInfo: {
-        mechostName: 'mechostName',
-        city: 'city',
-        mechostIp: '119.8.47.5'
-      },
-      nodeNum: 0,
-      city: '',
-      edgeIp: '',
-      nodeList: [],
-      detail: {}
-    }
-  },
-  watch: {
-    '$i18n.locale': function (val) {
-      if (val === 'en') {
-        this.city = 'All '
-      } else {
-        this.city = '全国'
-      }
+      kpiInfo: {}
     }
   },
   methods: {
-    resetData () {
-      this.hwCapData = []
-      this.edgeAppList = []
-      this.edgeApp = ''
-      this.edgeIp = ''
-    },
     clickNode (val) {
-      // this.nodeBasicInfo = val
       this.alarmStatus = 'nodeinfo'
-      this.resetData()
-      this.getNodeKpi(this.nodeBasicInfo.mechostIp)
-      this.getHwCapa()
-      this.getMepCapa(this.nodeBasicInfo.mechostIp)
-      this.edgeIp = this.nodeBasicInfo.mechostIp
-    },
-    clickMap (msg, city) {
-      this.alarmStatus = 'alarms'
-      if (this.$i18n.locale === 'en') {
-        this.city = city
-      } else {
-        if (city === '西藏') {
-          this.city = 'Xizang'
-        } else if (city === '重庆') {
-          this.city = 'Chongqing'
-        } else if (city === '全国') {
-          this.city = 'All'
-        }
-      }
-      this.nodeList = msg
-      this.nodeList.forEach(item => {
-        item.city = item.city.split('/')[0]
-      })
-      this.nodeNum = msg.length
-      this.chartData = {
-        'Total': this.nodeNum,
-        'Online': this.nodeNum,
-        'Offline': 0
-      }
-    },
-    showDetail (row) {
-      this.detail = row
-    },
-    appChange (val) {
-      this.edgeAppList.forEach(item => {
-        if (item.value === val) {
-          this.edgeApp = val
-        }
-      })
-    },
-    getAppInfo (ip) {
-      lcmController.getInstanceList().then(res => {
-        this.infoList = res.data.response
-        this.edgeAppList = []
-        if (this.infoList && this.infoList.length > 0) {
-          this.infoList.forEach(item => {
-            if (item.mecHost === ip && item.operationalStatus === 'Instantiated') {
-              let obj = {}
-              obj.label = item.appName
-              obj.value = item.appInstanceId
-              obj.id = item.appPackageId
-              obj.appId = item.appId
-              this.edgeAppList.push(obj)
-            }
-          })
-          this.edgeApp = this.edgeAppList[0].value
-        }
-      }).catch(() => {
-      })
-    },
-    getHwCapa () {
-      if (this.detail && this.detail.hwcapabilities && this.detail.hwcapabilities.length > 0) {
-        this.hwCapData = this.detail.hwcapabilities // TODO
-      }
     },
     getMepCapa (host) {
       lcmController.getMepCapabilities(host).then(res => {
@@ -337,34 +208,16 @@ export default {
         this.$message.error(this.$t('tip.getKpiFailed'))
       })
     },
-    getServiceInfo (instanceId) {
-      if (this.edgeAppList.length > 0) {
-        this.loginBtnLoading = true
-        lcmController.getServiceInfo(instanceId).then(res => {
-          this.serviceInfo = JSON.parse(res.data.response)
-          this.manageDialogStatus = true
-          this.loginBtnLoading = false
-        }).catch((error) => {
-          if (error.response.status === 412) {
-            this.$message.error(error.response.data.response)
-          } else if (error.response.status === 404) {
-            this.$message.warning(this.$t('tip.getStatusDelay'))
-          } else {
-            this.$message.error('Network Error')
-          }
-          this.loginBtnLoading = false
-        })
-      } else {
-        this.loginBtnLoading = false
-      }
-    },
     checkServiceInfo () {
-      this.$router.push({ name: 'mepinfo', params: { nodeIp: this.nodeBasicInfo.mechostIp } })
+      this.$router.push({ name: 'mepinfo', params: { nodeIp: this.detail.mechostIp } })
     }
   }
 }
 </script>
 <style lang='less'>
+.p10{
+  padding: 10px;
+}
 .float-right{
   float: right;
 }
@@ -373,6 +226,9 @@ export default {
 }
 .pb-30{
   padding-bottom: 30px;
+}
+.mt-22{
+  margin-top: 22px;
 }
 .node-detail-area {
   width: calc(100% - 400px);
@@ -386,7 +242,6 @@ export default {
   }
   .nodeinfo{
     .nodeInfo-area-title::before{
-      margin-top: 30px;
       content: "";
       display: inline-block;
       width: 2px;
@@ -397,6 +252,7 @@ export default {
       top: 1px;
     }
     .nodeInfo-area-title{
+      margin-top: 30px;
       font-size: 16px;
       font-family: FZLanTingHeiS-L-GB;
       font-weight: bold;
