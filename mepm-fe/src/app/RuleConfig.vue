@@ -18,8 +18,7 @@
   <div class="ruleconfig">
     <Breadcrumb
       class="breadcrumb"
-      :first="$t('nav.ruleConfiguration')"
-      :path="{ path: '/mecm/ains/list' }"
+      :data="[{name: $t('nav.ruleConfiguration'), path: '/mecm/ruleconfig'}]"
     />
     <div class="ruleconfigcontent">
       <el-tabs

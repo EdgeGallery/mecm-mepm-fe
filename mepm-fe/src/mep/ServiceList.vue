@@ -244,37 +244,37 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 // 边框
-.el-table td, .el-table th.is-leaf {
+/deep/ .el-table td, /deep/ .el-table th.is-leaf {
     border-bottom: none;
 }
-.el-table--border::after, .el-table--group::after, .el-table::before {
+/deep/ .el-table--border::after, /deep/ .el-table--group::after, /deep/ .el-table::before {
   height: 0px;
 }
 // 表头
-.el-table thead {
+/deep/ .el-table thead {
   font-size: 16px;
   font-family: FZLanTingHeiS-L-GB;
   color: #666666;
 }
-.el-table th>.cell{
+/deep/ .el-table th>.cell{
   font-weight: 400!important;
 }
-.el-table .has-gutter th {
+/deep/ .el-table .has-gutter th {
   background: #FFFFFF;
 }
 
 // 行高
-.el-table td, .el-table th {
+/deep/ .el-table td, /deep/ .el-table th {
   padding: 6px 0;
 }
-.el-table .cell{
+/deep/ .el-table .cell{
   line-height: 40px;
 }
 
 // 斑马色
-.el-table--striped .el-table__body tr.el-table__row--striped td {
+/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
     background: #F2F3F5;
 }
 

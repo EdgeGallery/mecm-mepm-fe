@@ -76,6 +76,10 @@ export default {
   },
   mounted () {
     this.getNodeList()
+    let arr = []
+    arr.push(this.detail)
+    this.showLayers(arr)
+    this.$emit('node', this.detail)
   },
   watch: {
     detail () {

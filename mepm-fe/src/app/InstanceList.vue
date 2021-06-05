@@ -18,8 +18,7 @@
   <div>
     <Breadcrumb
       class="breadcrumb"
-      :first="$t('nav.appInstance')"
-      :path="{ path: '/mecm/apac/list' }"
+      :data="[{name: $t('nav.appInstance'), path: '/mecm/ains/list'}]"
     />
     <div class="ainsList">
       <Search

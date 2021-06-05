@@ -17,8 +17,12 @@
 <template>
   <div class="breadcrumb">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">
-        {{ first }}
+      <el-breadcrumb-item
+        v-for="item in data"
+        :key="item.name"
+        :to="item.path"
+      >
+        {{ item.name }}
       </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
@@ -31,13 +35,9 @@ export default {
 
   },
   props: {
-    first: {
+    data: {
       required: true,
-      type: String
-    },
-    path: {
-      required: true,
-      type: Object
+      type: Array
     }
   },
   methods: {

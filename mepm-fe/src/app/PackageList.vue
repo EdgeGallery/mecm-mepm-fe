@@ -18,8 +18,7 @@
   <div>
     <Breadcrumb
       class="breadcrumb"
-      :first="$t('nav.packageMana')"
-      :path="{ path: '/mecm/apac/list' }"
+      :data="[{name: $t('nav.packageMana'), path: '/mecm/apac/list'}]"
     />
     <div class="apacList">
       <Search
