@@ -1,37 +1,43 @@
 # mecm-mepm-fe
 
+[![许可证](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![詹金斯](https://img.shields.io/jenkins/build?jobUrl=http%3A%2F%2Fjenkins.edgegallery.org%2Fview%2FMEC-PLATFORM-BUILD%2Fjob%2Fmecm-meo-frontend-docker -image-update-daily-master%2F)
+
 #### 介绍
-Portal for MEPM
+MEPM 门户存储库
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+#### 建筑学
+参见【配置参考】(https://cli.vuejs.org/config/)。
 
 
-#### 特技
+#### 安装
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. npm 安装
+
+#### 指示
+
+- 项目设置
+安装
+- 为开发编译和热重载
+npm 运行服务
+- 编译和缩小生产
+npm 运行构建
+- 运行你的测试
+npm 运行测试
+- Lints 和修复文件
+npm 运行 lint
+
+#### 贡献
+
+1. 分叉回购
+2.新的Feat_xxx分支
+3.推送代码
+4. 新的拉取请求
+
+
+#### 关联
+
+1. MECM：[http://mecm.edgegallery.org](http://mecm.edgegallery.org)
+2. EdgeGallery：[http://www.edgegallery.org/](http://www.edgegallery.org/)
+3. EdgeGallery 社区：[https://gitee.com/edgegallery](https://gitee.com/edgegallery)
+4. 电子邮箱：contact@edgegallery.org

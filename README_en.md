@@ -1,37 +1,43 @@
 # mecm-mepm-fe
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Jenkins](https://img.shields.io/jenkins/build?jobUrl=http%3A%2F%2Fjenkins.edgegallery.org%2Fview%2FMEC-PLATFORM-BUILD%2Fjob%2Fmecm-meo-frontend-docker-image-update-daily-master%2F)
+
 #### Introduction
-Portal for MEPM
+MEPM portal repo
 
-#### Software Architecture
-Software architecture description
+#### Architecture
+See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-#### Installation tutorial
+#### Installation
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. npm install
 
-#### Instructions for use
+#### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- Project setup  
+npm install
+- Compiles and hot-reloads for development  
+npm run serve
+- Compiles and minifies for production  
+npm run build
+- Run your tests  
+npm run test
+- Lints and fixes files  
+npm run lint
 
-#### Participate in contribution
+#### Contribution
 
-1.  Fork This warehouse
+1.  Fork Repo
 2.  New Feat_xxx Branch
-3.  Submit code
+3.  Push Code
 4.  New Pull Request
 
 
-#### trick
+#### Link
 
-1.  use Readme\_XXX.md To support different languages，E.g Readme\_en.md, Readme\_zh.md
-2.  Gitee Official blog [blog.gitee.com](https://blog.gitee.com)
-3.  you could [https://gitee.com/explore](https://gitee.com/explore) This address to understand Gitee Excellent open source project on
-4.  [GVP](https://gitee.com/gvp) Full name is Gitee The most valuable open source project，It is an excellent open source project evaluated comprehensively
-5.  Gitee Officially provided manual [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee The cover character is a file to show Gitee Member style column [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  MECM：[http://mecm.edgegallery.org](http://mecm.edgegallery.org)
+2.  EdgeGallery：[http://www.edgegallery.org/](http://www.edgegallery.org/)
+3.  EdgeGallery Community：[https://gitee.com/edgegallery](https://gitee.com/edgegallery)
+4.  E-mail: contact@edgegallery.org
