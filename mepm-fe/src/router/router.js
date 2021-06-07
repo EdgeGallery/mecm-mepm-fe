@@ -33,7 +33,7 @@ export default new Router({
     {
       path: '/edge-details',
       name: 'edge-details',
-      component: () => import('../overview/Overview.vue')
+      component: () => import('../host/NodeInfo.vue')
     },
     {
       path: '',

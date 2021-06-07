@@ -131,11 +131,15 @@
       {{ $t("overview.nodeInfoAreaTitle") }}
       <img src="../assets/images/division_line_left.png">
     </div>
-    <NodeDetails
-      :detail="curShownNodeInfo"
-      ref="nodeDetails"
-      v-show="nodeList.length >= 1"
-    />
+    <div class="pb-30">
+      <div class="node-detail-area">
+        <NodeDetails
+          :detail="curShownNodeInfo"
+          ref="nodeDetails"
+          v-show="nodeList.length >= 1"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -152,11 +156,6 @@ export default {
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
-        },
-        on: {
-          slideChange () {
-            console.log(this.activeIndex)
-          }
         }
       },
       retryCount: 3,
@@ -208,7 +207,7 @@ export default {
       if (resItem.mecHostInfo && resItem.mecHostInfo.length > 0) {
         resItem.mecHostInfo.forEach(host => {
           if (host.status === 'Distributed') {
-            count++ // TODO 一个应用包分发给n个节点，统计计数是n
+            count++
           }
         })
       }
@@ -236,7 +235,7 @@ export default {
               this.nodeList.push(item)
             })
             isQuerySuccess = true
-            this.curShownNodeInfo = this.nodeList[0] // TODO 从别的界面跳转过来的时候可以指定显示第几个Node
+            this.curShownNodeInfo = this.nodeList[0]
           }
         }).catch((error) => {
           console.log('Failed to get host list -> ', error.response)
@@ -296,16 +295,38 @@ export default {
           padding-top: 34.5px;
           .el-button{
             font-size: 20px!important;
+            background-color: unset;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 30px;
+            padding: 18px 32px;
           }
           .el-button:hover, .el-button:hover,{
             color: #F5EA6E;
-            border-color: #F5EA6E;
+            border: 2px solid #F5EA6E;
           }
         }
         .banner-buttons :nth-child(2) {
           margin-left: 60px;
         }
       }
+    }
+    .swiper-button-prev {
+      left: 81px;
+      height: 100%;
+      width: 42px;
+      top: 0px;
+      background: url("../assets/images/pre-button-size42.png") center center no-repeat;
+    }
+    .swiper-button-next {
+      right: 81px;
+      height: 100%;
+      width: 42px;
+      top: 0px;
+      background: url("../assets/images/next-button-size42.png") center center no-repeat;
+    }
+    .swiper-button-prev:after, .swiper-button-next:after{
+      content: '';
     }
   }
   .division{
@@ -353,6 +374,16 @@ export default {
       }
     }
   }
+  .node-detail-area {
+    width: calc(100% - 400px);
+    margin: 40px 200px 0 200px;
+    overflow: visible;
+    background-size: cover;
+    box-sizing: border-box;
+  }
+  .pb-30{
+  padding-bottom: 30px;
+}
 }
 
 </style>

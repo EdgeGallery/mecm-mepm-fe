@@ -156,7 +156,7 @@ let lcmController = {
   },
   getServiceList (nodeIp) {
     let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
-    return GET(lcmBasicUrl + '/mep/services') // TODO 多节点管理的场景lcm的IP信息不是mepm的
+    return GET(lcmBasicUrl + '/mep/services')
   },
   getSubscribeInfo (nodeIp) {
     let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'

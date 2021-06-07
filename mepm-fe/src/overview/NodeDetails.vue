@@ -68,19 +68,6 @@
           </el-row>
           <el-row>
             <el-col
-              :span="24"
-            >
-              <div class="nodeInfo-area-title">
-                {{ $t('overview.k8sResc') }}
-              </div>
-              <div class="pt-0 pb-10">
-                <Usage :kpi-info="kpiInfo" />
-              </div>
-              <hr>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col
               :span="16"
             >
               <div class="nodeInfo-area-title">
@@ -93,7 +80,7 @@
               <el-button
                 type="primary"
                 @click="checkServiceInfo()"
-                class="float-right mt-20"
+                class="float-right mt-21 p-9-18 ft-16"
               >
                 {{ $t('overview.manage') }}
               </el-button>
@@ -107,12 +94,10 @@
               <el-table-column
                 prop="hwType"
                 :label="$t('overview.type')"
-                width="180"
               />
               <el-table-column
                 prop="hwModel"
                 :label="$t('overview.model')"
-                width="180"
               />
               <el-table-column
                 prop="hwVendor"
@@ -125,15 +110,21 @@
               <el-table
                 :data="mepCapData"
                 header-row-class-name="headerClassName"
+                max-height="428"
+                stripe
               >
                 <el-table-column
                   prop="capabilityName"
                   :label="$t('overview.softwareCapa')"
                 />
                 <el-table-column
-                  prop="status"
                   :label="$t('app.packageList.status')"
-                />
+                >
+                  <template slot-scope="scope">
+                    <img :src="scope.row.statusImgSrc">
+                    <span class="swStatusValue">{{ scope.row.status }}</span>
+                  </template>
+                </el-table-column>
                 <el-table-column
                   prop="version"
                   :label="$t('app.packageList.version')"
@@ -160,16 +151,13 @@
 
 <script>
 
-import Usage from './Usage.vue'
 import Map from './Map.vue'
 import { lcmController } from '../tools/request.js'
 export default {
   components: {
-    Map,
-    Usage
+    Map
   },
   beforeMount () {
-    this.getNodeKpi(this.detail.mechostIp)
     this.getMepCapa(this.detail.mechostIp)
   },
   props: {
@@ -191,21 +179,20 @@ export default {
     },
     getMepCapa (host) {
       lcmController.getMepCapabilities(host).then(res => {
-        if (res && res.data) {
+        if (res && res.data && res.data.response) {
           if (res.data.status !== 500) {
-            this.mepCapData = res.data
+            res.data.response.forEach(ele => {
+              if (ele.status === 'ACTIVE') {
+                ele.statusImgSrc = require('../assets/images/ACTIVE.png')
+              } else if (ele.status === 'INACTIVE') {
+                ele.statusImgSrc = require('../assets/images/INACTIVE.png')
+              } else {
+                ele.statusImgSrc = require('../assets/images/SUSPEND.png')
+              }
+            })
+            this.mepCapData = res.data.response
           }
         }
-      })
-    },
-    getNodeKpi (ip) {
-      lcmController.getNodeKpi(ip).then(res => {
-        if (res.data) {
-          this.kpiInfo = res.data
-        }
-      }).catch(() => {
-        console.log('error response from server for query kpi')
-        this.$message.error(this.$t('tip.getKpiFailed'))
       })
     },
     checkServiceInfo () {
@@ -214,7 +201,42 @@ export default {
   }
 }
 </script>
-<style lang='less'>
+<style lang='less' scoped>
+/deep/ .el-table{
+  border: 6px solid #EFEFEF;
+  box-sizing: content-box;
+  color: #666666;
+  .has-gutter{
+    th{
+      background: #EFEFEF;
+      height: 48px;
+    }
+  }
+  thead{
+    color: #280B4E;
+  }
+  tbody{
+    td{
+      padding: 8px 0!important;
+    }
+  }
+}
+/deep/ .el-table--striped{
+  .el-table__body{
+    tr.el-table__row--striped td {
+      background: #EFEFEF;
+    }
+  }
+}
+.swStatusValue {
+  padding-left: 10px;
+}
+.ft-16{
+  font-size: 16px;
+}
+.p-9-18{
+  padding: 9px 18px;
+}
 .pt-10{
   padding-top: 10px
 }
@@ -228,17 +250,11 @@ export default {
   margin-left: 30px;
 }
 .pb-30{
-  padding-bottom: 30px;
 }
-.mt-20{
-  margin-top: 20px;
+.mt-21{
+  margin-top: 21px;
 }
 .node-detail-area {
-  width: calc(100% - 400px);
-  margin: 40px 200px 0 200px;
-  overflow: visible;
-  background-size: cover;
-  box-sizing: border-box;
   .nodeinfo-left{
     padding: 0px 29px 0px 29px;
     opacity: 0.8;

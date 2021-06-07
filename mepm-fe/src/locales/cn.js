@@ -25,7 +25,7 @@ const cn = {
     packageMana: '应用包管理',
     packageDist: '应用包分发',
     appInstance: '应用实例管理',
-    edgeNodes: '边缘节点',
+    edgeNodes: '边缘节点管理',
     nodeList: '边缘节点列表',
     mepList: 'MEP列表',
     system: '系统',
@@ -34,7 +34,8 @@ const cn = {
     appRule: 'App Rule MGR 注册系统',
     appDetail: '应用详情',
     logoutTip: '确认要离开吗？',
-    ruleConfiguration: '规则配置'
+    ruleConfiguration: '规则配置',
+    nodeDetails: '节点详情'
   },
   overview: {
     location: '地址',
@@ -196,8 +197,8 @@ const cn = {
     applcmIp: 'App LCM IP',
     k8sUrl: 'K8S URL',
     monitor: '监控',
-    detail: '细节',
-    appDetails: '应用程式详细资料'
+    detail: '节点详情',
+    appDetails: '应用详情'
   },
   system: {
     edgeNodes: {
@@ -231,7 +232,7 @@ const cn = {
       coordinates: '坐标',
       chooseLocation: '选择部署位置',
       vim: '虚拟机',
-      newEdge: '新边缘'
+      newEdge: '新增边缘节点'
     }
   },
   common: {

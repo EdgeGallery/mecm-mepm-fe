@@ -18,8 +18,7 @@
   <div>
     <Breadcrumb
       class="breadcrumb"
-      :first="$t('nav.edgeNodes')"
-      :path="{ path: '/host/List' }"
+      :data="[{name: $t('nav.edgeNodes'), path: '/mecm/node/list'}]"
     />
     <div class="sysk8s">
       <Search

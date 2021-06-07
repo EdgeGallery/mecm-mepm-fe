@@ -25,7 +25,7 @@ const en = {
     packageMana: 'Package List',
     packageDist: 'Package Distribution',
     appInstance: 'App Instance List',
-    edgeNodes: 'Edge Nodes',
+    edgeNodes: 'EdgeNodes Management',
     nodeList: 'Edege Node List',
     mepList: 'MEP List',
     system: 'System',
@@ -35,7 +35,8 @@ const en = {
     appRule: 'App Rules',
     fileNotSupport: 'File not support to read.',
     logoutTip: 'Are you sure to log out?',
-    ruleConfiguration: 'Rule Configuration'
+    ruleConfiguration: 'Rule Configuration',
+    nodeDetails: 'Node Details'
   },
   overview: {
     location: 'Address',
