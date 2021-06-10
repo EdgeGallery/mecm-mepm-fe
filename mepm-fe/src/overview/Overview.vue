@@ -267,14 +267,12 @@ export default {
         .banner-title-en{
           font-size: 36px;
           color: #FFFFFF;
-          font-family: Arial;
           font-weight: 400;
           line-height: 37px;
           padding-top: 85px;
         }
         .banner-title-zh{
           font-size: 78px;
-          font-family: Microsoft YaHei;
           font-weight: 400;
           color: #FFFFFF;
           line-height: 80px;
@@ -282,7 +280,6 @@ export default {
         }
         .node-basic-info{
           font-size: 19px;
-          font-family: FZLanTingHeiS-L-GB;
           font-weight: 400;
           color: #FFFFFF;
           line-height: 32px;
@@ -332,7 +329,6 @@ export default {
   .division{
     text-align: center;
     font-size: 32px;
-    font-family: FZLanTingHeiS-L-GB;
     font-weight: 400;
     color: #280B4E;
     line-height: 32px;
@@ -359,14 +355,12 @@ export default {
         text-align: left;
         .words-area-title{
           font-size: 20px;
-          font-family: FZLanTingHeiS-L-GB;
           font-weight: 400;
           color: #280B4E;
           line-height: 26px;
         }
         .words-area-value{
           font-size: 36px;
-          font-family: FZZhengHeiS-B-GB;
           font-weight: 400;
           color: #FD8864;
           line-height: 62px;

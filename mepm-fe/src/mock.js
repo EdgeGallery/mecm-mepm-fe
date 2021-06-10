@@ -622,6 +622,103 @@ const serviceInfoData = function () {
   return { response: JSON.stringify(data) }
 }
 
+const serviceList = function () {
+  return {
+    data: [{
+      serInstanceId: '31fe525ee3dbccbf25a234f8e81d696c',
+      serName: 'hehe5',
+      serCategory: {
+        href: '/example/catalogue1',
+        id: 'id12345',
+        name: 'RNI',
+        version: '1.2.3'
+      },
+      version: '4.5.8',
+      state: 'INACTIVE',
+      transportId: 'Rest1',
+      transportInfo: {
+        id: 'TransId12345',
+        name: 'REST',
+        description: 'REST API',
+        type: 'REST_HTTP',
+        protocol: 'HTTP',
+        version: '2.0',
+        endpoint: {
+          uris: null,
+          addresses: null,
+          alternative: null
+        },
+        'security': {
+          oAuth2Info: {
+            grantTypes: ['OAUTH2_CLIENT_CREDENTIALS'],
+            tokenEndpoint: '/mecSerMgmtApi/security/TokenEndPoint'
+          }
+        }
+      },
+      serializer: 'JSON',
+      scopeOfLocality: 'MEC_SYSTEM',
+      isLocal: true,
+      livenessInterval: 60,
+      _links: {
+        self: {
+          liveness: '/mepserver/mec_service_mgmt/v1/applications/5abe4782-2c70-4e47-9a4e-0ee3a1a0fd1f/services/31fe525ee3dbccbf25a234f8e81d696c/liveness'
+        },
+        appInstanceId: '5abe4782-2c70-4e47-9a4e-0ee3a1a0fd1f'
+      }
+    }],
+    retCode: 0,
+    message: '',
+    params: ''
+  }
+}
+
+const subscribeInfo = function () {
+  return {
+    data: {
+      subscribeNum: {
+        appSubscribeNum: 0,
+        serviceSubscribedNum: 0
+      },
+      subscribeRelations: []
+    },
+    retCode: 0,
+    message: '',
+    params: ''
+  }
+}
+
+const abilityCallTimesInfo = function () {
+  return {
+    data: {
+      appServices: [{
+        callTimes: [0, 0, 0, 0, 0, 0, 0],
+        desc: '',
+        name: 'hehe5'
+      }, {
+        callTimes: [0, 0, 0, 0, 0, 0, 0],
+        desc: '',
+        name: 'hehe5'
+      }, {
+        callTimes: [0, 0, 0, 0, 0, 0, 0],
+        desc: '',
+        name: 'testService'
+      }],
+      mepServices: [{
+        callTimes: [3, 0, 0, 0, 0, 0, 0],
+        desc: '',
+        name: 'serviceRegister'
+      }, {
+        callTimes: [0, 0, 0, 0, 0, 0, 0],
+        desc: '',
+        name: 'serviceDiscovery'
+      }]
+    },
+    retCode: 0,
+    message: '',
+    params: ''
+  }
+}
+
 Mock.mock('/mock/login', userData)
 Mock.mock('/mock/mechosts', hostData)
 Mock.mock('/mock/appPackageList', packageData)
@@ -636,3 +733,6 @@ Mock.mock('/mock/kpiInfo', kpiInfo)
 Mock.mock('/mock/getHwCapability', hwCapability)
 Mock.mock('/mock/getSwCapability', swCapability)
 Mock.mock('/mock/getConfigRules', appRuleData)
+Mock.mock('/mock/getServiceList', serviceList)
+Mock.mock('/mock/getSubscribeInfo', subscribeInfo)
+Mock.mock('/mock/getAbilityCallTimesInfo', abilityCallTimesInfo)

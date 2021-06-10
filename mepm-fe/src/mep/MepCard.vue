@@ -229,7 +229,6 @@ export default {
 .cardName{
   height: 15px;
   font-size: 14px;
-  font-family: FZLanTingHeiS-L-GB;
   font-weight: bold;
   color: #280B4E;
   line-height: 19px;
@@ -248,7 +247,6 @@ export default {
   padding-left: 14px;
   height: 16px;
   font-size: 14px;
-  font-family: FZLanTingHeiS-L-GB;
   font-weight: 400;
   color: #A8A5AD;
   line-height: 19px;

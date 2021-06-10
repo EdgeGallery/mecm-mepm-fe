@@ -1,15 +1,15 @@
 <svg id="byjd_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="187.03" height="127.75" viewBox="0 0 187.03 127.75">
   <defs>
     <style>
-      .cls-1, .cls-7 {
+      .cls-1, .cls-9 {
         fill: #fff;
       }
 
-      .cls-1, .cls-10, .cls-2, .cls-3, .cls-4, .cls-6, .cls-7, .cls-8 {
+      .cls-1, .cls-10, .cls-11, .cls-2, .cls-3, .cls-5, .cls-8, .cls-9 {
         fill-rule: evenodd;
       }
 
-      .cls-11, .cls-2, .cls-3, .cls-9 {
+      .cls-11, .cls-12, .cls-13, .cls-2, .cls-3 {
         fill: none;
       }
 
@@ -17,7 +17,7 @@
         stroke: #472475;
       }
 
-      .cls-2, .cls-3, .cls-7 {
+      .cls-2, .cls-3, .cls-9 {
         stroke-width: 1px;
       }
 
@@ -25,78 +25,85 @@
         stroke-dasharray: 4 2;
       }
 
-      .cls-4, .cls-5 {
+      .cls-4 {
+        fill: #e4e4e4;
+      }
+
+      .cls-5, .cls-7 {
         fill: #512c82;
       }
 
       .cls-6 {
-        fill: #d6d1dc;
-      }
-
-      .cls-7 {
-        stroke: #280b4e;
+        fill: #e6e6e6;
       }
 
       .cls-8 {
-        fill: #2b0e52;
-      }
-
-      .cls-11, .cls-9 {
-        stroke-width: 3px;
+        fill: #d6d1dc;
       }
 
       .cls-9 {
-        stroke: url(#linear-gradient);
+        stroke: #280b4e;
       }
 
       .cls-10 {
-        fill: #4a2779;
+        fill: #2b0e52;
+      }
+
+      .cls-11, .cls-12, .cls-13 {
+        stroke-width: 3px;
       }
 
       .cls-11 {
-        stroke: url(#linear-gradient-2);
+        stroke: url(#linear-gradient);
       }
 
       .cls-12 {
+        stroke: url(#linear-gradient-2);
+      }
+
+      .cls-13 {
+        stroke: url(#linear-gradient-3);
+      }
+
+      .cls-14 {
         font-size: 16.554px;
         fill: #3a1a65;
-        font-family: FZLanTingHeiS-L-GB;
+        font-weight: 600;
       }
     </style>
-    <linearGradient id="linear-gradient" x1="68.19" y1="29.614" x2="117.19" y2="31.326" gradientUnits="userSpaceOnUse">
+    <linearGradient id="linear-gradient" x1="5663" y1="2268.644" x2="5712" y2="2270.356" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#2a0d51"/>
       <stop offset="0.538" stop-color="#7148a7"/>
       <stop offset="1" stop-color="#2a0d51"/>
     </linearGradient>
-    <linearGradient id="linear-gradient-2" x1="78.19" y1="29.946" x2="108.19" y2="30.994" xlink:href="#linear-gradient"/>
-    <image id="image" width="1" height="69" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABFCAYAAACL3IzzAAAAZklEQVQYlXXOSwqAMAwE0LGgIIJ4AL3/WXIh/z9mFgkWu3kkQ5oUZjYkABMZSU0a0pKHdJ6B9CSRi9zk8EpzeqZs8+p0NKeRiuxk9Wrxdv5uiQUijgdaKrJWHxfR6niW/bXFrACAF6LsJ+b+fj9AAAAAAElFTkSuQmCC"/>
+    <linearGradient id="linear-gradient-2" x1="76.19" y1="29.876" x2="110.19" y2="31.064" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="89.19" y1="29.83" x2="97.19" y2="30.11" xlink:href="#linear-gradient"/>
   </defs>
   <path id="椭圆_7_拷贝" data-name="椭圆 7 拷贝" class="cls-1" d="M5690.32,2264.7c40.63,0,73.57,18.38,73.57,41.05s-32.94,41.04-73.57,41.04-73.57-18.37-73.57-41.04S5649.69,2264.7,5690.32,2264.7Z" transform="translate(-5594.81 -2239.03)"/>
   <path id="椭圆_8_拷贝_2" data-name="椭圆 8 拷贝 2" class="cls-2" d="M5688.72,2262.31c44.14,0,79.93,20.74,79.93,46.31s-35.79,46.31-79.93,46.31-79.93-20.73-79.93-46.31S5644.58,2262.31,5688.72,2262.31Z" transform="translate(-5594.81 -2239.03)"/>
   <path id="椭圆_8_拷贝_2-2" data-name="椭圆 8 拷贝 2" class="cls-3" d="M5688.33,2253.37c51.38,0,93.02,25.27,93.02,56.45s-41.64,56.45-93.02,56.45-93.02-25.28-93.02-56.45S5636.96,2253.37,5688.33,2253.37Z" transform="translate(-5594.81 -2239.03)"/>
-  <image id="椭圆_11_拷贝_4" data-name="椭圆 11 拷贝 4" x="129.19" y="2.97" width="1" height="68" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABECAYAAABAgF9WAAAAZElEQVQYlXXOSwqAMAwE0LEKLtSlK8H7XyUn0vpnZpFAsZtHM+RTmNmSAKxkJiADaZ2RJNKRidzk8dflsz05yUGytyiLsYa8ZHc0sTmRiTgkYpXQKlGUQl8TKnW8yKrlX0sFAB+4VSbkvvzo+QAAAABJRU5ErkJggg=="/>
-  <path id="椭圆_10_拷贝_4" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5724.92,2239.02a2.15,2.15,0,1,1-2.15,2.15A2.16,2.16,0,0,1,5724.92,2239.02Z" transform="translate(-5594.81 -2239.03)"/>
-  <use id="椭圆_11_拷贝_4-2" data-name="椭圆 11 拷贝 4" x="160.19" y="36.97" xlink:href="#image"/>
-  <path id="椭圆_10_拷贝_4-2" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5755.86,2273.41a2.145,2.145,0,1,1-2.15,2.15A2.147,2.147,0,0,1,5755.86,2273.41Z" transform="translate(-5594.81 -2239.03)"/>
-  <use id="椭圆_11_拷贝_4-3" data-name="椭圆 11 拷贝 4" x="27.19" y="36.97" xlink:href="#image"/>
-  <circle id="椭圆_10_拷贝_4-3" data-name="椭圆 10 拷贝 4" class="cls-5" cx="27.815" cy="36.535" r="2.155"/>
-  <image id="椭圆_11_拷贝_4-4" data-name="椭圆 11 拷贝 4" x="53.19" y="3.97" width="1" height="69" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAABFCAYAAACL3IzzAAAAaElEQVQYlXXPSQqAMBQD0FhFUERXLr3/WXoi54FkkVLRzSOfdESMsQ8ARjKRgRSkIyA1aT02Hg9yGo0VKcmWoyW700WCx4WsTrPRXhVpry5Kl98+T0mo0HNVKAm1SvrlV5HSi98iA8AD6N0k5pUmCbAAAAAASUVORK5CYII="/>
-  <path id="椭圆_10_拷贝_4-4" data-name="椭圆 10 拷贝 4" class="cls-4" d="M5648.41,2240.74a2.15,2.15,0,1,1-2.14,2.15A2.153,2.153,0,0,1,5648.41,2240.74Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_630_拷贝" data-name="形状 630 拷贝" class="cls-6" d="M5639.88,2311.03l-7.15,3.25,56.45,34.93,54.07-34.12-6.36-3.24-47.71,28.43Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_627_拷贝" data-name="形状 627 拷贝" class="cls-7" d="M5639.09,2292.35v18.68l49.3,30.06v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_628_拷贝" data-name="形状 628 拷贝" class="cls-7" d="M5736.89,2292.35v19.5l-48.5,29.24v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_626_拷贝" data-name="形状 626 拷贝" class="cls-7" d="M5736.89,2269.6v22.75l-49.3,28.43v-21.93Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_625_拷贝" data-name="形状 625 拷贝" class="cls-7" d="M5639.09,2268.79v23.56l48.5,28.43,0.8-21.93Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_624_拷贝" data-name="形状 624 拷贝" class="cls-7" d="M5638.99,2268.51c16.35-8.93,32.57-16.54,48.73-23.72,16.49,7.64,32.96,15.64,49.29,25.02-16.14,9.95-32.23,19.38-48.36,29.19-16.55-10.24-33.13-20.08-49.66-30.49h0Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4" data-name="形状 635 拷贝 4" class="cls-8" d="M5646.79,2283.88l23.46,13.19v3.59l-23.46-13.18v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4-2" data-name="形状 635 拷贝 4" class="cls-8" d="M5672.59,2298.26l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4-3" data-name="形状 635 拷贝 4" class="cls-8" d="M5676.11,2300.66l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4-4" data-name="形状 635 拷贝 4" class="cls-8" d="M5646.79,2304.26l23.46,13.18v3.59l-23.46-13.18v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4-5" data-name="形状 635 拷贝 4" class="cls-8" d="M5672.59,2318.64l2.35,1.2v3.59l-2.35-1.2v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_635_拷贝_4-6" data-name="形状 635 拷贝 4" class="cls-8" d="M5676.11,2321.03l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
-  <ellipse id="椭圆_1368" data-name="椭圆 1368" class="cls-9" cx="92.69" cy="30.47" rx="24.5" ry="12.5"/>
-  <path id="形状_1370" data-name="形状 1370" class="cls-10" d="M5708.65,2259l3.35,2.1-44.65,18.9-3.35-2.1Z" transform="translate(-5594.81 -2239.03)"/>
-  <path id="形状_1370_拷贝" data-name="形状 1370 拷贝" class="cls-10" d="M5667.35,2258l-3.35,2.1,44.65,18.9,3.35-2.1Z" transform="translate(-5594.81 -2239.03)"/>
-  <ellipse id="椭圆_1368_拷贝" data-name="椭圆 1368 拷贝" class="cls-11" cx="93.19" cy="30.47" rx="15" ry="7.5"/>
-  <text id="边缘节点_拷贝" data-name="边缘节点 拷贝" class="cls-12" transform="matrix(0.592, -0.335, 0.036, 0.587, 97.578, 71.528)">边缘节点</text>
+  <ellipse id="椭圆_1374" data-name="椭圆 1374" class="cls-4" cx="129.69" cy="16.97" rx="0.5" ry="15"/>
+  <path id="椭圆_10_拷贝_4" data-name="椭圆 10 拷贝 4" class="cls-5" d="M5724.92,2239.02a2.15,2.15,0,1,1-2.15,2.15A2.16,2.16,0,0,1,5724.92,2239.02Z" transform="translate(-5594.81 -2239.03)"/>
+  <ellipse id="椭圆_1374-2" data-name="椭圆 1374" class="cls-6" cx="160.69" cy="56.47" rx="0.5" ry="19.5"/>
+  <path id="椭圆_10_拷贝_4-2" data-name="椭圆 10 拷贝 4" class="cls-5" d="M5755.86,2273.41a2.145,2.145,0,1,1-2.15,2.15A2.147,2.147,0,0,1,5755.86,2273.41Z" transform="translate(-5594.81 -2239.03)"/>
+  <ellipse id="椭圆_1374-3" data-name="椭圆 1374" class="cls-4" cx="27.69" cy="56.47" rx="0.5" ry="19.5"/>
+  <circle id="椭圆_10_拷贝_4-3" data-name="椭圆 10 拷贝 4" class="cls-7" cx="27.815" cy="36.535" r="2.155"/>
+  <path id="椭圆_10_拷贝_4-4" data-name="椭圆 10 拷贝 4" class="cls-5" d="M5648.41,2240.74a2.15,2.15,0,1,1-2.14,2.15A2.153,2.153,0,0,1,5648.41,2240.74Z" transform="translate(-5594.81 -2239.03)"/>
+  <ellipse id="椭圆_1374-4" data-name="椭圆 1374" class="cls-4" cx="53.69" cy="21.47" rx="0.5" ry="16.5"/>
+  <path id="形状_630_拷贝" data-name="形状 630 拷贝" class="cls-8" d="M5639.88,2311.03l-7.15,3.25,56.45,34.93,54.07-34.12-6.36-3.24-47.71,28.43Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_627_拷贝" data-name="形状 627 拷贝" class="cls-9" d="M5639.09,2292.35v18.68l49.3,30.06v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_628_拷贝" data-name="形状 628 拷贝" class="cls-9" d="M5736.89,2292.35v19.5l-48.5,29.24v-20.31Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_626_拷贝" data-name="形状 626 拷贝" class="cls-9" d="M5736.89,2269.6v22.75l-49.3,28.43v-21.93Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_625_拷贝" data-name="形状 625 拷贝" class="cls-9" d="M5639.09,2268.79v23.56l48.5,28.43,0.8-21.93Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_624_拷贝" data-name="形状 624 拷贝" class="cls-9" d="M5638.99,2268.51c16.35-8.93,32.57-16.54,48.73-23.72,16.49,7.64,32.96,15.64,49.29,25.02-16.14,9.95-32.23,19.38-48.36,29.19-16.55-10.24-33.13-20.08-49.66-30.49h0Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4" data-name="形状 635 拷贝 4" class="cls-10" d="M5646.79,2283.88l23.46,13.19v3.59l-23.46-13.18v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-2" data-name="形状 635 拷贝 4" class="cls-10" d="M5672.59,2298.26l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-3" data-name="形状 635 拷贝 4" class="cls-10" d="M5676.11,2300.66l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-4" data-name="形状 635 拷贝 4" class="cls-10" d="M5646.79,2304.26l23.46,13.18v3.59l-23.46-13.18v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-5" data-name="形状 635 拷贝 4" class="cls-10" d="M5672.59,2318.64l2.35,1.2v3.59l-2.35-1.2v-3.59Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="形状_635_拷贝_4-6" data-name="形状 635 拷贝 4" class="cls-10" d="M5676.11,2321.03l2.35,1.2v3.6l-2.35-1.2v-3.6Z" transform="translate(-5594.81 -2239.03)"/>
+  <path id="椭圆_1368" data-name="椭圆 1368" class="cls-11" d="M5687.22,2257c13.53-.3,24.62,5.05,24.77,11.95s-10.68,12.75-24.21,13.05-24.62-5.05-24.77-11.95S5673.69,2257.3,5687.22,2257Z" transform="translate(-5594.81 -2239.03)"/>
+  <ellipse id="椭圆_1368_拷贝" data-name="椭圆 1368 拷贝" class="cls-12" cx="93.19" cy="30.47" rx="17" ry="7.5"/>
+  <ellipse id="椭圆_1368_拷贝_2" data-name="椭圆 1368 拷贝 2" class="cls-13" cx="93.19" cy="29.97" rx="4" ry="2"/>
+  <text id="边缘节点_拷贝" data-name="边缘节点 拷贝" class="cls-14" transform="matrix(0.592, -0.335, 0.036, 0.587, 97.578, 71.528)">边缘节点</text>
 </svg>

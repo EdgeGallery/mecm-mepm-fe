@@ -202,20 +202,21 @@ export default {
     let appMap = new Map()
     let serviceMap = new Map()
     lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
-      if (res && res.data) {
-        let len = res.data.length
+      if (res && res.data && res.data.data) {
+        let serviceList = res.data.data
+        let len = serviceList.length
         for (let i = 0; i < len; i++) {
-          if (!serviceMap.has(res.data[i].serInstanceId)) {
-            serviceMap.set(res.data[i].serInstanceId, {
-              id: res.data[i].serInstanceId,
-              name: res.data[i].serName,
-              version: res.data[i].version
+          if (!serviceMap.has(serviceList[i].serInstanceId)) {
+            serviceMap.set(serviceList[i].serInstanceId, {
+              id: serviceList[i].serInstanceId,
+              name: serviceList[i].serName,
+              version: serviceList[i].version
             })
-            if (!appMap.has(res.data[i].serCategory.id)) {
-              appMap.set(res.data[i].serCategory.id, {
-                id: res.data[i].serCategory.id,
-                name: res.data[i].serCategory.name,
-                version: res.data[i].serCategory.version
+            if (!appMap.has(serviceList[i].serCategory.id)) {
+              appMap.set(serviceList[i].serCategory.id, {
+                id: serviceList[i].serCategory.id,
+                name: serviceList[i].serCategory.name,
+                version: serviceList[i].serCategory.version
               })
             }
           }
@@ -227,18 +228,18 @@ export default {
         this.appData = appArray
         this.serviceData = serviceArray
         lcmController.getSubscribeInfo(this.$route.params.nodeIp).then(statisticRes => {
-          if (statisticRes && statisticRes.data) {
-            this.subscribeCount = statisticRes.data.subscribeNum.appSubscribeNum
-            this.subscribedCount = statisticRes.data.subscribeNum.serviceSubscribedNum
+          if (statisticRes && statisticRes.data && statisticRes.data.data) {
+            this.subscribeCount = statisticRes.data.data.subscribeNum.appSubscribeNum
+            this.subscribedCount = statisticRes.data.data.subscribeNum.serviceSubscribedNum
           }
           lcmController.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((res) => {
-            let appServices = res.data.appServices
+            let appServices = res.data.data.appServices
             appServices.forEach((element, index) => {
               element.id = element.name + index
               element.callTimes.reverse()
             })
             this.appCapabilityies = appServices
-            let mepServices = res.data.mepServices
+            let mepServices = res.data.data.mepServices
             mepServices.forEach((element, index) => {
               element.id = element.name + index
               element.callTimes.reverse()
@@ -342,7 +343,6 @@ export default {
       .mep-ability-title{
         margin-top: 41px;
         font-size: 18px;
-        font-family: FZLanTingHeiS-L-GB;
         font-weight: 400;
         color: #280B4E;
         line-height: 19px;

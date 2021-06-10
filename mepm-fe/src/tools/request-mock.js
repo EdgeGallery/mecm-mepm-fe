@@ -68,9 +68,22 @@ let inventory = {
   }
 }
 
+let mep = {
+  getServiceList (type) {
+    return axios.get('/mock/getServiceList')
+  },
+  getSubscribeInfo () {
+    return axios.get('/mock/getSubscribeInfo')
+  },
+  getAbilityCallTimesInfo () {
+    return axios.get('/mock/getAbilityCallTimesInfo')
+  }
+}
+
 export {
   user,
   apm,
   appo,
-  inventory
+  inventory,
+  mep
 }

@@ -103,7 +103,6 @@ export default {
       margin-top: 11px;
       height: 13px;
       font-size: 12px;
-      font-family: FZLanTingHeiS-EL-GB;
       font-weight: 400;
       color: #999999;
       line-height: 12px;

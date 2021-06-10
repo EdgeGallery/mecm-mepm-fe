@@ -60,11 +60,11 @@ require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 
 function addSubscribLinks (subscribeRes, nodesMap, linksMap) {
-  if (subscribeRes && subscribeRes.data && subscribeRes.data.subscribeRelations) {
-    let len = subscribeRes.data.subscribeRelations.length
+  if (subscribeRes && subscribeRes.data && subscribeRes.data.data && subscribeRes.data.data.subscribeRelations) {
+    let len = subscribeRes.data.data.subscribeRelations.length
     for (let i = 0; i < len; i++) {
-      let appId = subscribeRes.data.subscribeRelations[i].subscribeAppId
-      let serviceIds = subscribeRes.data.subscribeRelations[i].serviceList
+      let appId = subscribeRes.data.data.subscribeRelations[i].subscribeAppId
+      let serviceIds = subscribeRes.data.data.subscribeRelations[i].serviceList
       addOneAppSubscribLink(serviceIds, nodesMap, appId, linksMap)
     }
   }
@@ -100,7 +100,7 @@ function addOneAppSubscribLink (serviceIds, nodesMap, appId, linksMap) {
 }
 
 function addNodsAndLinks (res, nodesMap, linksMap) {
-  if (res && res.data) {
+  if (res && res.data && res.data.data) {
     nodesMap.set('MEP', {
       id: 'MEP',
       name: 'MEP',
@@ -111,37 +111,38 @@ function addNodsAndLinks (res, nodesMap, linksMap) {
       symbolSize: TOPOLOGY.NODE_SIZE.MEP,
       index: nodesMap.size
     })
-    let len = res.data.length
+    let serviceList = res.data.data
+    let len = serviceList.length
     for (let i = 0; i < len; i++) {
-      if (!nodesMap.has(res.data[i].serInstanceId)) {
-        nodesMap.set(res.data[i].serInstanceId, {
-          id: res.data[i].serInstanceId,
-          name: res.data[i].serName,
-          version: res.data[i].version,
-          state: res.data[i].state,
-          serCategory: res.data[i].serCategory,
-          category: getServiceCategory(res.data[i].state),
+      if (!nodesMap.has(serviceList[i].serInstanceId)) {
+        nodesMap.set(serviceList[i].serInstanceId, {
+          id: serviceList[i].serInstanceId,
+          name: serviceList[i].serName,
+          version: serviceList[i].version,
+          state: serviceList[i].state,
+          serCategory: serviceList[i].serCategory,
+          category: getServiceCategory(serviceList[i].state),
           draggable: true,
           symbolSize: TOPOLOGY.NODE_SIZE.SERVICE,
           index: nodesMap.size
         })
-        if (!nodesMap.has(res.data[i]._links.appInstanceId)) {
-          nodesMap.set(res.data[i]._links.appInstanceId, {
-            id: res.data[i]._links.appInstanceId,
-            name: res.data[i].serCategory.name,
-            version: res.data[i].serCategory.version,
-            state: res.data[i].state,
+        if (!nodesMap.has(serviceList[i]._links.appInstanceId)) {
+          nodesMap.set(serviceList[i]._links.appInstanceId, {
+            id: serviceList[i]._links.appInstanceId,
+            name: serviceList[i].serCategory.name,
+            version: serviceList[i].serCategory.version,
+            state: serviceList[i].state,
             category: TOPOLOGY.NODE_CATEGORY.APP,
             draggable: true,
             symbolSize: TOPOLOGY.NODE_SIZE.APP,
             index: nodesMap.size
           })
-          linksMap.set('MEP' + '_' + res.data[i]._links.appInstanceId, {
+          linksMap.set('MEP' + '_' + serviceList[i]._links.appInstanceId, {
             source: nodesMap.get('MEP').index,
-            target: nodesMap.get(res.data[i]._links.appInstanceId).index,
+            target: nodesMap.get(serviceList[i]._links.appInstanceId).index,
             category: 0,
             value: '',
-            sourceName: nodesMap.get(res.data[i]._links.appInstanceId).name,
+            sourceName: nodesMap.get(serviceList[i]._links.appInstanceId).name,
             targetName: nodesMap.get('MEP').name,
             lineStyle: {
               color: TOPOLOGY.COLOR.APP // 以APP为source的连接颜色与app图标颜色一致
@@ -149,17 +150,17 @@ function addNodsAndLinks (res, nodesMap, linksMap) {
           })
         }
       }
-      let linkId = res.data[i]._links.appInstanceId + '_' + res.data[i].serInstanceId
+      let linkId = serviceList[i]._links.appInstanceId + '_' + serviceList[i].serInstanceId
       if (!linksMap.has(linkId)) {
         linksMap.set(linkId, {
-          source: nodesMap.get(res.data[i]._links.appInstanceId).index,
-          target: nodesMap.get(res.data[i].serInstanceId).index,
+          source: nodesMap.get(serviceList[i]._links.appInstanceId).index,
+          target: nodesMap.get(serviceList[i].serInstanceId).index,
           category: 0,
           value: '',
-          sourceName: nodesMap.get(res.data[i].serInstanceId).name,
-          targetName: nodesMap.get(res.data[i]._links.appInstanceId).name,
+          sourceName: nodesMap.get(serviceList[i].serInstanceId).name,
+          targetName: nodesMap.get(serviceList[i]._links.appInstanceId).name,
           lineStyle: {
-            color: getColorByState(res.data[i].state)
+            color: getColorByState(serviceList[i].state)
           }
         })
       }
@@ -479,7 +480,6 @@ export default {
   padding: 30px 35px 30px 35px;
   .title-div {
     font-size: 16px;
-    font-family: FZLanTingHeiS-L-GB;
     font-weight: 400;
     color: #280B4E;
   }
@@ -500,7 +500,6 @@ export default {
     position: absolute;
     right: calc(18.75% + 54px);
     width: 178px;
-    font-family: FZLanTingHeiS-L-GB;
     font-weight: 400;
     .type-div{
       background: #FFFFFF;

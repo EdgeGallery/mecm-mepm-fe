@@ -221,17 +221,18 @@ export default {
   beforeMount () {
     lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
       let nodesMap = new Map()
-      if (res && res.data) {
-        let len = res.data.length
+      if (res && res.data && res.data.data) {
+        let serviceList = res.data.data
+        let len = serviceList.length
         for (let i = 0; i < len; i++) {
-          if (!nodesMap.has(res.data[i].serInstanceId)) {
-            nodesMap.set(res.data[i].serInstanceId, {
-              instance: res.data[i].serInstanceId,
-              name: res.data[i].serName,
-              status: res.data[i].state,
-              app: res.data[i].serCategory.name,
-              version: res.data[i].version,
-              appVersion: res.data[i].serCategory.version,
+          if (!nodesMap.has(serviceList[i].serInstanceId)) {
+            nodesMap.set(serviceList[i].serInstanceId, {
+              instance: serviceList[i].serInstanceId,
+              name: serviceList[i].serName,
+              status: serviceList[i].state,
+              app: serviceList[i].serCategory.name,
+              version: serviceList[i].version,
+              appVersion: serviceList[i].serCategory.version,
               desc: '' // TODO 待后台接口添加后处理
             })
           }
@@ -255,7 +256,6 @@ export default {
 // 表头
 /deep/ .el-table thead {
   font-size: 16px;
-  font-family: FZLanTingHeiS-L-GB;
   color: #666666;
 }
 /deep/ .el-table th>.cell{
