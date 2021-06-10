@@ -273,14 +273,12 @@ export default {
     .nodeInfo-area-title{
       margin-top: 30px;
       font-size: 16px;
-      font-family: FZLanTingHeiS-L-GB;
       font-weight: bold;
       color: #280B4E;
       line-height: 24px;
     }
     .nodeInfo-area-value{
       font-size: 14px;
-      font-family: FZLanTingHeiS-L-GB;
       font-weight: 400;
       color: #280B4E;
       line-height: 24px;
