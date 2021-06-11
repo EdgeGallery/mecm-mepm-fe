@@ -24,7 +24,7 @@ export default new Router({
     {
       path: '/',
       name: 'overview',
-      component: () => import('../overview/Overview.vue')
+      component: () => import('../overview/Overview_new.vue')
     }, {
       path: '/index',
       redirect: '/',

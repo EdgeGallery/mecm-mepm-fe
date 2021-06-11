@@ -152,7 +152,8 @@
 <script>
 
 import Map from './Map.vue'
-import { lcmController } from '../tools/request.js'
+// import { lcmController } from '../tools/request.js'
+import { appo } from '../tools/request-mock.js'
 export default {
   components: {
     Map
@@ -178,7 +179,7 @@ export default {
       this.alarmStatus = 'nodeinfo'
     },
     getMepCapa (host) {
-      lcmController.getMepCapabilities(host).then(res => {
+      appo.getMepCapabilities(host).then(res => {
         if (res && res.data && res.data.response) {
           if (res.data.status !== 500) {
             res.data.response.forEach(ele => {

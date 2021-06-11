@@ -146,7 +146,8 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import NodeDetails from './NodeDetails.vue'
-import { lcmController } from '../tools/request.js'
+// import { lcmController } from '../tools/request.js'
+import { apm, appo, inventory } from '../tools/request-mock.js'
 
 export default {
   components: { NodeDetails, Swiper, SwiperSlide },
@@ -187,7 +188,7 @@ export default {
     async getAppDistributedCount () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getDistributionList().then(res => {
+        await apm.getDistributionList().then(res => {
           let count = 0
           if (res.data && res.data.length > 0) {
             this.packageUploadedCount = res.data.length
@@ -216,7 +217,7 @@ export default {
     async getAppInfo () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getInstanceList().then(res => {
+        await appo.getInstanceList().then(res => {
           if (res.data && res.data.response && res.data.response.length > 0) {
             this.deployedCount = res.data.response.length
             isQuerySuccess = true
@@ -229,7 +230,7 @@ export default {
     async getTotalNodes () {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getHostList().then(res => {
+        await inventory.getList(2).then(res => {
           if (res.data && res.data.length > 0) {
             res.data.forEach((item, index) => {
               this.nodeList.push(item)

@@ -53,7 +53,8 @@
 <script>
 import * as echarts from 'echarts'
 import { TOPOLOGY } from '../tools/constant'
-import { lcmController } from '../tools/request'
+// import { lcmController } from '../tools/request'
+import { mep } from '../tools/request-mock.js'
 
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
@@ -445,11 +446,11 @@ export default {
     refreshShownWithLan () {
       this.pageDesc = this.$i18n.t('TOPOLOGY_PAGE.PAGE_DESC')
       this.$nextTick(() => {
-        lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
+        mep.getServiceList(this.$route.params.nodeIp).then(res => {
           let nodesMap = new Map()
           let linksMap = new Map()
           addNodsAndLinks(res, nodesMap, linksMap)
-          lcmController.getSubscribeInfo(this.$route.params.nodeIp).then(subscribeRes => {
+          mep.getSubscribeInfo(this.$route.params.nodeIp).then(subscribeRes => {
             addSubscribLinks(subscribeRes, nodesMap, linksMap)
             let chartData = {
               nodes: Array.from(nodesMap.values()),
