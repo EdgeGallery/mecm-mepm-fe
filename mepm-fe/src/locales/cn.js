@@ -80,7 +80,32 @@ const cn = {
     availablePackage: '可用的应用程序包',
     distributedPackage: '已分发的应用程序包',
     deployedPackage: '已部署的应用程序包',
-    info: '提示：当前环境没有可管理的节点！'
+    info: '提示：当前环境没有可管理的节点！',
+    commonNodesInfo: '常用节点信息展示',
+    moreNodes: '查看更多'
+  },
+  footer: {
+    about: '关于',
+    website: '官网',
+    videoResource: '视频资源',
+    trainingMaterials: '培训材料',
+    communication: '沟通交流',
+    softwareDownload: '软件下载',
+    community: '社区介绍',
+    project: '项目',
+    membership: '会员',
+    contactUs: '联系我们',
+    followUs: '关注我们',
+    WeChatPublic: '微信公众号',
+    codeWarehouse: '代码仓库',
+    followWeibo: '关注微博',
+    mailingList: '邮件列表',
+    copyright: '版权所有 © EdgeGallery 2019 - 2021 保留一切权利 请参见法律声明',
+    legalNotice: '法律声明',
+    privacyPolicy: '政策隐私',
+    containerResource: '资源',
+    developer: '开发者',
+    docs: '文档'
   },
   app: {
     packageList: {

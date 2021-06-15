@@ -38,7 +38,7 @@ export default {
 
 <style>
 #app {
-  font-family: Huaweisans, Arial, Microsoft YaHei, FZLTXHJW, Microsoft JhengHei, sans-serif;
+  font-family: Arial, FZLanTingHeiS-L-GB, HarmonyOS_Sans_Regular, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #f5f5f5;

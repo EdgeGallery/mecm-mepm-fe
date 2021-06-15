@@ -1,188 +1,134 @@
-<!--
-  -  Copyright 2021 Huawei Technologies Co., Ltd.
-  -
-  -  Licensed under the Apache License, Version 2.0 (the "License");
-  -  you may not use this file except in compliance with the License.
-  -  You may obtain a copy of the License at
-  -
-  -      http://www.apache.org/licenses/LICENSE-2.0
-  -
-  -  Unless required by applicable law or agreed to in writing, software
-  -  distributed under the License is distributed on an "AS IS" BASIS,
-  -  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  -  See the License for the specific language governing permissions and
-  -  limitations under the License.
-  -->
-
 <template>
-  <div class="pageContainer">
+  <div class="overview">
     <div class="banner">
-      <swiper
-        v-if="nodeList.length >= 1"
-        class="swiper"
-        :options="swiperOption"
-        @slideChange="slideChange"
-        ref="mySwiper"
-      >
-        <swiper-slide
-          v-for="(item, index) in nodeList"
-          :key="index"
-          class="one-node-banner"
-        >
-          <div class="banner-title-en">
-            EDGE NODE INFORMATION DISPLAY
+      <div class="pl-255 pt-118">
+        <div class="fs-28">
+          EDGE NODE MANAGEMENT PLATFORM
+        </div>
+        <div class="fs-74">
+          边缘节点管理平台
+        </div>
+        <div class="banner-buttons">
+          <el-button
+            @click="jumpToEdgeNodesPage()"
+          >
+            {{ $t("nav.edgeNodes") }}
+          </el-button>
+          <el-button
+            @click="jumpToPackagePage()"
+          >
+            {{ $t("nav.packageMana") }}
+          </el-button>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="package-area">
+        <div class="package-data">
+          <img src="../assets/images/usable_package.png">
+          <div class="words-area">
+            <div class="words-area-title">
+              {{ $t("overview.availablePackage") }}
+            </div>
+            <div class="words-area-value">
+              {{ packageUploadedCount }}
+            </div>
           </div>
-          <div class="banner-title-zh">
-            边缘节点信息展示
+        </div>
+        <div class="package-data">
+          <img src="../assets/images/distributed_package.png">
+          <div class="words-area">
+            <div class="words-area-title">
+              {{ $t("overview.distributedPackage") }}
+            </div>
+            <div class="words-area-value">
+              {{ distributedCount }}
+            </div>
           </div>
-          <div class="node-basic-info">
-            <span>{{ $t("overview.nodeName") + item.mechostName }}</span>
-            <span>{{ $t("overview.nodeAddress") + item.city }}</span>
-            <span>{{ $t("overview.nodeIp") + item.mechostIp }}</span>
+        </div>
+        <div class="package-data">
+          <img src="../assets/images/deployed_package.png">
+          <div class="words-area">
+            <div class="words-area-title">
+              {{ $t("overview.deployedPackage") }}
+            </div>
+            <div class="words-area-value">
+              {{ deployedCount }}
+            </div>
           </div>
-          <div class="banner-buttons">
-            <el-button
-              round
-              @click="checkNodeInfo()"
-            >
-              {{ $t("overview.nodeDetails") }}
-            </el-button>
-            <el-button
-              round
-              @click="checkServiceInfo(item.mechostIp)"
-            >
-              {{ $t("overview.appsInfo") }}
-            </el-button>
-          </div>
-        </swiper-slide>
-        <div
-          v-if="nodeList.length > 1"
-          class="swiper-button-prev"
-          slot="button-prev"
-        />
-        <div
-          v-if="nodeList.length > 1"
-          class="swiper-button-next"
-          slot="button-next"
-        />
-      </swiper>
+        </div>
+      </div>
       <div
-        v-else
-        class="swiper"
+        v-if="nodeList.size > 0"
+        class="node-area"
       >
-        <div class="one-node-banner">
-          <div class="banner-title-en">
-            EDGE NODE INFORMATION DISPLAY
-          </div>
-          <div class="banner-title-zh">
-            边缘节点信息展示
-          </div>
-          <div class="node-basic-info">
-            <span>{{ $t("overview.info") }}</span>
-          </div>
+        <div class="node-area-title">
+          {{ $t("overview.nodeInfo") }}
+        </div>
+        <div class="node-area-title-underline" />
+        <div class="node-list">
+          <el-row class="mb-30">
+            <el-col :span="16">
+              <div class="fs-18 pb-10">
+                {{ $t("overview.commonNodesInfo") }}
+              </div>
+              <el-radio-group v-model="radio">
+                <el-radio
+                  v-for="(item, index) in nodeList.slice(0, 6)"
+                  :key="index"
+                  :label="index"
+                />
+              </el-radio-group>
+            </el-col>
+            <el-col :span="8">
+              <el-button
+                @click="moreNodesInfo()"
+                class="float-right"
+              >
+                {{ $t('overview.moreNodes') }}
+              </el-button>
+            </el-col>
+          </el-row>
+          <NodeDetails
+            :detail="curShownNodeInfo"
+          />
         </div>
       </div>
     </div>
-    <div class="division">
-      <img src="../assets/images/division_line_right.png">
-      {{ $t("overview.package") }}
-      <img src="../assets/images/division_line_left.png">
-    </div>
-    <div class="package-area">
-      <div class="package-data">
-        <img src="../assets/images/usable_package.png">
-        <div class="words-area">
-          <div class="words-area-title">
-            {{ $t("overview.availablePackage") }}
-          </div>
-          <div class="words-area-value">
-            {{ packageUploadedCount }}
-          </div>
-        </div>
-      </div>
-      <div class="package-data">
-        <img src="../assets/images/distributed_package.png">
-        <div class="words-area">
-          <div class="words-area-title">
-            {{ $t("overview.distributedPackage") }}
-          </div>
-          <div class="words-area-value">
-            {{ distributedCount }}
-          </div>
-        </div>
-      </div>
-      <div class="package-data">
-        <img src="../assets/images/deployed_package.png">
-        <div class="words-area">
-          <div class="words-area-title">
-            {{ $t("overview.deployedPackage") }}
-          </div>
-          <div class="words-area-value">
-            {{ deployedCount }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="division"
-      v-if="nodeList.length >= 1"
-    >
-      <img src="../assets/images/division_line_right.png">
-      {{ $t("overview.nodeInfoAreaTitle") }}
-      <img src="../assets/images/division_line_left.png">
-    </div>
-    <div class="pb-30">
-      <div class="node-detail-area">
-        <NodeDetails
-          :detail="curShownNodeInfo"
-          ref="nodeDetails"
-          v-show="nodeList.length >= 1"
-        />
-      </div>
-    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import NodeDetails from './NodeDetails.vue'
+import Footer from '../components/Footer.vue'
 import { lcmController } from '../tools/request.js'
-
 export default {
-  components: { NodeDetails, Swiper, SwiperSlide },
+  components: { NodeDetails, Footer },
   data () {
     return {
-      swiperOption: {
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
-      },
       retryCount: 3,
       packageUploadedCount: 0,
       distributedCount: 0,
       deployedCount: 0,
       nodeList: [],
-      curShownNodeInfo: {}
+      radio: 0
     }
   },
-  computed: {},
-  watch: {},
+  computed: {
+    curShownNodeInfo: function () {
+      return this.nodeList[this.radio]
+    }
+  },
   methods: {
-    checkNodeInfo () {
-      let ele = this.$refs.nodeDetails.$el
-      ele.scrollIntoView({
-        block: 'start',
-        behavior: 'smooth',
-        inline: 'nearest'
-      })
+    jumpToEdgeNodesPage () {
+      this.$router.push({ name: 'hostOverview' })
     },
-    checkServiceInfo (mechostIp) {
-      this.$router.push({ name: 'mepinfo', params: { nodeIp: mechostIp } })
+    jumpToPackagePage () {
+      this.$router.push({ name: 'apaclist' })
     },
-    slideChange () {
-      let activeIndex = this.$refs.mySwiper.$swiper.activeIndex
-      this.curShownNodeInfo = this.nodeList[activeIndex]
+    moreNodesInfo () {
+      this.$router.push({ name: 'hostOverview' })
     },
     async getAppDistributedCount () {
       let isQuerySuccess = false
@@ -251,133 +197,142 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.pageContainer{
-  margin-top: 65px;
-  background: #FFFFFF!important;
+.pb-10{
+  padding-bottom: 10px;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+.float-right{
+  float: right;
+}
+.pl-255{
+  padding-left: 255px;
+}
+.pt-118{
+  padding-top: 118px;
+}
+.fs-28{
+  font-size: 28px;
+}
+.fs-74{
+  font-size: 74px;
+}
+.fs-18{
+  font-size: 18px;
+}
+.overview{
+  margin-top: 60px;
+  background-color: #FFFFFF;
   .banner{
-    width: 100%;
-    text-align: center;
-    .swiper{
-      height: 740px;
-      .one-node-banner{
-        width: 100%;
-        height: 100%;
-        background: no-repeat url("../assets/images/banner.png");
-        background-size: cover;
-        .banner-title-en{
-          font-size: 36px;
-          color: #FFFFFF;
-          font-weight: 400;
-          line-height: 37px;
-          padding-top: 85px;
-        }
-        .banner-title-zh{
-          font-size: 78px;
-          font-weight: 400;
-          color: #FFFFFF;
-          line-height: 80px;
-          padding-top: 18px;
-        }
-        .node-basic-info{
-          font-size: 19px;
-          font-weight: 400;
-          color: #FFFFFF;
-          line-height: 32px;
-          padding-top: 22.5px;
-        }
-        .node-basic-info :nth-child(2), :nth-child(3){
-          padding-left: 20px;
-        }
-        .banner-buttons{
-          padding-top: 34.5px;
-          .el-button{
-            font-size: 20px!important;
-            background-color: unset;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            border-radius: 30px;
-            padding: 18px 32px;
+    height: 545px;
+    background: center / cover no-repeat url("../assets/images/banner_new.png");
+    color: #FFFFFF;
+    .banner-buttons{
+      padding-top: 34.5px;
+      .el-button{
+        font-size: 20px!important;
+        background-color: unset;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 6px;
+        padding: 14px 30px;
+      }
+      .el-button:hover, .el-button:hover,{
+        color: #F5EA6E;
+        border: 1px solid #F5EA6E;
+      }
+    }
+    .banner-buttons :nth-child(2) {
+      margin-left: 60px;
+    }
+  }
+  .content{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 115px;
+    .package-area{
+      margin-top: -74px;
+      background-image: url("../assets/images/package_area_img.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-color: #FFFFFF;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
+      overflow: visible;
+      box-shadow: 0px 1px 29px 0px rgba(175, 175, 175, 0.21);
+      .package-data{
+        height: 208px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .words-area{
+          margin-left: 20px;
+          text-align: left;
+          .words-area-title{
+            font-size: 20px;
+            font-weight: 400;
+            color: #280B4E;
+            line-height: 26px;
           }
-          .el-button:hover, .el-button:hover,{
-            color: #F5EA6E;
-            border: 2px solid #F5EA6E;
+          .words-area-value{
+            font-size: 36px;
+            font-weight: 400;
+            color: #FD8864;
+            line-height: 62px;
           }
-        }
-        .banner-buttons :nth-child(2) {
-          margin-left: 60px;
         }
       }
     }
-    .swiper-button-prev {
-      left: 81px;
-      height: 100%;
-      width: 42px;
-      top: 0px;
-      background: url("../assets/images/pre-button-size42.png") center center no-repeat;
-    }
-    .swiper-button-next {
-      right: 81px;
-      height: 100%;
-      width: 42px;
-      top: 0px;
-      background: url("../assets/images/next-button-size42.png") center center no-repeat;
-    }
-    .swiper-button-prev:after, .swiper-button-next:after{
-      content: '';
-    }
-  }
-  .division{
-    text-align: center;
-    font-size: 32px;
-    font-weight: 400;
-    color: #280B4E;
-    line-height: 32px;
-    padding-top: 60px;
-  }
-  .package-area{
-    width: calc(100% - 400px);
-    margin: 40px 200px 0 200px;
-    background-image: url("../assets/images/package_area_img.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    text-align: center;
-    overflow: visible;
-    box-shadow: 0px 1px 29px 0px rgba(175, 175, 175, 0.21);
-    .package-data{
-      height: 160px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .words-area{
-        margin-left: 20px;
-        text-align: left;
-        .words-area-title{
-          font-size: 20px;
-          font-weight: 400;
-          color: #280B4E;
-          line-height: 26px;
+    .node-area{
+      margin-top: 40px;
+      .node-area-title{
+        font-size: 24px;
+        color: #280B4E;
+      }
+      .node-area-title-underline{
+        margin: 4px 0 0 44px;
+        width: 48px;
+        height: 2px;
+        background: linear-gradient(270deg, #BFABDA, #280B4E);
+      }
+      .node-list{
+        margin-top: 30px;
+        background: #F4F4FF;
+        box-shadow: 0px 1px 51px 0px rgba(209, 209, 209, 0.2);
+        border-radius: 8px;
+        padding: 30px 40px 40px 40px;
+        /deep/ .el-radio__label{
+          display: none;
         }
-        .words-area-value{
-          font-size: 36px;
-          font-weight: 400;
-          color: #FD8864;
-          line-height: 62px;
+        /deep/ .el-radio{
+          margin-right: 7px;
+        }
+        /deep/ .el-radio__inner{
+          width: 12px;
+          height: 12px;
+          background: #D1D1D1;
+        }
+        /deep/ .el-radio__input.is-checked .el-radio__inner::after{
+          content: none;
+        }
+        /deep/ .el-radio__input.is-checked .el-radio__inner{
+          background: #451F78;
+        }
+        .el-button{
+          font-size: 16px;
+          border-radius: 6px;
+          padding: 8px 12px;
+        }
+        .el-button:hover, .el-button:hover,{
+          background-color: unset;
+          color: #463098;
+          border: 1px solid #463098;
         }
       }
     }
   }
-  .node-detail-area {
-    width: calc(100% - 400px);
-    margin: 40px 200px 0 200px;
-    overflow: visible;
-    background-size: cover;
-    box-sizing: border-box;
-  }
-  .pb-30{
-  padding-bottom: 30px;
 }
-}
-
 </style>

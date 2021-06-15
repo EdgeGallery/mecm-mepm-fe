@@ -22,7 +22,7 @@
     >
       <el-col
         :span="8"
-        class="nodeinfo-left shadow"
+        class="nodeinfo-left shadow border-radius-8"
       >
         <div
           class="nodeinfo"
@@ -110,15 +110,33 @@
               <el-table
                 :data="mepCapData"
                 header-row-class-name="headerClassName"
-                max-height="428"
+                max-height="208"
                 stripe
               >
                 <el-table-column
-                  prop="capabilityName"
                   :label="$t('overview.softwareCapa')"
-                />
+                  width="180"
+                >
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="bottom"
+                      width="180"
+                      trigger="hover"
+                      v-if="scope.row.capabilityName.length>20"
+                    >
+                      <div>{{ scope.row.capabilityName }}</div>
+                      <div slot="reference">
+                        {{ scope.row.capabilityName.substring(0, 20) + "..." }}
+                      </div>
+                    </el-popover>
+                    <div v-else>
+                      {{ scope.row.capabilityName }}
+                    </div>
+                  </template>
+                </el-table-column>
                 <el-table-column
                   :label="$t('app.packageList.status')"
+                  width="120"
                 >
                   <template slot-scope="scope">
                     <img :src="scope.row.statusImgSrc">
@@ -128,6 +146,7 @@
                 <el-table-column
                   prop="version"
                   :label="$t('app.packageList.version')"
+                  width="100"
                 />
               </el-table>
             </el-col>
@@ -135,10 +154,10 @@
         </div>
       </el-col>
       <el-col
-        class="shadow ml-30"
+        class="shadow ml-30 border-radius-8"
         :span="16"
       >
-        <div class="p10">
+        <div class="p8">
           <Map
             @node="clickNode"
             :detail="detail"
@@ -157,7 +176,7 @@ export default {
   components: {
     Map
   },
-  beforeMount () {
+  beforeUpdate () {
     this.getMepCapa(this.detail.mechostIp)
   },
   props: {
@@ -202,7 +221,11 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+.el-col{
+  background-color: #FFFFFF;
+}
 /deep/ .el-table{
+  width: calc(100% - 12px);
   border: 6px solid #EFEFEF;
   box-sizing: content-box;
   color: #666666;
@@ -240,8 +263,8 @@ export default {
 .pt-10{
   padding-top: 10px
 }
-.p10{
-  padding: 10px;
+.p8{
+  padding: 8px;
 }
 .float-right{
   float: right;
@@ -258,6 +281,7 @@ export default {
   .nodeinfo-left{
     padding: 0px 29px 0px 29px;
     opacity: 0.8;
+    min-width: 420px;
   }
   .nodeinfo{
     .nodeInfo-area-title::before{
@@ -326,5 +350,8 @@ export default {
 }
 .shadow{
   box-shadow: 0px 1px 29px 0px rgba(175, 175, 175, 0.35);
+}
+.border-radius-8{
+  border-radius: 8px;
 }
 </style>
