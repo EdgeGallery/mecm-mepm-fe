@@ -113,8 +113,7 @@ import Swiper from './Swiper.vue'
 import ServiceList from './ServiceList'
 import Topology from './Topology'
 import ServiceDescribedInfo from './ServiceDescribedInfo.vue'
-// import { lcmController } from '../tools/request.js'
-import { mep } from '../tools/request-mock.js'
+import { lcmController } from '../tools/request.js'
 
 export default {
   components: { Swiper, ServiceList, Topology, ServiceDescribedInfo },
@@ -202,7 +201,7 @@ export default {
   beforeMount () {
     let appMap = new Map()
     let serviceMap = new Map()
-    mep.getServiceList(this.$route.params.nodeIp).then(res => {
+    lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
       if (res && res.data && res.data.data) {
         let serviceList = res.data.data
         let len = serviceList.length
@@ -228,12 +227,12 @@ export default {
         this.serviceCount = serviceArray.length
         this.appData = appArray
         this.serviceData = serviceArray
-        mep.getSubscribeInfo(this.$route.params.nodeIp).then(statisticRes => {
+        lcmController.getSubscribeInfo(this.$route.params.nodeIp).then(statisticRes => {
           if (statisticRes && statisticRes.data && statisticRes.data.data) {
             this.subscribeCount = statisticRes.data.data.subscribeNum.appSubscribeNum
             this.subscribedCount = statisticRes.data.data.subscribeNum.serviceSubscribedNum
           }
-          mep.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((res) => {
+          lcmController.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((res) => {
             let appServices = res.data.data.appServices
             appServices.forEach((element, index) => {
               element.id = element.name + index

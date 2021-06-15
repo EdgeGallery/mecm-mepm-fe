@@ -350,7 +350,6 @@ import { lcmController } from '../tools/request.js'
 import pagination from '../components/Pagination.vue'
 import Search from '../components/Search.vue'
 import Breadcrumb from '../components/BreadCrumb'
-import { inventory } from '../tools/request-mock.js'
 export default {
   name: 'Sysk8s',
   components: {
@@ -685,7 +684,7 @@ export default {
       }
     },
     getNodeListInPage () {
-      /* lcmController */ inventory.getHostList().then(response => {
+      lcmController.getHostList().then(response => {
         this.tableData = this.paginationData = response.data
         this.dataLoading = false
       }).catch((error) => {

@@ -90,8 +90,7 @@
 </template>
 
 <script>
-// import { lcmController } from '../tools/request'
-import { mep } from '../tools/request-mock.js'
+import { lcmController } from '../tools/request'
 
 export default {
   name: 'ServiceTable',
@@ -220,7 +219,7 @@ export default {
     }
   },
   beforeMount () {
-    mep.getServiceList(this.$route.params.nodeIp).then(res => {
+    lcmController.getServiceList(this.$route.params.nodeIp).then(res => {
       let nodesMap = new Map()
       if (res && res.data && res.data.data) {
         let serviceList = res.data.data

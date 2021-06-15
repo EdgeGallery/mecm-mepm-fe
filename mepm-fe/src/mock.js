@@ -223,7 +223,7 @@ const swCapability = function () {
     consumers: []
   }, {
     capabilityId: 'e56e5731576e243ecf62dcda9b7ba470',
-    capabilityName: 'ExampleService10',
+    capabilityName: 'ExampleService10 ExampleService10 ExampleService10',
     status: 'ACTIVE',
     version: '1.0.1',
     consumers: []

@@ -405,7 +405,7 @@ export default {
   width: 100%;
   height: 100%;
   .chart,.chart1 {
-    height: 800px;
+    height: 605px;
   }
   .return{
     position: absolute !important;
