@@ -146,7 +146,6 @@
                 <el-table-column
                   prop="version"
                   :label="$t('app.packageList.version')"
-                  width="100"
                 />
               </el-table>
             </el-col>
