@@ -2,10 +2,10 @@
   <div class="overview">
     <div class="banner">
       <div class="pl-255 pt-118">
-        <div class="fs-28">
+        <div class="fs-28 font-regular">
           EDGE NODE MANAGEMENT PLATFORM
         </div>
-        <div class="fs-74">
+        <div class="fs-74 font-bold font-weight-600 space-6">
           边缘节点管理平台
         </div>
         <div class="banner-buttons">
@@ -24,7 +24,7 @@
     </div>
     <div class="content">
       <div class="package-area">
-        <div class="package-data">
+        <div class="package-data right-division">
           <img src="../assets/images/usable_package.png">
           <div class="words-area">
             <div class="words-area-title">
@@ -35,7 +35,7 @@
             </div>
           </div>
         </div>
-        <div class="package-data">
+        <div class="package-data right-division">
           <img src="../assets/images/distributed_package.png">
           <div class="words-area">
             <div class="words-area-title">
@@ -197,6 +197,18 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+.font-bold{
+  font-family: HarmonyOS_Sans_Bold;
+}
+.font-regular{
+  font-family: HarmonyOS_Sans_Regular;
+}
+.font-weight-600 {
+  font-weight: 600;
+}
+.space-6 {
+  letter-spacing: 6px;
+}
 .pb-10{
   padding-bottom: 10px;
 }
@@ -253,16 +265,13 @@ export default {
     margin-bottom: 115px;
     .package-area{
       margin-top: -74px;
-      background-image: url("../assets/images/package_area_img.png");
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
       background-color: #FFFFFF;
       border-radius: 8px;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       text-align: center;
       overflow: visible;
-      box-shadow: 0px 1px 29px 0px rgba(175, 175, 175, 0.21);
+      box-shadow: 0px 0px 38px 10px rgba(214, 187, 249, 0.2) inset;
       .package-data{
         height: 208px;
         display: flex;
@@ -284,6 +293,9 @@ export default {
             line-height: 62px;
           }
         }
+      }
+      .right-division{
+        background: right / 2px 75px no-repeat url('../assets/images/vertical-division.png')
       }
     }
     .node-area{

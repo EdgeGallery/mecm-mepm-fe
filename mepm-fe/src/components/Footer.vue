@@ -31,30 +31,6 @@
                 EdgeGallery {{ $t('footer.website') }}
               </el-link>
             </p>
-            <p>
-              <el-link
-                :href="appStoreUrl"
-                target="_blank"
-              >
-                AppStore
-              </el-link>
-            </p>
-            <p>
-              <el-link
-                :href="atpUrl"
-                target="_blank"
-              >
-                ATP
-              </el-link>
-            </p>
-            <p>
-              <el-link
-                :href="mecmUrl"
-                target="_blank"
-              >
-                MECM
-              </el-link>
-            </p>
           </li>
           <li>
             <p class="tit">
@@ -297,9 +273,6 @@ export default {
   data () {
     return {
       language: localStorage.getItem('language'),
-      appStoreUrl: '',
-      atpUrl: '',
-      mecmUrl: '',
       videoUrl: 'https://www.edgegallery.org/video/',
       trainUrl: 'https://www.edgegallery.org/training-material/',
       docUrl: 'http://docs.edgegallery.org/zh_CN/latest/',
@@ -319,9 +292,6 @@ export default {
       showWeibo: false,
       showEmail: false
     }
-  },
-  mounted () {
-    this.getPlatformUrl()
   },
   watch: {
     '$i18n.locale': function () {
@@ -348,20 +318,6 @@ export default {
         this.contactUrl = 'https://www.edgegallery.org/en/contact-us/'
         this.legalNoticeUrl = 'https://www.edgegallery.org/en/legal-notice/'
         this.privacyPolicyUrl = 'https://www.edgegallery.org/en/privacy-policy/'
-      }
-    }
-  },
-  methods: {
-    getPlatformUrl () {
-      let currUrl = window.location.origin
-      if (currUrl.indexOf('30092') !== -1) {
-        this.appStoreUrl = currUrl.replace('30092', '30091')
-        this.atpUrl = currUrl.replace('30092', '30094')
-        this.mecmUrl = currUrl.replace('30092', '30093')
-      } else {
-        this.appStoreUrl = currUrl.replace('developer', 'appstore')
-        this.atpUrl = currUrl.replace('developer', 'atp')
-        this.mecmUrl = currUrl.replace('developer', 'mecm')
       }
     }
   }
