@@ -59,7 +59,7 @@
         </div>
       </div>
       <div
-        v-if="nodeList.size > 0"
+        v-if="nodeList.length > 0"
         class="node-area"
       >
         <div class="node-area-title">
@@ -117,7 +117,10 @@ export default {
   },
   computed: {
     curShownNodeInfo: function () {
-      return this.nodeList[this.radio]
+      if (this.nodeList.length > this.radio) {
+        return this.nodeList[this.radio]
+      }
+      return null
     }
   },
   methods: {
@@ -177,11 +180,8 @@ export default {
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
         await lcmController.getHostList().then(res => {
           if (res.data && res.data.length > 0) {
-            res.data.forEach((item, index) => {
-              this.nodeList.push(item)
-            })
+            this.nodeList = res.data
             isQuerySuccess = true
-            this.curShownNodeInfo = this.nodeList[0]
           }
         }).catch((error) => {
           console.log('Failed to get host list -> ', error.response)
