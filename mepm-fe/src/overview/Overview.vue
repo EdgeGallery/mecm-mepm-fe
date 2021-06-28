@@ -207,10 +207,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .font-bold{
-  font-family: HarmonyOS_Sans_Bold;
+  font-family: HarmonyOS_Sans_Bold, Arial, Helvetica, sans-serif;
 }
 .font-regular{
-  font-family: HarmonyOS_Sans_Regular;
+  font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
 }
 .font-weight-600 {
   font-weight: 600;
