@@ -135,7 +135,9 @@ const en = {
       syncTip: 'Select at lease one application for synchronization!',
       newPackage: 'New Package',
       package: 'Package',
-      uploadPackage: 'Upload Package'
+      uploadPackage: 'Upload Package',
+      fileDeleteConfirmInfo: 'Are you sure want to remove %s ?',
+      onlyOneFile: 'Only one file is allowed, please remove the file first!'
     },
     distriList: {
       mecHost: 'MEC Hosts',

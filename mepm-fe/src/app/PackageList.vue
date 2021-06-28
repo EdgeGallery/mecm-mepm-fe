@@ -136,10 +136,13 @@
                   action=""
                   :http-request="fileUpload"
                   :before-upload="beforeUpload"
+                  :before-remove="beforeRemove"
+                  :on-remove="handleRemove"
                   :file-list="fileList"
                   :multiple="false"
                   accept=""
                   :limit="1"
+                  :on-exceed="handleExceed"
                 >
                   <em class="el-icon-upload" />
                   <div class="el-upload__text">
@@ -454,6 +457,7 @@ export default {
       this.$refs.multipleEdgeNodeTable.clearSelection()
     },
     uploadCancel () {
+      this.fileList = []
       this.uploadPkgDialogVisible = false
     },
     beforeUpload (file) {
@@ -474,10 +478,12 @@ export default {
       lcmController.uploadPackage(params).then(response => {
         this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
         this.dialogVisible = false
+        this.fileList = []
         this.getPackageList()
         this.loading = false
       }).catch((error) => {
         this.loading = false
+        this.fileList = []
         if (error.response.status === 400 && error.response.data.details[0] === 'Record already exist') {
           this.$message.error(error.response.data.details[0])
         } else if (error.response.status === 403) {
@@ -519,6 +525,18 @@ export default {
         } else {
           this.$message.warning(this.$t('tip.version'))
         }
+      }
+    },
+    beforeRemove (file, fileList) {
+      let checkInfo = this.$t('app.packageList.fileDeleteConfirmInfo').replace('%s', file.name)
+      return this.$confirm(checkInfo)
+    },
+    handleRemove (file, fileList) {
+      this.fileList = fileList
+    },
+    handleExceed (files, fileList) {
+      if (fileList.length === 1) {
+        this.$message.warning(this.$t('app.packageList.onlyOneFile'))
       }
     }
   }

@@ -134,7 +134,9 @@ const cn = {
       syncTip: '请至少选择一个应用进行同步！',
       newPackage: '新的应用程序包',
       package: '包裹',
-      uploadPackage: '上传套餐'
+      uploadPackage: '上传套餐',
+      fileDeleteConfirmInfo: '确认移除%s?',
+      onlyOneFile: '仅支持一个文件，请先移除已有文件！'
     },
     distriList: {
       mecHost: 'MEC 主机',
