@@ -139,7 +139,10 @@
                   width="120"
                 >
                   <template slot-scope="scope">
-                    <img :src="scope.row.statusImgSrc">
+                    <img
+                      :src="scope.row.statusImgSrc"
+                      :alt="scope.row.status"
+                    >
                     <span class="swStatusValue">{{ scope.row.status }}</span>
                   </template>
                 </el-table-column>
@@ -181,7 +184,7 @@ export default {
   props: {
     detail: {
       type: Object,
-      default: () => {}
+      default: () => { return {} }
     }
   },
   data () {
@@ -270,8 +273,6 @@ export default {
 }
 .ml-30{
   margin-left: 30px;
-}
-.pb-30{
 }
 .mt-21{
   margin-top: 21px;

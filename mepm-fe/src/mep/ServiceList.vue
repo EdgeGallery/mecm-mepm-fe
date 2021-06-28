@@ -233,7 +233,7 @@ export default {
               app: serviceList[i].serCategory.name,
               version: serviceList[i].version,
               appVersion: serviceList[i].serCategory.version,
-              desc: '' // TODO 待后台接口添加后处理
+              desc: ''
             })
           }
         }

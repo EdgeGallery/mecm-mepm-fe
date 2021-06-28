@@ -25,7 +25,10 @@
     <div class="content">
       <div class="package-area">
         <div class="package-data right-division">
-          <img src="../assets/images/usable_package.png">
+          <img
+            src="../assets/images/usable_package.png"
+            alt="usable package count."
+          >
           <div class="words-area">
             <div class="words-area-title">
               {{ $t("overview.availablePackage") }}
@@ -36,7 +39,10 @@
           </div>
         </div>
         <div class="package-data right-division">
-          <img src="../assets/images/distributed_package.png">
+          <img
+            src="../assets/images/distributed_package.png"
+            alt="distributed package count."
+          >
           <div class="words-area">
             <div class="words-area-title">
               {{ $t("overview.distributedPackage") }}
@@ -47,7 +53,10 @@
           </div>
         </div>
         <div class="package-data">
-          <img src="../assets/images/deployed_package.png">
+          <img
+            src="../assets/images/deployed_package.png"
+            alt="deployed package count."
+          >
           <div class="words-area">
             <div class="words-area-title">
               {{ $t("overview.deployedPackage") }}
@@ -250,7 +259,7 @@ export default {
         border-radius: 6px;
         padding: 14px 30px;
       }
-      .el-button:hover, .el-button:hover,{
+      .el-button:hover{
         color: #F5EA6E;
         border: 1px solid #F5EA6E;
       }
@@ -338,7 +347,7 @@ export default {
           border-radius: 6px;
           padding: 8px 12px;
         }
-        .el-button:hover, .el-button:hover,{
+        .el-button:hover{
           background-color: unset;
           color: #463098;
           border: 1px solid #463098;
