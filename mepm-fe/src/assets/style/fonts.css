@@ -1,0 +1,51 @@
+/*
+ *  Copyright 2020 Huawei Technologies Co., Ltd.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+/* 以下字体字重由小及大 */
+
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Thin;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Thin.ttf);
+ }
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Light;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Light.ttf);
+ }
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Regular;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Regular.ttf);
+ }
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Medium;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Medium.ttf);
+ }
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Bold;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Bold.ttf);
+ }
+ 
+ @font-face
+ {
+   font-family: HarmonyOS_Sans_Black;
+   src: url(../fonts/HarmonyOS_Sans/HarmonyOS_Sans/HarmonyOS_Sans_Black.ttf);
+ }
+ 
+ 
