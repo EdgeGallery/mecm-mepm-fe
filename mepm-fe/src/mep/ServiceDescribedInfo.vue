@@ -4,6 +4,7 @@
       src="../assets/images/close.png"
       class="close-img"
       @click="handleClose"
+      alt="the image for close button."
     >
     <ser-card
       :name="name"
@@ -48,18 +49,7 @@ export default {
     handleClose () {
       this.$emit('closeServiceDescribeInfo')
     }
-  },
-  created () {
-  },
-  mounted () {
-  },
-  beforeCreate () {},
-  beforeMount () {},
-  beforeUpdate () {},
-  updated () {},
-  beforeDestroy () {},
-  destroyed () {},
-  activated () {}
+  }
 }
 </script>
 <style lang='less' scoped>

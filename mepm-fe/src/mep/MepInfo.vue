@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     returnLastPage () {
-      this.$router.back(-1) // TODO overview和nodeInfo合并后，该按钮用于返回overView页面
+      this.$router.back(-1)
     },
     backTop () {
       this.cont1.scrollIntoView({
@@ -194,7 +194,7 @@ export default {
         serviceName: basicInfo.name,
         serviceDesc: basicInfo.desc,
         serviceId: basicInfo.instance,
-        serviceCallTimes: callInfo ? callInfo.callTimes : [0, 0, 0, 0, 0, 0, 0] // TODO ability接口添加id，方便查找指定服务的调用次数。
+        serviceCallTimes: callInfo ? callInfo.callTimes : [0, 0, 0, 0, 0, 0, 0]
       }
     }
   },
@@ -232,14 +232,14 @@ export default {
             this.subscribeCount = statisticRes.data.data.subscribeNum.appSubscribeNum
             this.subscribedCount = statisticRes.data.data.subscribeNum.serviceSubscribedNum
           }
-          lcmController.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((res) => {
-            let appServices = res.data.data.appServices
+          lcmController.getAbilityCallTimesInfo(this.$route.params.nodeIp).then((response) => {
+            let appServices = response.data.data.appServices
             appServices.forEach((element, index) => {
               element.id = element.name + index
               element.callTimes.reverse()
             })
             this.appCapabilityies = appServices
-            let mepServices = res.data.data.mepServices
+            let mepServices = response.data.data.mepServices
             mepServices.forEach((element, index) => {
               element.id = element.name + index
               element.callTimes.reverse()
