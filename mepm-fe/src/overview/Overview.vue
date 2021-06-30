@@ -175,8 +175,8 @@ export default {
       let isQuerySuccess = false
       for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
         await lcmController.getInstanceList().then(res => {
-          if (res.data && res.data.response && res.data.response.length > 0) {
-            this.deployedCount = res.data.response.length
+          if (res.data) {
+            this.deployedCount = res.data.length
             isQuerySuccess = true
           }
         }).catch((error) => {
