@@ -476,7 +476,7 @@ export default {
       params.append('package', this.fileList[0])
       params.append('origin', 'MEPM')
       lcmController.uploadPackage(params).then(response => {
-        this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
+        this.showMessage('success', this.$t('tip.uploadSuccess'), 1500)
         this.dialogVisible = false
         this.fileList = []
         this.getPackageList()

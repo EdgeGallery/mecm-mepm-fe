@@ -52,7 +52,7 @@ const en = {
     capa: 'Capabilities',
     vendor: 'Vendor',
     model: 'Model',
-    type: 'SW Capabilities',
+    type: 'HW Capabilities',
     desc: 'Description',
     app: 'App',
     manage: 'Manage',
@@ -257,7 +257,7 @@ const en = {
       nodeModify: 'Edge Node Modify',
       uploadFile: 'Upload Config File',
       howToUpload: 'Drag the file here，or click to upload',
-      hwCapability: 'Capabilities',
+      hwCapability: 'HW Capabilities',
       coordinates: 'Coordinates',
       chooseLocation: 'Please select location',
       newEdge: 'New Edge'
@@ -382,7 +382,8 @@ const en = {
     macMust: 'Please type right mac address.',
     idMust: 'Please type right rule ID.',
     domainMust: 'Please type right domain name.',
-    beforeDeleteAppMgr: 'Are you sure to delete this data?'
+    beforeDeleteAppMgr: 'Are you sure to delete this data?',
+    uploadSuccess: 'Upload success!'
   },
   area: {
     beijing: 'Beijing',
