@@ -24,8 +24,6 @@ WORKDIR $APP_HOME
 
 RUN sed -i "s|umask 022|umask 027|g" /etc/profile &&\
     mkdir -p -m 750 $APP_HOME &&\
-    apk update &&\
-    apk add shadow &&\
     groupadd -r -g $GID $GROUP_NAME &&\
     useradd -r -u $UID -g $GID -d $APP_HOME -s /sbin/nologin -c "Docker image user" $USER_NAME &&\
     chown -R $USER_NAME:$GROUP_NAME $APP_HOME
