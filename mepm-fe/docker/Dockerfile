@@ -29,7 +29,7 @@ RUN sed -i "s|umask 022|umask 027|g" /etc/profile &&\
     chown -R $USER_NAME:$GROUP_NAME $APP_HOME
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --chown=$USER_NAME:$GROUP_NAME dist/ /usr/share/nginx/html/
+COPY dist/ /usr/share/nginx/html/
 
 # Change to the app user.
 USER $USER_NAME
