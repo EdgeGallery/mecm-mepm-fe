@@ -17,9 +17,6 @@ FROM swr.ap-southeast-1.myhuaweicloud.com/edgegallery/nginx:latest
 ENV USER_NAME=eguser
 ENV GROUP_NAME=eggroup
 
-# Set the working directory.
-WORKDIR $APP_HOME
-
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --chown=$USER_NAME:$GROUP_NAME dist/ /usr/share/nginx/html/
 
