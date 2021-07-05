@@ -13,9 +13,22 @@
 # limitations under the License.
 
 FROM swr.ap-southeast-1.myhuaweicloud.com/edgegallery/nginx:latest
-
+ENV APP_HOME /usr/app
+ENV UID=166
+ENV GID=166
 ENV USER_NAME=eguser
 ENV GROUP_NAME=eggroup
+
+# Set the working directory.
+WORKDIR $APP_HOME
+
+RUN sed -i "s|umask 022|umask 027|g" /etc/profile &&\
+    mkdir -p -m 750 $APP_HOME &&\
+    apk update &&\
+    apk add shadow &&\
+    groupadd -r -g $GID $GROUP_NAME &&\
+    useradd -r -u $UID -g $GID -d $APP_HOME -s /sbin/nologin -c "Docker image user" $USER_NAME &&\
+    chown -R $USER_NAME:$GROUP_NAME $APP_HOME
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --chown=$USER_NAME:$GROUP_NAME dist/ /usr/share/nginx/html/
