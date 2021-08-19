@@ -36,6 +36,16 @@ export default new Router({
       component: () => import('../host/NodeInfo.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../user/Login.vue')
+    },
+    {
+      path: '/modify',
+      name: 'modify',
+      component: () => import('../user/Modify.vue')
+    },
+    {
       path: '',
       name: 'layout',
       component: Layout,
