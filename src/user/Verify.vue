@@ -50,7 +50,6 @@
   </div>
 </template>
 <script>
-import { api } from '../tools/api.js'
 export default {
   name: 'Verify',
   data () {
@@ -91,15 +90,6 @@ export default {
       verificationCodeCheckIcon: ''
     }
   },
-  watch: {
-    '$i18n.locale': function () {
-      this.$refs['verifyData'].fields.forEach(item => {
-        if (item.validateState === 'error') {
-          this.$refs['verifyData'].validateField(item.labelFor)
-        }
-      })
-    }
-  },
   beforeMount () {
     this.$root.$on('validateVerifyForm', () => {
       this.validateVerifyForm()
@@ -131,19 +121,7 @@ export default {
       this.resetImgVerify()
     },
     checkVerificationCodeIfRight (value, callback) {
-      this.verificationCodeCheckIcon = ''
-      api.checkVerificationCode(value).then(res => {
-        if (res.data && res.data.checkResult) {
-          this.verificationCodeCheckIcon = 'el-icon-check'
-          callback()
-        } else {
-          callback(new Error(this.$t('verify.imgVerifycodeWrong')))
-          this.resetImgVerify()
-        }
-      }).catch(() => {
-        callback(new Error(this.$t('verify.imgVerifycodeWrong')))
-        this.resetImgVerify()
-      })
+
     },
     resetImgVerify () {
       this.verifyCodeImgObj.src = this.verifyCodeUrlPrefix + Math.random()
