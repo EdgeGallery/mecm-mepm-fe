@@ -27,7 +27,6 @@
       </div>
       <div
         class="login-area"
-        v-if="!hasLogin"
       >
         <p class="login-top">
           {{ $t('login.loginWithUser') }}
@@ -61,75 +60,34 @@
             />
           </el-form-item>
         </el-form>
+        <Verify
+          @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
+        />
       </div>
-      <Verify
-        v-if="!hasLogin"
-        @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
-      />
-      <div
-        class="login-area"
-        v-if="hasLogin"
-      >
-        <p
-          style="height: 120px;line-height: 120px;"
+      <div class="login-tips rt">
+        <el-button
+          type="text"
+          @click="jumpTo('/modify')"
         >
-          {{ username }}{{ $t('login.hasLogin') }}
-        </p>
+          {{ $t('login.forgotPwd') }}
+        </el-button>
       </div>
       <div
         class="login-btn"
-        v-if="!hasLogin"
       >
         <el-button
           id="loginBtn"
           type="primary"
           size="medium"
-          :loading="loginBtnLoading"
           @click="submitForm('userData')"
         >
           {{ $t('login.login') }}
-        </el-button>
-      </div>
-      <div
-        class="login-btn"
-        style="margin-top:130px;"
-        v-if="hasLogin"
-      >
-        <el-button
-          id="logoutBtn"
-          type="primary"
-          size="medium"
-          :loading="logoutBtnLoading"
-          @click="logout()"
-        >
-          {{ $t('login.logout') }}
-        </el-button>
-      </div>
-      <div class="login-tips rt">
-        <el-button
-          type="text"
-          v-if="!hasLogin"
-          @click="jumpTo('/modify')"
-        >
-          {{ $t('login.forgotPwd') }}
-        </el-button>
-        <el-divider
-          direction="vertical"
-          v-if="!hasLogin && (this.enableSms || this.enableMail)"
-        />
-        <el-button
-          type="text"
-          v-if="!hasLogin && (this.enableSms || this.enableMail)"
-          @click="jumpTo('/mecm/getPwd')"
-        >
-          {{ $t('login.forgotPwd') }}
         </el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { api } from '../tools/api.js'
 import Verify from './Verify.vue'
 export default {
   name: 'Login',
@@ -137,253 +95,27 @@ export default {
     Verify
   },
   data () {
-    var validateName = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error(this.$t('verify.usernameTip')))
-      } else {
-        callback()
-      }
-    }
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error(this.$t('verify.passwordTip')))
-      } else {
-        callback()
-      }
-    }
     return {
       userData: {
-        username: '',
+        userName: '',
         password: ''
-      },
-      verificationCode: '',
-      rules: {
-        username: [
-          { validator: validateName }
-        ],
-        password: [
-          { validator: validatePass }
-        ]
-      },
-      username: '',
-      hasLogin: false,
-      loginStatusChanged: false,
-      loginBtnLoading: false,
-      logoutBtnLoading: false,
-
-      returnUrl: '',
-      enableSms: '',
-      enableMail: '',
-      getLoginInfoInterval: null
+      }
     }
   },
   watch: {
-    '$i18n.locale': function () {
-      this.$refs['userData'].fields.forEach(item => {
-        if (item.validateState === 'error') {
-          this.$refs['userData'].validateField(item.labelFor)
-        }
-      })
-    }
-  },
-  created () {
-    this.keyupSubmit()
+
   },
   destroyed () {
-    this.clearKeyEvent()
   },
   mounted () {
-    // api.loginInfo().then(res => {
-    //   this.username = res.data.username
-    //   if (this.username) {
-    //     this.hasLogin = true
-    //   }
 
-    //   this.startGetLoginInfoInterval()
-    // }).catch(() => {
-    //   this.startGetLoginInfoInterval()
-    // })
-    if (window.location.href.indexOf('return_to=') > -1) {
-      this.returnUrl = this.getQueryString('return_to')
-      this.enableSms = this.getQueryString('enable_sms').indexOf('true') > -1
-      this.enableMail = this.getQueryString('enable_mail').indexOf('true') > -1
-      let obj = {
-        return_url: this.returnUrl,
-        enable_sms: this.enableSms,
-        enable_mail: this.enableMail,
-        login_url: window.location.href.split('#')[1]
-      }
-      sessionStorage.setItem('obj', JSON.stringify(obj))
-    }
-    let userInfo = JSON.parse(sessionStorage.getItem('userinfo'))
-    if (userInfo) {
-      this.userData.username = userInfo.username
-    }
-  },
-  beforeDestroy () {
-    this.clearInterval()
   },
   methods: {
-    startGetLoginInfoInterval () {
-      this.getLoginInfoInterval = setInterval(() => {
-        this.loginStatusChanged = false
-        api.loginInfo().then(res => {
-          let _userName = res.data.username
-          let _hasLogin = false
-          if (_userName) {
-            _hasLogin = true
-          }
-
-          if (_userName !== this.username || _hasLogin !== this.hasLogin) {
-            this.loginStatusChanged = true
-          }
-
-          this.username = _userName
-          this.hasLogin = _hasLogin
-
-          this.autoJumpToApp()
-          this.refreshPage()
-        }).catch(() => {
-          if (this.hasLogin) {
-            this.loginStatusChanged = true
-          }
-          this.username = ''
-          this.hasLogin = false
-          if (this.loginStatusChanged) {
-            location.reload()
-          }
-        })
-      }, 3000)
-    },
-    autoJumpToApp () {
-      if (!this.loginStatusChanged) {
-        return
-      }
-      if (!this.hasLogin || this.username === 'guest') {
-        return
-      }
-      let _returnUrl = this.getReturnUrl()
-      if (_returnUrl) {
-        window.location.href = decodeURIComponent(_returnUrl)
-      }
-    },
-    refreshPage () {
-      if (!this.loginStatusChanged) {
-        return
-      }
-      if (!this.hasLogin || this.username !== 'admin') {
-        return
-      }
-      let _returnUrl = this.getReturnUrl()
-      if (!_returnUrl) {
-        location.reload()
-      }
-    },
-    clearInterval () {
-      clearTimeout(this.getLoginInfoInterval)
-      this.getLoginInfoInterval = null
-    },
-    getQueryString (name) {
-      let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-      let r = window.location.href.split('?')[1].substr(0).match(reg)
-      if (r != null) {
-        return decodeURIComponent(r[2])
-      }
-      return null
-    },
-    getReturnUrl () {
-      let _objJson = sessionStorage.getItem('obj')
-      if (_objJson) {
-        return JSON.parse(_objJson).return_url
-      }
-
-      return ''
-    },
-    submitForm (formName) {
-      this.$refs[formName].validate()
-      this.$root.$emit('validateVerifyForm')
-    },
-    validateVerifyCodeSuccess (verifyCode) {
-      this.$refs['userData'].validate((valid) => {
-        if (!valid) {
-          return false
-        }
-
-        this.verificationCode = verifyCode
-        this.submitLogin()
-      })
-    },
-    submitLogin () {
-      this.loginBtnLoading = true
-      let formData = new FormData()
-      Object.keys(this.userData).forEach(item => {
-        formData.append(item, this.userData[item])
-      })
-      let headers = {
-        'Content-Type': 'multipart/form-data',
-        'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
-      }
-      api.login(formData, this.verificationCode, headers).then(res => {
-        this.loginSuccess(res)
-      }).catch(error => {
-        this.loginBtnLoading = false
-        if (error && error.response) {
-          switch (error.response.status) {
-            case 400:
-              error.message = 'Bad request'
-              break
-            case 401:
-              error.message = this.$t('login.loginFail')
-              break
-            case 423:
-              error.message = this.$t('login.userLock')
-              break
-          }
-          this.$message.error(error.message)
-        }
-        this.$refs['userNameInput'].focus()
-        let _resetLoginTimer = setTimeout(() => {
-          clearTimeout(_resetLoginTimer)
-          _resetLoginTimer = null
-          this.resetLogin()
-        }, 1000)
-      })
-    },
-    resetLogin () {
-      this.$refs['userData'].resetFields()
-      this.$root.$emit('resetVerifyForm')
-    },
-    loginSuccess (response) {
-      if (response && response.headers && response.headers.pwmodiscene) {
-        localStorage.setItem('pwmodiscene-' + this.$cookies.get('XSRF-TOKEN'), response.headers.pwmodiscene)
-      }
-      let _returnUrl = this.getReturnUrl()
-      if (_returnUrl) {
-        window.location.href = decodeURIComponent(_returnUrl)
-      } else {
-        location.reload()
-      }
-    },
-    logout () {
-      api.logout().then(res => {
-        this.logoutBtnLoading = true
-        location.reload()
-      })
-    },
-    keyupSubmit () {
-      document.onkeydown = this.processkeyEvent
-    },
-    clearKeyEvent () {
-      document.onkeydown = null
-    },
-    processkeyEvent (event) {
-      let _key = event.keyCode
-      if (_key === 13) {
-        this.submitForm('userData')
-      }
-    },
     jumpTo (path) {
       this.$router.push(path)
+    },
+    submitForm () {
+      console.log(1)
     }
   }
 }
@@ -464,6 +196,7 @@ export default {
       width: 100%;
       font-size: 18px;
       border: none;
+      border-radius: 22px;
       font-family: HarmonyHeiTi;
       font-size: 22px;
       background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
@@ -476,15 +209,12 @@ export default {
     margin-top: 15px;
     padding: 0 45px;
     position: relative;
-    top: -295px;
-    span {
+    top: -185px;
+    z-index: 12;
+    .el-button--text{
+      color: #53c6d4;
+      font-family: HarmonyHeiTi;
       font-size: 12px;
-      color: #252b3a;
-      line-height: 18px;
-    }
-    .language_span{
-      cursor: pointer;
-      margin-left: 10px;
     }
   }
 }

@@ -17,7 +17,7 @@
 <template>
   <div class="verify-area">
     <el-row>
-      <el-col :span="17">
+      <el-col :span="15">
         <el-form
           :model="verifyData"
           :rules="rules"
@@ -39,7 +39,7 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="7">
+      <el-col :span="9">
         <img
           id="verifycode_img"
           alt=""
@@ -156,14 +156,11 @@ export default {
 </script>
 <style lang="less">
 .verify-area{
-  position: relative;
-  top: -210px;
-  padding: 0 45px;
   #verifycode_img{
     width: 100%;
     padding-left: 15px;
     box-sizing: border-box;
-    height: 39px;
+    height: 40px;
     cursor: pointer;
   }
 
