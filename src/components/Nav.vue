@@ -37,8 +37,11 @@
       <el-col
         :lg="12"
         class="hidden-md-and-down"
+        style="height:65px;"
       >
-        <div>
+        <div
+          v-show="ifLogin"
+        >
           <Topbar
             v-if="!smallMenu"
             :json-data="jsonData"
@@ -60,6 +63,35 @@
           </div>
           <div class="language rt">
             <span @click="changeLang">{{ lang }}</span>
+          </div>
+          <div
+            class="rt"
+            @mouseenter="showFunc=true"
+            v-show="ifLogin"
+          >
+            <img
+              id="usericon"
+              class="rt"
+              src="../assets/images/mine_icon.png"
+            >
+            <div
+              class="userFunc"
+              v-show="showFunc"
+              @mouseleave="showFunc=false"
+            >
+              <p
+                @click="logout"
+                v-show="ifLogin"
+              >
+                {{ $t('login.logout') }}
+              </p>
+              <p
+                @click="jumpTo('/modify')"
+                v-show="ifLogin"
+              >
+                {{ $t('login.getPwd') }}
+              </p>
+            </div>
           </div>
         </div>
       </el-col>
@@ -98,12 +130,20 @@ export default {
       language: 'cn',
       lang: 'English',
       smallMenu: false,
-      userName: ''
+      userName: '',
+      ifLogin: true,
+      showFunc: false
     }
   },
   watch: {
     $route (to, from) {
       sessionStorage.setItem('before_route', to.path)
+      if (!sessionStorage.getItem('userName')) {
+        this.ifLogin = false
+        this.$router.push('/login')
+      } else {
+        this.ifLogin = true
+      }
     }
   },
   mounted () {
@@ -124,6 +164,11 @@ export default {
   methods: {
     jumpTo (path) {
       this.$router.push(path)
+    },
+    logout () {
+      sessionStorage.removeItem('userName')
+      sessionStorage.removeItem('password')
+      this.$router.push('/login')
     },
     os () {
       let UserAgent = navigator.userAgent.toLowerCase()
@@ -222,7 +267,7 @@ export default {
       height:24px;
       margin-right: 10px;
       position: relative;
-      top:8px;
+      left: -20px;
       cursor:pointer;
       color:#f5f5f5;
     }
@@ -239,6 +284,29 @@ export default {
   }
   .menu-div{
     overflow-y: auto;
+  }
+}
+
+#usericon{
+  position: relative;
+  z-index: 99;
+  top: 22px;
+  right:40px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.userFunc{
+  width: 70px;
+  color: #fff;
+  line-height: 25px;
+  position: relative;
+  top: 66px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #280b4e;
+  p{
+    cursor: pointer;
+    line-height: 30px;
   }
 }
 </style>

@@ -66,12 +66,11 @@
           class="modify-tips"
           v-if="!nextValue"
         >
-          想起密码？
           <el-button
             type="text"
             @click="jumpTo('/login')"
           >
-            返回登录
+            返回
           </el-button>
         </div>
       </div>
@@ -107,7 +106,7 @@ export default {
       this.nextValue = false
     },
     jumpTo (path) {
-      this.$router.push(path)
+      this.$router.go(-1)
     }
   }
 }
@@ -130,7 +129,7 @@ export default {
       margin-bottom: 25px;
     }
     .modify-area {
-      padding: 25px 45px;
+      padding: 25px 45px 35px 45px;
       background: #fff;
       border-radius: 15px;
       width: 420px;

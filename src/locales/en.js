@@ -51,7 +51,7 @@ const en = {
     loginWithUser: 'Account Login',
     welcome: 'EdgeGallery Account Registration',
     freeSign: 'Free Registration',
-    getPwd: 'Get Password',
+    getPwd: 'Modify Password',
     getPwdByMail: 'By Mail',
     getPwdBySms: 'By Mobile Phone',
     verify: 'Drag slider to verify',
@@ -226,7 +226,8 @@ const en = {
       addDnsRules: 'Add DNS rules',
       addTrafficRules: 'Add Traffic rules',
       addFilter: 'Add Traffic Filter',
-      batchDelete: 'Batch delete instances'
+      batchDelete: 'Batch delete instances',
+      appKpi: 'Application KPI'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',
@@ -338,13 +339,20 @@ const en = {
     copy: 'Copy'
   },
   verify: {
+    usernameTip: 'User name can not be empty',
+    passwordTip: 'Password can not be empty',
+    confirmpasswordTip: 'Confirm password can not be empty',
+    telephoneTip: 'Mobile phone number can not be empty',
+    mailAddressBlankTip: 'Email Address can not be empty',
+    verifyCodeTip: 'Verification code con not be empty',
+    verifycodeRule: 'Please enter a six-digit verification code',
+    imgVerifycodeRule: 'Please enter a four-digit verification code',
+    imgVerifycodeWrong: 'verification code error or expired',
     ipTip: 'Ip should not be empty',
     hostnameTip: 'Host name should not be empty',
     zipcodeTip: 'Zipcode should not be empty',
     cityTip: 'City should not be empty',
     addressTip: 'Address Mec Host should not be empty',
-    usernameTip: 'User name should not be empty',
-    passwordTip: 'Password should not be empty',
     edgeNexusIpTip: 'Edge Repo ip should not be empty',
     edgeNexusPortTip: 'Edge Repo port should not be empty',
     edgeNexusUsernameTip: 'Edge Repo user name should not be empty',

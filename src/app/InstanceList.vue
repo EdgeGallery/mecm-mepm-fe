@@ -84,7 +84,7 @@
               </el-button>
               <el-button
                 id="detailBtn"
-                @click="checkDetail(scope.row)"
+                @click="handleRowSelection(scope.row)"
                 type="text"
                 size="small"
               >
@@ -116,6 +116,58 @@
           />
         </div>
       </div>
+      <el-dialog
+        :title="$t('app.instanceList.appKpi')"
+        :visible.sync="instanceListVisible"
+        width="width"
+      >
+        <div>
+          <div style="min-height:280px;">
+            <el-row :gutter="10">
+              <el-col
+                :span="5"
+                style="height:200px;"
+              >
+                <InstanceUsage :kpi-info="kpiInfo" />
+              </el-col>
+              <el-col
+                :span="19"
+                style="margin-top:15px;"
+              >
+                <el-table
+                  ref="podTable"
+                  :data="podTable"
+                  class="mt20 detailTab"
+                  size="small"
+                >
+                  <el-table-column
+                    prop="podname"
+                    :label="$t('app.distriList.podName')"
+                  />
+                  <el-table-column
+                    prop="podstatus"
+                    :label="$t('app.distriList.status')"
+                  />
+                  <el-table-column
+                    :label="$t('overview.mem')"
+                  >
+                    <template slot-scope="scope">
+                      {{ getMemValue(scope.row) }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    :label="$t('overview.cpu')"
+                  >
+                    <template slot-scope="scope">
+                      {{ getCpuValue(scope.row) }}
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+      </el-dialog>
       <el-dialog
         :close-on-click-modal="false"
         :title="$t('app.instanceList.instanceDetail')"
@@ -155,13 +207,14 @@
 <script>
 import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
-import Breadcrumb from '../components/BreadCrumb'
+import Breadcrumb from '../components/BreadCrumb.vue'
+import InstanceUsage from './InstanceUsage.vue'
 import { lcmController } from '../tools/request.js'
 
 export default {
   name: 'AinsList',
   components: {
-    Search, Pagination, Breadcrumb
+    Search, Pagination, Breadcrumb, InstanceUsage
   },
   data () {
     return {
@@ -179,7 +232,11 @@ export default {
       detailData: [],
       searchData: null,
       selectData: [],
-      DeploymentStatus: 'Instantiated'
+      DeploymentStatus: 'Instantiated',
+      instanceListVisible: false,
+      podTable: [],
+      kpiInfo: {},
+      appKPIInfo: {}
     }
   },
   mounted () {
@@ -196,6 +253,49 @@ export default {
       sessionStorage.setItem('instanceId', row.appInstanceId)
       sessionStorage.setItem('instanceName', row.appName)
       this.$router.push('/mecm/ruleconfig')
+    },
+    getMemValue (rowVal) {
+      let val = rowVal.containers[0].metricsusage.memusage.split('/')
+      return ((val[0] / val[1]) * 100).toFixed(2) + '%'
+    },
+    getCpuValue (rowVal) {
+      let val = rowVal.containers[0].metricsusage.cpuusage.split('/')
+      return ((val[0] / val[1]) * 100).toFixed(2) + '%'
+    },
+    handleRowSelection (row) {
+      lcmController.getServiceInfo(row.appInstanceId).then(res => {
+        this.appKPIInfo = res.data
+        this.podTable = this.appKPIInfo.pods
+        if (this.podTable) {
+          this.instanceListVisible = true
+          this.getUsageData()
+        } else {
+          this.instanceListVisible = false
+          this.$notify.warning({
+            title: 'Info',
+            offset: 50,
+            message: 'There is no data exist.',
+            showClose: false,
+            duration: 2000
+          })
+        }
+      }).catch((error) => {
+        if (error.response && error.response.status === 404) {
+          this.$message.warning(this.$t('tip.getStatusDelay'))
+        }
+        this.loginStatus(error)
+      })
+    },
+    getUsageData () {
+      let matrics = this.appKPIInfo
+      if (matrics) {
+        this.kpiInfo = {
+          'cpuusage': matrics.cpupercent,
+          'memusage': matrics.mempercent
+        }
+      } else {
+        this.kpiInfo = {}
+      }
     },
     showReason (row) {
       this.$alert(row.operationInfo, this.$t('tip.operationInfo'))

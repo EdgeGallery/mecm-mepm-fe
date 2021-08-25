@@ -18,7 +18,6 @@
   <div class="modifypw-comp">
     <el-form
       :model="modifyPassData"
-      :rules="modifyPassRules"
       ref="modifyPassForm"
     >
       <el-row v-if="next">

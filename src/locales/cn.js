@@ -51,7 +51,7 @@ const cn = {
     loginWithUser: '帐号登录',
     welcome: '欢迎注册EdgeGallery',
     freeSign: '免费注册',
-    getPwd: '找回密码',
+    getPwd: '修改密码',
     getPwdByMail: '通过邮箱找回',
     getPwdBySms: '通过手机号码找回',
     verify: '拖动完成验证',
@@ -225,7 +225,8 @@ const cn = {
       addDnsRules: '增加DNS规则',
       addTrafficRules: '增加分流规则',
       addFilter: '新增流过滤规则',
-      batchDelete: '批量删除应用'
+      batchDelete: '批量删除应用',
+      appKpi: '应用KPI'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
@@ -337,13 +338,20 @@ const cn = {
     copy: '复制'
   },
   verify: {
+    usernameTip: '用户名不能为空',
+    passwordTip: '密码不能为空',
+    confirmpasswordTip: '确认密码不能为空',
+    telephoneTip: '手机号码不能为空',
+    mailAddressBlankTip: '邮箱地址不能为空',
+    verifyCodeTip: '验证码不能为空',
+    verifycodeRule: '请输入6位数字的验证码',
+    imgVerifycodeRule: '请输入4位数字的验证码',
+    imgVerifycodeWrong: '验证码错误或已失效',
     ipTip: 'IP地址不能为空。',
     hostnameTip: '主机名称不能为空。',
     zipcodeTip: '邮政编码不能为空。',
     cityTip: '城市名称不能为空。',
     addressTip: '地址不能为空。',
-    usernameTip: '用户名不能为空。',
-    passwordTip: '密码不能为空。',
     edgeNexusIpTip: 'Edge Repo IP不能为空。',
     edgeNexusPortTip: 'Edge Repo port不能为空。',
     edgeNexusUsernameTip: 'Edge Repo user name不能为空。',

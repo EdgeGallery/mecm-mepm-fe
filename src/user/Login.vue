@@ -33,7 +33,6 @@
         </p>
         <el-form
           :model="userData"
-          :rules="rules"
           ref="userData"
         >
           <el-form-item
@@ -41,7 +40,7 @@
           >
             <el-input
               id="uname"
-              v-model="userData.username"
+              v-model="userData.userName"
               type="text"
               :placeholder="$t('login.namePla')"
               clearable
@@ -60,39 +59,40 @@
             />
           </el-form-item>
         </el-form>
-        <Verify
+        <!-- <Verify
           @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
-        />
+        /> -->
+        <div
+          class="login-btn"
+        >
+          <el-button
+            id="loginBtn"
+            type="primary"
+            size="medium"
+            @click="submitForm('userData')"
+          >
+            {{ $t('login.login') }}
+          </el-button>
+        </div>
       </div>
-      <div class="login-tips rt">
+      <!-- <div class="login-tips rt">
         <el-button
           type="text"
           @click="jumpTo('/modify')"
         >
-          {{ $t('login.forgotPwd') }}
+          {{ $t('login.getPwd') }}
         </el-button>
-      </div>
-      <div
-        class="login-btn"
-      >
-        <el-button
-          id="loginBtn"
-          type="primary"
-          size="medium"
-          @click="submitForm('userData')"
-        >
-          {{ $t('login.login') }}
-        </el-button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 <script>
-import Verify from './Verify.vue'
+// import Verify from './Verify.vue'
+import { lcmController } from '../tools/request'
 export default {
   name: 'Login',
   components: {
-    Verify
+    // Verify
   },
   data () {
     return {
@@ -115,7 +115,17 @@ export default {
       this.$router.push(path)
     },
     submitForm () {
-      console.log(1)
+      sessionStorage.setItem('userName', this.userData.userName)
+      sessionStorage.setItem('password', this.userData.password)
+      setTimeout(() => {
+        lcmController.login().then(res => {
+          this.$router.push('/')
+        }).catch(err => {
+          sessionStorage.removeItem('userName')
+          sessionStorage.removeItem('password')
+          console.log(err)
+        })
+      }, 1000)
     }
   }
 }
@@ -138,11 +148,10 @@ export default {
       margin-bottom: 25px;
     }
     .login-area {
-      padding: 25px 45px;
+      padding: 25px 45px 45px 45px;
       background: #fff;
       border-radius: 15px;
       width: 420px;
-      height: 438px;
       box-sizing: border-box;
     }
     .login-top {
@@ -189,9 +198,6 @@ export default {
     }
   }
   .login-btn {
-    padding: 0 45px;
-    position: relative;
-    top: -155px;
     button {
       width: 100%;
       font-size: 18px;
