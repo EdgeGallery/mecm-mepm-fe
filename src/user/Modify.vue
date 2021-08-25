@@ -25,20 +25,59 @@
       </div>
       <div class="modify-area">
         <p class="modify-top">
-          重置密码
+          {{ $t('login.getPwd') }}
         </p>
         <ModifyPwdComp
-          :modify-scene="scene"
+          :next="nextValue"
           @processModifyPassSucceed="processModifyPassSucceed"
           @processCancelModifyPass="processCancelModifyPass"
         />
+        <div
+          class="modify-btn"
+        >
+          <el-button
+            id="modifyBtn"
+            type="primary"
+            size="medium"
+            @click="nextStep"
+            v-if="nextValue"
+          >
+            下一步
+          </el-button>
+          <el-button
+            id="modifyBtn"
+            type="primary"
+            size="medium"
+            @click="submit"
+            v-if="!nextValue"
+          >
+            提交
+          </el-button>
+          <el-button
+            id="modifyBtn"
+            type="text"
+            @click="cancel"
+            v-if="nextValue"
+          >
+            取消
+          </el-button>
+        </div>
+        <div
+          class="modify-tips"
+          v-if="!nextValue"
+        >
+          <el-button
+            type="text"
+            @click="jumpTo('/login')"
+          >
+            返回
+          </el-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { api } from '../tools/api.js'
-import { isForceModifyPwScene, PW_MODIFY_SCENE_FIRSTLOGIN } from '../tools/util.js'
 import ModifyPwdComp from './ModifyPwdComp.vue'
 export default {
   name: 'ForceModifyPwd',
@@ -47,57 +86,27 @@ export default {
   },
   data () {
     return {
-      scene: PW_MODIFY_SCENE_FIRSTLOGIN,
-      infoTitle: ''
+      nextValue: false
     }
   },
   watch: {
-    '$i18n.locale': function () {
-      this.infoTitle = this.scene === PW_MODIFY_SCENE_FIRSTLOGIN ? this.$t('pwdmodify.firstLoginTip') : this.$t('pwdmodify.expiredTip')
-    }
+
   },
   mounted () {
-    // api.loginInfo().then(res => {
-    //   if (!res.data.username || res.data.username === 'guest') {
-    //     this.$router.push('/')
-    //   }
-    //   this.init()
-    // }).catch(() => {
-    //   this.$router.push('/')
-    // })
+
   },
   methods: {
-    init () {
-      this.scene = localStorage.getItem('pwmodiscene-' + this.$cookies.get('XSRF-TOKEN'))
-      if (!isForceModifyPwScene(this.scene)) {
-        this.scene = PW_MODIFY_SCENE_FIRSTLOGIN
-      }
-      this.infoTitle = this.scene === PW_MODIFY_SCENE_FIRSTLOGIN ? this.$t('pwdmodify.firstLoginTip') : this.$t('pwdmodify.expiredTip')
+    nextStep () {
+      this.nextValue = true
     },
-    processModifyPassSucceed () {
-      localStorage.removeItem('pwmodiscene-' + this.$cookies.get('XSRF-TOKEN'))
-      let _timer = setTimeout(() => {
-        this.logout()
-        clearTimeout(_timer)
-      }, 1000)
+    submit () {
+      console.log(123)
     },
-    processCancelModifyPass () {
-      let _tipInfo = this.scene === PW_MODIFY_SCENE_FIRSTLOGIN ? this.$t('pwdmodify.cancelOnFirstLoginTip')
-        : this.$t('pwdmodify.cancelOnPwExpiredTip')
-      this.$confirm(_tipInfo, this.$t('common.warning'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
-        localStorage.removeItem('pwmodiscene-' + this.$cookies.get('XSRF-TOKEN'))
-        this.logout()
-      })
+    cancel () {
+      this.nextValue = false
     },
-    logout () {
-      api.logout().then(res => {
-        let urlPrefix = window.location.href.indexOf('https') > -1 ? 'https://' : 'http://'
-        window.location.href = urlPrefix + window.location.host + '/index.html'
-      })
+    jumpTo (path) {
+      this.$router.go(-1)
     }
   }
 }
@@ -120,11 +129,11 @@ export default {
       margin-bottom: 25px;
     }
     .modify-area {
-      padding: 25px 45px;
+      padding: 25px 45px 35px 45px;
       background: #fff;
       border-radius: 15px;
       width: 420px;
-      height: 438px;
+      height: auto;
       box-sizing: border-box;
     }
     .modify-top {
@@ -142,6 +151,35 @@ export default {
       height: 100px;
       line-height: 100px;
       color: #252b3a;
+    }
+  }
+  .modify-btn {
+    button.el-button--primary {
+      width: 100%;
+      font-size: 18px;
+      border: none;
+      font-family: HarmonyHeiTi;
+      font-size: 22px;
+      background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
+      border-radius: 22px;
+    }
+    .el-button--text{
+      color: #53c6d4;
+      font-family: HarmonyHeiTi;
+      font-size: 14px;
+      margin-top: 15px;
+      margin-left: 0;
+    }
+  }
+  .modify-tips{
+    margin-top: 15px;
+    color: #5d3da0;
+    font-family: HarmonyHeiTi;
+    font-size: 12px;
+    .el-button--text{
+      color: #53c6d4;
+      font-family: HarmonyHeiTi;
+      font-size: 12px;
     }
   }
   @media screen and (max-width: 1380px) {

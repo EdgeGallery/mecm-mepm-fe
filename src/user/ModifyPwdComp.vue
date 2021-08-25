@@ -18,172 +18,118 @@
   <div class="modifypw-comp">
     <el-form
       :model="modifyPassData"
-      :rules="modifyPassRules"
-      label-width="100px"
       ref="modifyPassForm"
     >
-      <el-row>
+      <el-row v-if="next">
         <el-col :span="24">
           <el-form-item
             prop="oldPassword"
-            :label="$t('pwdmodify.oldPw')"
           >
             <el-input
               v-model="modifyPassData.oldPassword"
               clearable
-              show-password
-              size="medium"
+              placeholder="邮箱地址"
             />
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="!next">
         <el-col :span="24">
           <el-form-item
             prop="newPassword"
-            :label="$t('pwdmodify.newPw')"
+          >
+            <el-input
+              v-model="modifyPassData.oldPassword"
+              placeholder="输入旧密码"
+              clearable
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row v-if="!next">
+        <el-col :span="24">
+          <el-form-item
+            prop="newPassword"
+          >
+            <el-input
+              v-model="modifyPassData.newPassword"
+              placeholder="输入新密码"
+              clearable
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row v-if="!next">
+        <el-col :span="24">
+          <el-form-item
+            prop="newPassword"
+          >
+            <el-input
+              v-model="newConfirmPassword"
+              placeholder="确认新密码"
+              clearable
+              show-password
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row v-if="next">
+        <el-col :span="15">
+          <el-form-item
+            prop="newPassword"
           >
             <el-input
               v-model="modifyPassData.newPassword"
               clearable
               show-password
-              size="medium"
             />
           </el-form-item>
         </el-col>
+        <el-col :span="9">
+          <div class="getVerifyCode">
+            获取验证码
+          </div>
+        </el-col>
       </el-row>
-      <el-row>
+      <el-row
+        v-if="next"
+      >
         <el-col :span="24">
-          <el-form-item
-            prop="confirmPassword"
-            :label="$t('pwdmodify.confirmNewPw')"
-          >
-            <el-input
-              v-model="modifyPassData.confirmPassword"
-              clearable
-              show-password
-              size="medium"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row style="text-align:right">
-        <el-col :span="20">
-          <el-button
-            type="primary"
-            @click="submitModifyPass"
-          >
-            {{ $t('common.confirm') }}
-          </el-button>
-          <el-button
-            type="info"
-            @click="cancel"
-          >
-            {{ $t('common.cancel') }}
-          </el-button>
+          <Verify
+            v-if="!hasLogin"
+            @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
+          />
         </el-col>
       </el-row>
     </el-form>
   </div>
 </template>
 <script>
-import { api } from '../tools/api.js'
+import Verify from './Verify.vue'
 export default {
   name: 'ModifyPwdComp',
+  components: {
+    Verify
+  },
   props: {
-    modifyScene: {
-      type: String,
-      default: function () {
-        return 0
-      }
+    next: {
+      required: true,
+      type: String
     }
   },
   data () {
-    var validatePassEmpty = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error(this.$t('verify.passwordTip')))
-      } else {
-        callback()
-      }
-    }
-    var validatePassRule = (rule, value, callback) => {
-      let pattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{6,18}$/
-      if (value.match(pattern) === null) {
-        callback(new Error(this.$t('login.passwordRule')))
-      } else {
-        callback()
-      }
-    }
-    var validatePassSame = (rule, value, callback) => {
-      if (value === this.modifyPassData.oldPassword) {
-        callback(new Error(this.$t('pwdmodify.passNotChanged')))
-      } else {
-        callback()
-      }
-    }
-    var validatepassconfirm = (rule, value, callback) => {
-      if (this.modifyPassData.confirmPassword !== this.modifyPassData.newPassword) {
-        callback(new Error(this.$t('tip.passDiferent')))
-      } else {
-        callback()
-      }
-    }
     return {
       modifyPassData: {
-        type: 1,
         oldPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        newPassword: ''
       },
-      modifyPassRules: {
-        oldPassword: [
-          { validator: validatePassEmpty }
-        ],
-        newPassword: [
-          { validator: validatePassEmpty },
-          { validator: validatePassRule },
-          { validator: validatePassSame, trigger: 'blur' }
-        ],
-        confirmPassword: [
-          { validator: validatePassEmpty },
-          { validator: validatepassconfirm, trigger: 'blur' }
-        ]
-      }
-    }
-  },
-  watch: {
-    '$i18n.locale': function () {
-      this.$refs['modifyPassForm'].fields.forEach(item => {
-        if (item.validateState === 'error') {
-          this.$refs['modifyPassForm'].validateField(item.labelFor)
-        }
-      })
+      newConfirmPassword: ''
     }
   },
   methods: {
-    submitModifyPass () {
-      this.$refs['modifyPassForm'].validate((valid) => {
-        if (!valid) {
-          return
-        }
-        let headers = {
-          'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN')
-        }
-        api.getPwd(this.modifyPassData, headers).then(res => {
-          this.$message.success(this.$t('pwdmodify.modifyPwdSucceed'))
-          this.$emit('processModifyPassSucceed')
-        }).catch(() => {
-          this.$message.error(this.$t('pwdmodify.modifyPwdFailed'))
-          let _timer = setTimeout(() => {
-            this.$refs['modifyPassForm'].resetFields()
-            clearTimeout(_timer)
-          }, 1000)
-        })
-      })
-    },
-    cancel () {
-      this.$emit('processCancelModifyPass')
-    }
+
   }
 }
 </script>
@@ -191,6 +137,13 @@ export default {
 .modifypw-comp {
   .el-form-item{
     margin-bottom: 30px;
+  }
+  .getVerifyCode{
+    line-height: 40px;
+    background:#74b4eb;
+    color: #fff;
+    border-radius: 6px;
+    margin-left: 15px;
   }
 }
 </style>

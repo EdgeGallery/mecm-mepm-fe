@@ -20,6 +20,9 @@ import { uuid } from 'vue-uuid'
 
 const serverPort = 31252
 
+// let appRuleMgrApi = 'api/apprulemgr/v1'
+// let lcmcontrollerApi = 'api/lcmcontroller/v1'
+
 let api
 if (window.location.href.indexOf('30097') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
@@ -41,6 +44,8 @@ axios.interceptors.response.use(
 
 function GET (url, params) {
   let headers = {
+    name: sessionStorage.getItem('userName'),
+    key: sessionStorage.getItem('pwd')
   }
   return axios.get(url, {
     params: params,
@@ -50,18 +55,24 @@ function GET (url, params) {
 
 function POST (url, params) {
   let headers = {
+    name: sessionStorage.getItem('userName'),
+    key: sessionStorage.getItem('password')
   }
   return axios.post(url, params, { headers: headers })
 }
 
 function PUT (url, params) {
   let headers = {
+    name: sessionStorage.getItem('userName'),
+    key: sessionStorage.getItem('password')
   }
   return axios.put(url, params, { headers: headers })
 }
 
 function DELETE (url, params) {
   let headers = {
+    name: sessionStorage.getItem('userName'),
+    key: sessionStorage.getItem('password')
   }
   return axios.delete(url, {
     headers: headers,
@@ -78,6 +89,12 @@ function getRandomAppInstanceId () {
 }
 
 let lcmController = {
+  login () {
+    return POST(lcmcontrollerApi + '/login')
+  },
+  changPwd () {
+    return POST(lcmcontrollerApi + '/password')
+  },
   createHost (params) {
     return POST(lcmcontrollerApi + '/hosts', params)
   },

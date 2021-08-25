@@ -17,7 +17,7 @@
 <template>
   <div class="verify-area">
     <el-row>
-      <el-col :span="17">
+      <el-col :span="15">
         <el-form
           :model="verifyData"
           :rules="rules"
@@ -39,7 +39,7 @@
           </el-form-item>
         </el-form>
       </el-col>
-      <el-col :span="7">
+      <el-col :span="9">
         <img
           id="verifycode_img"
           alt=""
@@ -50,7 +50,6 @@
   </div>
 </template>
 <script>
-import { api } from '../tools/api.js'
 export default {
   name: 'Verify',
   data () {
@@ -91,15 +90,6 @@ export default {
       verificationCodeCheckIcon: ''
     }
   },
-  watch: {
-    '$i18n.locale': function () {
-      this.$refs['verifyData'].fields.forEach(item => {
-        if (item.validateState === 'error') {
-          this.$refs['verifyData'].validateField(item.labelFor)
-        }
-      })
-    }
-  },
   beforeMount () {
     this.$root.$on('validateVerifyForm', () => {
       this.validateVerifyForm()
@@ -131,19 +121,7 @@ export default {
       this.resetImgVerify()
     },
     checkVerificationCodeIfRight (value, callback) {
-      this.verificationCodeCheckIcon = ''
-      api.checkVerificationCode(value).then(res => {
-        if (res.data && res.data.checkResult) {
-          this.verificationCodeCheckIcon = 'el-icon-check'
-          callback()
-        } else {
-          callback(new Error(this.$t('verify.imgVerifycodeWrong')))
-          this.resetImgVerify()
-        }
-      }).catch(() => {
-        callback(new Error(this.$t('verify.imgVerifycodeWrong')))
-        this.resetImgVerify()
-      })
+
     },
     resetImgVerify () {
       this.verifyCodeImgObj.src = this.verifyCodeUrlPrefix + Math.random()
@@ -156,14 +134,11 @@ export default {
 </script>
 <style lang="less">
 .verify-area{
-  position: relative;
-  top: -210px;
-  padding: 0 45px;
   #verifycode_img{
     width: 100%;
     padding-left: 15px;
     box-sizing: border-box;
-    height: 39px;
+    height: 40px;
     cursor: pointer;
   }
 
