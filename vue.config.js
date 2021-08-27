@@ -17,13 +17,13 @@
 module.exports = {
   devServer: {
     proxy: {
-      // '/api': {
-      //   target: 'https://119.8.47.5:31252',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': '/'
-      //   }
-      // }
+      '/api': {
+        target: 'https://119.8.47.5:31252',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      }
     }
   },
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',

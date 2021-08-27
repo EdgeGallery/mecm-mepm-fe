@@ -59,9 +59,9 @@
             />
           </el-form-item>
         </el-form>
-        <!-- <Verify
+        <Verify
           @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
-        /> -->
+        />
         <div
           class="login-btn"
         >
@@ -87,12 +87,12 @@
   </div>
 </template>
 <script>
-// import Verify from './Verify.vue'
+import Verify from './Verify.vue'
 import { lcmController } from '../tools/request'
 export default {
   name: 'Login',
   components: {
-    // Verify
+    Verify
   },
   data () {
     return {
@@ -102,30 +102,29 @@ export default {
       }
     }
   },
-  watch: {
-
-  },
-  destroyed () {
-  },
-  mounted () {
-
-  },
   methods: {
     jumpTo (path) {
       this.$router.push(path)
     },
+    validateVerifyCodeSuccess (val) {
+      this.ifVerify = val
+    },
     submitForm () {
-      sessionStorage.setItem('userName', this.userData.userName)
-      sessionStorage.setItem('password', this.userData.password)
-      setTimeout(() => {
-        lcmController.login().then(res => {
-          this.$router.push('/')
-        }).catch(err => {
-          sessionStorage.removeItem('userName')
-          sessionStorage.removeItem('password')
-          console.log(err)
-        })
-      }, 1000)
+      if (this.ifVerify) {
+        sessionStorage.setItem('userName', this.userData.userName)
+        sessionStorage.setItem('password', this.userData.password)
+        setTimeout(() => {
+          lcmController.login().then(res => {
+            this.$router.push('/')
+          }).catch(err => {
+            sessionStorage.removeItem('userName')
+            sessionStorage.removeItem('password')
+            console.log(err)
+          })
+        }, 1000)
+      } else {
+        this.$message.error('请输入正确的验证码！')
+      }
     }
   }
 }

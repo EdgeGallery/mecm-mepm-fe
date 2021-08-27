@@ -19,9 +19,6 @@
     <el-row>
       <el-col :span="15">
         <el-form
-          :model="verifyData"
-          :rules="rules"
-          ref="verifyData"
           @submit.native.prevent
         >
           <el-form-item
@@ -29,10 +26,9 @@
           >
             <el-input
               id="vcode"
-              v-model="verifyData.verificationCode"
+              v-model="verificationCode"
               type="text"
               maxlength="4"
-              :suffix-icon="verificationCodeCheckIcon"
               :placeholder="$t('login.capInImg')"
               clearable
             />
@@ -42,6 +38,7 @@
       <el-col :span="9">
         <img
           id="verifycode_img"
+          :src="src"
           alt=""
           @click="refreshImg()"
         >
@@ -53,81 +50,88 @@
 export default {
   name: 'Verify',
   data () {
-    var validateVerificationCode = (rule, value, callback) => {
-      if (value === '') {
-        this.verificationCodeCheckIcon = ''
-        callback(new Error(this.$t('verify.verifyCodeTip')))
-      } else {
-        callback()
-      }
-    }
-    var validateVerificationCodeRule = (rule, value, callback) => {
-      let pattern = /^\d{4}$/
-      if (value.match(pattern) === null) {
-        this.verificationCodeCheckIcon = ''
-        callback(new Error(this.$t('verify.imgVerifycodeRule')))
-      } else {
-        callback()
-      }
-    }
-    var validateVerificationCodeIfRight = (rule, value, callback) => {
-      this.checkVerificationCodeIfRight(value, callback)
-    }
     return {
-      verifyData: {
-        verificationCode: ''
-      },
-      rules: {
-        verificationCode: [
-          { validator: validateVerificationCode },
-          { validator: validateVerificationCodeRule },
-          { validator: validateVerificationCodeIfRight }
-        ]
-      },
-      verifyCodeImgObj: undefined,
-      verifyCodeUrlPrefix: '',
-      verifyCodeUrl: '',
-      verificationCodeCheckIcon: ''
+      verificationCode: '',
+      codeList: [
+        {
+          url: require('../assets/images/user/v1.png'),
+          value: '4181'
+        },
+        {
+          url: require('../assets/images/user/v2.png'),
+          value: '9049'
+        },
+        {
+          url: require('../assets/images/user/v3.png'),
+          value: '8262'
+        },
+        {
+          url: require('../assets/images/user/v4.png'),
+          value: '5898'
+        },
+        {
+          url: require('../assets/images/user/v5.png'),
+          value: '0452'
+        },
+        {
+          url: require('../assets/images/user/v6.png'),
+          value: '1403'
+        },
+        {
+          url: require('../assets/images/user/v7.png'),
+          value: '5525'
+        },
+        {
+          url: require('../assets/images/user/v8.png'),
+          value: '8389'
+        },
+        {
+          url: require('../assets/images/user/v9.png'),
+          value: '7436'
+        },
+        {
+          url: require('../assets/images/user/v10.png'),
+          value: '8574'
+        },
+        {
+          url: require('../assets/images/user/v10.png'),
+          value: '8574'
+        }
+      ],
+      src: 0,
+      index: 0,
+      ifVerify: false
     }
-  },
-  beforeMount () {
-    this.$root.$on('validateVerifyForm', () => {
-      this.validateVerifyForm()
-    })
-    this.$root.$on('resetVerifyForm', () => {
-      this.resetVerifyForm()
-    })
   },
   mounted () {
-    this.verifyCodeImgObj = document.getElementById('verifycode_img')
-
-    this.verifyCodeUrlPrefix = window.location.href.split(':')[0] + '://' + window.location.host +
-      '/v1/identity/verifycode-image?sequence='
-    this.verifyCodeImgObj.src = this.verifyCodeUrlPrefix + Math.random()
+    this.refreshImg()
+  },
+  watch: {
+    verificationCode: function (val) {
+      if (val === this.codeList[this.index].value) {
+        this.ifVerify = true
+      } else {
+        this.ifVerify = false
+      }
+      if (val.length === 4) {
+        if (!this.ifVerify) {
+          this.$message.error('Wrong code, please retry!')
+          this.verificationCode = ''
+          this.refreshImg()
+        }
+      }
+      this.$emit('validateVerifyCodeSuccess', this.ifVerify)
+    }
   },
   methods: {
-    validateVerifyForm () {
-      this.$refs['verifyData'].validate((valid) => {
-        if (!valid) {
-          return false
-        }
-
-        this.$emit('validateVerifyCodeSuccess', this.verifyData.verificationCode)
-      })
-    },
-    resetVerifyForm () {
-      this.verifyData.verificationCode = ''
-      this.$refs['verifyData'].resetFields()
-      this.resetImgVerify()
-    },
-    checkVerificationCodeIfRight (value, callback) {
-
-    },
-    resetImgVerify () {
-      this.verifyCodeImgObj.src = this.verifyCodeUrlPrefix + Math.random()
-    },
     refreshImg () {
-      this.resetImgVerify()
+      let num = Math.floor(Math.random() * 10)
+      if (num === this.src) {
+        this.refreshImg()
+      } else {
+        this.index = num
+        this.src = this.codeList[num].url
+      }
     }
   }
 }
