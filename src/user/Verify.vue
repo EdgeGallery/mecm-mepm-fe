@@ -127,10 +127,11 @@ export default {
     refreshImg () {
       let num = Math.floor(Math.random() * 10)
       if (num === this.src) {
-        num = 4
+        this.refreshImg()
+      } else {
+        this.index = num
+        this.src = this.codeList[num].url
       }
-      this.index = num
-      this.src = this.codeList[num].url
     }
   }
 }
