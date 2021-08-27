@@ -29,8 +29,7 @@
         </p>
         <ModifyPwdComp
           :next="nextValue"
-          @processModifyPassSucceed="processModifyPassSucceed"
-          @processCancelModifyPass="processCancelModifyPass"
+          @checkPwd="checkPwd"
         />
         <div
           class="modify-btn"
@@ -79,6 +78,7 @@
 </template>
 <script>
 import ModifyPwdComp from './ModifyPwdComp.vue'
+import { lcmController } from '../tools/request'
 export default {
   name: 'ForceModifyPwd',
   components: {
@@ -86,27 +86,38 @@ export default {
   },
   data () {
     return {
-      nextValue: false
+      nextValue: false,
+      newPwd: ''
     }
-  },
-  watch: {
-
-  },
-  mounted () {
-
   },
   methods: {
     nextStep () {
       this.nextValue = true
     },
     submit () {
-      console.log(123)
+      if (this.newPwd.length > 0) {
+        sessionStorage.setItem('password', this.newPwd)
+        setTimeout(() => {
+          lcmController.changPwd().then(res => {
+            sessionStorage.removeItem('userName')
+            sessionStorage.removeItem('password')
+            this.jumpTo('/login')
+          }).catch(err => {
+            console.log(err)
+          })
+        }, 1000)
+      } else {
+        this.$message.error('请填写正确的表单信息！')
+      }
     },
     cancel () {
       this.nextValue = false
     },
     jumpTo (path) {
       this.$router.go(-1)
+    },
+    checkPwd (value) {
+      this.newPwd = value.newPassword
     }
   }
 }

@@ -33,7 +33,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="!next">
+      <el-row v-if="next">
         <el-col :span="24">
           <el-form-item
             prop="newPassword"
@@ -68,6 +68,7 @@
           >
             <el-input
               v-model="newConfirmPassword"
+              @blur.native.capture="checkPassword"
               placeholder="确认新密码"
               clearable
               show-password
@@ -75,30 +76,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="next">
-        <el-col :span="15">
-          <el-form-item
-            prop="newPassword"
-          >
-            <el-input
-              v-model="modifyPassData.newPassword"
-              clearable
-              show-password
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="9">
-          <div class="getVerifyCode">
-            获取验证码
-          </div>
-        </el-col>
-      </el-row>
       <el-row
         v-if="next"
       >
         <el-col :span="24">
           <Verify
-            v-if="!hasLogin"
             @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
           />
         </el-col>
@@ -125,11 +107,29 @@ export default {
         oldPassword: '',
         newPassword: ''
       },
-      newConfirmPassword: ''
+      newConfirmPassword: '',
+      ifVerify: false
+    }
+  },
+  watch: {
+    modifyPassData: function (val) {
+      if (this.ifVerify) {
+        this.$emit('checkPwd', this.modifyPassData)
+      }
     }
   },
   methods: {
-
+    validateVerifyCodeSuccess (val) {
+      this.ifVerify = val
+    },
+    checkPassword () {
+      if (this.modifyPassData.newPassword.length > 0) {
+        if (this.modifyPassData.newPassword !== this.newConfirmPassword) {
+          this.ifVerify = false
+          this.$message.error('两次密码不一致，请重新输入')
+        }
+      }
+    }
   }
 }
 </script>
