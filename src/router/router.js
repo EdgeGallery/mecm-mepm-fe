@@ -85,11 +85,6 @@ export default new Router({
           component: () => import('../host/List.vue')
         },
         {
-          path: 'mecm/about',
-          name: 'about',
-          component: () => import('../app/About.vue')
-        },
-        {
           path: 'mepm/mepinfo/:nodeIp',
           name: 'mepinfo',
           component: () => import('../mep/MepInfo.vue')

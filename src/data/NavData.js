@@ -46,7 +46,7 @@ const NavData = [
   {
     'id': '2.7',
     'name': 'About',
-    'path': '/mecm/about'
+    'link': 'http://www.edgegallery.org/'
   }
 ]
 
