@@ -42,11 +42,6 @@ const NavData = [
     'id': '2.6',
     'name': 'EdgeNodes Management',
     'path': '/mecm/node/list'
-  },
-  {
-    'id': '2.7',
-    'name': 'About',
-    'path': '/mecm/about'
   }
 ]
 

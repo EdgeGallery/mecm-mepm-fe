@@ -112,10 +112,6 @@ export default {
       this.indexName = path
       this.$root.$emit('refreshDnd')
       this.$root.$emit('refreshProvision')
-      if (path === '/mecm/about') {
-        this.src = 'http://www.edgegallery.org/'
-        window.open(this.src)
-      }
     }
 
   },
