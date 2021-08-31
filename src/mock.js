@@ -185,7 +185,7 @@ const instanceList = function () {
 }
 
 const swCapability = function () {
-  return { response: [{
+  return [{
     capabilityId: 'e56e5731576e243ecf62dcda9b7ba470',
     capabilityName: 'ExampleService10',
     status: 'ACTIVE',
@@ -227,7 +227,7 @@ const swCapability = function () {
     status: 'ACTIVE',
     version: '1.0.1',
     consumers: []
-  }] }
+  }]
 }
 
 const kpiInfo = function () {
