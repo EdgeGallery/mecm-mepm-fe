@@ -20,11 +20,8 @@ import { uuid } from 'vue-uuid'
 
 const serverPort = 31252
 
-// let appRuleMgrApi = 'api/apprulemgr/v1'
-// let lcmcontrollerApi = 'api/lcmcontroller/v1'
-
 let api
-if (window.location.href.indexOf('30097') > -1) {
+if (window.location.href.indexOf('31252') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
 } else {
   api = 'https://' + window.location.host
