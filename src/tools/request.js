@@ -42,7 +42,7 @@ axios.interceptors.response.use(
 function GET (url, params) {
   let headers = {
     name: sessionStorage.getItem('userName'),
-    key: sessionStorage.getItem('pwd')
+    key: sessionStorage.getItem('password')
   }
   return axios.get(url, {
     params: params,
