@@ -60,9 +60,6 @@ let inventory = {
   getList (type) {
     return axios.get('/mock' + inventoryUrl[type - 1])
   },
-  getHwCapa () {
-    return axios.get('/mock/getHwCapability')
-  },
   getConfigRules () {
     return axios.get('/mock/getConfigRules')
   }
