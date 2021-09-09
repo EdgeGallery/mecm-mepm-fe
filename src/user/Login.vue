@@ -115,10 +115,12 @@ export default {
         sessionStorage.setItem('password', this.userData.password)
         setTimeout(() => {
           lcmController.login().then(res => {
+            sessionStorage.setItem('userId', res.data.authenticate_id)
             this.$router.push('/')
           }).catch(err => {
             sessionStorage.removeItem('userName')
             sessionStorage.removeItem('password')
+            sessionStorage.removeItem('userId')
             console.log(err)
           })
         }, 1000)

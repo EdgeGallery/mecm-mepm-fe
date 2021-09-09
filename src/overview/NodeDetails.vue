@@ -178,7 +178,7 @@ export default {
   components: {
     Map
   },
-  beforeUpdate () {
+  mounted () {
     this.getMepCapa(this.detail.mechostIp)
   },
   props: {
@@ -190,8 +190,14 @@ export default {
   data () {
     return {
       alarmStatus: 'alarms',
-      mepCapData: [],
       kpiInfo: {}
+    }
+  },
+  watch: {
+    detail (newVal, oldVal) {
+      if (newVal.mechostIp !== oldVal.mechostIp) {
+        this.getMepCapa(this.detail.mechostIp)
+      }
     }
   },
   methods: {
