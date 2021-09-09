@@ -79,7 +79,7 @@ function DELETE (url, params) {
 }
 
 function getUserId () {
-  return '00000000-0000-0000-0000-000000000000'
+  return sessionStorage.getItem('userId') || '00000000-0000-0000-0000-000000000000'
 }
 
 function getRandomAppInstanceId () {

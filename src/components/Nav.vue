@@ -168,6 +168,7 @@ export default {
     logout () {
       sessionStorage.removeItem('userName')
       sessionStorage.removeItem('password')
+      sessionStorage.removeItem('userId')
       this.$router.push('/login')
     },
     os () {
