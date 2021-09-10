@@ -102,6 +102,7 @@ export default {
           lcmController.changPwd().then(res => {
             sessionStorage.removeItem('userName')
             sessionStorage.removeItem('password')
+            sessionStorage.removeItem('userId')
             this.jumpTo('/login')
           }).catch(err => {
             console.log(err)

@@ -20,11 +20,8 @@ import { uuid } from 'vue-uuid'
 
 const serverPort = 31252
 
-// let appRuleMgrApi = 'api/apprulemgr/v1'
-// let lcmcontrollerApi = 'api/lcmcontroller/v1'
-
 let api
-if (window.location.href.indexOf('30097') > -1) {
+if (window.location.href.indexOf('31252') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
 } else {
   api = 'https://' + window.location.host
@@ -32,6 +29,7 @@ if (window.location.href.indexOf('30097') > -1) {
 
 let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
+let lcmcontrollerApiV2 = api + ':' + serverPort + '/lcmcontroller/v2'
 
 axios.interceptors.response.use(
   function (response) {
@@ -81,7 +79,7 @@ function DELETE (url, params) {
 }
 
 function getUserId () {
-  return '00000000-0000-0000-0000-000000000000'
+  return sessionStorage.getItem('userId') || '00000000-0000-0000-0000-000000000000'
 }
 
 function getRandomAppInstanceId () {
@@ -113,9 +111,6 @@ let lcmController = {
   uploadPackage (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages', params)
   },
-  getHwCapa (hostip) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostip + '/mep_capabilities')
-  },
   getAppPackageList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
   },
@@ -140,7 +135,7 @@ let lcmController = {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
   getMepCapabilities (hostIp) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/mep_capabilities')
+    return GET(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/mep_capabilities')
   },
   confirmToDeploy (params) {
     return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances', params)

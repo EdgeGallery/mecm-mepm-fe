@@ -108,13 +108,10 @@ export default {
     }
   },
   methods: {
-    handleSelect (index, indexPath, item) {
-      if (index) {
-        this.indexName = index
-      } else {
-        window.open('http://www.edgegallery.org/', '_blank')
-        this.$router.push(this.indexName)
-      }
+    handleSelect (path) {
+      this.indexName = path
+      this.$root.$emit('refreshDnd')
+      this.$root.$emit('refreshProvision')
     }
   },
   watch: {

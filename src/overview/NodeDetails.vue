@@ -178,7 +178,7 @@ export default {
   components: {
     Map
   },
-  beforeUpdate () {
+  mounted () {
     this.getMepCapa(this.detail.mechostIp)
   },
   props: {
@@ -190,8 +190,14 @@ export default {
   data () {
     return {
       alarmStatus: 'alarms',
-      mepCapData: [],
       kpiInfo: {}
+    }
+  },
+  watch: {
+    detail (newVal, oldVal) {
+      if (newVal.mechostIp !== oldVal.mechostIp) {
+        this.getMepCapa(this.detail.mechostIp)
+      }
     }
   },
   methods: {
@@ -200,19 +206,17 @@ export default {
     },
     getMepCapa (host) {
       lcmController.getMepCapabilities(host).then(res => {
-        if (res && res.data && res.data.response) {
-          if (res.data.status !== 500) {
-            res.data.response.forEach(ele => {
-              if (ele.status === 'ACTIVE') {
-                ele.statusImgSrc = require('../assets/images/ACTIVE.png')
-              } else if (ele.status === 'INACTIVE') {
-                ele.statusImgSrc = require('../assets/images/INACTIVE.png')
-              } else {
-                ele.statusImgSrc = require('../assets/images/SUSPEND.png')
-              }
-            })
-            this.mepCapData = res.data.response
-          }
+        if (res && res.status === 200 && res.data) {
+          res.data.forEach(ele => {
+            if (ele.status === 'ACTIVE') {
+              ele.statusImgSrc = require('../assets/images/ACTIVE.png')
+            } else if (ele.status === 'INACTIVE') {
+              ele.statusImgSrc = require('../assets/images/INACTIVE.png')
+            } else {
+              ele.statusImgSrc = require('../assets/images/SUSPEND.png')
+            }
+          })
+          this.mepCapData = res.data
         }
       })
     },
