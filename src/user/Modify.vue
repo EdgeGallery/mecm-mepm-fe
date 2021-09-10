@@ -41,7 +41,7 @@
             @click="nextStep"
             v-if="nextValue"
           >
-            下一步
+            {{ $t('pwdmodify.next') }}
           </el-button>
           <el-button
             id="modifyBtn"
@@ -50,7 +50,7 @@
             @click="submit"
             v-if="!nextValue"
           >
-            提交
+            {{ $t('pwdmodify.submit') }}
           </el-button>
           <el-button
             id="modifyBtn"
@@ -58,7 +58,7 @@
             @click="cancel"
             v-if="nextValue"
           >
-            取消
+            {{ $t('pwdmodify.cancel') }}
           </el-button>
         </div>
         <div
@@ -69,7 +69,7 @@
             type="text"
             @click="jumpTo('/login')"
           >
-            返回
+            {{ $t('pwdmodify.return') }}
           </el-button>
         </div>
       </div>
@@ -87,7 +87,8 @@ export default {
   data () {
     return {
       nextValue: false,
-      newPwd: ''
+      newPwd: '',
+      verify: false
     }
   },
   methods: {
@@ -95,7 +96,7 @@ export default {
       this.nextValue = true
     },
     submit () {
-      if (this.newPwd.length > 0) {
+      if (this.newPwd.length > 0 && this.verify) {
         sessionStorage.setItem('password', this.newPwd)
         setTimeout(() => {
           lcmController.changPwd().then(res => {
@@ -108,7 +109,7 @@ export default {
           })
         }, 1000)
       } else {
-        this.$message.error('请填写正确的表单信息！')
+        this.$message.error(this.$t('pwdmodify.formDataVerify'))
       }
     },
     cancel () {
@@ -118,7 +119,11 @@ export default {
       this.$router.go(-1)
     },
     checkPwd (value) {
-      this.newPwd = value.newPassword
+      if (value.type === 1) {
+        this.newPwd = value.value.newPassword
+      } else {
+        this.verify = value.value
+      }
     }
   }
 }

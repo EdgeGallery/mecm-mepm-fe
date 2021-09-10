@@ -76,7 +76,7 @@
 
         <el-menu-item
           v-else
-          :index="item.path"
+          :index="item.path?item.path:''"
           :key="item.id"
         >
           <em :class="item.icon" />
@@ -113,7 +113,6 @@ export default {
       this.$root.$emit('refreshDnd')
       this.$root.$emit('refreshProvision')
     }
-
   },
   watch: {
     $route (to, from) {
@@ -127,18 +126,13 @@ export default {
         this.indexName = '/mecm/ains/list'
       } else if (this.indexName.includes('mepm/mepinfo/')) {
         this.indexName = '/'
+      } else {
+        this.indexName = to.path
       }
     }
   },
   mounted () {
-    let indexName = this.$route.fullPath
-    if (indexName === '/mecm/apac/detail') {
-      this.indexName = '/mecm/apac/list'
-    } else if (indexName === '/mecm/ruleconfig') {
-      this.indexName = '/mecm/ains/list'
-    } else if (indexName === '/mecm/ruleconfig/addTrafficRules') {
-      this.indexName = '/mecm/ains/list'
-    }
+    this.indexName = this.$route.fullPath
   }
 }
 
