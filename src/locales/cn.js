@@ -66,16 +66,21 @@ const cn = {
     hasLogin: '已登录'
   },
   pwdmodify: {
-    oldPw: '旧密码：',
-    newPw: '新密码：',
-    confirmNewPw: '确认新密码：',
+    oldPw: '旧密码',
+    newPw: '新密码',
+    confirmNewPw: '确认新密码',
     passNotChanged: '输入的新密码与旧密码一致',
     modifyPwdSucceed: '密码修改成功！',
     modifyPwdFailed: '密码修改失败！',
     firstLoginTip: '修改默认密码（首次登录）',
     expiredTip: '修改密码（密码过期）',
     cancelOnFirstLoginTip: '首次登录后必须修改默认密码，如果取消将退出当前帐号。是否继续？',
-    cancelOnPwExpiredTip: '您的密码已过期，必须设置新密码，如果取消将退出当前帐号。是否继续？'
+    cancelOnPwExpiredTip: '您的密码已过期，必须设置新密码，如果取消将退出当前帐号。是否继续？',
+    next: '下一步',
+    submit: '提交',
+    cancel: '取消',
+    return: '返回',
+    formDataVerify: '请填写正确的表单信息！'
   },
   nav: {
     login: '登录',

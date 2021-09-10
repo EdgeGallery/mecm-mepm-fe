@@ -66,16 +66,21 @@ const en = {
     hasLogin: ' has logged in.'
   },
   pwdmodify: {
-    oldPw: 'Old Password:',
-    newPw: 'New Password:',
-    confirmNewPw: 'Confirm Password:',
+    oldPw: 'Old Password',
+    newPw: 'New Password',
+    confirmNewPw: 'Confirm Password',
     passNotChanged: 'New password is same as old password',
     modifyPwdSucceed: 'Successfully modify your password!',
     modifyPwdFailed: 'Failed to modify your password, please try again later.',
     firstLoginTip: 'Modify Password (First time login)',
     expiredTip: 'Modify Password (Password has expired)',
     cancelOnFirstLoginTip: 'After the first login, you must change the default password. If you cancel, you will exit the current account. Continue?',
-    cancelOnPwExpiredTip: 'Your password has expired. You must set a new password. If you cancel, you will exit the current account. Continue?'
+    cancelOnPwExpiredTip: 'Your password has expired. You must set a new password. If you cancel, you will exit the current account. Continue?',
+    next: 'Next',
+    submit: 'Submit',
+    cancel: 'Cancel',
+    return: 'Return',
+    formDataVerify: 'Please type right data to modify!'
   },
   nav: {
     login: 'Log In',

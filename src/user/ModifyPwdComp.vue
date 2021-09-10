@@ -28,19 +28,19 @@
             <el-input
               v-model="modifyPassData.oldPassword"
               clearable
-              placeholder="邮箱地址"
+              :placeholder="$t('login.mailAddr')"
             />
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="next">
+      <el-row>
         <el-col :span="24">
           <el-form-item
             prop="newPassword"
           >
             <el-input
               v-model="modifyPassData.oldPassword"
-              placeholder="输入旧密码"
+              :placeholder="$t('pwdmodify.oldPw')"
               clearable
               show-password
             />
@@ -54,7 +54,7 @@
           >
             <el-input
               v-model="modifyPassData.newPassword"
-              placeholder="输入新密码"
+              :placeholder="$t('pwdmodify.newPw')"
               clearable
               show-password
             />
@@ -69,16 +69,14 @@
             <el-input
               v-model="newConfirmPassword"
               @blur.native.capture="checkPassword"
-              placeholder="确认新密码"
+              :placeholder="$t('pwdmodify.confirmNewPw')"
               clearable
               show-password
             />
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row
-        v-if="next"
-      >
+      <el-row>
         <el-col :span="24">
           <Verify
             @validateVerifyCodeSuccess="validateVerifyCodeSuccess"
@@ -98,7 +96,7 @@ export default {
   props: {
     next: {
       required: true,
-      type: String
+      type: Boolean
     }
   },
   data () {
@@ -112,10 +110,17 @@ export default {
     }
   },
   watch: {
-    modifyPassData: function (val) {
-      if (this.ifVerify) {
-        this.$emit('checkPwd', this.modifyPassData)
-      }
+    modifyPassData: {
+      handler (newValue, oldValue) {
+        this.$emit('checkPwd', { type: 1, value: newValue })
+      },
+      deep: true
+    },
+    ifVerify: {
+      handler (newValue, oldValue) {
+        this.$emit('checkPwd', { type: 2, value: newValue })
+      },
+      deep: true
     }
   },
   methods: {
@@ -125,8 +130,7 @@ export default {
     checkPassword () {
       if (this.modifyPassData.newPassword.length > 0) {
         if (this.modifyPassData.newPassword !== this.newConfirmPassword) {
-          this.ifVerify = false
-          this.$message.error('两次密码不一致，请重新输入')
+          this.$message.error(this.$t('pwdmodify.passNotChanged'))
         }
       }
     }
