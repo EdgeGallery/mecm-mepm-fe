@@ -249,7 +249,7 @@ export default {
     line-height: 65px;
     font-size: 14px;
     color: #6c92fa;
-    width: 100px;
+    width: 70px;
     span {
       width:60px!important;
       top:3px!important;
