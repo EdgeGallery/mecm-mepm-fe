@@ -67,6 +67,7 @@
           <div
             class="rt"
             @mouseenter="showFunc=true"
+            @mouseleave="showUser"
             v-show="ifLogin"
           >
             <img
@@ -77,7 +78,8 @@
             <div
               class="userFunc"
               v-show="showFunc"
-              @mouseleave="showFunc=false"
+              @mouseenter="inBox=true"
+              @mouseleave="showFunc=false,inBox=false"
             >
               <p
                 @click="logout"
@@ -132,7 +134,8 @@ export default {
       smallMenu: false,
       userName: '',
       ifLogin: true,
-      showFunc: false
+      showFunc: false,
+      inBox: false
     }
   },
   watch: {
@@ -164,6 +167,14 @@ export default {
   methods: {
     jumpTo (path) {
       this.$router.push(path)
+    },
+    showUser () {
+      this.showFunc = true
+      setTimeout(() => {
+        if (!this.inBox) {
+          this.showFunc = false
+        }
+      }, 1000)
     },
     logout () {
       sessionStorage.removeItem('userName')
@@ -238,6 +249,7 @@ export default {
     line-height: 65px;
     font-size: 14px;
     color: #6c92fa;
+    width: 100px;
     span {
       width:60px!important;
       top:3px!important;
@@ -267,8 +279,6 @@ export default {
     span{
       height:24px;
       margin-right: 10px;
-      position: relative;
-      left: -20px;
       cursor:pointer;
       color:#f5f5f5;
     }
@@ -297,11 +307,11 @@ export default {
   cursor: pointer;
 }
 .userFunc{
-  width: 70px;
   color: #fff;
   line-height: 25px;
   position: relative;
   top: 66px;
+  left: -20px;
   padding: 5px;
   border-radius: 10px;
   background: #280b4e;

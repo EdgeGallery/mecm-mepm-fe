@@ -20,7 +20,7 @@ const en = {
     userName: 'Username',
     password: 'Password',
     login: 'Log In',
-    logout: 'Log Out',
+    logout: 'Logout',
     register: 'Register',
     legalRegister: 'Agree to the agreement and register',
     iAgree: 'I have read and agree to the',
@@ -84,7 +84,7 @@ const en = {
   },
   nav: {
     login: 'Log In',
-    logout: 'Log Out',
+    logout: 'Logout',
     mecm: 'Manager',
     overview: 'Overview',
     appMana: 'App Management',
