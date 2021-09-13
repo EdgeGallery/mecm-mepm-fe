@@ -80,7 +80,8 @@ const en = {
     submit: 'Submit',
     cancel: 'Cancel',
     return: 'Return',
-    formDataVerify: 'Please type right data to modify!'
+    formDataVerify: 'Please type right data to modify!',
+    wrongCode: 'Wrong code, please retry!'
   },
   nav: {
     login: 'Log In',

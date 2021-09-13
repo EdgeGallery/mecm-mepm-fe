@@ -80,7 +80,8 @@ const cn = {
     submit: '提交',
     cancel: '取消',
     return: '返回',
-    formDataVerify: '请填写正确的表单信息！'
+    formDataVerify: '请填写正确的表单信息！',
+    wrongCode: '验证码错误，请重试'
   },
   nav: {
     login: '登录',
