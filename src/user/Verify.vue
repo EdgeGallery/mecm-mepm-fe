@@ -115,7 +115,7 @@ export default {
       }
       if (val.length === 4) {
         if (!this.ifVerify) {
-          this.$message.error('Wrong code, please retry!')
+          this.$message.error(this.$t('pwdmodify.wrongCode'))
           this.verificationCode = ''
           this.refreshImg()
         }

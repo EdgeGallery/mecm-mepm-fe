@@ -115,15 +115,11 @@
     <!-- all operation dialog -->
     <el-dialog
       :close-on-click-modal="false"
-      :title="$t('app.instanceList.addRule')"
+      :title="$t('app.instanceList.newRules')"
       :visible.sync="operationDialog"
       width="75%"
     >
       <div class="dialogContent">
-        <p class="title">
-          {{ $t('app.ruleConfig.trafficRule') }}
-        </p>
-
         <el-form
           label-width="auto"
           :model="appTrafficRule"

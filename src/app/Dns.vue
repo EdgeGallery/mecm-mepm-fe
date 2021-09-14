@@ -96,7 +96,7 @@
     <!-- dialog -->
     <el-dialog
       :close-on-click-modal="false"
-      :title="$t('app.instanceList.addRule')"
+      :title="$t('app.instanceList.newRules')"
       :visible.sync="dialog"
       width="30%"
     >
