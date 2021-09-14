@@ -1,5 +1,5 @@
 <!--
-  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -  Copyright 2020-2021 Huawei Technologies Co., Ltd.
   -
   -  Licensed under the Apache License, Version 2.0 (the "License");
   -  you may not use this file except in compliance with the License.
@@ -38,8 +38,6 @@
         class="mt20"
         :data="dnsRuleTableData"
         v-loading="loading"
-        border
-        style="width: 100%;"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -95,9 +93,9 @@
 
     <!-- dialog -->
     <el-dialog
-      :close-on-click-modal="false"
-      :title="$t('app.instanceList.newRules')"
+      :show-close="false"
       :visible.sync="dialog"
+      :title=" $t('app.instanceList.newRules')"
       width="30%"
     >
       <div class="dialogContent">
@@ -163,7 +161,6 @@
               >
                 <el-input
                   id=""
-                  type="number"
                   maxlength="30"
                   v-model="dnsRule.ttl"
                 />
@@ -177,13 +174,6 @@
         class="dialog-footer"
       >
         <el-button
-          id="cancelBtn"
-          size="small"
-          @click="resetForm('dnsRule')"
-        >
-          {{ $t('common.cancel') }}
-        </el-button>
-        <el-button
           id="confirmBtn"
           type="primary"
           size="small"
@@ -191,23 +181,29 @@
         >
           {{ $t('common.confirm') }}
         </el-button>
+        <el-button
+          id="cancelBtn"
+          size="small"
+          @click="resetForm('dnsRule')"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { appRuleMgr } from '../tools/request.js'
+// import { appo, inventory } from '../../tools/request.js'
 export default {
   props: {
-    appRule: {
-      required: true,
-      type: Object
+    showtype: {
+      type: Number,
+      default: 0
     }
   },
   data () {
     return {
-      isModify: false,
       dialog: false,
       index: -1,
       timer: null,
@@ -218,8 +214,8 @@ export default {
         dnsRuleId: '',
         domainName: 'domainname',
         ipAddressType: 'IP_V4',
-        ipAddress: '192.5.14.68',
-        ttl: 85000
+        ipAddress: '127.0.0.1',
+        ttl: '85000'
       },
       ipAddressType: [
         {
@@ -235,9 +231,16 @@ export default {
       appName: sessionStorage.getItem('instanceName'),
       rule: {
         'appTrafficRule': [],
-        'appDnsRule': [],
+        'appDNSRule': [],
         'appName': '',
         'appSupportMp1': true
+      }
+    }
+  },
+  watch: {
+    showtype () {
+      if (this.showtype === 1) {
+        this.showDialog()
       }
     }
   },
@@ -251,8 +254,7 @@ export default {
           { required: true, message: this.$t('domainMust'), trigger: 'blur' }
         ],
         ipAddress: [
-          { required: true, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: true, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         ttl: [
           { required: true, message: this.$t('tip.ttl'), trigger: 'blur' }
@@ -262,79 +264,62 @@ export default {
   },
   methods: {
     getAppRules () {
-      appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
-        if (res.data) {
-          console.log('get config rules response -> ', res.data)
-          this.type = 2
-          this.rule = res.data
-          this.appName = this.rule.appName
-          this.dnsRuleTableData = res.data.appDnsRule
-        }
-      })
+      // inventory.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+      //   if (res.data) {
+      //     this.type = 2
+      //     this.rule = res.data
+      //     this.appName = this.rule.appName
+      //     this.dnsRuleTableData = res.data.appDNSRule
+      //   }
+      // })
       this.loading = false
-      this.$emit('onChange')
     },
     resetForm (formName) {
       this.dialog = false
       this.$refs[formName].resetFields()
     },
     addAppRule (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log('parent apprule -> ', this.appRule)
-          appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
-            this.type = 2
-          })
           let data = {
-            appTrafficRule: [...this.appRule.appTrafficRule],
-            appDnsRule: [...this.appRule.appDnsRule],
+            appDNSRule: [],
             appName: this.appName,
             appSupportMp1: true
           }
-          this.dialog = false
-          this.dnsRule.ttl = +this.dnsRule.ttl
-          if (this.isModify) {
-            this.type = 2
-            data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
-          }
-          data.appDnsRule.push(this.dnsRule)
-          console.log('data', data)
-          console.log('type ', this.type)
-          appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
-            if (res.data) {
-              this.handleResponse(res)
-              this.loading = true
-              this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-            }
-          }).catch(err => {
-            console.log('error modifying dns rule', err)
-            this.getAppRules()
-          }
-          )
+          data.appDNSRule.push(this.dnsRule)
+          // appo.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
+          //   if (res.data) {
+          //     this.getTaskStatus(res)
+          //   }
+          // })
         }
       })
     },
-    handleResponse (res) {
-      if (res.data.configResult === 'FAILURE') {
-        this.$message.error(this.$t('app.ruleConfig.mepError'))
-      } else {
-        if (this.index === -1) {
-          this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-        } else {
-          this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-        }
-      }
+    getTaskStatus (res) {
+      // appo.getTaskStatus(res.data.response.apprule_task_id).then(response => {
+      //   if (response.data.response.configResult === 'FAILURE') {
+      //     this.$message.error(this.$t('app.ruleConfig.mepError'))
+      //   } else {
+      //     this.dialog = false
+      //     if (this.index === -1) {
+      //       this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+      //     } else {
+      //       this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+      //     }
+      //   }
+      // })
+      this.loading = true
+      this.timer = setTimeout(() => { this.getAppRules() }, 3000)
     },
     showDialog () {
-      this.isModify = false
       this.index = -1
       this.dialog = true
       this.dnsRule = {
         dnsRuleId: '',
         domainName: 'domainname',
         ipAddressType: 'IP_V4',
-        ipAddress: '192.5.14.68',
-        ttl: 85000
+        ipAddress: '127.0.0.1',
+        ttl: '85000'
       }
     },
     handleSelectionChange (selection) {
@@ -348,7 +333,6 @@ export default {
       this.dialog = true
       let data = JSON.parse(JSON.stringify(row[index]))
       this.dnsRule = data
-      this.isModify = true
     },
     deleteDnsRule (index, row) {
       this.$confirm(this.$t('tip.ifContinue'), this.$t('common.warning'), {
@@ -357,41 +341,22 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        console.log('delete dns, parent app rule -> ', this.appRule)
         let data = {
-          appTrafficRule: [...this.appRule.appTrafficRule],
-          appDnsRule: [...this.appRule.appDnsRule],
-          appName: this.appName,
-          appSupportMp1: true
+          appTrafficRule: [],
+          appDNSRule: []
         }
         if (index !== -1) {
-          data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== row.dnsRuleId)
+          data.appDNSRule.push(row.dnsRuleId)
         } else {
           row.forEach(item => {
-            data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== item.dnsRuleId)
+            data.appDNSRule.push(item.dnsRuleId)
           })
         }
-
-        console.log('delete data ->', data)
-        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(response => {
-          if (response.data) {
-            if (response.data.configResult === 'FAILURE') {
-              this.$message.error(this.$t('app.ruleConfig.mepError'))
-            } else {
-              if (this.index === -1) {
-                this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-              } else {
-                this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-              }
-            }
-            this.loading = true
-            this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-          }
-        }).catch(err => {
-          console.log('error modifying dns rule', err)
-          this.getAppRules()
-        }
-        )
+        // appo.deleteConfigRules(sessionStorage.getItem('instanceId'), data).then(res => {
+        //   this.showMessage('success', this.$t('app.ruleConfig.delRuleSuc'), 1500)
+        //   this.loading = true
+        //   this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+        // })
       })
     },
     batchDeleteDnsRule () {

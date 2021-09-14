@@ -1,5 +1,5 @@
 <!--
-  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -  Copyright 2020-2021 Huawei Technologies Co., Ltd.
   -
   -  Licensed under the Apache License, Version 2.0 (the "License");
   -  you may not use this file except in compliance with the License.
@@ -40,8 +40,6 @@
         v-loading="loading"
         class="mt20"
         :data="trafficRuleTableData"
-        border
-        style="width: 100%;"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -100,9 +98,9 @@
     </div>
     <!-- check Detail dialog-->
     <el-dialog
-      :close-on-click-modal="false"
-      :title="$t('common.detail')"
+      :show-close="false"
       :visible.sync="showDetail"
+      :title="$t('common.detail')"
       width="45%"
     >
       <div class="dialogContent">
@@ -114,12 +112,16 @@
 
     <!-- all operation dialog -->
     <el-dialog
-      :close-on-click-modal="false"
-      :title="$t('app.instanceList.newRules')"
+      :show-close="false"
       :visible.sync="operationDialog"
+      :title=" $t('app.instanceList.newRules')"
       width="75%"
     >
       <div class="dialogContent">
+        <p class="title">
+          {{ $t('app.ruleConfig.trafficRule') }}
+        </p>
+
         <el-form
           label-width="auto"
           :model="appTrafficRule"
@@ -204,9 +206,7 @@
           <el-table
             class="mt20"
             :data="trafficFilterData"
-            border
             size="small"
-            style="width: 100%;"
           >
             <el-table-column
               prop="srcAddress"
@@ -309,9 +309,7 @@
             <el-table
               class="mt20"
               :data="dstInterfaceData"
-              border
               size="small"
-              style="width: 100%;"
             >
               <el-table-column
                 prop="interfaceType"
@@ -377,10 +375,10 @@
 
         <!-- Filter dialog -->
         <el-dialog
-          :close-on-click-modal="false"
+          :show-close="false"
           width="50%"
-          :title="$t('app.ruleConfig.trafficRule')"
           :visible.sync="innerFilterVisible"
+          :title="$t('app.ruleConfig.trafficRule')"
           append-to-body
         >
           <el-row>
@@ -459,10 +457,10 @@
                   label="QCI"
                   prop="qCI"
                 >
-                  <el-input-number
-                    v-model="trafficFilter.qCI"
-                    maxlength="30"
+                  <el-input
                     id=""
+                    maxlength="30"
+                    v-model="trafficFilter.qCI"
                   />
                 </el-form-item>
               </el-col>
@@ -471,7 +469,7 @@
                   label="DSCP"
                   prop="dSCP"
                 >
-                  <el-input-number
+                  <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.dSCP"
@@ -481,7 +479,7 @@
                   label="TC"
                   prop="tc"
                 >
-                  <el-input-number
+                  <el-input
                     id=""
                     maxlength="30"
                     v-model="trafficFilter.tC"
@@ -531,27 +529,29 @@
             class="dialog-footer"
           >
             <el-button
+              type="primary"
+              size="small"
+              id="confirmBtn"
+              @click="confirmToAdd('trafficFilter')"
+            >
+              {{ $t('common.confirm') }}
+            </el-button>
+            <el-button
+              id="cancelBtn"
               @click="cancelEdit('trafficFilter')"
               size="small"
             >
               {{ $t('common.cancel') }}
-            </el-button>
-            <el-button
-              type="primary"
-              size="small"
-              @click="confirmToAdd('trafficFilter')"
-            >
-              {{ $t('common.confirm') }}
             </el-button>
           </div>
         </el-dialog>
 
         <!-- interface dialog -->
         <el-dialog
-          :close-on-click-modal="false"
+          :show-close="false"
           width="30%"
-          :title="$t('app.ruleConfig.interfaceInfo')"
           :visible.sync="innerInterfaceVisible"
+          :title="$t('app.ruleConfig.interfaceInfo')"
           append-to-body
         >
           <el-row>
@@ -660,17 +660,19 @@
             class="dialog-footer"
           >
             <el-button
-              @click="cancelEdit('dstInterface')"
-              size="small"
-            >
-              {{ $t('common.cancel') }}
-            </el-button>
-            <el-button
+              id="confirmBtn"
               type="primary"
               size="small"
               @click="confirmToAdd('dstInterface')"
             >
               {{ $t('common.confirm') }}
+            </el-button>
+            <el-button
+              id="cancelBtn"
+              @click="cancelEdit('dstInterface')"
+              size="small"
+            >
+              {{ $t('common.cancel') }}
             </el-button>
           </div>
         </el-dialog>
@@ -680,13 +682,6 @@
         class="dialog-footer"
       >
         <el-button
-          id="cancelBtn"
-          size="small"
-          @click="cancelAddRule"
-        >
-          {{ $t('common.cancel') }}
-        </el-button>
-        <el-button
           id="confirmBtn"
           type="primary"
           size="small"
@@ -694,27 +689,33 @@
         >
           {{ $t('common.confirm') }}
         </el-button>
+        <el-button
+          id="cancelBtn"
+          size="small"
+          @click="cancelAddRule"
+        >
+          {{ $t('common.cancel') }}
+        </el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { appRuleMgr } from '../tools/request.js'
+// import { appo, inventory } from '../../tools/request.js'
 import Detail from './TrafficDetail.vue'
 export default {
-  props: {
-    appRule: {
-      required: true,
-      type: Object
-    }
-  },
   components: {
     Detail
   },
+  props: {
+    showtype: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
-      isModify: false,
       dialog: false,
       timer: null,
       loading: false,
@@ -726,7 +727,7 @@ export default {
       appName: sessionStorage.getItem('instanceName'),
       rule: {
         appTrafficRule: [],
-        appDnsRule: [],
+        appDNSRule: [],
         appName: '',
         appSupportMp1: true
       },
@@ -800,31 +801,31 @@ export default {
       trafficFilterData: [],
       dstInterfaceData: [],
       trafficFilter: {
-        srcAddress: '192.168.1.1/32',
+        srcAddress: '127.0.0.1/32',
         srcPort: '8080',
-        dstAddress: '192.168.1.1/32',
+        dstAddress: '127.0.0.1/32',
         dstPort: '8080',
         protocol: 'ANY',
-        qCI: 0,
-        dSCP: 0,
-        tC: 0,
+        qCI: '0',
+        dSCP: '0',
+        tC: '0',
         tag: 'tag',
-        srcTunnelAddress: '1.1.1.1',
+        srcTunnelAddress: '127.0.0.1',
         srcTunnelPort: '8080',
-        dstTunnelAddress: '2.2.2.2',
+        dstTunnelAddress: '127.0.0.1',
         dstTunnelPort: '8080'
       },
       dstInterface: {
         interfaceType: 'TUNNEL',
         tunnelInfo: {
           tunnelType: 'GRE',
-          tunnelDstAddress: '3.3.3.3',
-          tunnelSrcAddress: '4.4.4.4',
+          tunnelDstAddress: '127.0.0.1',
+          tunnelSrcAddress: '127.0.0.1',
           tunnelSpecificData: 'any'
         },
         srcMacAddress: '02-00-00-00-00-00',
         dstMacAddress: '02-00-00-00-00-00',
-        dstIpAddress: '5.5.5.5'
+        dstIpAddress: '127.0.0.1'
       },
       interfaceIndex: -1,
       filterIndex: -1,
@@ -832,16 +833,21 @@ export default {
       type: 1
     }
   },
+  watch: {
+    showtype () {
+      if (this.showtype === 2) {
+        this.showDialog()
+      }
+    }
+  },
   computed: {
     formInterfaceRules () {
       return {
         tunnelDstAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         tunnelSrcAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         srcMacAddress: [
           { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
@@ -852,8 +858,7 @@ export default {
           { pattern: /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/, message: this.$t('verify.normalVerify') }
         ],
         dstIpAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ]
       }
     },
@@ -867,32 +872,28 @@ export default {
     formTrafficfilterRules () {
       return {
         srcAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\/[1-9]\d{0,4}$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         srcPort: [
           { required: false, message: this.$t('verify.portTip'), trigger: 'blur' },
           { pattern: /^\d{4,5}(,+\d{4,5})*$/, message: this.$t('verify.normalVerify') }
         ],
         dstAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\/[1-9]\d{0,4}$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         dstPort: [
           { required: false, message: this.$t('verify.portTip'), trigger: 'blur' },
           { pattern: /^\d{4,5}(,+\d{4,5})*$/, message: this.$t('verify.normalVerify') }
         ],
         srcTunnelAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         srcTunnelPort: [
           { required: false, message: this.$t('verify.portTip'), trigger: 'blur' },
           { pattern: /^\d{4,5}(,+\d{4,5})*$/, message: this.$t('verify.normalVerify') }
         ],
         dstTunnelAddress: [
-          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' },
-          { pattern: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, message: this.$t('verify.normalVerify') }
+          { required: false, message: this.$t('verify.ipTip'), trigger: 'blur' }
         ],
         dstTunnelPort: [
           { required: false, message: this.$t('verify.portTip'), trigger: 'blur' },
@@ -903,7 +904,6 @@ export default {
   },
   methods: {
     showDialog () {
-      this.isModify = false
       this.index = -1
       this.operationDialog = true
     },
@@ -911,10 +911,7 @@ export default {
       return str.split(',')
     },
     changeAToS (arr) {
-      if (arr && arr.length > 0) {
-        return arr.join(',')
-      }
-      return ''
+      return arr.join(',')
     },
     handleSelectionChange (selection) {
       this.selectedData = selection
@@ -924,74 +921,62 @@ export default {
       this.operationDialog = false
     },
     getAppRules () {
-      appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
-        if (res.data) {
-          this.type = 2
-          this.rule = JSON.parse(JSON.stringify(res.data))
-          this.appName = res.data.appName
-          this.rule.appTrafficRule.forEach(val => {
-            val.trafficFilter.forEach(item => {
-              item.srcAddress = this.changeAToS(item.srcAddress)
-              item.srcPort = this.changeAToS(item.srcPort)
-              item.dstAddress = this.changeAToS(item.dstAddress)
-              item.dstPort = this.changeAToS(item.dstPort)
-              item.protocol = this.changeAToS(item.protocol)
-              item.srcTunnelAddress = this.changeAToS(item.srcTunnelAddress)
-              item.dstTunnelAddress = this.changeAToS(item.dstTunnelAddress)
-              item.srcTunnelPort = this.changeAToS(item.srcTunnelPort)
-              item.dstTunnelPort = this.changeAToS(item.dstTunnelPort)
-              item.tag = this.changeAToS(item.tag)
-            })
-          })
-          this.trafficRuleTableData = this.rule.appTrafficRule
-        }
-      })
+      // inventory.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
+      //   if (res.data) {
+      //     this.type = 2
+      //     this.rule = JSON.parse(JSON.stringify(res.data))
+      //     this.appName = res.data.appName
+      //     this.rule.appTrafficRule.forEach(val => {
+      //       val.trafficFilter.forEach(item => {
+      //         item.srcAddress = this.changeAToS(item.srcAddress)
+      //         item.srcPort = this.changeAToS(item.srcPort)
+      //         item.dstAddress = this.changeAToS(item.dstAddress)
+      //         item.dstPort = this.changeAToS(item.dstPort)
+      //         item.protocol = this.changeAToS(item.protocol)
+      //         item.srcTunnelAddress = this.changeAToS(item.srcTunnelAddress)
+      //         item.dstTunnelAddress = this.changeAToS(item.dstTunnelAddress)
+      //         item.srcTunnelPort = this.changeAToS(item.srcTunnelPort)
+      //         item.dstTunnelPort = this.changeAToS(item.dstTunnelPort)
+      //         item.tag = this.changeAToS(item.tag)
+      //       })
+      //     })
+      //     this.trafficRuleTableData = this.rule.appTrafficRule
+      //   }
+      // })
       this.loading = false
-      this.$emit('onChange')
     },
     addAppRules () {
-      this.$refs.appTrafficRule.validate((valid) => {
+      this.$refs.appTrafficRule.validate(valid => {
         if (valid) {
-          appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
-            this.type = 2
-          })
           let data = {
-            appTrafficRule: [...this.appRule.appTrafficRule],
-            appDnsRule: [...this.appRule.appDnsRule],
+            appTrafficRule: [],
             appName: this.appName,
             appSupportMp1: true
           }
           this.operationDialog = false
-          if (this.isModify) {
-            data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== this.appTrafficRule.trafficRuleId)
-          }
           data.appTrafficRule.push(this.appTrafficRule)
-          console.log('data -> ', data)
-          console.log('type -> ', this.type)
-          appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
-            if (res.data) {
-              this.handleResponse(res)
-              this.loading = true
-              this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-            }
-          }).catch(err => {
-            console.log('error modifying traffic rule', err)
-            this.getAppRules()
-          }
-          )
+          // appo.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
+          //   if (res.data) {
+          //     this.getTaskStatus(res)
+          //   }
+          // })
         }
       })
     },
-    handleResponse (res) {
-      if (res.data.configResult === 'FAILURE') {
-        this.$message.error(this.$t('app.ruleConfig.mepError'))
-      } else {
-        if (this.index === -1) {
-          this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-        } else {
-          this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-        }
-      }
+    getTaskStatus (res) {
+      // appo.getTaskStatus(res.data.response.apprule_task_id).then(response => {
+      //   if (response.data.response.configResult === 'FAILURE') {
+      //     this.$message.error(this.$t('app.ruleConfig.mepError'))
+      //   } else {
+      //     if (this.index === -1) {
+      //       this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
+      //     } else {
+      //       this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
+      //     }
+      //   }
+      // })
+      this.loading = true
+      this.timer = setTimeout(() => { this.getAppRules() }, 3000)
     },
     confirmToAddTraRules () {
       let data = JSON.parse(JSON.stringify(this.trafficFilterData))
@@ -1022,7 +1007,6 @@ export default {
       this.appTrafficRule = row[index]
       this.trafficFilterData = row[index].trafficFilter
       this.dstInterfaceData = row[index].dstInterface
-      this.isModify = true
     },
     batchDeleteTrafficRule () {
       if (this.selectedData.length > 0) {
@@ -1038,40 +1022,22 @@ export default {
         closeOnClickModal: false,
         type: 'warning'
       }).then(() => {
-        console.log('delete traffic rule, parent app rule -> ', this.appRule)
         let data = {
-          appTrafficRule: [...this.appRule.appTrafficRule],
-          appDnsRule: [...this.appRule.appDnsRule],
-          appName: this.appName,
-          appSupportMp1: true
+          appTrafficRule: [],
+          appDNSRule: []
         }
         if (index !== -1) {
-          data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== row.trafficRuleId)
+          data.appTrafficRule.push(row.trafficRuleId)
         } else {
           row.forEach(item => {
-            data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== item.trafficRuleId)
+            data.appTrafficRule.push(item.trafficRuleId)
           })
         }
-        console.log('delete data', data)
-        appRuleMgr.addConfigRules(2, sessionStorage.getItem('instanceId'), data).then(response => {
-          if (response.data) {
-            if (response.data.configResult === 'FAILURE') {
-              this.$message.error(this.$t('app.ruleConfig.mepError'))
-            } else {
-              if (this.index === -1) {
-                this.showMessage('success', this.$t('app.ruleConfig.addRuleSuc'), 1500)
-              } else {
-                this.showMessage('success', this.$t('app.ruleConfig.editRuleSuc'), 1500)
-              }
-            }
-            this.loading = true
-            this.timer = setTimeout(() => { this.getAppRules() }, 3000)
-          }
-        }).catch(err => {
-          console.log('error modifying traffic rule', err)
-          this.getAppRules()
-        }
-        )
+        // appo.deleteConfigRules(sessionStorage.getItem('instanceId'), data).then(res => {
+        //   this.showMessage('success', this.$t('app.ruleConfig.delRuleSuc'), 1500)
+        //   this.loading = true
+        //   this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+        // })
       })
     },
     modifyLines (index, row, type) {
@@ -1103,7 +1069,7 @@ export default {
       this.$refs[form].resetFields()
     },
     confirmToAdd (form) {
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         if (valid) {
           if (form === 'trafficFilter') {
             if (this.filterIndex !== -1) {

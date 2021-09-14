@@ -232,7 +232,8 @@ const cn = {
       addTrafficRules: '增加分流规则',
       addFilter: '新增流过滤规则',
       batchDelete: '批量删除应用',
-      appKpi: '应用KPI'
+      appKpi: '应用KPI',
+      newRules: '新建规则'
     },
     ruleConfig: {
       srcAddress: '源IP地址',

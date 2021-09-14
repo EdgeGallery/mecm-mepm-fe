@@ -233,7 +233,8 @@ const en = {
       addTrafficRules: 'Add Traffic rules',
       addFilter: 'Add Traffic Filter',
       batchDelete: 'Batch delete instances',
-      appKpi: 'Application KPI'
+      appKpi: 'Application KPI',
+      newRules: 'New Rules'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',

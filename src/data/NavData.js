@@ -22,6 +22,27 @@ const NavData = [
     'path': '/'
   },
   {
+    'id': '2.7',
+    'name': 'Resource application',
+    'children': [
+      {
+        'id': '2.8',
+        'name': '5G Network',
+        'path': '/mepm/resource/network'
+      },
+      {
+        'id': '2.9',
+        'name': 'VM Resource',
+        'path': '/mepm/resource/vm'
+      },
+      {
+        'id': '3.0',
+        'name': 'Container Resource',
+        'path': '/mepm/resource/container'
+      }
+    ]
+  },
+  {
     'id': '2.2',
     'name': 'APP Management',
     'path': '/mecm/app/pakage',
