@@ -22,27 +22,6 @@ const NavDataCn = [
     'path': '/'
   },
   {
-    'id': '2.7',
-    'name': '资源申请',
-    'children': [
-      {
-        'id': '2.8',
-        'name': '5G网络',
-        'path': '/mepm/resource/network'
-      },
-      {
-        'id': '2.9',
-        'name': '虚机资源',
-        'path': '/mepm/resource/vm'
-      },
-      {
-        'id': '3.0',
-        'name': '容器资源',
-        'path': '/mepm/resource/container'
-      }
-    ]
-  },
-  {
     'id': '2.2',
     'name': '应用管理',
     'path': '/mecm/app/pakage',

@@ -92,7 +92,7 @@ export default new Router({
         {
           path: 'mepm/resource/network',
           name: 'network',
-          component: () => import('../resource/Network.vue')
+          component: () => import('../app/RuleConfig.vue')
         },
         {
           path: 'mepm/resource/vm',
