@@ -88,6 +88,21 @@ export default new Router({
           path: 'mepm/mepinfo/:nodeIp',
           name: 'mepinfo',
           component: () => import('../mep/MepInfo.vue')
+        },
+        {
+          path: 'mepm/resource/network',
+          name: 'network',
+          component: () => import('../app/RuleConfig.vue')
+        },
+        {
+          path: 'mepm/resource/vm',
+          name: 'vm',
+          component: () => import('../resource/Vm.vue')
+        },
+        {
+          path: 'mepm/resource/container',
+          name: 'container',
+          component: () => import('../resource/Container.vue')
         }
       ]
     }

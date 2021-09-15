@@ -129,7 +129,6 @@
         <p class="title">
           {{ $t('app.ruleConfig.trafficRule') }}
         </p>
-
         <el-form
           label-width="auto"
           :model="appTrafficRule"

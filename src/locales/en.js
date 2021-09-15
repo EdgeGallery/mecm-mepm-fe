@@ -20,7 +20,7 @@ const en = {
     userName: 'Username',
     password: 'Password',
     login: 'Log In',
-    logout: 'Log Out',
+    logout: 'Logout',
     register: 'Register',
     legalRegister: 'Agree to the agreement and register',
     iAgree: 'I have read and agree to the',
@@ -80,11 +80,12 @@ const en = {
     submit: 'Submit',
     cancel: 'Cancel',
     return: 'Return',
-    formDataVerify: 'Please type right data to modify!'
+    formDataVerify: 'Please type right data to modify!',
+    wrongCode: 'Wrong code, please retry!'
   },
   nav: {
     login: 'Log In',
-    logout: 'Log Out',
+    logout: 'Logout',
     mecm: 'Manager',
     overview: 'Overview',
     appMana: 'App Management',
@@ -232,7 +233,8 @@ const en = {
       addTrafficRules: 'Add Traffic rules',
       addFilter: 'Add Traffic Filter',
       batchDelete: 'Batch delete instances',
-      appKpi: 'Application KPI'
+      appKpi: 'Application KPI',
+      newRules: 'New Rules'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',

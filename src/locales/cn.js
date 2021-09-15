@@ -80,7 +80,8 @@ const cn = {
     submit: '提交',
     cancel: '取消',
     return: '返回',
-    formDataVerify: '请填写正确的表单信息！'
+    formDataVerify: '请填写正确的表单信息！',
+    wrongCode: '验证码错误，请重试'
   },
   nav: {
     login: '登录',
@@ -231,7 +232,8 @@ const cn = {
       addTrafficRules: '增加分流规则',
       addFilter: '新增流过滤规则',
       batchDelete: '批量删除应用',
-      appKpi: '应用KPI'
+      appKpi: '应用KPI',
+      newRules: '新建规则'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
