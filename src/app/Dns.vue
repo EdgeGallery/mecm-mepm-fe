@@ -104,7 +104,7 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('app.instanceList.addRule') }}
+        <em class="title_icon" />{{ $t('app.instanceList.newRules') }}
       </div>
       <div class="dialogContent">
         <el-form
