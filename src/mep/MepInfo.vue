@@ -262,7 +262,6 @@ export default {
   background-color: #FFFFFF;
 }
 .box {
-  margin-top: 65px;
   .inner-nav{
     position: fixed;
     z-index: 99;

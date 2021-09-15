@@ -74,6 +74,7 @@
               id="usericon"
               class="rt"
               src="../assets/images/mine_icon.png"
+              alt=""
             >
             <div
               class="userFunc"

@@ -15,11 +15,11 @@
   -->
 
 <template>
-  <div class="ruleconfig">
-    <Breadcrumb
-      class="breadcrumb"
-      :data="[{name: $t('nav.ruleConfiguration'), path: '/mecm/ruleconfig'}]"
-    />
+  <div class="ruleconfig padding_default">
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.ruleConfiguration') }}
+      <span class="line_bot1" />
+    </div>
     <div class="ruleconfigcontent">
       <el-tabs
         v-model="activeName"
@@ -48,13 +48,11 @@
 </template>
 
 <script>
-import Breadcrumb from '../components/BreadCrumb'
 import Dnspannel from './Dns.vue'
 import Trafficpannel from './Traffic.vue'
 import { appRuleMgr } from '@/tools/request'
 export default {
   components: {
-    Breadcrumb,
     Dnspannel,
     Trafficpannel
   },
@@ -89,9 +87,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .ruleconfigcontent {
-    margin: 0 5%;
     height: 100%;
     background: #fff;
     padding: 30px 60px;
+    border-radius: 20px;
+    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
 }
 </style>

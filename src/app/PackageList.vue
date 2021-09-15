@@ -15,96 +15,83 @@
   -->
 
 <template>
-  <div>
-    <Breadcrumb
-      class="breadcrumb"
-      :data="[{name: $t('nav.packageMana'), path: '/mecm/apac/list'}]"
-    />
+  <div class="package_list padding_default">
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.packageMana') }}
+      <span class="line_bot1" />
+      <el-button
+        class="newproject_btn linearGradient2"
+        id="syncBtn"
+        @click="uploadPackage"
+      >
+        <em class="new_icon" />
+        {{ $t('app.packageList.newPackage') }}
+      </el-button>
+    </div>
     <div class="apacList">
       <Search
         @getSearchData="getSearchData"
         :status-item="false"
         :type-item="false"
       />
-      <div class="btn-p rt">
-        <el-button
-          id="syncBtn"
-          style="float:right;"
-          type="primary"
-          @click="uploadPackage"
-        >
-          {{ $t('app.packageList.newPackage') }}
-        </el-button>
-      </div>
       <div class="tableDiv">
-        <el-row>
-          <el-col
-            :span="24"
-            class="table"
+        <el-table
+          v-loading="dataLoading"
+          :data="currPageTableData"
+          style="width: 100%;"
+          @selection-change="handleSelectionChange"
+          class="tableStyle"
+        >
+          <el-table-column
+            type="selection"
+            width="55"
+          />
+          <el-table-column
+            prop="appPkgName"
+            sortable
+            :label="$t('app.packageList.name')"
+          />
+          <el-table-column
+            prop="appPkgVersion"
+            :label="$t('app.packageList.version')"
+          />
+          <el-table-column
+            prop="appProvider"
+            :label="$t('app.packageList.vendor')"
+          />
+          <el-table-column
+            prop="appPkgDesc"
+            :label="$t('app.packageList.desc')"
+          />
+          <el-table-column
+            :label="$t('common.operation')"
+            width="280"
           >
-            <el-table
-              v-loading="dataLoading"
-              :data="currPageTableData"
-              border
-              size="small"
-              style="width: 100%;"
-              @selection-change="handleSelectionChange"
-            >
-              <el-table-column
-                type="selection"
-                width="55"
-              />
-              <el-table-column
-                prop="appPkgName"
-                sortable
-                :label="$t('app.packageList.name')"
-              />
-              <el-table-column
-                prop="appPkgVersion"
-                :label="$t('app.packageList.version')"
-              />
-              <el-table-column
-                prop="appProvider"
-                :label="$t('app.packageList.vendor')"
-              />
-              <el-table-column
-                prop="appPkgDesc"
-                :label="$t('app.packageList.desc')"
-              />
-              <el-table-column
-                :label="$t('common.operation')"
-                align="center"
+            <template slot-scope="scope">
+              <el-button
+                id="detailBtn"
+                @click="checkDetail(scope.row)"
+                class="operations_btn"
               >
-                <template slot-scope="scope">
-                  <el-button
-                    id="detailBtn"
-                    @click="checkDetail(scope.row)"
-                    type="text"
-                    size="small"
-                  >
-                    {{ $t('common.detail') }}
-                  </el-button>
-                  <el-button
-                    id="distributeBtn"
-                    @click="distribute(scope.row)"
-                    type="text"
-                    size="small"
-                  >
-                    {{ $t('app.packageList.distribute') }}
-                  </el-button>
-                  <el-button
-                    id="deployBtn"
-                    @click="checkDetail(scope.row)"
-                    type="text"
-                    size="small"
-                  >
-                    {{ $t('app.distriList.deploy') }}
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
+                {{ $t('common.detail') }}
+              </el-button>
+              <el-button
+                id="distributeBtn"
+                @click="distribute(scope.row)"
+                class="operations_btn"
+              >
+                {{ $t('app.packageList.distribute') }}
+              </el-button>
+              <el-button
+                id="deployBtn"
+                @click="checkDetail(scope.row)"
+                class="operations_btn"
+              >
+                {{ $t('app.distriList.deploy') }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
         <div class="pageBar">
           <Pagination
             :page-sizes="[10,15,20,25]"
@@ -114,10 +101,16 @@
         </div>
         <el-dialog
           :close-on-click-modal="false"
-          :title="$t('app.packageList.uploadPackage')"
           :visible.sync="uploadPkgDialogVisible"
           width="40%"
+          class="default_dialog"
         >
+          <div
+            slot="title"
+            class="el-dialog__title"
+          >
+            <em class="title_icon" />{{ $t('app.packageList.uploadPackage') }}
+          </div>
           <el-row>
             <el-form
               label-width="auto"
@@ -126,7 +119,6 @@
               :rules="rules"
             >
               <el-form-item
-                :label="$t('app.packageList.package')"
                 prop="package"
               >
                 <el-upload
@@ -158,13 +150,12 @@
           >
             <el-button
               id="cancelBtn"
-              size="small"
+              class="bgBtn"
               @click="uploadCancel()"
             >{{ $t('common.cancel') }}</el-button>
             <el-button
               id="confirmBtn"
-              type="primary"
-              size="small"
+              class="bgBtn"
               @click="submitUpload('currForm')"
             >{{ $t('common.confirm') }}</el-button>
           </span>
@@ -174,28 +165,27 @@
 
     <el-dialog
       :close-on-click-modal="false"
-      :title="$t('app.packageList.slectEdgeNodes')"
       :visible.sync="dialogVisible"
       v-loading="loading"
+      class="default_dialog"
     >
-      <el-row class="el-row-search">
-        <el-col
-          :span="8"
-          :offset="0"
-          class="rt"
-        >
-          <el-input
-            id="nodesearch"
-            class="el-input-search"
-            v-model="edgeNodeSearchInput"
-          >
-            <em
-              slot="suffix"
-              class="el-input__icon el-icon-search"
-            />
-          </el-input>
-        </el-col>
-      </el-row>
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />{{ $t('app.packageList.slectEdgeNodes') }}
+      </div>
+      <el-input
+        id="nodesearch"
+        class="enterinput lt"
+        v-model="edgeNodeSearchInput"
+        size="small"
+      >
+        <em
+          slot="suffix"
+          class="el-input__icon el-icon-search"
+        />
+      </el-input>
       <el-row class="el-row-table">
         <el-col :span="24">
           <el-table
@@ -262,15 +252,14 @@
       >
         <el-button
           id="cancelBtn"
-          size="small"
+          class="bgBtn"
           @click="cancel()"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
           id="confirmBtn"
-          type="primary"
-          size="small"
+          class="bgBtn"
           @click="confirm()"
           :loading="loading"
         >
@@ -285,11 +274,10 @@
 import { lcmController } from '../tools/request.js'
 import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
-import Breadcrumb from '../components/BreadCrumb'
 export default {
   name: 'ApacList',
   components: {
-    Search, Pagination, Breadcrumb
+    Search, Pagination
   },
   data () {
     return {
@@ -544,29 +532,50 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.apacList {
-    margin: 0 5%;
-    height: 100%;
-    background: #fff;
-    padding: 30px 60px;
-  .tableDiv {
-    width: 100%;
+.package_list{
+  position: relative;
+  .newproject_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px !important;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../assets/images/new_icon.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
+    }
   }
-  .el-row-button-input {
-    margin-top: 10px;
-  }
-  .table {
-    margin-top: 15px;
-  }
-  .el-row-table {
-    margin-top: 10px;
-  }
-  .shortdesc{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display:-webkit-box;
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
+
+  .apacList {
+      height: 100%;
+      background: #fff;
+      padding: 30px 60px;
+      border-radius: 20px;
+      box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    .tableDiv {
+      width: 100%;
+    }
+    .el-row-button-input {
+      margin-top: 10px;
+    }
+    .el-row-table {
+      margin-top: 10px;
+    }
+    .shortdesc{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2;
+    }
   }
 }
 </style>

@@ -126,6 +126,8 @@ export default {
         this.indexName = '/mecm/ains/list'
       } else if (this.indexName.includes('mepm/mepinfo/')) {
         this.indexName = '/'
+      } else if (this.indexName.includes('edge-details')) {
+        this.indexName = '/mecm/node/list'
       } else {
         this.indexName = to.path
       }

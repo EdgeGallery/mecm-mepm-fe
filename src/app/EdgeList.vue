@@ -25,110 +25,104 @@
       :status="distributionStatus"
       @getSearchData="getSearchData"
     />
-    <div class="tableDiv">
-      <el-table
-        class="mt20"
-        border
-        size="small"
-        style="width: 100%;"
-        :data="currPageTableData"
-        v-loading="dataLoading"
-        @selection-change="handleSelectionChange"
+    <el-table
+      class="tableStyle"
+      style="width: 100%;"
+      :data="currPageTableData"
+      v-loading="dataLoading"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column
+        type="selection"
+        revers-selection
+        width="50"
+      />
+      <el-table-column
+        prop="appPkgName"
+        :label="$t('app.packageList.name')"
+        width="180"
       >
-        <el-table-column
-          type="selection"
-          revers-selection
-          width="50"
-        />
-        <el-table-column
-          prop="appPkgName"
-          :label="$t('app.packageList.name')"
-          width="180"
-        >
-          <template>
-            <div>
-              {{ this.appPkgName }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="appPkgVersion"
-          :label="$t('app.packageList.version')"
-          width="130"
-        >
-          <template>
-            <div>
-              {{ this.appPkgVersion }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="appProvider"
-          :label="$t('app.packageList.vendor')"
-          width="160"
-        >
-          <template>
-            <div>
-              {{ this.appProvider }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="hostIp"
-          :label=" $t('app.distriList.hostIp')"
-        />
-        <el-table-column
-          prop="status"
-          :label=" $t('app.distriList.status')"
-        >
-          <template slot-scope="scope">
-            <span
-              v-if="scope.row.status === 'Distributed'"
-              class="success"
-            ><em class="el-icon-success" />{{ scope.row.status }}</span>
-            <span
-              v-else-if="scope.row.status === 'Processing'"
-              class="primary"
-            ><em class="el-icon-loading" />{{ scope.row.status }}</span>
-            <span
-              v-else
-              class="error"
-            ><em class="el-icon-error" />{{ scope.row.status }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="status"
-          :label="$t('common.operation')"
-          align="center"
-        >
-          <template slot-scope="scope">
-            <el-button
-              id="deleteBtn"
-              @click.native.prevent="beforeDelete(scope.row)"
-              type="text"
-              size="small"
-            >
-              {{ $t('common.delete') }}
-            </el-button>
-            <el-button
-              id="deployBtn"
-              @click="deploy(scope.row,1)"
-              :disabled="scope.row.status !=='Distributed'"
-              type="text"
-              size="small"
-            >
-              {{ $t('app.distriList.deploy') }}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pageBar">
-        <Pagination
-          :page-sizes="[10,15,20,25]"
-          :table-data="paginationData"
-          @getCurrentPageData="getCurrentPageData"
-        />
-      </div>
+        <template>
+          <div>
+            {{ this.appPkgName }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="appPkgVersion"
+        :label="$t('app.packageList.version')"
+        width="130"
+      >
+        <template>
+          <div>
+            {{ this.appPkgVersion }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="appProvider"
+        :label="$t('app.packageList.vendor')"
+        width="160"
+      >
+        <template>
+          <div>
+            {{ this.appProvider }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="hostIp"
+        :label=" $t('app.distriList.hostIp')"
+      />
+      <el-table-column
+        prop="status"
+        :label=" $t('app.distriList.status')"
+      >
+        <template slot-scope="scope">
+          <span
+            v-if="scope.row.status === 'Distributed'"
+            class="success"
+          ><em class="el-icon-success" />{{ scope.row.status }}</span>
+          <span
+            v-else-if="scope.row.status === 'Processing'"
+            class="primary"
+          ><em class="el-icon-loading" />{{ scope.row.status }}</span>
+          <span
+            v-else
+            class="error"
+          ><em class="el-icon-error" />{{ scope.row.status }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="status"
+        :label="$t('common.operation')"
+        width="190"
+      >
+        <template slot-scope="scope">
+          <el-button
+            id="deleteBtn"
+            @click.native.prevent="beforeDelete(scope.row)"
+            class="operations_btn"
+          >
+            {{ $t('common.delete') }}
+          </el-button>
+          <el-button
+            id="deployBtn"
+            @click="deploy(scope.row,1)"
+            :disabled="scope.row.status !=='Distributed'"
+            class="operations_btn"
+          >
+            {{ $t('app.distriList.deploy') }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="pageBar">
+      <Pagination
+        :page-sizes="[10,15,20,25]"
+        :table-data="paginationData"
+        @getCurrentPageData="getCurrentPageData"
+      />
     </div>
     <el-dialog
       :close-on-click-modal="false"
