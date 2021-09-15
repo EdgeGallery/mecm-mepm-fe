@@ -15,35 +15,31 @@
   -->
 
 <template>
-  <div>
-    <Breadcrumb
-      class="breadcrumb"
-      :data="[{name: $t('nav.appInstance'), path: '/mecm/ains/list'}]"
-    />
+  <div class="padding_default">
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.appInstance') }}
+      <span class="line_bot1" />
+    </div>
     <div class="ainsList">
+      <el-button
+        @click="beforeDelete(selectData,1)"
+        class="delete_btn rt"
+      >
+        {{ this.$t('app.instanceList.batchDelete') }}
+      </el-button>
       <Search
         :affinity-item="false"
         :status-item="true"
         :status="status"
         @getSearchData="getSearchData"
       />
-      <div class="btn-p rt">
-        <el-button
-          type="primary"
-          @click="beforeDelete(selectData,1)"
-        >
-          {{ this.$t('app.instanceList.batchDelete') }}
-        </el-button>
-      </div>
       <div class="tableDiv">
         <el-table
-          class="mt20"
-          border
-          size="small"
           style="width: 100%;"
           :data="currPageTableData"
           v-loading="dataLoading"
           @selection-change="handleSelectionChange"
+          class="tableStyle"
         >
           <el-table-column
             type="selection"
@@ -70,37 +66,32 @@
           </el-table-column>
           <el-table-column
             :label="$t('common.operation')"
-            align="center"
-            width="300"
+            width="460"
           >
             <template slot-scope="scope">
               <el-button
                 id="deleteBtn"
                 @click="beforeDelete(scope.row,2)"
-                type="text"
-                size="small"
+                class="operations_btn"
               >
                 {{ $t('common.delete') }}
               </el-button>
               <el-button
                 id="detailBtn"
                 @click="handleRowSelection(scope.row)"
-                type="text"
-                size="small"
+                class="operations_btn"
               >
                 {{ $t('common.detail') }}
               </el-button>
               <el-button
-                type="text"
-                size="small"
+                class="operations_btn"
                 @click="showReason(scope.row)"
                 :disabled="scope.row.operationalStatus === 'Instantiated'"
               >
                 {{ $t('tip.operationInfo') }}
               </el-button>
               <el-button
-                type="text"
-                size="small"
+                class="operations_btn"
                 @click="jump(scope.row)"
               >
                 {{ $t('nav.ruleConfiguration') }}
@@ -117,10 +108,16 @@
         </div>
       </div>
       <el-dialog
-        :title="$t('app.instanceList.appKpi')"
         :visible.sync="instanceListVisible"
         width="width"
+        class="default_dialog detail_dialog"
       >
+        <div
+          slot="title"
+          class="el-dialog__title"
+        >
+          <em class="title_icon" />{{ $t('app.instanceList.appKpi') }}
+        </div>
         <div>
           <div style="min-height:280px;">
             <el-row :gutter="10">
@@ -167,6 +164,15 @@
             </el-row>
           </div>
         </div>
+        <span
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button
+            class="bgBtn"
+            @click="instanceListVisible=false"
+          >{{ $t('common.cancel') }}</el-button>
+        </span>
       </el-dialog>
       <el-dialog
         :close-on-click-modal="false"
@@ -207,14 +213,13 @@
 <script>
 import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
-import Breadcrumb from '../components/BreadCrumb.vue'
 import InstanceUsage from './InstanceUsage.vue'
 import { lcmController } from '../tools/request.js'
 
 export default {
   name: 'AinsList',
   components: {
-    Search, Pagination, Breadcrumb, InstanceUsage
+    Search, Pagination, InstanceUsage
   },
   data () {
     return {
@@ -436,14 +441,24 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
 .ainsList{
-    margin: 0 5%;
     height: 100%;
     background: #fff;
     padding: 30px 60px;
+    border-radius: 20px;
+    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
     .btn-group{
       margin:15px 0;
+    }
+    .delete_btn{
+      margin-right: 10px;
+      border: 1px solid #5844be;
+      border-radius: 8px;
+      padding: 8px 15px;
+      margin-top: 4px;
+      background: #5844be;
+      color: #fff;
     }
   .appStore{
     width:30%;
@@ -486,7 +501,6 @@ export default {
     }
   }
   .tableDiv{
-    padding-top:25px;
     p{
       padding-bottom:5px;
       .rt{
@@ -513,6 +527,11 @@ export default {
     }
     .el-form-item{
       margin-bottom: 12px!important;
+    }
+  }
+  .detail_dialog{
+    .el-dialog,.el-dialog__header{
+      background: #ffffff !important;
     }
   }
 }

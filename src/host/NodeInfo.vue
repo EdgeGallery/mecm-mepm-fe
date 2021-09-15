@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <Breadcrumb
-      class="breadcrumb"
-      :data="[{name: $t('nav.edgeNodes'), path: '/mecm/node/list'}, {name: $t('nav.nodeDetails'), path: '/edge-details'}]"
-    />
+  <div class="node_info">
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.nodeDetails') }}
+      <span class="line_bot1" />
+    </div>
     <div class="nodeDetails-div">
       <NodeDetails
         :detail="curShownNodeInfo"
@@ -14,9 +14,8 @@
 
 <script>
 import NodeDetails from '../overview/NodeDetails.vue'
-import Breadcrumb from '../components/BreadCrumb'
 export default {
-  components: { NodeDetails, Breadcrumb },
+  components: { NodeDetails },
   data () {
     return {
       curShownNodeInfo: {}
@@ -28,9 +27,13 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.nodeDetails-div{
-  margin: 0 5%;
-  height: 100%;
-  background: #ffffff;
+.node_info{
+  padding-top: 60px;
+  .nodeDetails-div{
+    margin: 0 5%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 8px;
+  }
 }
 </style>

@@ -16,7 +16,7 @@
 
 <template>
   <div class="search">
-    <div class="rt">
+    <div class="lt">
       <el-form
         :model="formData"
         ref="formData"
@@ -34,7 +34,14 @@
             v-model="formData.name"
             :placeholder="$t('app.packageList.name')"
             @keyup.enter.native="search"
-          />
+            class="enterinput"
+          >
+            <em
+              slot="suffix"
+              class="search_icon"
+              @click="search"
+            />
+          </el-input>
         </el-form-item>
         <el-form-item
           prop="affinity"
@@ -109,6 +116,7 @@
             plain
             size="small"
             @click="search"
+            class="bgBtn"
           >
             {{ $t('common.search') }}
           </el-button>

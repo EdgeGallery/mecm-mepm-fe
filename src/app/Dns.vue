@@ -96,10 +96,16 @@
     <!-- dialog -->
     <el-dialog
       :close-on-click-modal="false"
-      :title="$t('app.instanceList.addRule')"
       :visible.sync="dialog"
       width="30%"
+      class="default_dialog"
     >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />{{ $t('app.instanceList.addRule') }}
+      </div>
       <div class="dialogContent">
         <el-form
           label-width="auto"
@@ -108,6 +114,7 @@
 
           ref="dnsRule"
           :rules="formRules"
+          size="small"
         >
           <el-row :gutter="24">
             <el-col :span="24">
@@ -178,15 +185,14 @@
       >
         <el-button
           id="cancelBtn"
-          size="small"
+          class="bgBtn"
           @click="resetForm('dnsRule')"
         >
           {{ $t('common.cancel') }}
         </el-button>
         <el-button
           id="confirmBtn"
-          type="primary"
-          size="small"
+          class="bgBtn"
           @click="confirmToAddDnsRules"
         >
           {{ $t('common.confirm') }}
