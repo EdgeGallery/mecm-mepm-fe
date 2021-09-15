@@ -123,12 +123,9 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('app.instanceList.addRule') }}
+        <em class="title_icon" />{{ $t('app.instanceList.newRules') }}
       </div>
       <div class="dialogContent">
-        <p class="title">
-          {{ $t('app.ruleConfig.trafficRule') }}
-        </p>
         <el-form
           label-width="auto"
           :model="appTrafficRule"
