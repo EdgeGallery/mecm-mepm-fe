@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <BreadCrumb
-      class="breadcrumb"
-      :data="[{name: '容器资源', path: 'mepm/resource/container'}]"
-    />
+    <div class="title_top title_left defaultFontBlod clear">
+      容器资源
+      <span class="line_bot1" />
+    </div>
     <div class="containerBox">
       Container
     </div>
@@ -11,19 +11,20 @@
 </template>
 
 <script>
-import BreadCrumb from '../components/BreadCrumb.vue'
 export default {
   components: {
-    BreadCrumb
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .containerBox{
-    margin: 0 5%;
-    height: 100%;
-    background: #fff;
-    padding: 30px 60px;
+  .container{
+    margin: 0 13%;
+    .containerBox{
+      height: 100%;
+      background: #fff;
+      padding: 30px 60px;
+      border-radius: 20px;
+    }
   }
 </style>

@@ -467,3 +467,240 @@ body .el-table th.gutter{
     padding: 0 6.5%;
   }
 }
+
+.work-title{
+  background-image: linear-gradient(90deg,#fbfbfb,#f1f2f6);
+  height: 47px;
+  position: relative;
+  border-radius: 12px;
+  line-height: 47px;
+  font-size: 20px;
+  color: #380879;
+  font-family: defaultFontLight;
+  padding-left: 52px;
+}
+.work-title:after, .work-title:before{
+  content: "";
+  display: block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+}
+.work-title:before{
+  background-color: #5844be;
+  border-radius: 5px;
+  left: 12px;
+  top: 14px;
+}
+.part_content{
+  padding: 15px;
+  border-radius: 16px;
+  background: #f1f2f6;
+  box-shadow: inset 6px 4px 45px 0 rgb(36 20 119 / 11%);
+}
+.work_area{
+  padding: 25px 45px;
+}
+.work_btn_group{
+  height: 50px;
+  margin-top: 25px;
+  float: right;
+}
+
+/* style for button */
+.work-button {
+  background-color: #5e40c8;
+  border-radius: 8px;
+  border:none;
+  font-size: 18px;
+  font-family: defaultFontLight !important;
+  color: #FFFFFF;
+  min-width: 150px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+}
+
+.work-button:hover {
+  background-color: #5e40c8;
+  color: #FFFFFF;
+}
+
+.work-button.el-button.is-disabled {
+  background-color: #8278b7;
+  border-radius: 8px;
+  border:none;
+  color: #FFFFFF;
+}
+
+.work-button.el-button.is-disabled:hover {
+  background-color: #8278b7;
+  border-radius: 8px;
+  border:none;
+  color: #FFFFFF;
+}
+
+.work-button.el-button {
+  background-color: #5e40c8;
+  color: #FFFFFF;
+}
+
+.work-button.el-button:hover, .work-button.el-button:focus {
+  background-color: #5e40c8;
+  color: #FFFFFF;
+}
+
+
+/* style for radio-button */
+.work-radio-button .el-radio-button__inner {
+  font-family: defaultFontLight;
+  background-color: #dedae9;
+  color: #f7f6fa;
+  border: none;
+  height: 39px;
+}
+
+.work-radio-button .el-radio-button__inner::before {
+  content: '';
+  display: none;
+}
+
+.work-radio-button .el-radio-button__inner:hover {
+  color: #380879;
+}
+
+.work-radio-button .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  background-color: #8278b7;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+
+.work-radio-button .el-radio-button:first-child .el-radio-button__inner {
+  border-radius: 8px 0 0 8px;
+}
+
+.work-radio-button .el-radio-button:last-child .el-radio-button__inner {
+  border-radius: 0 8px 8px 0;
+}
+
+/* style for table */
+
+.work-table-title {
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  font-family: defaultFontLight;
+  background-color: #8379b8;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding-left: 15px;
+  color: #fefefe;
+  margin-top: 15px;
+}
+.select-mirror {
+  margin-top: 46px;
+}
+
+.select-mirror .select-mirror-content {
+  margin-left: 65px;
+  margin-top: 30px;
+}
+
+.select-mirror .content-line {
+  margin-bottom: 10px;
+}
+
+.select-mirror .work-p {
+  position: relative;
+  left: 30px;
+  top: -25px;
+}
+
+.select-mirror .work-select {
+  position: relative;
+  top: -25px;
+}
+
+.image-type {
+  display: inline-block;
+  width: 60px;
+}
+
+.system-type {
+  display: inline-block;
+  margin-left: 20px;
+  width: 25%;
+  min-width: 50px;
+}
+
+.system-image {
+  display: inline-block;
+  margin-left: 20px;
+  width: 40%;
+  min-width: 100px;
+}
+
+/* style for basic radio */
+.work-radio .el-radio__inner::after {
+  display: none;
+}
+
+.work-radio .el-radio__input .el-radio__inner {
+height: 19px;
+width: 19px;
+border-color: #5e40c8;
+background: #fbfbfb !important;
+}
+
+.work-radio .el-radio__input .el-radio__inner::before {
+content: '';
+display: block;
+position: relative;
+width: 9px;
+height: 9px;
+background-color: #ceccdc;
+border-radius: 50%;
+left: 4px;
+top: 4px;
+}
+
+.work-radio .el-radio__label {
+color: #380879 !important;
+font-family: defaultFontLight;
+font-size: 16px;
+}
+
+.work-radio .el-radio__input.is-checked .el-radio__inner {
+border-color: #5e40cb;
+background: #fbfbfb;
+}
+
+.work-radio .el-radio__input.is-checked .el-radio__inner::before {
+content: '';
+display: block;
+position: relative;
+width: 9px;
+height: 9px;
+background-color: #55d8bf;
+border-radius: 50%;
+left: 4px;
+top: 4px;
+z-index: 10;
+}
+
+.work-p {
+  font-size: 16px;
+  font-family: defaultFontLight;
+  color: #380879;
+  padding-top: 5px;
+  display: inline-block;
+}
+
+.work-p-must::before {
+  content: "*";
+  color: #f23662;
+}
+.content-line{
+  padding-top: 15px;
+}
