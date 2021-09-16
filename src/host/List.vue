@@ -15,11 +15,19 @@
   -->
 
 <template>
-  <div>
-    <Breadcrumb
-      class="breadcrumb"
-      :data="[{name: $t('nav.edgeNodes'), path: '/mecm/node/list'}]"
-    />
+  <div class="edge_list padding_default">
+    <div class="title_top title_left defaultFontBlod clear">
+      {{ $t('nav.edgeNodes') }}
+      <span class="line_bot1" />
+      <el-button
+        class="newproject_btn linearGradient2"
+        id="regBtn"
+        @click="register()"
+      >
+        <em class="new_icon" />
+        {{ $t('system.edgeNodes.newEdge') }}
+      </el-button>
+    </div>
     <div class="sysk8s">
       <Search
         :status-item="false"
@@ -27,122 +35,107 @@
         :ip-item="true"
         @getSearchData="getSearchData"
       />
-      <p
-        class="btn-p"
-      >
-        <el-button
-          id="regBtn"
-          type="primary"
-          @click="register()"
-        >
-          {{ $t('system.edgeNodes.newEdge') }}
-        </el-button>
-      </p>
       <div class="tableDiv">
-        <el-row class="table">
-          <el-table
-            :data="currPageTableData"
-            v-loading="dataLoading"
-            class="mt20"
-            border
-            size="small"
-            style="width: 100%;"
+        <el-table
+          :data="currPageTableData"
+          v-loading="dataLoading"
+          class="tableStyle"
+          style="width: 100%;"
+        >
+          <el-table-column
+            prop="mechostName"
+            sortable
+            :label="$t('app.packageList.name')"
           >
-            <el-table-column
-              prop="mechostName"
-              sortable
-              :label="$t('app.packageList.name')"
-            >
-              <template slot-scope="scope">
-                <em
-                  class="el-icon-success"
-                  :style="{color: '#67C23A'}"
-                />
-                <span style="margin-left: 10px">{{ scope.row.mechostName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="mechostIp"
-              :label="$t('app.packageList.ip')"
-            />
-            <el-table-column
-              prop="city"
-              :label="$t('system.edgeNodes.location')"
-            />
-            <el-table-column
-              prop="affinity"
-              :label="$t('app.packageList.affinity')"
-            />
-            <el-table-column
-              :label="$t('system.edgeNodes.hwCapability')"
-            >
-              <template slot-scope="scope">
-                <span
-                  v-for="(item,index) in scope.row.hwcapabilities"
-                  :key="index"
-                >
-                  {{ item.hwType }}
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              :label="$t('common.operation')"
-              align="center"
-              width="280"
-            >
-              <template slot-scope="scope">
-                <el-button
-                  id="deleteBtn"
-                  @click.native.prevent="beforeDelete(scope.row)"
-                  type="text"
-                  size="small"
-                >
-                  {{ $t('common.delete') }}
-                </el-button>
-                <el-button
-                  id="uploadBtn"
-                  @click.native.prevent="uploadFile(scope.row)"
-                  type="text"
-                  size="small"
-                >
-                  {{ $t('system.edgeNodes.uploadFile') }}
-                </el-button>
-                <el-button
-                  id="modifyBtn"
-                  @click="handleModify(scope.row)"
-                  type="text"
-                  size="small"
-                >
-                  {{ $t('common.modify') }}
-                </el-button>
-                <el-button
-                  id="monitorBtn"
-                  type="text"
-                  size="small"
-                  @click="handleMonitor(scope.row)"
-                >
-                  {{ $t('edgeNode.monitor') }}
-                </el-button>
-                <el-button
-                  id="detailBtn"
-                  type="text"
-                  size="small"
-                  @click="showDetails(scope.row)"
-                >
-                  {{ $t('edgeNode.detail') }}
-                </el-button>
-                <el-button
-                  id="appDetailBtn"
-                  type="text"
-                  size="small"
-                  @click="showAppDetails(scope.row)"
-                >
-                  {{ $t('edgeNode.appDetails') }}
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-row>
+            <template slot-scope="scope">
+              <em
+                class="el-icon-success"
+                :style="{color: '#67C23A'}"
+              />
+              <span style="margin-left: 10px">{{ scope.row.mechostName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="mechostIp"
+            :label="$t('app.packageList.ip')"
+          />
+          <el-table-column
+            prop="city"
+            :label="$t('system.edgeNodes.location')"
+          />
+          <el-table-column
+            prop="affinity"
+            :label="$t('app.packageList.affinity')"
+          />
+          <el-table-column
+            :label="$t('system.edgeNodes.hwCapability')"
+          >
+            <template slot-scope="scope">
+              <span
+                v-for="(item,index) in scope.row.hwcapabilities"
+                :key="index"
+              >
+                {{ item.hwType }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            :label="$t('common.operation')"
+            align="center"
+            width="280"
+          >
+            <template slot-scope="scope">
+              <el-button
+                id="deleteBtn"
+                @click.native.prevent="beforeDelete(scope.row)"
+                type="text"
+                size="small"
+              >
+                {{ $t('common.delete') }}
+              </el-button>
+              <el-button
+                id="uploadBtn"
+                @click.native.prevent="uploadFile(scope.row)"
+                type="text"
+                size="small"
+              >
+                {{ $t('system.edgeNodes.uploadFile') }}
+              </el-button>
+              <el-button
+                id="modifyBtn"
+                @click="handleModify(scope.row)"
+                type="text"
+                size="small"
+              >
+                {{ $t('common.modify') }}
+              </el-button>
+              <el-button
+                id="monitorBtn"
+                type="text"
+                size="small"
+                @click="handleMonitor(scope.row)"
+              >
+                {{ $t('edgeNode.monitor') }}
+              </el-button>
+              <el-button
+                id="detailBtn"
+                type="text"
+                size="small"
+                @click="showDetails(scope.row)"
+              >
+                {{ $t('edgeNode.detail') }}
+              </el-button>
+              <el-button
+                id="appDetailBtn"
+                type="text"
+                size="small"
+                @click="showAppDetails(scope.row)"
+              >
+                {{ $t('edgeNode.appDetails') }}
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
         <div class="pageBar">
           <pagination
             :page-sizes="[10,15,20,25]"
@@ -153,11 +146,17 @@
       </div>
       <el-dialog
         :close-on-click-modal="false"
-        :title="title"
         :visible.sync="dialogVisible"
         style="padding-right:30px;"
         width="40%"
+        class="default_dialog"
       >
+        <div
+          slot="title"
+          class="el-dialog__title"
+        >
+          <em class="title_icon" />{{ title }}
+        </div>
         <div class="k8s">
           <el-row>
             <el-form
@@ -165,6 +164,7 @@
               :model="currForm"
               ref="currForm"
               :rules="rules"
+              size="small"
             >
               <el-form-item
                 :label="$t('system.edgeNodes.systemPlatform')"
@@ -172,6 +172,7 @@
                 <el-radio-group
                   v-model="currForm.vim"
                   @change="changeType"
+                  class="default_radio"
                 >
                   <el-radio
                     label="K8S"
@@ -226,7 +227,10 @@
                 :label="$t('app.packageList.affinity')"
                 prop="affinity"
               >
-                <el-radio-group v-model="currForm.affinity">
+                <el-radio-group
+                  v-model="currForm.affinity"
+                  class="default_radio"
+                >
                   <el-radio
                     v-for="(item,index) in affinityList"
                     :key="index"
@@ -300,23 +304,28 @@
         >
           <el-button
             id="cancelBtn"
-            size="small"
+            class="bgBtn"
             @click="cancel()"
           >{{ $t('common.cancel') }}</el-button>
           <el-button
             id="confirmBtn"
-            type="primary"
-            size="small"
+            class="bgBtn"
             @click="confirm('currForm')"
           >{{ $t('common.confirm') }}</el-button>
         </span>
       </el-dialog>
       <el-dialog
         :close-on-click-modal="false"
-        :title="$t('system.edgeNodes.uploadFile')"
         :visible.sync="dialogVisibleUpload"
         width="30%"
+        class="default_dialog"
       >
+        <div
+          slot="title"
+          class="el-dialog__title"
+        >
+          <em class="title_icon" />{{ $t('system.edgeNodes.uploadFile') }}
+        </div>
         <el-upload
           id="upload"
           class="upload-demo"
@@ -340,6 +349,15 @@
             {{ $t('system.edgeNodes.uploadTip') }}
           </div>
         </el-upload>
+        <span
+          slot="footer"
+          class="dialog-footer"
+        >
+          <el-button
+            class="bgBtn"
+            @click="dialogVisibleUpload=false"
+          >{{ $t('common.cancel') }}</el-button>
+        </span>
       </el-dialog>
     </div>
   </div>
@@ -349,11 +367,10 @@
 import { lcmController } from '../tools/request.js'
 import pagination from '../components/Pagination.vue'
 import Search from '../components/Search.vue'
-import Breadcrumb from '../components/BreadCrumb'
 export default {
   name: 'Sysk8s',
   components: {
-    Search, pagination, Breadcrumb
+    Search, pagination
   },
   data () {
     return {
@@ -762,19 +779,36 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.sysk8s{
-  margin: 0 5%;
-  height: 100%;
-  background: #fff;
-  padding: 30px 60px;
-  .table {
-    margin-top: 10px;
+.edge_list{
+  position: relative;
+  .newproject_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px !important;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../assets/images/new_icon.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
+    }
   }
-  .tableDiv {
-    margin-top: 10px;
+  .sysk8s{
+    height: 100%;
+    background: #fff;
+    padding: 30px 60px;
+    border-radius: 20px;
+    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
   }
-}
-.el-col{
-  padding-left:0 !important;
+  .el-col{
+    padding-left:0 !important;
+  }
 }
 </style>

@@ -27,3 +27,8 @@ export default {
   methods: {}
 }
 </script>
+<style lang='less'>
+.home-container{
+  padding-top: 60px;
+}
+</style>

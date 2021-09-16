@@ -18,7 +18,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js'
 import ElementUI from 'element-ui'
-import '../src/assets/style/common.less'
 import 'area-linkage-vue/dist/index.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'element-ui/lib/theme-chalk/display.css'
@@ -32,6 +31,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import './assets/style/element-variables.scss'
 import '../src/assets/style/fonts.css'
+import '../src/assets/style/common.less'
 
 Vue.prototype.showMessage = function (type, msg, time) {
   ElementUI.Message({
