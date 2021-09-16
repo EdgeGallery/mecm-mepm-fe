@@ -125,7 +125,7 @@ export default {
           })
         }, 1000)
       } else {
-        this.$message.error('请输入正确的验证码！')
+        this.$message.error(this.$t('pwdmodify.wrongCode'))
       }
     }
   }
