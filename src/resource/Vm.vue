@@ -7,14 +7,15 @@
     <div class="vmBox">
       <el-row :gutter="10">
         <el-col :span="6">
-          <div style="height: 300px;">
+          <div style="height:300px;">
             <el-steps
               direction="vertical"
               :active="active"
+              simple
             >
-              <el-step title="步骤 1" />
-              <el-step title="步骤 2" />
-              <el-step title="步骤 3" />
+              <el-step />
+              <el-step />
+              <el-step />
             </el-steps>
           </div>
         </el-col>
@@ -268,14 +269,14 @@
             <el-button
               class="work-button"
               @click="active===0?active=1:active=2"
-              v-if="active < 3"
+              v-if="active < 2"
             >
               下一步
             </el-button>
             <el-button
               class="work-button"
               @click="handleClickConfirmBtn"
-              v-if="active >= 3"
+              v-if="active >=2"
             >
               确认提交
             </el-button>
