@@ -21,9 +21,9 @@
       :unique-opened="true"
       router
       @select="handleSelect"
-      text-color="#ffffff"
-      background-color="#280B4E"
-      active-text-color="#688EF3"
+      text-color="#bdb1e4"
+      background-color="#5e40c8"
+      active-text-color="#fff"
       mode="horizontal"
     >
       <!-- 一级菜单 -->

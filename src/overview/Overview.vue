@@ -80,34 +80,53 @@
                 <span class="info-title">
                   资源展示
                 </span>
-                <span
-                  class="infoBtn"
-                  style="float: right;cursor: pointer;"
-                  @click="detailInfoShow=!detailInfoShow"
-                >更多详情<em class="el-icon-right" /></span>
-                <div
-                  v-show="detailInfoShow"
-                  class="detail"
+                <el-popover
+                  placement="bottom"
+                  trigger="click"
                 >
-                  <span class="one">{{ item.detailInfo.resource.inter }}</span>
-                  <span class="two">{{ item.detailInfo.resource.interResource }}</span>
-                  <span class="three">{{ item.detailInfo.resource.GPU }}</span>
-                </div>
+                  <span
+                    slot="reference"
+                    class="infoBtn"
+                    style="float: right;cursor: pointer;"
+                  >更多详情<em class="el-icon-right" /></span>
+                  <div
+                    class="detail"
+                  >
+                    <p class="info-title">
+                      更多资源展示
+                    </p>
+                    <el-form>
+                      <el-form-item label="网络:">
+                        {{ item.detailInfo.resource.inter }}
+                      </el-form-item>
+                      <el-form-item label="x86计算资源:">
+                        {{ item.detailInfo.resource.x86Resource }}
+                      </el-form-item>
+                      <el-form-item label="GPU算力:">
+                        {{ item.detailInfo.resource.GPU }}
+                      </el-form-item>
+                      <el-form-item label="AI加速:">
+                        {{ item.detailInfo.resource.AI }}
+                      </el-form-item>
+                    </el-form>
+                  </div>
+                </el-popover>
+
                 <div class="resources">
                   <div
                     class="chartPie"
                   >
                     <div
                       class="sumchart"
-                      id="GPUchart"
+                      :id="GPUId(index)"
                     />
                     <div
                       class="sumchart"
-                      id="MEMORYchart"
+                      :id="MEMORYId(index)"
                     />
                     <div
                       class="sumchart"
-                      id="DISKchart"
+                      :id="DISKId(index)"
                     />
                   </div>
                   <div style="text-align:center;">
@@ -158,8 +177,9 @@ export default {
           detailInfo: {
             resource: {
               inter: '5G',
-              interResource: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
-              GPU: 'Atlas 200*200'
+              x86Resource: '50C、256G、1T',
+              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              AI: 'Atlas 200*200'
             },
             chartData: [
               {
@@ -197,8 +217,9 @@ export default {
           detailInfo: {
             resource: {
               inter: '5G',
-              interResource: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
-              GPU: 'Atlas 200*200'
+              x86Resource: '50C、256G、1T',
+              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              AI: 'Atlas 200*200'
             },
             chartData: [
               {
@@ -287,19 +308,28 @@ export default {
         this.$router.push('/mepm/resource/container')
       }
     },
+    GPUId (index) {
+      return 'GPUchart' + index
+    },
+    MEMORYId (index) {
+      return 'MEMORYchart' + index
+    },
+    DISKId (index) {
+      return 'DISKchart' + index
+    },
     drawGPUchart () {
-      let Chart = echarts.init(document.getElementById('GPUchart'))
+      let Chart0 = echarts.init(document.getElementById('GPUchart0'))
+      let Chart1 = echarts.init(document.getElementById('GPUchart1'))
       let colors = ['#f86464', '#30e8ed']
       let option = {
         color: colors,
         series: [
           {
-            name: '访问来源',
             type: 'pie',
-            radius: '60%',
+            radius: '70%',
             data: [
               { value: 1048,
-                name: '搜索引擎',
+                name: '已占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -311,7 +341,7 @@ export default {
                   }
                 } },
               { value: 735,
-                name: '直接访问',
+                name: '未占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -322,26 +352,27 @@ export default {
           }
         ]
       }
-      Chart.setOption(option)
+      Chart0.setOption(option)
+      Chart1.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart) {
-          Chart.resize()
+        if (Chart0) {
+          Chart0.resize()
         }
       })
     },
     drawMEMORYchart () {
-      let Chart = echarts.init(document.getElementById('MEMORYchart'))
+      let Chart2 = echarts.init(document.getElementById('MEMORYchart0'))
+      let Chart3 = echarts.init(document.getElementById('MEMORYchart1'))
       let colors = ['#f86464', '#30e8ed']
       let option = {
         color: colors,
         series: [
           {
-            name: '访问来源',
             type: 'pie',
-            radius: '60%',
+            radius: '70%',
             data: [
-              { value: 1048,
-                name: '搜索引擎',
+              { value: 100,
+                name: '已占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -352,8 +383,8 @@ export default {
                     formatter: '{d}%'
                   }
                 } },
-              { value: 735,
-                name: '直接访问',
+              { value: 300,
+                name: '未占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -364,26 +395,27 @@ export default {
           }
         ]
       }
-      Chart.setOption(option)
+      Chart2.setOption(option)
+      Chart3.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart) {
-          Chart.resize()
+        if (Chart2) {
+          Chart2.resize()
         }
       })
     },
     drawDISKchart () {
-      let Chart = echarts.init(document.getElementById('DISKchart'))
+      let Chart4 = echarts.init(document.getElementById('DISKchart0'))
+      let Chart5 = echarts.init(document.getElementById('DISKchart1'))
       let colors = ['#f86464', '#30e8ed']
       let option = {
         color: colors,
         series: [
           {
-            name: '访问来源',
             type: 'pie',
-            radius: '60%',
+            radius: '70%',
             data: [
-              { value: 1048,
-                name: '搜索引擎',
+              { value: 135,
+                name: '已占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -394,8 +426,8 @@ export default {
                     formatter: '{d}%'
                   }
                 } },
-              { value: 735,
-                name: '直接访问',
+              { value: 235,
+                name: '未占用',
                 label: {
                   normal: {
                     position: 'inner',
@@ -406,10 +438,11 @@ export default {
           }
         ]
       }
-      Chart.setOption(option)
+      Chart4.setOption(option)
+      Chart5.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart) {
-          Chart.resize()
+        if (Chart4) {
+          Chart4.resize()
         }
       })
     }
@@ -501,7 +534,7 @@ export default {
         .appimg{
           position: absolute;
           top: 145px;
-          left: 40%;
+          left: 42%;
           width: 15%;
           img{
             width: 100%;
@@ -546,7 +579,6 @@ export default {
           padding: 20px 15px;
           top: 135px;
           right: 10%;
-          // z-index: -1;
           .info-title{
             font-size: 18px;
             font-family: HarmonyOS_Sans_Regular;
@@ -563,45 +595,6 @@ export default {
             font-size: 14px;
             font-family: HarmonyOS_Sans_Regular;
             color: #5e40c8;
-          }
-          .detail{
-            padding: 15px 0 15px 24px;
-            background-color: #fff;
-            border-radius: 15px;
-            z-index: 2;
-            span{
-              margin-right: 20px;
-              color: #827792;
-              font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
-            }
-            .one::before{
-              content: '';
-              display: inline-block;
-              background-image: url('../assets/images/info-one.png');
-              width: 14px;
-              height: 14px;
-              background-position: center;
-              margin-right: 5px;
-            }
-            .two::before{
-              content: '';
-              display: inline-block;
-              background-image: url('../assets/images/info-two.png');
-              width: 14px;
-              height: 14px;
-              background-position: center;
-              margin-right: 5px;
-            }
-            .three::before{
-              content: '';
-              display: inline-block;
-              background-image: url('../assets/images/info-three.png');
-              width: 14px;
-              height: 14px;
-              background-position: center;
-              margin-right: 5px;
-            }
           }
           .resources{
             padding-left: 24px;
@@ -658,4 +651,44 @@ export default {
     }
   }
 }
+.el-popover{
+  border-radius: 15px;
+          .detail{
+            background-color: #fff;
+            border-radius: 20px;
+            width: 310px;
+            .info-title{
+              font-size: 18px;
+              font-family: HarmonyOS_Sans_Regular;
+              color: #5e40c8;
+              padding-bottom: 8px;
+            }
+            .info-title::before{
+              content: '';
+              display: inline-block;
+              background-image: url('../assets/images/info-title.png');
+              width: 12px;
+              height: 12px;
+            }
+            .el-form{
+              padding-left: 12px;
+              color: #5e40c8;
+              font-size: 14px;
+              font-family: HarmonyOS_Sans_Regular;
+              .el-form-item{
+                margin-bottom: 0;
+              }
+              .el-form-item__label{
+                 color: #857a93;
+                 height: 25px;
+                 line-height: 25px;
+              }
+              .el-form-item__content{
+                 height: 25px;
+                 line-height: 25px;
+              }
+            }
+          }
+}
+
 </style>
