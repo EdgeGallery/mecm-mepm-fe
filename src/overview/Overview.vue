@@ -82,9 +82,11 @@
                 </span>
                 <span
                   class="infoBtn"
-                  style="float: right;"
+                  style="float: right;cursor: pointer;"
+                  @click="detailInfoShow=!detailInfoShow"
                 >更多详情<em class="el-icon-right" /></span>
                 <div
+                  v-show="detailInfoShow"
                   class="detail"
                 >
                   <span class="one">{{ item.detailInfo.resource.inter }}</span>
@@ -92,20 +94,32 @@
                   <span class="three">{{ item.detailInfo.resource.GPU }}</span>
                 </div>
                 <div class="resources">
-                  <p>x86计算资源</p>
                   <div
                     class="chartPie"
                   >
                     <div
+                      class="sumchart"
                       id="GPUchart"
                     />
                     <div
+                      class="sumchart"
                       id="MEMORYchart"
                     />
                     <div
+                      class="sumchart"
                       id="DISKchart"
                     />
                   </div>
+                  <div style="text-align:center;">
+                    <span
+                      class="OccupyedBefore"
+                      style="margin-right:15px;"
+                    >已占用</span>
+                    <span class="UsableBefore">未占用</span>
+                  </div>
+                  <p style="text-align:center;margin-top:4px;">
+                    x86计算资源
+                  </p>
                 </div>
               </div>
             </div>
@@ -134,12 +148,13 @@
 </template>
 
 <script>
+import echarts from 'echarts'
 export default {
   data () {
     return {
       allnodeList: [
         {
-          name: 'EgNode',
+          name: '广东_node_v3_12',
           detailInfo: {
             resource: {
               inter: '5G',
@@ -178,7 +193,7 @@ export default {
           ]
         },
         {
-          name: 'OSNode',
+          name: '北京_node_V1.1',
           detailInfo: {
             resource: {
               inter: '5G',
@@ -211,7 +226,7 @@ export default {
             type: 'vm'
           }, {
             name: '贪吃蛇',
-            status: 'null',
+            status: 'success',
             type: 'container'
           }, {
             name: '昇腾应用',
@@ -224,17 +239,17 @@ export default {
       nodeIndex: 0,
       appIndex: 0,
       bgImg: false,
-      carouselHeight: ''
+      carouselHeight: '',
+      detailInfoShow: false
     }
   },
   mounted () {
     // this.setDivHeight()
-    // this.$nextTick(() => {
-    //   this.drawGPUchart()
-    // })
+    this.drawGPUchart()
+    this.drawMEMORYchart()
+    this.drawDISKchart()
     let IndexArr = sessionStorage.getItem('appIndex').split(',')
     if (IndexArr) {
-      let IndexArr = sessionStorage.getItem('appIndex').split(',')
       this.nodeIndex = Number(IndexArr[0])
       this.appIndex = Number(IndexArr[1])
       this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = IndexArr[2]
@@ -266,7 +281,7 @@ export default {
     ConfigSteptwo (node, app) {
       let appIndex = [node, app]
       sessionStorage.setItem('appIndex', appIndex)
-      console.log(node, app)
+      this.$router.push('/mepm/resource/vm')
       if (this.allnodeList[node].appList[app].type === 'vm') {
         this.$router.push('/mepm/resource/vm')
       } else {
@@ -274,19 +289,120 @@ export default {
       }
     },
     drawGPUchart () {
-      let Chart = this.$echarts.init(document.getElementById('GPUchart'))
+      let Chart = echarts.init(document.getElementById('GPUchart'))
+      let colors = ['#f86464', '#30e8ed']
       let option = {
+        color: colors,
         series: [
           {
             name: '访问来源',
             type: 'pie',
-            radius: '50%',
+            radius: '60%',
             data: [
-              { value: 1048, name: '搜索引擎' },
-              { value: 735, name: '直接访问' },
-              { value: 580, name: '邮件营销' },
-              { value: 484, name: '联盟广告' },
-              { value: 300, name: '视频广告' }
+              { value: 1048,
+                name: '搜索引擎',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                } },
+              { value: 735,
+                name: '直接访问',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    show: false
+                  }
+                } }
+            ]
+          }
+        ]
+      }
+      Chart.setOption(option)
+      window.addEventListener('resize', () => {
+        if (Chart) {
+          Chart.resize()
+        }
+      })
+    },
+    drawMEMORYchart () {
+      let Chart = echarts.init(document.getElementById('MEMORYchart'))
+      let colors = ['#f86464', '#30e8ed']
+      let option = {
+        color: colors,
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: '60%',
+            data: [
+              { value: 1048,
+                name: '搜索引擎',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                } },
+              { value: 735,
+                name: '直接访问',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    show: false
+                  }
+                } }
+            ]
+          }
+        ]
+      }
+      Chart.setOption(option)
+      window.addEventListener('resize', () => {
+        if (Chart) {
+          Chart.resize()
+        }
+      })
+    },
+    drawDISKchart () {
+      let Chart = echarts.init(document.getElementById('DISKchart'))
+      let colors = ['#f86464', '#30e8ed']
+      let option = {
+        color: colors,
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: '60%',
+            data: [
+              { value: 1048,
+                name: '搜索引擎',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                } },
+              { value: 735,
+                name: '直接访问',
+                label: {
+                  normal: {
+                    position: 'inner',
+                    show: false
+                  }
+                } }
             ]
           }
         ]
@@ -431,6 +547,7 @@ export default {
           padding: 20px 15px;
           top: 135px;
           right: 10%;
+          // z-index: -1;
           .info-title{
             font-size: 18px;
             font-family: HarmonyOS_Sans_Regular;
@@ -450,6 +567,9 @@ export default {
           }
           .detail{
             padding: 15px 0 15px 24px;
+            background-color: #fff;
+            border-radius: 15px;
+            z-index: 2;
             span{
               margin-right: 20px;
               color: #827792;
@@ -490,6 +610,36 @@ export default {
               color: #827792;
               font-size: 14px;
               font-family: HarmonyOS_Sans_Regular;
+            }
+            .chartPie{
+              display: flex;
+              .sumchart{
+                width: 80%;
+                height: 100px;
+              }
+            }
+            .OccupyedBefore,.UsableBefore{
+              color: #827792;
+              font-size: 14px;
+              font-family: HarmonyOS_Sans_Regular;
+            }
+            .OccupyedBefore::before{
+              content: '';
+              display: inline-block;
+              width: 8px;
+              height: 8px;
+              background-color: #f86464;
+              border-radius: 50%;
+              margin-right: 5px;
+            }
+            .UsableBefore::before{
+              content: '';
+              display: inline-block;
+              width: 8px;
+              height: 8px;
+              background-color: #30e8ed;
+              border-radius: 50%;
+              margin-right: 5px;
             }
           }
         }

@@ -103,6 +103,11 @@ export default new Router({
           path: 'mepm/resource/container',
           name: 'container',
           component: () => import('../resource/Container.vue')
+        },
+        {
+          path: 'mecm/image/list',
+          name: 'ImageMgmt',
+          component: () => import('../ImageMgmt/Index.vue')
         }
       ]
     }
