@@ -228,7 +228,7 @@ export default {
 
 <style lang='less' scoped>
 .navgation{
-  background: #280B4E;
+  background: #5e40c8;
   height: 65px;
   top: 0px;
   width: 100%;
@@ -315,7 +315,7 @@ export default {
   left: -20px;
   padding: 5px;
   border-radius: 10px;
-  background: #280b4e;
+  background: #5e40c8;
   p{
     cursor: pointer;
     line-height: 30px;
