@@ -19,6 +19,14 @@
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.ruleConfiguration') }}
       <span class="line_bot1" />
+      <el-button
+        class="newproject_btn linearGradient2"
+        id="syncBtn"
+        @click="saveConfig"
+      >
+        <em class="new_icon" />
+        保存所有配置
+      </el-button>
     </div>
     <div class="ruleconfigcontent">
       <el-tabs
@@ -64,12 +72,12 @@ export default {
         appDnsRule: [],
         appName: '',
         appSupportMp1: true
-      }
+      },
+      showConfirmBtn: false
     }
   },
   methods: {
     getAppRules () {
-      console.log('get app rules from rule config')
       appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
           console.log('response for rule config ->', res.data)
@@ -77,10 +85,20 @@ export default {
           this.appRule = res.data
         }
       })
+    },
+    saveConfig () {
+      let temp = sessionStorage.getItem('appIndex')
+      temp = temp + ',configed'
+      sessionStorage.setItem('appIndex', temp)
+      this.$message.success('保存配置成功！')
+      this.$router.push('/')
     }
   },
   mounted () {
     this.getAppRules()
+    if (this.sessionStorage.getItem('appIndex')) {
+      this.showConfirmBtn = true
+    }
   }
 }
 
@@ -93,4 +111,23 @@ export default {
     border-radius: 20px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
 }
+.newproject_btn{
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px !important;
+    border-radius: 25px;
+    padding: 0 35px;
+    .new_icon{
+      display: inline-block;
+      width: 19px;
+      height: 19px;
+      background: url('../assets/images/new_icon.png');
+      margin-right: 3px;
+      position: relative;
+      top: 2px;
+    }
+  }
 </style>

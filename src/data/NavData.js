@@ -22,21 +22,14 @@ const NavData = [
     'path': '/'
   },
   {
-    'id': '2.2',
-    'name': 'APP Management',
-    'path': '/mecm/app/pakage',
-    'children': [
-      {
-        'id': '2.3',
-        'name': 'Package Management',
-        'path': '/mecm/apac/list'
-      },
-      {
-        'id': '2.5',
-        'name': 'App Instance List',
-        'path': '/mecm/ains/list'
-      }
-    ]
+    'id': '2.3',
+    'name': 'Package Management',
+    'path': '/mecm/apac/list'
+  },
+  {
+    'id': '2.5',
+    'name': 'App Instance List',
+    'path': '/mecm/ains/list'
   },
   {
     'id': '2.6',

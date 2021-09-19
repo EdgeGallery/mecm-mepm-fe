@@ -11,6 +11,7 @@
           :autoplay="false"
           height="800px"
           @change="handleNodeChange"
+          :initial-index="nodeIndex"
         >
           <el-carousel-item
             v-for="(item,index) in allnodeList"
@@ -42,6 +43,7 @@
                   height="210px"
                   trigger="click"
                   @change="handleAppChange"
+                  :initial-index="appIndex"
                 >
                   <el-carousel-item
                     v-for="(appItem,appindex) in item.appList"
@@ -162,13 +164,16 @@ export default {
           },
           appList: [{
             name: '工厂物语',
-            status: 'null'
+            status: 'null',
+            type: 'vm'
           }, {
             name: '金晴云',
-            status: 'configed'
+            status: 'configed',
+            type: 'vm'
           }, {
             name: '兰亭VR',
-            status: 'success'
+            status: 'success',
+            type: 'vm'
           }
           ]
         },
@@ -198,16 +203,20 @@ export default {
           },
           appList: [{
             name: '安恒soc',
-            status: 'null'
+            status: 'null',
+            type: 'vm'
           }, {
             name: '未来物联',
-            status: 'configed'
+            status: 'configed',
+            type: 'vm'
           }, {
             name: '贪吃蛇',
-            status: 'success'
+            status: 'null',
+            type: 'container'
           }, {
             name: '昇腾应用',
-            status: 'success'
+            status: 'success',
+            type: 'container'
           }
           ]
         }
@@ -218,35 +227,29 @@ export default {
       carouselHeight: ''
     }
   },
-  // mounted () {
-  //   this.setDivHeight()
-  //   this.$nextTick(() => {
-  //     this.drawGPUchart()
-  //   })
-  // },
-  watch: {
-    $route (to, from) {
-      console.log(to.path)
-      console.log(from.path)
-      let fromPath = from.path
-      if (fromPath === '/mecm/ruleconfig') {
-        let IndexArr = sessionStorage.getItem('appIndex').split(',')
-        this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = 'configed'
-        sessionStorage.removeItem('appIndex')
-      } else if (fromPath === '/mepm/resource/vm') {
-        let IndexArr = sessionStorage.getItem('appIndex').split(',')
-        this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = 'success'
-        sessionStorage.removeItem('appIndex')
-      }
+  mounted () {
+    // this.setDivHeight()
+    // this.$nextTick(() => {
+    //   this.drawGPUchart()
+    // })
+    let IndexArr = sessionStorage.getItem('appIndex').split(',')
+    if (IndexArr) {
+      let IndexArr = sessionStorage.getItem('appIndex').split(',')
+      this.nodeIndex = Number(IndexArr[0])
+      this.appIndex = Number(IndexArr[1])
+      this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = IndexArr[2]
+      this.handleNodeChange(IndexArr[0])
+      this.handleAppChange(IndexArr[1])
+      sessionStorage.removeItem('appIndex')
     }
   },
   methods: {
     handleNodeChange (index) {
-      this.nodeIndex = index
+      this.nodeIndex = Number(index)
       this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
     },
     handleAppChange (index) {
-      this.appIndex = index
+      this.appIndex = Number(index)
       this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
     },
     setDivHeight () {
@@ -263,7 +266,12 @@ export default {
     ConfigSteptwo (node, app) {
       let appIndex = [node, app]
       sessionStorage.setItem('appIndex', appIndex)
-      this.$router.push('/mepm/resource/vm')
+      console.log(node, app)
+      if (this.allnodeList[node].appList[app].type === 'vm') {
+        this.$router.push('/mepm/resource/vm')
+      } else {
+        this.$router.push('/mepm/resource/container')
+      }
     },
     drawGPUchart () {
       let Chart = this.$echarts.init(document.getElementById('GPUchart'))
