@@ -69,12 +69,108 @@
       <ContainerImage
         v-show="activeName==='container'"
         ref="ContainerImage"
+        :newcontainerdata="newcontainerIamgeData"
       />
       <VMImage
         v-show="activeName==='vm'"
         ref="VMImage"
+        :newvmdata="newVmIamgeData"
       />
     </div>
+    <el-dialog
+      :visible.sync="showUploadImageDlg"
+      width="30%"
+      class="default_dialog"
+    >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />
+        上传容器镜像
+      </div>
+      <div>
+        <div style="text-align:center">
+          <img
+            :src="uploadContainerImageTipImg"
+            alt=""
+          >
+        </div>
+        <div>
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :file-list="fileList"
+            :on-change="handleChange"
+          >
+            <el-button
+              size="small"
+              type="primary"
+            >
+              点击上传
+            </el-button>
+          </el-upload>
+        </div>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          @click="showUploadImageDlg=false"
+          class="bgBtn"
+        >
+          <strong>关闭</strong>
+        </el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="showUploadVmImageDlg"
+      width="30%"
+      class="default_dialog"
+    >
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />
+        上传虚机镜像
+      </div>
+      <div>
+        <div style="text-align:center">
+          <img
+            :src="uploadSystemImageTipImg"
+            alt=""
+          >
+        </div>
+        <div>
+          <el-upload
+            class="upload-demo"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :file-list="fileList"
+            :on-change="handleVmChange"
+          >
+            <el-button
+              size="small"
+              type="primary"
+            >
+              点击上传
+            </el-button>
+          </el-upload>
+        </div>
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          @click="showUploadVmImageDlg=false"
+          class="bgBtn"
+        >
+          <strong>关闭</strong>
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -90,11 +186,69 @@ export default {
   data () {
     return {
       showUploadImageDlg: false,
-      showEditImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
       activeName: 'container',
-      showImageType: false
+      showImageType: false,
+      newcontainerIamgeData: {},
+      newVmIamgeData: {},
+      showUploadVmImageDlg: false,
+      uploadContainerImageTipImg: require('@/assets/images/UploadContainerImageTip.png'),
+      uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png'),
+      fileList: [],
+      fileName: '',
+      vmFileName: ''
+    }
+  },
+  methods: {
+    selectAddType (type) {
+      if (type === 'container') {
+        this.showUploadImageDlg = true
+      } else {
+        this.showUploadVmImageDlg = true
+      }
+    },
+    handleChange (val) {
+      if (val.name !== this.fileName) {
+        this.fileName = val.name
+        this.newcontainerIamgeData = {
+          createTime: '2021-09-18T10:00:41.000+0000',
+          fileName: 'cirror.tar',
+          imageId: '7d8316e5-c3e8-4ae8-8a06-e830920eff39',
+          imageName: 'soft/yunxun-importer',
+          imagePath: '192.168.1.38/developer/vesoft/yunxun-importer:v1',
+          imageStatus: 'UPLOAD_SUCCEED',
+          imageType: 'private',
+          imageVersion: 'v1',
+          uploadTime: '2021-09-18T10:00:41.000+0000',
+          userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
+          userName: 'admin'
+        }
+        this.showUploadImageDlg = false
+        this.$message.success('上传成功！')
+      }
+    },
+    handleVmChange (val) {
+      if (val.name !== this.vmFileName) {
+        this.vmFileName = val.name
+        this.newVmIamgeData = {
+          createTime: '2021-09-18 16:39:30',
+          errorType: 'failedOnUploadToFS',
+          operateSystem: 'ubuntu',
+          status: 'UPLOAD_SUCCESS',
+          systemBit: '64',
+          systemDisk: 50,
+          systemId: 1,
+          systemName: 'yunxun/yunxun-AI',
+          type: 'public',
+          userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
+          userName: 'admin',
+          version: '1.0',
+          systemSize: '152687425'
+        }
+        this.showUploadVmImageDlg = false
+        this.$message.success('上传成功！')
+      }
     }
   }
 }

@@ -65,15 +65,6 @@
           label="版本"
         />
         <el-table-column
-          prop="uploadTime"
-          min-width="12%"
-          label="上传时间"
-        >
-          <template slot-scope="scope">
-            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
-          </template>
-        </el-table-column>
-        <el-table-column
           min-width="10%"
           label="是否公开"
         >
@@ -95,16 +86,13 @@
         >
           <template slot-scope="scope">
             <el-button
-              @click="handleView(scope.row)"
               class="operations_btn"
             >
-              详情
-            </el-button>
-            <el-button
-              @click="handleDownload(scope.row)"
-              class="operations_btn"
-            >
-              下载
+              <a
+                href="./cirros.zip"
+                :download="scope.row.imageName+'.tar'"
+                style="color:#606266;"
+              >下载</a>
             </el-button>
             <el-button
               :disabled="scope.row.userId!==userId"
@@ -126,6 +114,20 @@ export default {
   name: 'ImageMgmt',
   components: {
     Search
+  },
+  props: {
+    newcontainerdata: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    newcontainerdata (val) {
+      console.log(val)
+      if (val) {
+        this.imageListData.push(val)
+      }
+    }
   },
   data () {
     return {
@@ -185,6 +187,33 @@ export default {
     getCurrentPageData (val, pageSize, start) {
       this.limitSize = pageSize
       this.offsetPage = start
+    },
+    handleDelete (row) {
+      this.$confirm('确认删除 ' + row.imageName + ' 镜像？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message.success('删除成功！')
+        this.imageListData.forEach((item, index) => {
+          if (row.imageName === item.imageName) {
+            this.imageListData.splice(index, 1)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    changeImageType (row) {
+      if (row.imageType === 'private') {
+        row.imageType = '公开'
+      } else {
+        row.imageType = '私有'
+      }
+      this.$message.success('修改成功！')
     }
   }
 }
