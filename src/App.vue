@@ -41,7 +41,7 @@ export default {
   font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f5f5f5;
+  background: #f6f5f8;
   background-size:cover;
   position: absolute;
   height: 100%;
