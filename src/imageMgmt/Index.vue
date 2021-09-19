@@ -100,7 +100,6 @@
           <el-upload
             class="upload-demo"
             action="https://jsonplaceholder.typicode.com/posts/"
-            :file-list="fileList"
             :on-change="handleChange"
           >
             <el-button
@@ -110,6 +109,14 @@
               点击上传
             </el-button>
           </el-upload>
+        </div>
+        <div>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="16"
+            :percentage="conPercentage"
+            v-if="showConProgress"
+          />
         </div>
       </div>
       <span
@@ -147,7 +154,6 @@
           <el-upload
             class="upload-demo"
             action="https://jsonplaceholder.typicode.com/posts/"
-            :file-list="fileList"
             :on-change="handleVmChange"
           >
             <el-button
@@ -157,6 +163,14 @@
               点击上传
             </el-button>
           </el-upload>
+        </div>
+        <div>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="16"
+            :percentage="vmPercentage"
+            v-if="showVmProgress"
+          />
         </div>
       </div>
       <span
@@ -197,7 +211,13 @@ export default {
       uploadSystemImageTipImg: require('@/assets/images/UploadSystemImageTip.png'),
       fileList: [],
       fileName: '',
-      vmFileName: ''
+      vmFileName: '',
+      showConProgress: false,
+      conPercentage: 0,
+      showVmProgress: false,
+      vmPercentage: 0,
+      conInterval: null,
+      vmInterval: null
     }
   },
   methods: {
@@ -211,43 +231,61 @@ export default {
     handleChange (val) {
       if (val.name !== this.fileName) {
         this.fileName = val.name
-        this.newcontainerIamgeData = {
-          createTime: '2021-09-18T10:00:41.000+0000',
-          fileName: 'cirror.tar',
-          imageId: '7d8316e5-c3e8-4ae8-8a06-e830920eff39',
-          imageName: 'soft/yunxun-importer',
-          imagePath: '192.168.1.38/developer/vesoft/yunxun-importer:v1',
-          imageStatus: 'UPLOAD_SUCCEED',
-          imageType: 'private',
-          imageVersion: 'v1',
-          uploadTime: '2021-09-18T10:00:41.000+0000',
-          userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
-          userName: 'admin'
-        }
-        this.showUploadImageDlg = false
-        this.$message.success('上传成功！')
+        this.conPercentage = 0
+        this.showConProgress = true
+        this.conInterval = setInterval(() => {
+          this.conPercentage += 10
+          if (this.conPercentage === 100) {
+            this.conInterval = null
+            clearInterval(this.conInterval)
+            this.newcontainerIamgeData = {
+              createTime: '2021-09-18T10:00:41.000+0000',
+              fileName: 'cirror.tar',
+              imageId: '7d8316e5-c3e8-4ae8-8a06-e830920eff39',
+              imageName: 'soft/yunxun-importer',
+              imagePath: '192.168.1.38/developer/vesoft/yunxun-importer:v1',
+              imageStatus: 'UPLOAD_SUCCEED',
+              imageType: 'private',
+              imageVersion: 'v1',
+              uploadTime: '2021-09-18T10:00:41.000+0000',
+              userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
+              userName: 'admin'
+            }
+            this.showUploadImageDlg = false
+            this.$message.success('上传成功！')
+          }
+        }, 1000)
       }
     },
     handleVmChange (val) {
       if (val.name !== this.vmFileName) {
         this.vmFileName = val.name
-        this.newVmIamgeData = {
-          createTime: '2021-09-18 16:39:30',
-          errorType: 'failedOnUploadToFS',
-          operateSystem: 'ubuntu',
-          status: 'UPLOAD_SUCCESS',
-          systemBit: '64',
-          systemDisk: 50,
-          systemId: 1,
-          systemName: 'yunxun/yunxun-AI',
-          type: 'public',
-          userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
-          userName: 'admin',
-          version: '1.0',
-          systemSize: '152687425'
-        }
-        this.showUploadVmImageDlg = false
-        this.$message.success('上传成功！')
+        this.vmPercentage = 0
+        this.showVmProgress = true
+        this.vmInterval = setInterval(() => {
+          this.vmPercentage += 10
+          if (this.vmPercentage === 100) {
+            this.vmInterval = null
+            clearInterval(this.vmInterval)
+            this.newVmIamgeData = {
+              createTime: '2021-09-18 16:39:30',
+              errorType: 'failedOnUploadToFS',
+              operateSystem: 'ubuntu',
+              status: 'UPLOAD_SUCCESS',
+              systemBit: '64',
+              systemDisk: 50,
+              systemId: 1,
+              systemName: 'yunxun/yunxun-AI',
+              type: 'public',
+              userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
+              userName: 'admin',
+              version: '1.0',
+              systemSize: '152687425'
+            }
+            this.showUploadVmImageDlg = false
+            this.$message.success('上传成功！')
+          }
+        }, 1000)
       }
     }
   }
