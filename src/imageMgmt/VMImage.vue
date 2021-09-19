@@ -37,19 +37,12 @@
           prop="systemName"
           label="镜像名称"
           show-overflow-tooltip
-          min-width="10%"
+          min-width="15%"
         >
           <template slot-scope="scope">
             {{ scope.row.systemName }}
           </template>
         </el-table-column>
-        <el-table-column
-          :column-key="'type'"
-          min-width="11%"
-          label="镜像类型"
-          show-overflow-tooltip
-          :filters="typeData"
-        />
         <el-table-column
           prop="userName"
           min-width="10%"
@@ -62,7 +55,6 @@
           min-width="14.5%"
           label="操作系统"
           show-overflow-tooltip
-          :filters="osData"
         />
         <el-table-column
           prop="systemSize"
@@ -80,22 +72,11 @@
           show-overflow-tooltip
         />
         <el-table-column
-          prop="uploadTime"
-          min-width="11.5%"
-          label="上传时间"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            {{ scope.row.uploadTime?scope.row.uploadTime.substring(0,10):'' }}
-          </template>
-        </el-table-column>
-        <el-table-column
           :column-key="'status'"
           min-width="9.5%"
           label="状态"
           :formatter="convertStatus"
           show-overflow-tooltip
-          :filters="statusData"
         >
           上传成功
         </el-table-column>
@@ -105,96 +86,20 @@
         >
           <template slot-scope="scope">
             <el-button
-              @click="handleView(scope.row)"
+              @click="handleDelete(scope.row)"
               class="operations_btn"
             >
-              详情
+              删除
             </el-button>
             <el-button
-              @mouseenter.native="showMoreBtnFun(scope.$index)"
-              @mouseleave.native="showMoreBtnFun(-1)"
+              :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
               class="operations_btn"
             >
-              更多
-              <el-collapse-transition>
-                <div
-                  v-show="currentIndex===scope.$index"
-                  class="btn_div el-icon-caret-top"
-                  @mouseenter="showMoreBtnFun(scope.$index)"
-                  @mouseleave="showMoreBtnFun(-1)"
-                >
-                  <ul class="dropdown_list">
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        @click="handleEdit(scope.row)"
-                      >
-                        编辑
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status==='UPLOADING' || scope.row.status==='UPLOADING_MERGING'"
-                        @click="handleDelete(scope.row)"
-                      >
-                        删除
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status==='UPLOADING_MERGING' || scope.row.status==='PUBLISHED'"
-                        @click="handleUpload(scope.row)"
-                      >
-                        上传
-                      </el-button>
-                    </li>
-                    <li>
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
-                        @click="handleDownload(scope.row)"
-                      >
-                        下载
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status!=='UPLOAD_SUCCEED'"
-                        @click="handlePublish(scope.row)"
-                      >
-                        发布
-                      </el-button>
-                    </li>
-                    <li v-if="isAdmin || userId===scope.row.userId">
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="scope.row.status!=='UPLOADING'"
-                        @click="handleReset(scope.row)"
-                      >
-                        重置
-                      </el-button>
-                    </li>
-                    <li>
-                      <em />
-                      <el-button
-                        type="text"
-                        :disabled="true"
-                      >
-                        瘦身
-                      </el-button>
-                    </li>
-                  </ul>
-                </div>
-              </el-collapse-transition>
+              <a
+                href="./cirros.zip"
+                :download="scope.row.systemName+'.tar'"
+                style="color:#606266;"
+              >下载</a>
             </el-button>
           </template>
         </el-table-column>
@@ -209,6 +114,19 @@ export default {
   name: 'ImageMgmt',
   components: {
     Search
+  },
+  props: {
+    newvmdata: {
+      type: Object,
+      required: true
+    }
+  },
+  watch: {
+    newvmdata (val) {
+      if (val) {
+        this.imageListData.push(val)
+      }
+    }
   },
   data () {
     return {
@@ -233,18 +151,21 @@ export default {
         sortOrder: 'DESC'
       },
       imageListData: [
-        { createTime: '2021-09-18 16:39:30',
+        {
+          createTime: '2021-09-18 16:39:30',
           errorType: 'failedOnUploadToFS',
           operateSystem: 'ubuntu',
           status: 'UPLOAD_FAILED',
           systemBit: '64',
           systemDisk: 50,
           systemId: 1,
-          systemName: 'zwjtest',
+          systemName: 'anheng/anheng-waf',
           type: 'public',
           userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
           userName: 'admin',
-          version: '1.0' }
+          version: '1.0',
+          systemSize: '152687425'
+        }
       ],
       imageType: 'All',
       showEditImageDlg: false,
@@ -252,14 +173,7 @@ export default {
       showViewImageDlg: false,
       currentImageData: {},
       screenHeight: document.body.clientHeight,
-      osData: [
-        { text: 'ubuntu', value: 'ubuntu' },
-        { text: 'centos', value: 'centos' },
-        { text: 'window', value: 'window' },
-        { text: 'cirros', value: 'cirros' }
-      ],
       statusData: [],
-      typeData: [],
       currentIndex: -1
     }
   },
@@ -286,9 +200,32 @@ export default {
           return statusOption.text
         }
       }
-
       return this.$t('common.unknown')
-    }
+    },
+    handleView () {
+
+    },
+    handleEdit () {},
+    handleDelete (row) {
+      this.$confirm('确认删除 ' + row.systemName + ' 镜像？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message.success('删除成功！')
+        this.imageListData.forEach((item, index) => {
+          if (row.systemName === item.systemName) {
+            this.imageListData.splice(index, 1)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    handleUpload () {}
   }
 }
 </script>
