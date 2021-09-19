@@ -128,6 +128,8 @@ export default {
         this.indexName = '/'
       } else if (this.indexName.includes('edge-details')) {
         this.indexName = '/mecm/node/list'
+      } else if (this.indexName.includes('mepm/resource')) {
+        this.indexName = '/'
       } else {
         this.indexName = to.path
       }
