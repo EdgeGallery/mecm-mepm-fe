@@ -1,211 +1,299 @@
 <template>
   <div class="overview">
-    <div class="banner">
-      <div class="pl-255 pt-118">
-        <div class="fs-28 font-regular">
-          EDGE NODE MANAGEMENT PLATFORM
-        </div>
-        <div class="fs-74 font-bold font-weight-600 space-6">
-          边缘节点管理平台
-        </div>
-        <div class="banner-buttons">
-          <el-button
-            @click="jumpToEdgeNodesPage()"
-          >
-            {{ $t("nav.edgeNodes") }}
-          </el-button>
-          <el-button
-            @click="jumpToPackagePage()"
-          >
-            {{ $t("nav.packageMana") }}
-          </el-button>
-        </div>
+    <div class="mid-content">
+      <div class="title_top font-bold">
+        概览
+        <span class="line_bot" />
       </div>
-    </div>
-    <div class="content">
-      <div class="package-area">
-        <div class="package-data right-division">
-          <img
-            src="../assets/images/usable_package.png"
-            alt="usable package count."
+      <div class="content">
+        <el-carousel
+          arrow="always"
+          :autoplay="false"
+          height="800px"
+          @change="handleNodeChange"
+        >
+          <el-carousel-item
+            v-for="(item,index) in allnodeList"
+            :key="index"
           >
-          <div class="words-area">
-            <div class="words-area-title">
-              {{ $t("overview.availablePackage") }}
-            </div>
-            <div class="words-area-value">
-              {{ packageUploadedCount }}
-            </div>
-          </div>
-        </div>
-        <div class="package-data right-division">
-          <img
-            src="../assets/images/distributed_package.png"
-            alt="distributed package count."
-          >
-          <div class="words-area">
-            <div class="words-area-title">
-              {{ $t("overview.distributedPackage") }}
-            </div>
-            <div class="words-area-value">
-              {{ distributedCount }}
-            </div>
-          </div>
-        </div>
-        <div class="package-data">
-          <img
-            src="../assets/images/deployed_package.png"
-            alt="deployed package count."
-          >
-          <div class="words-area">
-            <div class="words-area-title">
-              {{ $t("overview.deployedPackage") }}
-            </div>
-            <div class="words-area-value">
-              {{ deployedCount }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        v-if="nodeList.length > 0"
-        class="node-area"
-      >
-        <div class="node-area-title">
-          {{ $t("overview.nodeInfo") }}
-        </div>
-        <div class="node-area-title-underline" />
-        <div class="node-list">
-          <el-row class="mb-30">
-            <el-col :span="16">
-              <div class="fs-18 pb-10">
-                {{ $t("overview.commonNodesInfo") }}
+            <div
+              class="edge-info"
+              id="edge-info"
+            >
+              <div class="top-name">
+                <span>{{ item.name }}</span>
               </div>
-              <el-radio-group v-model="radio">
-                <el-radio
-                  v-for="(item, index) in nodeList.slice(0, 6)"
-                  :key="index"
-                  :label="index"
-                />
-              </el-radio-group>
-            </el-col>
-            <el-col :span="8">
-              <el-button
-                @click="moreNodesInfo()"
-                class="float-right"
+              <img
+                v-if="bgImg===false"
+                class="content-img"
+                src="../assets/images/start_bg.png"
+                alt=""
               >
-                {{ $t('overview.moreNodes') }}
-              </el-button>
-            </el-col>
-          </el-row>
-          <NodeDetails
-            :detail="curShownNodeInfo"
-          />
-        </div>
+              <img
+                v-else
+                class="content-img"
+                src="../assets/images/configured_bg.png"
+                alt=""
+              >
+              <div class="appimg">
+                <el-carousel
+                  arrow="never"
+                  :autoplay="false"
+                  height="210px"
+                  trigger="click"
+                  @change="handleAppChange"
+                >
+                  <el-carousel-item
+                    v-for="(appItem,appindex) in item.appList"
+                    :key="appindex"
+                  >
+                    <img
+                      class="startConfig"
+                      v-if="appItem.status==='null'"
+                      src="../assets/images/start-appicon.png"
+                      alt=""
+                      @click="startConfig(index,appindex)"
+                    >
+                    <img
+                      v-else-if="appItem.status==='configed'"
+                      src="../assets/images/appicon_config.png"
+                      alt=""
+                      @click="ConfigSteptwo(index,appindex)"
+                    >
+                    <img
+                      v-else-if="appItem.status==='success'"
+                      src="../assets/images/appicon_suc.png"
+                      alt=""
+                    >
+                    <img
+                      v-else-if="appItem.status==='fail'"
+                      src="../assets/images/appicon_fail.png"
+                      alt=""
+                    >
+                    <p>{{ appItem.name }}</p>
+                  </el-carousel-item>
+                </el-carousel>
+              </div>
+              <div class="resources-show">
+                <span class="info-title">
+                  资源展示
+                </span>
+                <span
+                  class="infoBtn"
+                  style="float: right;"
+                >更多详情<em class="el-icon-right" /></span>
+                <div
+                  class="detail"
+                >
+                  <span class="one">{{ item.detailInfo.resource.inter }}</span>
+                  <span class="two">{{ item.detailInfo.resource.interResource }}</span>
+                  <span class="three">{{ item.detailInfo.resource.GPU }}</span>
+                </div>
+                <div class="resources">
+                  <p>x86计算资源</p>
+                  <div
+                    class="chartPie"
+                  >
+                    <div
+                      id="GPUchart"
+                    />
+                    <div
+                      id="MEMORYchart"
+                    />
+                    <div
+                      id="DISKchart"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+        <!-- <img
+          class="leftArrow"
+          src="../assets/images/leftArrow.png"
+          alt=""
+        >
+
+        <el-tooltip
+          effect="dark"
+          content="切换下一个节点"
+          placement="bottom-end"
+        >
+          <img
+            class="rightArrow"
+            src="../assets/images/rightArrow.png"
+            alt=""
+          >
+        </el-tooltip> -->
       </div>
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
-import NodeDetails from './NodeDetails.vue'
-import Footer from '../components/Footer.vue'
-import { lcmController } from '../tools/request.js'
 export default {
-  components: { NodeDetails, Footer },
   data () {
     return {
-      retryCount: 3,
-      packageUploadedCount: 0,
-      distributedCount: 0,
-      deployedCount: 0,
-      nodeList: [],
-      radio: 0
+      allnodeList: [
+        {
+          name: 'EgNode',
+          detailInfo: {
+            resource: {
+              inter: '5G',
+              interResource: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              GPU: 'Atlas 200*200'
+            },
+            chartData: [
+              {
+                name: 'CPU',
+                Occupyed: '20',
+                Usable: '80'
+              }, {
+                name: 'MEMORY',
+                Occupyed: '20',
+                Usable: '80'
+              }, {
+                name: 'DISK',
+                Occupyed: '20',
+                Usable: '80'
+              }
+            ]
+          },
+          appList: [{
+            name: '工厂物语',
+            status: 'null'
+          }, {
+            name: '金晴云',
+            status: 'configed'
+          }, {
+            name: '兰亭VR',
+            status: 'success'
+          }
+          ]
+        },
+        {
+          name: 'OSNode',
+          detailInfo: {
+            resource: {
+              inter: '5G',
+              interResource: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              GPU: 'Atlas 200*200'
+            },
+            chartData: [
+              {
+                name: 'CPU',
+                Occupyed: '20',
+                Usable: '80'
+              }, {
+                name: 'MEMORY',
+                Occupyed: '20',
+                Usable: '80'
+              }, {
+                name: 'DISK',
+                Occupyed: '20',
+                Usable: '80'
+              }
+            ]
+          },
+          appList: [{
+            name: '安恒soc',
+            status: 'null'
+          }, {
+            name: '未来物联',
+            status: 'configed'
+          }, {
+            name: '贪吃蛇',
+            status: 'success'
+          }, {
+            name: '昇腾应用',
+            status: 'success'
+          }
+          ]
+        }
+      ],
+      nodeIndex: 0,
+      appIndex: 0,
+      bgImg: false,
+      carouselHeight: ''
     }
   },
-  computed: {
-    curShownNodeInfo: function () {
-      if (this.nodeList.length > this.radio) {
-        return this.nodeList[this.radio]
+  // mounted () {
+  //   this.setDivHeight()
+  //   this.$nextTick(() => {
+  //     this.drawGPUchart()
+  //   })
+  // },
+  watch: {
+    $route (to, from) {
+      console.log(to.path)
+      console.log(from.path)
+      let fromPath = from.path
+      if (fromPath === '/mecm/ruleconfig') {
+        let IndexArr = sessionStorage.getItem('appIndex').split(',')
+        this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = 'configed'
+        sessionStorage.removeItem('appIndex')
+      } else if (fromPath === '/mepm/resource/vm') {
+        let IndexArr = sessionStorage.getItem('appIndex').split(',')
+        this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = 'success'
+        sessionStorage.removeItem('appIndex')
       }
-      return null
     }
   },
   methods: {
-    jumpToEdgeNodesPage () {
-      this.$router.push({ name: 'hostOverview' })
+    handleNodeChange (index) {
+      this.nodeIndex = index
+      this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
     },
-    jumpToPackagePage () {
-      this.$router.push({ name: 'apaclist' })
+    handleAppChange (index) {
+      this.appIndex = index
+      this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
     },
-    moreNodesInfo () {
-      this.$router.push({ name: 'hostOverview' })
+    setDivHeight () {
+      this.$nextTick(() => {
+        const appDiv = document.getElementById('edge-info')
+        this.carouselHeight = appDiv.clientHeight + 'px'
+      })
     },
-    async getAppDistributedCount () {
-      let isQuerySuccess = false
-      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getDistributionList().then(res => {
-          let count = 0
-          if (res.data && res.data.length > 0) {
-            this.packageUploadedCount = res.data.length
-            res.data.forEach(item => {
-              count = count + this.getDistributedCountForHost(item)
-            })
-            this.distributedCount = count
-            isQuerySuccess = true
+    startConfig (node, app) {
+      let appIndex = [node, app]
+      sessionStorage.setItem('appIndex', appIndex)
+      this.$router.push('/mecm/ruleconfig')
+    },
+    ConfigSteptwo (node, app) {
+      let appIndex = [node, app]
+      sessionStorage.setItem('appIndex', appIndex)
+      this.$router.push('/mepm/resource/vm')
+    },
+    drawGPUchart () {
+      let Chart = this.$echarts.init(document.getElementById('GPUchart'))
+      let option = {
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: '50%',
+            data: [
+              { value: 1048, name: '搜索引擎' },
+              { value: 735, name: '直接访问' },
+              { value: 580, name: '邮件营销' },
+              { value: 484, name: '联盟广告' },
+              { value: 300, name: '视频广告' }
+            ]
           }
-        }).catch((error) => {
-          console.log('Failed to get distribution count', error.response)
-        })
+        ]
       }
-    },
-    getDistributedCountForHost (resItem) {
-      let count = 0
-      if (resItem.mecHostInfo && resItem.mecHostInfo.length > 0) {
-        resItem.mecHostInfo.forEach(host => {
-          if (host.status === 'Distributed') {
-            count++
-          }
-        })
-      }
-      return count
-    },
-    async getAppInfo () {
-      let isQuerySuccess = false
-      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getInstanceList().then(res => {
-          if (res.data) {
-            this.deployedCount = res.data.length
-            isQuerySuccess = true
-          }
-        }).catch((error) => {
-          console.log('Failed to get Instance count', error.response)
-        })
-      }
-    },
-    async getTotalNodes () {
-      let isQuerySuccess = false
-      for (let i = 0; i < this.retryCount && !isQuerySuccess; i++) {
-        await lcmController.getHostList().then(res => {
-          if (res.data && res.data.length > 0) {
-            this.nodeList = res.data
-            isQuerySuccess = true
-          }
-        }).catch((error) => {
-          console.log('Failed to get host list -> ', error.response)
-        })
-      }
+      Chart.setOption(option)
+      window.addEventListener('resize', () => {
+        if (Chart) {
+          Chart.resize()
+        }
+      })
     }
-  },
-  created () {
-    this.getAppDistributedCount()
-    this.getAppInfo()
-    this.getTotalNodes()
   }
 }
 </script>
-<style lang='less' scoped>
+<style lang='less'>
 .font-bold{
   font-family: HarmonyOS_Sans_Bold, Arial, Helvetica, sans-serif;
 }
@@ -244,114 +332,171 @@ export default {
 }
 .overview{
   margin-top: 60px;
-  background-color: #FFFFFF;
-  .banner{
-    height: 545px;
-    background: center / cover no-repeat url("../assets/images/banner_new.png");
-    color: #FFFFFF;
-    .banner-buttons{
-      padding-top: 34.5px;
-      .el-button{
-        font-size: 20px!important;
-        background-color: unset;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 6px;
-        padding: 14px 30px;
-      }
-      .el-button:hover{
-        color: #F5EA6E;
-        border: 1px solid #F5EA6E;
-      }
+  background-color: #f6f5f8;
+  .mid-content{
+    padding: 0 13%;
+    .title_top{
+      padding: 80px 0 40px;
+      margin-left: 140px;
+      font-size: 36px;
+      color: #380879;
+      background-image: url('../assets/images/overview-title-bg.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100%;
     }
-    .banner-buttons :nth-child(2) {
-      margin-left: 60px;
+    .line_bot{
+      display: block;
+      width: 88px;
+      height: 7px;
+      border-radius: 4px;
+      background: rgba(158, 123, 205, 0.2);
+      margin-top: 15px;
+      flex-shrink: 0;
     }
-  }
-  .content{
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 115px;
-    .package-area{
-      margin-top: -74px;
-      background-color: #FFFFFF;
-      border-radius: 8px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      text-align: center;
-      overflow: visible;
-      box-shadow: 0px 0px 38px 10px rgba(214, 187, 249, 0.2) inset;
-      .package-data{
-        height: 208px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .words-area{
-          margin-left: 20px;
-          text-align: left;
-          .words-area-title{
-            font-size: 20px;
-            font-weight: 400;
-            color: #280B4E;
-            line-height: 26px;
-          }
-          .words-area-value{
-            font-size: 36px;
-            font-weight: 400;
-            color: #FD8864;
-            line-height: 62px;
+    .content{
+      position: relative;
+      .edge-info{
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 34px 56px;
+        margin-bottom: 40px;
+        position: relative;
+        .top-name{
+          display: flex;
+          justify-content: space-between;
+          padding-bottom: 15px;
+          span{
+            color: #7a6e8a;
+            font-size: 26px;
+            font-family: HarmonyOS_Sans_Regular;
           }
         }
+        .content-img{
+          width: 100%;
+        }
+        .appimg{
+          position: absolute;
+          top: 145px;
+          left: 40%;
+          width: 15%;
+          img{
+            width: 100%;
+          }
+          p{
+            position: absolute;
+            bottom: 23px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #827792;
+            font-size: 16px;
+            font-family: HarmonyOS_Sans_Regular;
+          }
+          .startConfig{
+             animation: rotate 0.5s infinite linear ;
+          }
+          @keyframes rotate {
+            from {
+                transform: scale(0.98);
+            }
+            to {
+                 transform: scale(1);
+            }
+          }
+          .el-carousel{
+            .el-carousel__indicator--horizontal{
+              padding: 3px 3px;
+              .el-carousel__button{
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #6653c5;
+              }
+            }
+          }
+        }
+        .resources-show{
+          position: absolute;
+          background-color: #dedfea;
+          border-radius: 10px;
+          width: 30%;
+          padding: 20px 15px;
+          top: 135px;
+          right: 10%;
+          .info-title{
+            font-size: 18px;
+            font-family: HarmonyOS_Sans_Regular;
+            color: #5e40c8;
+          }
+          .info-title::before{
+            content: '';
+            display: inline-block;
+            background-image: url('../assets/images/info-title.png');
+            width: 12px;
+            height: 12px;
+          }
+          .infoBtn{
+            font-size: 14px;
+            font-family: HarmonyOS_Sans_Regular;
+            color: #5e40c8;
+          }
+          .detail{
+            padding: 15px 0 15px 24px;
+            span{
+              margin-right: 20px;
+              color: #827792;
+              font-size: 14px;
+              font-family: HarmonyOS_Sans_Regular;
+            }
+            .one::before{
+              content: '';
+              display: inline-block;
+              background-image: url('../assets/images/info-one.png');
+              width: 14px;
+              height: 14px;
+              background-position: center;
+              margin-right: 5px;
+            }
+            .two::before{
+              content: '';
+              display: inline-block;
+              background-image: url('../assets/images/info-two.png');
+              width: 14px;
+              height: 14px;
+              background-position: center;
+              margin-right: 5px;
+            }
+            .three::before{
+              content: '';
+              display: inline-block;
+              background-image: url('../assets/images/info-three.png');
+              width: 14px;
+              height: 14px;
+              background-position: center;
+              margin-right: 5px;
+            }
+          }
+          .resources{
+            padding-left: 24px;
+            p{
+              color: #827792;
+              font-size: 14px;
+              font-family: HarmonyOS_Sans_Regular;
+            }
+          }
+        }
       }
-      .right-division{
-        background: right / 2px 75px no-repeat url('../assets/images/vertical-division.png')
+      .leftArrow,.rightArrow{
+        display: block;
+        position: absolute;
+        top: 50%;
+        cursor: pointer;
       }
-    }
-    .node-area{
-      margin-top: 40px;
-      .node-area-title{
-        font-size: 24px;
-        color: #280B4E;
+      .leftArrow{
+        left: -8%;
       }
-      .node-area-title-underline{
-        margin: 4px 0 0 44px;
-        width: 48px;
-        height: 2px;
-        background: linear-gradient(270deg, #BFABDA, #280B4E);
-      }
-      .node-list{
-        margin-top: 30px;
-        background: #F4F4FF;
-        box-shadow: 0px 1px 51px 0px rgba(209, 209, 209, 0.2);
-        border-radius: 8px;
-        padding: 30px 40px 40px 40px;
-        /deep/ .el-radio__label{
-          display: none;
-        }
-        /deep/ .el-radio{
-          margin-right: 7px;
-        }
-        /deep/ .el-radio__inner{
-          width: 12px;
-          height: 12px;
-          background: #D1D1D1;
-        }
-        /deep/ .el-radio__input.is-checked .el-radio__inner::after{
-          content: none;
-        }
-        /deep/ .el-radio__input.is-checked .el-radio__inner{
-          background: #451F78;
-        }
-        .el-button{
-          font-size: 16px;
-          border-radius: 6px;
-          padding: 8px 12px;
-        }
-        .el-button:hover{
-          background-color: unset;
-          color: #463098;
-          border: 1px solid #463098;
-        }
+      .rightArrow{
+        right: -8%;
       }
     }
   }
