@@ -17,7 +17,7 @@
 <template>
   <div class="package_list padding_default">
     <div class="title_top title_left defaultFontBlod clear">
-      {{ $t('nav.packageMana') }}
+      边缘应用市场
       <span class="line_bot1" />
       <el-button
         class="newproject_btn linearGradient2"

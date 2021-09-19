@@ -489,6 +489,13 @@ export default {
     },
     appendSizeUnit (row, column, cellValue) {
       return cellValue + 'GB'
+    },
+    handleClickConfirmBtn () {
+      let temp = sessionStorage.getItem('appIndex')
+      temp = temp + ',success'
+      sessionStorage.setItem('appIndex', temp)
+      this.$message.success('提交成功，应用部署中！')
+      this.$router.push('/')
     }
   }
 }
