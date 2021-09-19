@@ -107,7 +107,7 @@ export default new Router({
         {
           path: 'mecm/image/list',
           name: 'ImageMgmt',
-          component: () => import('../ImageMgmt/Index.vue')
+          component: () => import('../imageMgmt/Index.vue')
         }
       ]
     }

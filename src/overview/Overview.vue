@@ -281,7 +281,6 @@ export default {
     ConfigSteptwo (node, app) {
       let appIndex = [node, app]
       sessionStorage.setItem('appIndex', appIndex)
-      this.$router.push('/mepm/resource/vm')
       if (this.allnodeList[node].appList[app].type === 'vm') {
         this.$router.push('/mepm/resource/vm')
       } else {
