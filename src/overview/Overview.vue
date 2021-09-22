@@ -273,13 +273,14 @@ export default {
     if (IndexArr) {
       this.nodeIndex = Number(IndexArr[0])
       this.appIndex = Number(IndexArr[1])
-      this.allnodeList[IndexArr[0]].appList[IndexArr[1]].status = IndexArr[2]
       sessionStorage.removeItem('appIndex')
+      this.handleNodeChange(IndexArr[0], IndexArr[2])
+      this.handleAppChange(IndexArr[1], IndexArr[2])
     }
   },
   methods: {
-    handleNodeChange (index, status) {
-      this.nodeIndex = Number(index)
+    handleNodeChange (nodeIndex, status) {
+      this.nodeIndex = Number(nodeIndex)
       if (status === 'success') {
         setTimeout(() => {
           this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
@@ -294,13 +295,17 @@ export default {
       this.appIndex = Number(index)
       if (status === 'success') {
         this.$message.success('提交成功，应用部署中！')
+        this.allnodeList[this.nodeIndex].appList[this.appIndex].status = 'configed'
+        this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         setTimeout(() => {
-          this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+          this.$message.success('应用部署成功！')
+          this.allnodeList[this.nodeIndex].appList[this.appIndex].status = status
         }, 5000)
       } else {
         this.$message.success('保存配置成功！')
+        this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         setTimeout(() => {
-          this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+          this.allnodeList[this.nodeIndex].appList[this.appIndex].status = status
         }, 1000)
       }
     },
