@@ -129,7 +129,7 @@
                       :id="DISKId(index)"
                     />
                   </div>
-                  <div style="text-align:center;">
+                  <div style="text-align:center;margin-top:4px;">
                     <span
                       class="OccupyedBefore"
                       style="margin-right:15px;"
@@ -320,9 +320,20 @@ export default {
     drawGPUchart () {
       let Chart0 = echarts.init(document.getElementById('GPUchart0'))
       let Chart1 = echarts.init(document.getElementById('GPUchart1'))
-      let colors = ['#f86464', '#30e8ed']
+      let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
+        title: {
+          text: 'CPU',
+          x: 'center',
+          y: 'bottom',
+          padding: 0,
+          textStyle: {
+            fontSize: 14,
+            fontStyle: 'normal',
+            fontWeight: 'normal'
+          }
+        },
         series: [
           {
             type: 'pie',
@@ -363,9 +374,20 @@ export default {
     drawMEMORYchart () {
       let Chart2 = echarts.init(document.getElementById('MEMORYchart0'))
       let Chart3 = echarts.init(document.getElementById('MEMORYchart1'))
-      let colors = ['#f86464', '#30e8ed']
+      let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
+        title: {
+          text: 'MEMORY',
+          x: 'center',
+          y: 'bottom',
+          padding: 0,
+          textStyle: {
+            fontSize: 14,
+            fontStyle: 'normal',
+            fontWeight: 'normal'
+          }
+        },
         series: [
           {
             type: 'pie',
@@ -406,9 +428,20 @@ export default {
     drawDISKchart () {
       let Chart4 = echarts.init(document.getElementById('DISKchart0'))
       let Chart5 = echarts.init(document.getElementById('DISKchart1'))
-      let colors = ['#f86464', '#30e8ed']
+      let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
+        title: {
+          text: 'DISK',
+          x: 'center',
+          y: 'bottom',
+          padding: 0,
+          textStyle: {
+            fontSize: 14,
+            fontStyle: 'normal',
+            fontWeight: 'normal'
+          }
+        },
         series: [
           {
             type: 'pie',
@@ -620,7 +653,7 @@ export default {
               display: inline-block;
               width: 8px;
               height: 8px;
-              background-color: #f86464;
+              background-color: #7152db;
               border-radius: 50%;
               margin-right: 5px;
             }
@@ -629,7 +662,7 @@ export default {
               display: inline-block;
               width: 8px;
               height: 8px;
-              background-color: #30e8ed;
+              background-color: #9686e1;
               border-radius: 50%;
               margin-right: 5px;
             }
