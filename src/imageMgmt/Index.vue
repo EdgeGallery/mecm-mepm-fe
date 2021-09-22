@@ -110,14 +110,6 @@
             </el-button>
           </el-upload>
         </div>
-        <div>
-          <el-progress
-            :text-inside="true"
-            :stroke-width="16"
-            :percentage="conPercentage"
-            v-if="showConProgress"
-          />
-        </div>
       </div>
       <span
         slot="footer"
@@ -163,14 +155,6 @@
               点击上传
             </el-button>
           </el-upload>
-        </div>
-        <div>
-          <el-progress
-            :text-inside="true"
-            :stroke-width="16"
-            :percentage="vmPercentage"
-            v-if="showVmProgress"
-          />
         </div>
       </div>
       <span
@@ -239,7 +223,7 @@ export default {
             this.conInterval = null
             clearInterval(this.conInterval)
             this.newcontainerIamgeData = {
-              createTime: '2021-09-18T10:00:41.000+0000',
+              createTime: this.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
               fileName: 'cirror.tar',
               imageId: '7d8316e5-c3e8-4ae8-8a06-e830920eff39',
               imageName: 'soft/yunxun-importer',
@@ -257,6 +241,28 @@ export default {
         }, 1000)
       }
     },
+    formatDate (date, fmt) {
+      if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+      }
+      let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+      }
+      for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+          let str = o[k] + ''
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : this.padLeftZero(str))
+        }
+      }
+      return fmt
+    },
+    padLeftZero (str) {
+      return ('00' + str).substr(str.length)
+    },
     handleVmChange (val) {
       if (val.name !== this.vmFileName) {
         this.vmFileName = val.name
@@ -268,7 +274,7 @@ export default {
             this.vmInterval = null
             clearInterval(this.vmInterval)
             this.newVmIamgeData = {
-              createTime: '2021-09-18 16:39:30',
+              createTime: this.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
               errorType: 'failedOnUploadToFS',
               operateSystem: 'ubuntu',
               status: 'UPLOAD_SUCCESS',

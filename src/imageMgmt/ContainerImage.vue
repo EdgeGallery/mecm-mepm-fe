@@ -43,7 +43,6 @@
         <el-table-column
           prop="imageName"
           label="镜像名称"
-          min-width="14%"
         >
           <template slot-scope="scope">
             {{ scope.row.imageName }}
@@ -51,21 +50,17 @@
         </el-table-column>
         <el-table-column
           prop="imagePath"
-          min-width="24%"
           label="镜像路径"
         />
         <el-table-column
           prop="userName"
-          min-width="9%"
           label="所属用户"
         />
         <el-table-column
           prop="imageVersion"
-          min-width="9%"
           label="版本"
         />
         <el-table-column
-          min-width="10%"
           label="是否公开"
         >
           <template slot-scope="scope">
@@ -81,8 +76,12 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="createTime"
+          label="上传时间"
+          show-overflow-tooltip
+        />
+        <el-table-column
           :label="$t('common.operation')"
-          min-width="22%"
         >
           <template slot-scope="scope">
             <el-button
@@ -149,7 +148,8 @@ export default {
       offsetPage: 0,
       listTotal: 1,
       imageListData: [
-        { createTime: '2021-09-18T10:00:41.000+0000',
+        {
+          createTime: '2021-09-18 10:00:41',
           fileName: 'hello.tar',
           imageId: '7d8316e5-c3e8-4ae8-8a06-e830920eff39',
           imageName: 'vesoft/nebula-importer',
@@ -160,7 +160,6 @@ export default {
           uploadTime: '2021-09-18T10:00:41.000+0000',
           userId: '39937079-99fe-4cd8-881f-04ca8c4fe09d',
           userName: 'admin'
-
         }
       ],
       showEditImageDlg: false,

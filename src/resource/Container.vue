@@ -70,7 +70,8 @@ export default {
           version: 'v1.5.6',
           src: 'lib/anheng/anheng_waf.tar',
           size: '2.41GB',
-          other: 'NA'
+          other: 'NA',
+          createTime: '2021-09-20 10:31'
         },
         {
           id: '3225',
@@ -78,7 +79,8 @@ export default {
           version: 'v1.2',
           src: 'lib/lanting/langting_VR.tar',
           size: '8.41GB',
-          other: 'GPU、CPU'
+          other: 'GPU、CPU',
+          createTime: '2021-09-18 12:01'
         },
         {
           id: '3235',
@@ -86,7 +88,8 @@ export default {
           version: 'v1.5',
           src: 'lib/yunxun/yunxun_AI.tar',
           size: '3.41GB',
-          other: 'CPU'
+          other: 'CPU',
+          createTime: '2021-09-15 10:12'
         },
         {
           id: '3245',
@@ -94,7 +97,8 @@ export default {
           version: 'v0.2.6',
           src: 'lib/huawei/huawei_hetu.tar',
           size: '5.41GB',
-          other: 'GPU、CPU'
+          other: 'GPU、CPU',
+          createTime: '2021-09-13 08:00'
         }
       ],
       imageId: '3215'
@@ -111,7 +115,6 @@ export default {
       let temp = sessionStorage.getItem('appIndex')
       temp = temp + ',success'
       sessionStorage.setItem('appIndex', temp)
-      this.$message.success('提交成功，应用部署中！')
       this.$router.push('/')
     }
   }

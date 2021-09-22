@@ -90,7 +90,6 @@ export default {
       let temp = sessionStorage.getItem('appIndex')
       temp = temp + ',configed'
       sessionStorage.setItem('appIndex', temp)
-      this.$message.success('保存配置成功！')
       this.$router.push('/')
     }
   },
