@@ -247,7 +247,7 @@ export default {
             type: 'vm'
           }, {
             name: '贪吃蛇',
-            status: 'success',
+            status: 'null',
             type: 'container'
           }, {
             name: '昇腾应用',
@@ -536,6 +536,7 @@ export default {
           top: 145px;
           left: 42%;
           width: 15%;
+          cursor: pointer;
           img{
             width: 100%;
           }
