@@ -37,7 +37,6 @@
           prop="systemName"
           label="镜像名称"
           show-overflow-tooltip
-          min-width="15%"
         >
           <template slot-scope="scope">
             {{ scope.row.systemName }}
@@ -45,20 +44,17 @@
         </el-table-column>
         <el-table-column
           prop="userName"
-          min-width="10%"
           label="所属用户"
           show-overflow-tooltip
         />
         <el-table-column
           :column-key="'operateSystem'"
           prop="operateSystem"
-          min-width="14.5%"
           label="操作系统"
           show-overflow-tooltip
         />
         <el-table-column
           prop="systemSize"
-          min-width="12%"
           label="磁盘大小(M)"
         >
           <template slot-scope="scope">
@@ -67,22 +63,16 @@
         </el-table-column>
         <el-table-column
           prop="version"
-          min-width="7%"
           label="版本"
           show-overflow-tooltip
         />
         <el-table-column
-          :column-key="'status'"
-          min-width="9.5%"
-          label="状态"
-          :formatter="convertStatus"
+          prop="createTime"
+          label="上传时间"
           show-overflow-tooltip
-        >
-          上传成功
-        </el-table-column>
+        />
         <el-table-column
           :label="$t('common.operation')"
-          min-width="15%"
         >
           <template slot-scope="scope">
             <el-button

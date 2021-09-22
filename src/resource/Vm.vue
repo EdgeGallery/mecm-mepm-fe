@@ -142,6 +142,11 @@
                     show-overflow-tooltip
                   />
                   <el-table-column
+                    prop="createTime"
+                    label="上传时间"
+                    show-overflow-tooltip
+                  />
+                  <el-table-column
                     prop="otherAbility"
                     label="其他能力"
                     show-overflow-tooltip
@@ -494,7 +499,6 @@ export default {
       let temp = sessionStorage.getItem('appIndex')
       temp = temp + ',success'
       sessionStorage.setItem('appIndex', temp)
-      this.$message.success('提交成功，应用部署中！')
       this.$router.push('/')
     }
   }
