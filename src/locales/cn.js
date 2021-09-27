@@ -149,7 +149,13 @@ const cn = {
     deployedPackage: '已部署的应用包',
     info: '提示：当前环境没有可管理的节点！',
     commonNodesInfo: '常用节点信息展示',
-    moreNodes: '查看更多'
+    moreNodes: '查看更多',
+    resourceDetails: '资源详情',
+    moreDetails: '更多详情',
+    moreResource: '更多资源展示',
+    computeResources: 'x86计算资源',
+    occupyed: '已占用',
+    usable: '未占用'
   },
   footer: {
     about: '关于',

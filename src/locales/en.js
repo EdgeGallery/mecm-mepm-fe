@@ -151,7 +151,13 @@ const en = {
     deployedPackage: 'Deployed Application Packages',
     info: 'hints： No manageable nodes. ',
     commonNodesInfo: 'Common Nodes Info',
-    moreNodes: 'more'
+    moreNodes: 'more',
+    resourceDetails: 'Resource display',
+    moreDetails: 'more',
+    moreResource: ' More Resource display',
+    computeResources: 'x86 Computing Resources',
+    occupyed: 'Occupied',
+    usable: 'Usable'
   },
   footer: {
     about: 'About',

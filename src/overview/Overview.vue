@@ -2,7 +2,7 @@
   <div class="overview">
     <div class="mid-content">
       <div class="title_top font-bold">
-        概览
+        {{ $t('nav.overview') }}
         <span class="line_bot" />
       </div>
       <div class="content">
@@ -27,13 +27,13 @@
               <img
                 v-if="bgImg===false"
                 class="content-img"
-                src="../assets/images/start_bg.png"
+                :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
                 alt=""
               >
               <img
                 v-else
                 class="content-img"
-                src="../assets/images/configured_bg.png"
+                :src="language==='cn'? bgImgUrltwoCn : bgImgUrltwoEn"
                 alt=""
               >
               <div class="appimg">
@@ -78,7 +78,7 @@
               </div>
               <div class="resources-show">
                 <span class="info-title">
-                  资源展示
+                  {{ $t('overview.resourceDetails') }}
                 </span>
                 <el-popover
                   placement="bottom"
@@ -88,12 +88,12 @@
                     slot="reference"
                     class="infoBtn"
                     style="float: right;cursor: pointer;"
-                  >更多详情<em class="el-icon-right" /></span>
+                  >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
                   <div
                     class="detail"
                   >
                     <p class="info-title">
-                      更多资源展示
+                      {{ $t('overview.moreResource') }}
                     </p>
                     <el-form>
                       <el-form-item label="网络:">
@@ -133,11 +133,11 @@
                     <span
                       class="OccupyedBefore"
                       style="margin-right:15px;"
-                    >已占用</span>
-                    <span class="UsableBefore">未占用</span>
+                    >{{ $t('overview.occupyed') }}</span>
+                    <span class="UsableBefore">{{ $t('overview.usable') }}</span>
                   </div>
                   <p style="text-align:center;margin-top:4px;">
-                    x86计算资源
+                    {{ $t('overview.computeResources') }}
                   </p>
                 </div>
               </div>
@@ -261,7 +261,17 @@ export default {
       appIndex: 0,
       bgImg: false,
       carouselHeight: '',
-      detailInfoShow: false
+      detailInfoShow: false,
+      language: localStorage.getItem('language'),
+      bgImgUrloneCn: require('../assets/images/start_bg.png'),
+      bgImgUrloneEn: require('../assets/images/start_bg_en.png'),
+      bgImgUrltwoCn: require('../assets/images/configured_bg.png'),
+      bgImgUrltwoEn: require('../assets/images/configured_bg_en.png')
+    }
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
     }
   },
   mounted () {
