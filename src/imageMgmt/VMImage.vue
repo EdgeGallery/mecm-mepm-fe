@@ -35,7 +35,7 @@
       >
         <el-table-column
           prop="systemName"
-          label="镜像名称"
+          :label="$t('imageMgmt.imageName')"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -44,18 +44,18 @@
         </el-table-column>
         <el-table-column
           prop="userName"
-          label="所属用户"
+          :label="$t('imageMgmt.user')"
           show-overflow-tooltip
         />
         <el-table-column
           :column-key="'operateSystem'"
           prop="operateSystem"
-          label="操作系统"
+          :label="$t('imageMgmt.osName')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="systemSize"
-          label="磁盘大小(M)"
+          :label="$t('imageMgmt.sysDisk')+'(M)'"
         >
           <template slot-scope="scope">
             {{ scope.row.systemSize?(scope.row.systemSize/1024/1024).toFixed(2):'' }}
@@ -63,12 +63,12 @@
         </el-table-column>
         <el-table-column
           prop="version"
-          label="版本"
+          :label="$t('imageMgmt.version')"
           show-overflow-tooltip
         />
         <el-table-column
           prop="createTime"
-          label="上传时间"
+          :label="$t('imageMgmt.uploadTime')"
           show-overflow-tooltip
         />
         <el-table-column
@@ -79,7 +79,7 @@
               @click="handleDelete(scope.row)"
               class="operations_btn"
             >
-              删除
+              {{ $t('common.delete') }}
             </el-button>
             <el-button
               :disabled="scope.row.status!=='UPLOAD_SUCCEED' && scope.row.status!=='PUBLISHED'"
@@ -89,7 +89,7 @@
                 href="./cirros.zip"
                 :download="scope.row.systemName+'.tar'"
                 style="color:#606266;"
-              >下载</a>
+              > {{ $t('common.downLoad') }}</a>
             </el-button>
           </template>
         </el-table-column>
@@ -197,12 +197,12 @@ export default {
     },
     handleEdit () {},
     handleDelete (row) {
-      this.$confirm('确认删除 ' + row.systemName + ' 镜像？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('tip.confirmDelete') + row.imageName + this.$t('tip.image'), this.$t('common.warning'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        this.$message.success('删除成功！')
+        this.$message.success(this.$t('tip.delSuccess'))
         this.imageListData.forEach((item, index) => {
           if (row.systemName === item.systemName) {
             this.imageListData.splice(index, 1)

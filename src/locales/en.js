@@ -151,7 +151,13 @@ const en = {
     deployedPackage: 'Deployed Application Packages',
     info: 'hints： No manageable nodes. ',
     commonNodesInfo: 'Common Nodes Info',
-    moreNodes: 'more'
+    moreNodes: 'more',
+    resourceDetails: 'Resource display',
+    moreDetails: 'more',
+    moreResource: ' More Resource display',
+    computeResources: 'x86 Computing Resources',
+    occupyed: 'Occupied',
+    usable: 'Usable'
   },
   footer: {
     about: 'About',
@@ -343,7 +349,9 @@ const en = {
     detail: 'Detail',
     modify: 'Modify',
     warning: 'Promt',
-    copy: 'Copy'
+    copy: 'Copy',
+    close: 'Close',
+    downLoad: 'Download'
   },
   verify: {
     usernameTip: 'User name can not be empty',
@@ -459,7 +467,10 @@ const en = {
     idMust: 'Please type right rule ID.',
     domainMust: 'Please type right domain name.',
     beforeDeleteAppMgr: 'Are you sure to delete this data?',
-    uploadSuccess: 'Upload success!'
+    uploadSuccess: 'Upload success!',
+    confirmDelete: 'Confirm delete',
+    delSuccess: 'Delete success',
+    image: 'image?'
   },
   area: {
     beijing: 'Beijing',
@@ -555,6 +566,25 @@ const en = {
     TIPS_KEY_SUBSCRIBE: 'Subscription Relation Type',
     DASHBORD_TAB: 'Overview of Applications and Services on Edge Node',
     TOPOLOGY_TAB: 'Topology'
+  },
+  imageMgmt: {
+    imageMgmt: 'Mirror warehouse',
+    container: 'Container',
+    vmImage: 'VM',
+    newImg: 'New System Image',
+    imageName: 'Image Name',
+    beginTime: 'Create Time(Begin)',
+    endTime: 'Create Time(End)',
+    imagePath: 'Image Path',
+    user: 'User',
+    version: 'Version',
+    uploadTime: 'Upload Time',
+    isPublic: 'Is it Public',
+    osName: 'Operate System',
+    sysDisk: 'Disk Size',
+    uploadContainerImage: 'Upload Container Image',
+    uploadVMImage: 'Upload VM Image',
+    upload: 'Click upload'
   },
   ...enLocale
 }
