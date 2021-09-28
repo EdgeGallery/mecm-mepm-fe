@@ -348,7 +348,9 @@ const cn = {
     detail: '详情',
     modify: '编辑',
     warning: '提示',
-    copy: '复制'
+    copy: '复制',
+    close: '关闭',
+    downLoad: '下载'
   },
   verify: {
     usernameTip: '用户名不能为空',
@@ -464,7 +466,10 @@ const cn = {
     idMust: '请填写正确的规则标识',
     domainMust: '请填写正确的域名',
     beforeDeleteAppMgr: '确认要删除本条数据吗？',
-    uploadSuccess: '上传成功！'
+    uploadSuccess: '上传成功!',
+    confirmDelete: '确认删除',
+    delSuccess: '删除成功',
+    image: '镜像？'
   },
   area: {
     beijing: '北京市',
@@ -560,6 +565,25 @@ const cn = {
     TIPS_KEY_SUBSCRIBE: '订阅关系',
     DASHBORD_TAB: '边缘节点的应用和服务概况信息',
     TOPOLOGY_TAB: '拓扑图展示'
+  },
+  imageMgmt: {
+    imageMgmt: '镜像仓库',
+    container: '容器',
+    vmImage: '虚拟机',
+    newImg: '新建系统镜像',
+    imageName: '镜像名称',
+    beginTime: '创建时间(起始)',
+    endTime: '创建时间(结束)',
+    imagePath: '镜像路径',
+    user: '所属用户',
+    version: '版本',
+    uploadTime: '上传时间',
+    isPublic: '是否公开',
+    osName: '操作系统',
+    sysDisk: '磁盘大小',
+    uploadContainerImage: '上传容器镜像',
+    uploadVMImage: '上传虚机镜像',
+    upload: '点击上传'
   },
   ...zhLocale
 }

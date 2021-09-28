@@ -1,7 +1,7 @@
 <template>
   <div class="image_div padding_default">
     <div class="title_top title_left FontBlod">
-      镜像仓库
+      {{ $t('imageMgmt.imageMgmt') }}
       <span class="line_bot1" />
       <el-button
         class="createimage_btn linearGradient2 image_mgmt"
@@ -10,7 +10,7 @@
         @mouseleave.native="showImageType=false"
       >
         <em class="new_icon" />
-        新建系统镜像
+        {{ $t('imageMgmt.newImg') }}
         <em
           class="system_up el-icon-caret-top"
           v-show="showImageType"
@@ -26,13 +26,13 @@
               class="transition-box"
               @click="selectAddType('container')"
             >
-              <em />容器
+              <em />{{ $t('imageMgmt.container') }}
             </div>
             <div
               class="transition-box"
               @click="selectAddType('vm')"
             >
-              <em />虚拟机
+              <em />{{ $t('imageMgmt.vmImage') }}
             </div>
           </div>
         </el-collapse-transition>
@@ -44,7 +44,7 @@
         :class="{'container_active':activeName==='container','container_default':activeName==='vm'}"
       >
         <span>
-          <em class="image_container" />容器
+          <em class="image_container" />{{ $t('imageMgmt.container') }}
         </span>
       </li>
       <li
@@ -52,7 +52,7 @@
         :class="{'vm_active':activeName==='vm','vm_default':activeName==='container'}"
       >
         <span>
-          <em class="image_vm" />虚拟机
+          <em class="image_vm" />{{ $t('imageMgmt.vmImage') }}
         </span>
       </li>
       <li
@@ -87,7 +87,7 @@
         class="el-dialog__title"
       >
         <em class="title_icon" />
-        上传容器镜像
+        {{ $t('imageMgmt.uploadContainerImage') }}
       </div>
       <div>
         <div style="text-align:center">
@@ -106,7 +106,7 @@
               size="small"
               type="primary"
             >
-              点击上传
+              {{ $t('imageMgmt.upload') }}
             </el-button>
           </el-upload>
         </div>
@@ -119,7 +119,7 @@
           @click="showUploadImageDlg=false"
           class="bgBtn"
         >
-          <strong>关闭</strong>
+          <strong> {{ $t('common.close') }}</strong>
         </el-button>
       </span>
     </el-dialog>
@@ -133,7 +133,7 @@
         class="el-dialog__title"
       >
         <em class="title_icon" />
-        上传虚机镜像
+        {{ $t('imageMgmt.uploadVMImage') }}
       </div>
       <div>
         <div style="text-align:center">
@@ -152,7 +152,7 @@
               size="small"
               type="primary"
             >
-              点击上传
+              {{ $t('imageMgmt.upload') }}
             </el-button>
           </el-upload>
         </div>
@@ -165,7 +165,7 @@
           @click="showUploadVmImageDlg=false"
           class="bgBtn"
         >
-          <strong>关闭</strong>
+          <strong> {{ $t('common.close') }}</strong>
         </el-button>
       </span>
     </el-dialog>
@@ -236,7 +236,7 @@ export default {
               userName: 'admin'
             }
             this.showUploadImageDlg = false
-            this.$message.success('上传成功！')
+            this.$message.success("$t('tip.uploadSuccess')")
           }
         }, 1000)
       }
