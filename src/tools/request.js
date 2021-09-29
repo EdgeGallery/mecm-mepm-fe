@@ -178,10 +178,18 @@ let lcmController = {
 
 let appRuleMgr = {
   addConfigRules (type, id, params) {
-    if (type === 2) {
-      return PUT(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+    if (id) {
+      if (type === 2) {
+        return PUT(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+      } else {
+        return POST(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+      }
     } else {
-      return POST(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/' + id + '/appd_configuration', params)
+      if (type === 2) {
+        return PUT(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/390ef60a-e570-49f2-80f8-a8c1077c8eac/appd_configuration', params)
+      } else {
+        return POST(appRuleMgrApi + '/tenants/' + getUserId() + '/app_instances/390ef60a-e570-49f2-80f8-a8c1077c8eac/appd_configuration', params)
+      }
     }
   },
   deleteConfigRules (id, params) {
