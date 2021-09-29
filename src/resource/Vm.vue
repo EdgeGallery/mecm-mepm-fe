@@ -1,7 +1,7 @@
 <template>
   <div class="vm">
     <div class="title_top title_left defaultFontBlod clear">
-      虚机资源
+      {{ $t('resource.vm') }}
       <span class="line_bot1" />
     </div>
     <div class="vmBox">
@@ -24,7 +24,7 @@
             v-if="active==0"
           >
             <div class="work-title">
-              基本信息
+              {{ $t('resource.basicInfo') }}
             </div>
             <div class="work_area">
               <el-form
@@ -33,14 +33,14 @@
                 label-width="auto"
               >
                 <el-form-item
-                  label="虚拟机名称"
+                  :label="$t('resource.vmName')"
                 >
                   <el-input
                     v-model="vmName"
                   />
                 </el-form-item>
                 <el-form-item
-                  label="用户名"
+                  :label="$t('resource.userName')"
                 >
                   <el-input
                     v-model="vmUserName"
@@ -48,7 +48,7 @@
                   />
                 </el-form-item>
                 <el-form-item
-                  label="密码"
+                  :label="$t('resource.password')"
                 >
                   <el-input
                     :disabled="true"
@@ -63,7 +63,7 @@
             v-if="active==1"
           >
             <div class="work-title">
-              虚机规格
+              :label="$t('resource.specification')"
             </div>
             <div class="work_area">
               <el-radio-group
@@ -75,7 +75,7 @@
               </el-radio-group>
               <div class="work-table">
                 <div class="work-table-title">
-                  虚机规格选择
+                  :label="$t('resource.chooseSpec')"
                 </div>
                 <el-table
                   :data="vmRegulationDataList"
@@ -90,7 +90,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column
-                    label="名称"
+                    :label="$t('resource.name')"
                     width="150px"
                     show-overflow-tooltip
                   >
@@ -99,7 +99,7 @@
                     </template>
                   </el-table-column>
                   <el-table-column
-                    label="适用场景"
+                    :label="$t('resource.scene')"
                     width="100px"
                     show-overflow-tooltip
                   >
@@ -123,14 +123,14 @@
                   />
                   <el-table-column
                     prop="systemDisk"
-                    label="硬盘"
+                    :label="$t('resource.disk')"
                     width="105px"
                     :formatter="appendSizeUnit"
                     show-overflow-tooltip
                   />
                   <el-table-column
                     prop="dataDisk"
-                    label="数据盘"
+                    :label="$t('resource.dataDisk')"
                     width="90px"
                     :formatter="appendSizeUnit"
                     show-overflow-tooltip
@@ -143,12 +143,12 @@
                   />
                   <el-table-column
                     prop="createTime"
-                    label="上传时间"
+                    :label="$t('resource.uploadTime')"
                     show-overflow-tooltip
                   />
                   <el-table-column
                     prop="otherAbility"
-                    label="其他能力"
+                    :label="$t('resource.otherCapa')"
                     show-overflow-tooltip
                   />
                 </el-table>
@@ -156,7 +156,7 @@
             </div>
             <div class="work_area">
               <div class="work-title">
-                选择镜像
+                {{ $t('resource.chooseImg') }}
               </div>
               <div class="select-mirror-content">
                 <div class="content-line">
@@ -166,7 +166,7 @@
                     class="work-radio image-type"
                   >
                     <div class="work-p">
-                      公共镜像
+                      {{ $t('resource.publicImg') }}
                     </div>
                   </el-radio>
                   <el-select
@@ -201,7 +201,7 @@
                     class="work-radio image-type"
                   >
                     <div class="work-p">
-                      私有镜像
+                      {{ $t('resource.privateImg') }}
                     </div>
                   </el-radio>
                   <el-select
@@ -237,12 +237,12 @@
             v-if="active==2"
           >
             <div class="work-title">
-              选择网络类型
+              {{ $t('resource.chooseNetworkType') }}
             </div>
             <div class="work_area">
               <div class="select-network">
                 <div class="work-table-title">
-                  网络类型
+                  {{ $t('resource.networkType') }}
                 </div>
                 <div class="work-table">
                   <el-table
@@ -260,11 +260,11 @@
                     <el-table-column
                       prop="networkType"
                       width="200px"
-                      label="类型"
+                      :label="$t('resource.type')"
                       show-overflow-tooltip
                     />
                     <el-table-column
-                      label="描述"
+                      :label="$t('resource.desc')"
                       show-overflow-tooltip
                     >
                       <template slot-scope="scope">
@@ -282,21 +282,21 @@
               @click="active==1?active=0:active=1"
               v-if="active > 0"
             >
-              上一步
+              {{ $t('resource.lastStep') }}
             </el-button>
             <el-button
               class="work-button"
               @click="active===0?active=1:active=2"
               v-if="active < 2"
             >
-              下一步
+              {{ $t('resource.nextStep') }}
             </el-button>
             <el-button
               class="work-button"
               @click="handleClickConfirmBtn"
               v-if="active >=2"
             >
-              确认提交
+              {{ $t('resource.confirmToSubmit') }}
             </el-button>
           </div>
         </el-col>

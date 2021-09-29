@@ -1,7 +1,7 @@
 <template>
   <div class="container_content">
     <div class="title_top title_left defaultFontBlod clear">
-      容器资源
+      {{ $t('resource.containers') }}
       <span class="line_bot1" />
       <el-button
         class="newproject_btn linearGradient2"
@@ -9,7 +9,7 @@
         @click="confirmImg"
       >
         <em class="new_icon" />
-        确定镜像
+        {{ $t('resource.confirmImg') }}
       </el-button>
     </div>
     <div class="containerBox">
@@ -27,28 +27,28 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="镜像名称"
+            :label="$t('resource.imgName')"
             prop="name"
             show-overflow-tooltip
           />
           <el-table-column
             prop="src"
-            label="镜像路径"
+            :label="$t('resource.imgPath')"
             show-overflow-tooltip
           />
           <el-table-column
             prop="version"
-            label="镜像版本"
+            :label="$t('resource.version')"
             show-overflow-tooltip
           />
           <el-table-column
             prop="size"
-            label="镜像尺寸"
+            :label="$t('resource.size')"
             show-overflow-tooltip
           />
           <el-table-column
             prop="other"
-            label="其他备注"
+            :label="$t('resource.others')"
             show-overflow-tooltip
           />
         </el-table>

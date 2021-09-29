@@ -25,7 +25,7 @@
         @click="saveConfig"
       >
         <em class="new_icon" />
-        保存所有配置
+        {{ $t('app.ruleConfig.save') }}
       </el-button>
     </div>
     <div class="ruleconfigcontent">
