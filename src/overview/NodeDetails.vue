@@ -136,7 +136,7 @@
                 </el-table-column>
                 <el-table-column
                   :label="$t('app.packageList.status')"
-                  width="120"
+                  width="150"
                 >
                   <template slot-scope="scope">
                     <img
