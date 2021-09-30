@@ -97,11 +97,12 @@ export default {
     },
     submit () {
       if (this.newPwd.length > 0 && this.verify) {
-        sessionStorage.setItem('password', this.newPwd)
+        sessionStorage.setItem('newpassword', this.newPwd)
         setTimeout(() => {
           lcmController.changPwd().then(res => {
             sessionStorage.removeItem('userName')
             sessionStorage.removeItem('password')
+            sessionStorage.removeItem('newpassword')
             sessionStorage.removeItem('userId')
             this.jumpTo('/login')
           }).catch(err => {

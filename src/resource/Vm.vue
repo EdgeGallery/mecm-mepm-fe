@@ -63,7 +63,7 @@
             v-if="active==1"
           >
             <div class="work-title">
-              :label="$t('resource.specification')"
+              {{ $t('resource.specification') }}
             </div>
             <div class="work_area">
               <el-radio-group
@@ -75,7 +75,7 @@
               </el-radio-group>
               <div class="work-table">
                 <div class="work-table-title">
-                  :label="$t('resource.chooseSpec')"
+                  {{ $t('resource.chooseSpec') }}
                 </div>
                 <el-table
                   :data="vmRegulationDataList"

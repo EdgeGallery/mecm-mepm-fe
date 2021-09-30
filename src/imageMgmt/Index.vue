@@ -99,7 +99,7 @@
         <div>
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="./"
             :on-change="handleChange"
           >
             <el-button
@@ -145,7 +145,7 @@
         <div>
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="./"
             :on-change="handleVmChange"
           >
             <el-button

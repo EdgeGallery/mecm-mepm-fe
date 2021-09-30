@@ -91,7 +91,12 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/login')
   },
   changPwd () {
-    return POST(lcmcontrollerApi + '/password')
+    let headers = {
+      name: sessionStorage.getItem('userName'),
+      key: sessionStorage.getItem('password'),
+      newkey: sessionStorage.getItem('newpassword')
+    }
+    return axios.post(lcmcontrollerApi + '/password', '', { headers: headers })
   },
   createHost (params) {
     return POST(lcmcontrollerApi + '/hosts', params)
