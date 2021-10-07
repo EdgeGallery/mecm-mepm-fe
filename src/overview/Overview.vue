@@ -279,7 +279,7 @@ export default {
     this.drawGPUchart()
     this.drawMEMORYchart()
     this.drawDISKchart()
-    let IndexArr = sessionStorage.getItem('appIndex').split(',')
+    let IndexArr = sessionStorage.getItem('appIndex') ? sessionStorage.getItem('appIndex').split(',') : null
     if (IndexArr) {
       this.nodeIndex = Number(IndexArr[0])
       this.appIndex = Number(IndexArr[1])
