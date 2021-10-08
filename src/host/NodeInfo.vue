@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted () {
-    this.curShownNodeInfo = this.$route.params
+    this.curShownNodeInfo = this.$route.params.nodeInfo
   }
 }
 </script>
