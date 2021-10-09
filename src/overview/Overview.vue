@@ -50,22 +50,6 @@
                       src="../assets/images/start-appicon.png"
                       alt=""
                     >
-                    <!-- <img
-                      v-else-if="appItem.status==='configed'"
-                      src="../assets/images/appicon_config.png"
-                      alt=""
-                      @click="ConfigSteptwo(index,appindex)"
-                    >
-                    <img
-                      v-else-if="appItem.status==='success'"
-                      src="../assets/images/appicon_suc.png"
-                      alt=""
-                    >
-                    <img
-                      v-else-if="appItem.status==='fail'"
-                      src="../assets/images/appicon_fail.png"
-                      alt=""
-                    > -->
                     <p>{{ appItem.appPkgName }}</p>
                   </el-carousel-item>
                 </el-carousel>
@@ -164,15 +148,6 @@ export default {
     }
   },
   mounted () {
-    // this.setDivHeight()
-    // let IndexArr = sessionStorage.getItem('appIndex').split(',')
-    // if (IndexArr) {
-    //   this.nodeIndex = Number(IndexArr[0])
-    //   this.appIndex = Number(IndexArr[1])
-    //   sessionStorage.removeItem('appIndex')
-    //   this.handleNodeChange(IndexArr[0], IndexArr[2])
-    //   this.handleAppChange(IndexArr[1], IndexArr[2])
-    // }
     this.getNodeListInPage()
   },
   methods: {
