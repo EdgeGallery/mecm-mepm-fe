@@ -176,12 +176,10 @@ export default {
           }
           this.nodeList.push(item)
         })
-        setTimeout(function () {
-          this.initPackageList()
-          this.drawGPUchart()
-          this.drawMEMORYchart()
-          this.drawDISKchart()
-        }, 1000)
+        this.initPackageList()
+        this.drawGPUchart()
+        this.drawMEMORYchart()
+        this.drawDISKchart()
       }).catch((error) => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
           this.tableData = this.paginationData = []
