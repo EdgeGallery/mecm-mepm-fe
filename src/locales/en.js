@@ -157,7 +157,11 @@ const en = {
     moreResource: ' More Resource display',
     computeResources: 'x86 Computing Resources',
     occupyed: 'Occupied',
-    usable: 'Usable'
+    usable: 'Usable',
+    network: 'Network:',
+    x86: 'X86 Resource:',
+    GPU: 'GPU:',
+    AI: 'AI:'
   },
   footer: {
     about: 'About',

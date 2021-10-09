@@ -16,24 +16,14 @@
 
 <template>
   <div>
-    <el-breadcrumb
-      separator="/"
-      class="breadcrumb"
-    >
-      <el-breadcrumb-item :to="{ path: '/' }">
-        {{ $t('nav.overview') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecm/apac/list' }">
-        {{ $t('nav.appMana') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/mecm/apac/list' }">
-        {{ $t('nav.packageMana') }}
-      </el-breadcrumb-item>
-      <el-breadcrumb-item>{{ $t('nav.appDetail') }}</el-breadcrumb-item>
-    </el-breadcrumb>
-    <div class="app-detail">
-      <div>
-        <Edge :appid="appId" />
+    <div class="package_list padding_default">
+      <div class="title_top title_left defaultFontBlod clear">
+        {{ $t('nav.appDetail') }}
+      </div>
+      <div class="app-detail">
+        <div>
+          <Edge :appid="appId" />
+        </div>
       </div>
     </div>
   </div>
@@ -53,7 +43,7 @@ export default {
 </script>
 <style lang='less' >
 .app-detail {
-    margin: 0 5%;
+    margin: 0 13%;
     height: 100%;
     background: #fff;
     padding: 30px 60px;
