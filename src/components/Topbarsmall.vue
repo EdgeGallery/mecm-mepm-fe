@@ -131,7 +131,9 @@ export default {
         this.indexName = '/mecm/ains/list'
       } else if (this.indexName === '/mecm/ruleconfig/addTrafficRules') {
         this.indexName = '/mecm/ains/list'
-      } else if (this.indexName.includes('edge-details')) {
+      } else if (this.indexName.includes('nodeinfo')) {
+        this.indexName = '/mecm/node/list'
+      } else if (this.indexName.includes('mepm/mepinfo/')) {
         this.indexName = '/mecm/node/list'
       }
     }
@@ -144,7 +146,9 @@ export default {
       this.indexName = '/mecm/ains/list'
     } else if (indexName === '/mecm/ruleconfig/addTrafficRules') {
       this.indexName = '/mecm/ains/list'
-    } else if (this.indexName.includes('edge-details')) {
+    } else if (this.indexName.includes('nodeinfo')) {
+      this.indexName = '/mecm/node/list'
+    } else if (this.indexName.includes('mepm/mepinfo/')) {
       this.indexName = '/mecm/node/list'
     }
   }
