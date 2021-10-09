@@ -154,7 +154,7 @@ export default {
     getNodeListInPage () {
       lcmController.getHostList().then(res => {
         res.data.forEach(item => {
-          item.applist = []
+          item.appList = []
           item.detailInfo = {
             resource: {
               inter: '5G',
