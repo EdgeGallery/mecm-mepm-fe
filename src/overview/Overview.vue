@@ -96,11 +96,11 @@
                   >
                     <div
                       class="sumchart"
-                      :id="GPUId(index)"
+                      id="GPUchart"
                     />
                     <div
                       class="sumchart"
-                      :id="MEMORYId(index)"
+                      id="MEMORYchart"
                     />
                   </div>
                   <div style="text-align:center;margin-top:4px;">
@@ -179,7 +179,6 @@ export default {
         this.initPackageList()
         this.drawGPUchart()
         this.drawMEMORYchart()
-        this.drawDISKchart()
       }).catch((error) => {
         if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
           this.tableData = this.paginationData = []
@@ -190,11 +189,11 @@ export default {
     },
     initPackageList () {
       lcmController.getDistributionList().then(res => {
-        res.data.forEach(item => {
-          item.mecHostInfo.forEach(host => {
-            this.nodeList.forEach(node => {
+        res.data.forEach(val => {
+          val.mecHostInfo.forEach(host => {
+            this.nodeList.forEach((node, index) => {
               if (host.hostIp === node.mechostIp) {
-                node.appList.push(item)
+                this.nodeList[index].appList.push(val)
               }
             })
           })
@@ -257,15 +256,8 @@ export default {
         this.$router.push('/mepm/resource/container')
       }
     },
-    GPUId (index) {
-      return 'GPUchart' + index
-    },
-    MEMORYId (index) {
-      return 'MEMORYchart' + index
-    },
     drawGPUchart () {
-      let Chart0 = echarts.init(document.getElementById('GPUchart0'))
-      let Chart1 = echarts.init(document.getElementById('GPUchart1'))
+      let ChartGpu = echarts.init(document.getElementById('GPUchart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -309,17 +301,15 @@ export default {
           }
         ]
       }
-      Chart0.setOption(option)
-      Chart1.setOption(option)
+      ChartGpu.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart0) {
-          Chart0.resize()
+        if (ChartGpu) {
+          ChartGpu.resize()
         }
       })
     },
     drawMEMORYchart () {
-      let Chart2 = echarts.init(document.getElementById('MEMORYchart0'))
-      let Chart3 = echarts.init(document.getElementById('MEMORYchart1'))
+      let ChartMem = echarts.init(document.getElementById('MEMORYchart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -363,65 +353,10 @@ export default {
           }
         ]
       }
-      Chart2.setOption(option)
-      Chart3.setOption(option)
+      ChartMem.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart2) {
-          Chart2.resize()
-        }
-      })
-    },
-    drawDISKchart () {
-      let Chart4 = echarts.init(document.getElementById('DISKchart0'))
-      let Chart5 = echarts.init(document.getElementById('DISKchart1'))
-      let colors = ['#7152db', '#9686e1']
-      let option = {
-        color: colors,
-        title: {
-          text: 'DISK',
-          x: 'center',
-          y: 'bottom',
-          padding: 0,
-          textStyle: {
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 'normal'
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '70%',
-            data: [
-              { value: 135,
-                name: '已占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                } },
-              { value: 235,
-                name: '未占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false
-                  }
-                } }
-            ]
-          }
-        ]
-      }
-      Chart4.setOption(option)
-      Chart5.setOption(option)
-      window.addEventListener('resize', () => {
-        if (Chart4) {
-          Chart4.resize()
+        if (ChartMem) {
+          ChartMem.resize()
         }
       })
     }
