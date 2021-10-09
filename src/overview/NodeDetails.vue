@@ -136,7 +136,7 @@
                 </el-table-column>
                 <el-table-column
                   :label="$t('app.packageList.status')"
-                  width="120"
+                  width="150"
                 >
                   <template slot-scope="scope">
                     <img
@@ -179,7 +179,9 @@ export default {
     Map
   },
   mounted () {
-    this.getMepCapa(this.detail.mechostIp)
+    if (this.detail.mechostIp) {
+      this.getMepCapa(this.detail.mechostIp)
+    }
   },
   props: {
     detail: {
@@ -190,12 +192,13 @@ export default {
   data () {
     return {
       alarmStatus: 'alarms',
-      kpiInfo: {}
+      kpiInfo: {},
+      mepCapData: []
     }
   },
   watch: {
     detail (newVal, oldVal) {
-      if (newVal.mechostIp !== oldVal.mechostIp) {
+      if (newVal.mechostIp !== oldVal.mechostIp && this.detail.mechostIp) {
         this.getMepCapa(this.detail.mechostIp)
       }
     }

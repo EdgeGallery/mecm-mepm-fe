@@ -42,7 +42,7 @@
       >
         <el-table-column
           prop="imageName"
-          label="镜像名称"
+          :label="$t('imageMgmt.imageName')"
         >
           <template slot-scope="scope">
             {{ scope.row.imageName }}
@@ -50,18 +50,18 @@
         </el-table-column>
         <el-table-column
           prop="imagePath"
-          label="镜像路径"
+          :label="$t('imageMgmt.imagePath')"
         />
         <el-table-column
           prop="userName"
-          label="所属用户"
+          :label="$t('imageMgmt.user')"
         />
         <el-table-column
           prop="imageVersion"
-          label="版本"
+          :label="$t('imageMgmt.version')"
         />
         <el-table-column
-          label="是否公开"
+          :label="$t('imageMgmt.isPublic')"
         >
           <template slot-scope="scope">
             <el-switch
@@ -77,7 +77,7 @@
         </el-table-column>
         <el-table-column
           prop="createTime"
-          label="上传时间"
+          :label="$t('imageMgmt.uploadTime')"
           show-overflow-tooltip
         />
         <el-table-column
@@ -91,7 +91,7 @@
                 href="./cirros.zip"
                 :download="scope.row.imageName+'.tar'"
                 style="color:#606266;"
-              >下载</a>
+              >{{ $t('common.downLoad') }}</a>
             </el-button>
             <el-button
               :disabled="scope.row.userId!==userId"
@@ -188,12 +188,12 @@ export default {
       this.offsetPage = start
     },
     handleDelete (row) {
-      this.$confirm('确认删除 ' + row.imageName + ' 镜像？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('tip.confirmDelete') + row.imageName + this.$t('tip.image'), this.$t('common.warning'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        this.$message.success('删除成功！')
+        this.$message.success(this.$t('tip.delSuccess'))
         this.imageListData.forEach((item, index) => {
           if (row.imageName === item.imageName) {
             this.imageListData.splice(index, 1)
