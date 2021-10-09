@@ -155,7 +155,11 @@ const cn = {
     moreResource: '更多资源展示',
     computeResources: 'x86计算资源',
     occupyed: '已占用',
-    usable: '未占用'
+    usable: '未占用',
+    network: '网络：',
+    x86: 'X86计算资源：',
+    GPU: 'GPU算力：',
+    AI: 'AI加速能力：'
   },
   footer: {
     about: '关于',

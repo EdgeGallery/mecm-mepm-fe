@@ -10,11 +10,9 @@
           arrow="always"
           :autoplay="false"
           height="800px"
-          @change="handleNodeChange"
-          :initial-index="nodeIndex"
         >
           <el-carousel-item
-            v-for="(item,index) in allnodeList"
+            v-for="(item,index) in nodeList"
             :key="index"
           >
             <div
@@ -22,7 +20,7 @@
               id="edge-info"
             >
               <div class="top-name">
-                <span>{{ item.name }}</span>
+                <span>{{ item.mechostName }}</span>
               </div>
               <img
                 v-if="bgImg===false"
@@ -42,8 +40,6 @@
                   :autoplay="false"
                   height="210px"
                   trigger="click"
-                  @change="handleAppChange"
-                  :initial-index="appIndex"
                 >
                   <el-carousel-item
                     v-for="(appItem,appindex) in item.appList"
@@ -51,28 +47,10 @@
                   >
                     <img
                       class="startConfig"
-                      v-if="appItem.status==='null'"
                       src="../assets/images/start-appicon.png"
                       alt=""
-                      @click="startConfig(index,appindex)"
                     >
-                    <img
-                      v-else-if="appItem.status==='configed'"
-                      src="../assets/images/appicon_config.png"
-                      alt=""
-                      @click="ConfigSteptwo(index,appindex)"
-                    >
-                    <img
-                      v-else-if="appItem.status==='success'"
-                      src="../assets/images/appicon_suc.png"
-                      alt=""
-                    >
-                    <img
-                      v-else-if="appItem.status==='fail'"
-                      src="../assets/images/appicon_fail.png"
-                      alt=""
-                    >
-                    <p>{{ appItem.name }}</p>
+                    <p>{{ appItem.appPkgName }}</p>
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -96,16 +74,16 @@
                       {{ $t('overview.moreResource') }}
                     </p>
                     <el-form>
-                      <el-form-item label="网络:">
+                      <el-form-item :label="$t('overview.network')">
                         {{ item.detailInfo.resource.inter }}
                       </el-form-item>
-                      <el-form-item label="x86计算资源:">
+                      <el-form-item :label="$t('overview.x86')">
                         {{ item.detailInfo.resource.x86Resource }}
                       </el-form-item>
-                      <el-form-item label="GPU算力:">
+                      <el-form-item :label="$t('overview.GPU')">
                         {{ item.detailInfo.resource.GPU }}
                       </el-form-item>
-                      <el-form-item label="AI加速:">
+                      <el-form-item :label="$t('overview.AI')">
                         {{ item.detailInfo.resource.AI }}
                       </el-form-item>
                     </el-form>
@@ -124,10 +102,6 @@
                       class="sumchart"
                       :id="MEMORYId(index)"
                     />
-                    <div
-                      class="sumchart"
-                      :id="DISKId(index)"
-                    />
                   </div>
                   <div style="text-align:center;margin-top:4px;">
                     <span
@@ -144,119 +118,18 @@
             </div>
           </el-carousel-item>
         </el-carousel>
-        <!-- <img
-          class="leftArrow"
-          src="../assets/images/leftArrow.png"
-          alt=""
-        >
-
-        <el-tooltip
-          effect="dark"
-          content="切换下一个节点"
-          placement="bottom-end"
-        >
-          <img
-            class="rightArrow"
-            src="../assets/images/rightArrow.png"
-            alt=""
-          >
-        </el-tooltip> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { lcmController } from '../tools/request.js'
 import echarts from 'echarts'
 export default {
   data () {
     return {
-      allnodeList: [
-        {
-          name: '广东_node_v3_12',
-          detailInfo: {
-            resource: {
-              inter: '5G',
-              x86Resource: '50C、256G、1T',
-              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
-              AI: 'Atlas 200*200'
-            },
-            chartData: [
-              {
-                name: 'CPU',
-                Occupyed: '20',
-                Usable: '80'
-              }, {
-                name: 'MEMORY',
-                Occupyed: '20',
-                Usable: '80'
-              }, {
-                name: 'DISK',
-                Occupyed: '20',
-                Usable: '80'
-              }
-            ]
-          },
-          appList: [{
-            name: '工厂物语',
-            status: 'null',
-            type: 'vm'
-          }, {
-            name: '金晴云',
-            status: 'configed',
-            type: 'vm'
-          }, {
-            name: '兰亭VR',
-            status: 'success',
-            type: 'vm'
-          }
-          ]
-        },
-        {
-          name: '北京_node_V1.1',
-          detailInfo: {
-            resource: {
-              inter: '5G',
-              x86Resource: '50C、256G、1T',
-              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
-              AI: 'Atlas 200*200'
-            },
-            chartData: [
-              {
-                name: 'CPU',
-                Occupyed: '20',
-                Usable: '80'
-              }, {
-                name: 'MEMORY',
-                Occupyed: '20',
-                Usable: '80'
-              }, {
-                name: 'DISK',
-                Occupyed: '20',
-                Usable: '80'
-              }
-            ]
-          },
-          appList: [{
-            name: '安恒soc',
-            status: 'null',
-            type: 'vm'
-          }, {
-            name: '未来物联',
-            status: 'configed',
-            type: 'vm'
-          }, {
-            name: '贪吃蛇',
-            status: 'null',
-            type: 'container'
-          }, {
-            name: '昇腾应用',
-            status: 'success',
-            type: 'container'
-          }
-          ]
-        }
-      ],
+      nodeList: [],
       nodeIndex: 0,
       appIndex: 0,
       bgImg: false,
@@ -275,29 +148,76 @@ export default {
     }
   },
   mounted () {
-    // this.setDivHeight()
-    this.drawGPUchart()
-    this.drawMEMORYchart()
-    this.drawDISKchart()
-    let IndexArr = sessionStorage.getItem('appIndex').split(',')
-    if (IndexArr) {
-      this.nodeIndex = Number(IndexArr[0])
-      this.appIndex = Number(IndexArr[1])
-      sessionStorage.removeItem('appIndex')
-      this.handleNodeChange(IndexArr[0], IndexArr[2])
-      this.handleAppChange(IndexArr[1], IndexArr[2])
-    }
+    this.getNodeListInPage()
   },
   methods: {
+    getNodeListInPage () {
+      lcmController.getHostList().then(res => {
+        res.data.forEach(item => {
+          item.applist = []
+          item.detailInfo = {
+            resource: {
+              inter: '5G',
+              x86Resource: '50C、256G、1T',
+              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              AI: 'Atlas 200*200'
+            },
+            chartData: [
+              {
+                name: 'CPU',
+                Occupyed: '20',
+                Usable: '80'
+              }, {
+                name: 'MEMORY',
+                Occupyed: '20',
+                Usable: '80'
+              }
+            ]
+          }
+          this.nodeList.push(item)
+        })
+        setTimeout(function () {
+          this.initPackageList()
+          this.drawGPUchart()
+          this.drawMEMORYchart()
+          this.drawDISKchart()
+        }, 1000)
+      }).catch((error) => {
+        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+          this.tableData = this.paginationData = []
+        } else {
+          this.$message.error(this.$t('tip.failedToGetList'))
+        }
+      })
+    },
+    initPackageList () {
+      lcmController.getDistributionList().then(res => {
+        res.data.forEach(item => {
+          item.mecHostInfo.forEach(host => {
+            this.nodeList.forEach(node => {
+              if (host.hostIp === node.mechostIp) {
+                node.appList.push(item)
+              }
+            })
+          })
+        })
+      }).catch((error) => {
+        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+          this.tableData = this.paginationData = []
+        } else {
+          this.$message.error(this.$t('tip.getCommonListFailed'))
+        }
+      })
+    },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
       if (status === 'success') {
         setTimeout(() => {
-          this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         }, 5000)
       } else {
         setTimeout(() => {
-          this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         }, 5000)
       }
     },
@@ -305,17 +225,17 @@ export default {
       this.appIndex = Number(index)
       if (status === 'success') {
         this.$message.success('提交成功，应用部署中！')
-        this.allnodeList[this.nodeIndex].appList[this.appIndex].status = 'configed'
-        this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+        this.nodeList[this.nodeIndex].appList[this.appIndex].status = 'configed'
+        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         setTimeout(() => {
           this.$message.success('应用部署成功！')
-          this.allnodeList[this.nodeIndex].appList[this.appIndex].status = status
+          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
         }, 5000)
       } else {
         this.$message.success('保存配置成功！')
-        this.bgImg = this.allnodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
+        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
         setTimeout(() => {
-          this.allnodeList[this.nodeIndex].appList[this.appIndex].status = status
+          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
         }, 1000)
       }
     },
@@ -333,7 +253,7 @@ export default {
     ConfigSteptwo (node, app) {
       let appIndex = [node, app]
       sessionStorage.setItem('appIndex', appIndex)
-      if (this.allnodeList[node].appList[app].type === 'vm') {
+      if (this.nodeList[node].appList[app].type === 'vm') {
         this.$router.push('/mepm/resource/vm')
       } else {
         this.$router.push('/mepm/resource/container')
@@ -344,9 +264,6 @@ export default {
     },
     MEMORYId (index) {
       return 'MEMORYchart' + index
-    },
-    DISKId (index) {
-      return 'DISKchart' + index
     },
     drawGPUchart () {
       let Chart0 = echarts.init(document.getElementById('GPUchart0'))
