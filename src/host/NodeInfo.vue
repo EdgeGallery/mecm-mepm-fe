@@ -14,6 +14,7 @@
 
 <script>
 import NodeDetails from '../overview/NodeDetails.vue'
+import { lcmController } from '../tools/request.js'
 export default {
   components: { NodeDetails },
   data () {
@@ -21,8 +22,23 @@ export default {
       curShownNodeInfo: {}
     }
   },
+  methods: {
+    initNodoInfo (nodeIp) {
+      lcmController.getHostList().then(response => {
+        this.curShownNodeInfo = response.data.find(item => item.mechostIp === nodeIp)
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error(this.$t('tip.failedToGetList'))
+      })
+    }
+  },
   mounted () {
-    this.curShownNodeInfo = this.$route.params.nodeInfo
+    console.log('this.$route.params.nodeIp: ' + this.$route.params.nodeIp)
+    if (this.$route.params.nodeInfo) {
+      this.curShownNodeInfo = this.$route.params.nodeInfo
+    } else {
+      this.initNodoInfo(this.$route.params.nodeIp)
+    }
   }
 }
 </script>
