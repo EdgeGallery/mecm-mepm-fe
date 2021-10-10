@@ -301,7 +301,7 @@ export default {
 <style lang="less">
 .image_div{
   .FontBlod{
-    font-family: HarmonyOS_Sans_Bold;
+    font-family: HarmonyOS_Sans_Bold, Arial, Helvetica, sans-serif;
   }
   .createimage_btn{
     position: absolute;

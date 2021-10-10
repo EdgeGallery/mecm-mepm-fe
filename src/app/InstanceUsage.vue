@@ -257,7 +257,7 @@ function dotArr () {
     p{
       position: relative;
       top:0px;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-style: normal;
       font-weight: normal;
       font-size: 16px;

@@ -75,14 +75,6 @@
           </el-button>
         </div>
       </div>
-      <!-- <div class="login-tips rt">
-        <el-button
-          type="text"
-          @click="jumpTo('/modify')"
-        >
-          {{ $t('login.getPwd') }}
-        </el-button>
-      </div> -->
     </div>
   </div>
 </template>
@@ -162,7 +154,7 @@ export default {
       line-height: 18px;
       font-size: 18px;
       font-weight: bold;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       color: #5d3da0;
       margin: 10px 0 35px 0;
     }
@@ -204,8 +196,7 @@ export default {
       font-size: 18px;
       border: none;
       border-radius: 22px;
-      font-family: HarmonyHeiTi;
-      font-size: 22px;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
     }
     .verify-box em{
@@ -220,7 +211,7 @@ export default {
     z-index: 12;
     .el-button--text{
       color: #53c6d4;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-size: 12px;
     }
   }
