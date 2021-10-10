@@ -19,6 +19,7 @@
     <div class="package_list padding_default">
       <div class="title_top title_left defaultFontBlod clear">
         {{ $t('nav.appDetail') }}
+        <span class="line_bot" />
       </div>
       <div class="app-detail">
         <div>
@@ -43,7 +44,6 @@ export default {
 </script>
 <style lang='less' >
 .app-detail {
-    margin: 0 13%;
     height: 100%;
     background: #fff;
     padding: 30px 60px;

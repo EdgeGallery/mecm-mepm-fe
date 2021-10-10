@@ -10,6 +10,8 @@
           arrow="always"
           :autoplay="false"
           height="800px"
+          @change="handleNodeChange"
+          :initial-index="nodeIndex"
         >
           <el-carousel-item
             v-for="(item,index) in nodeList"
@@ -40,15 +42,25 @@
                   :autoplay="false"
                   height="210px"
                   trigger="click"
+                  @change="handleAppChange"
+                  :initial-index="appIndex"
                 >
                   <el-carousel-item
                     v-for="(appItem,appindex) in item.appList"
                     :key="appindex"
                   >
                     <img
+                      v-if="appItem.status"
+                      src="../assets/images/appicon_suc.png"
+                      alt=""
+                    >
+
+                    <img
                       class="startConfig"
+                      v-else
                       src="../assets/images/start-appicon.png"
                       alt=""
+                      @click="startConfig(index,appindex)"
                     >
                     <p>{{ appItem.appPkgName }}</p>
                   </el-carousel-item>
@@ -149,6 +161,8 @@ export default {
   },
   mounted () {
     this.getNodeListInPage()
+    this.drawGPUchart()
+    this.drawMEMORYchart()
   },
   methods: {
     getNodeListInPage () {
@@ -177,14 +191,10 @@ export default {
           this.nodeList.push(item)
         })
         this.initPackageList()
-        this.drawGPUchart()
-        this.drawMEMORYchart()
+        this.getNodeKpi(this.nodeList[0].mechostIp)
       }).catch((error) => {
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-          this.tableData = this.paginationData = []
-        } else {
-          this.$message.error(this.$t('tip.failedToGetList'))
-        }
+        console.log(error)
+        this.$message.error(this.$t('tip.getCommonListFailed'))
       })
     },
     initPackageList () {
@@ -198,43 +208,44 @@ export default {
             })
           })
         })
+        this.getInstanceList()
       }).catch((error) => {
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-          this.tableData = this.paginationData = []
-        } else {
-          this.$message.error(this.$t('tip.getCommonListFailed'))
-        }
+        console.log(error)
+        this.$message.error(this.$t('tip.getCommonListFailed'))
+      })
+    },
+    getInstanceList () {
+      lcmController.getInstanceList().then(res => {
+        res.data.forEach(ins => {
+          this.nodeList.forEach((node, index) => {
+            node.appList.forEach((app, key) => {
+              if (ins.appPackageId === app.packageId) {
+                this.nodeList[index].appList[key].status = ins.syncStatus
+              }
+            })
+          })
+        })
+        this.bgImg = this.nodeList[0].appList[0].status
+      }).catch(error => {
+        console.log(error)
+        this.$message.error(this.$t('tip.getCommonListFailed'))
+      })
+    },
+    getNodeKpi (ip) {
+      lcmController.getNodeKpi(ip).then(res => {
+        console.log(res)
+      }).catch(error => {
+        console.log(error)
       })
     },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
-      if (status === 'success') {
-        setTimeout(() => {
-          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        }, 5000)
-      } else {
-        setTimeout(() => {
-          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        }, 5000)
-      }
+      this.bgImg = this.nodeList[nodeIndex].appList[0].status
+      this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
     },
     handleAppChange (index, status) {
       this.appIndex = Number(index)
-      if (status === 'success') {
-        this.$message.success('提交成功，应用部署中！')
-        this.nodeList[this.nodeIndex].appList[this.appIndex].status = 'configed'
-        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        setTimeout(() => {
-          this.$message.success('应用部署成功！')
-          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
-        }, 5000)
-      } else {
-        this.$message.success('保存配置成功！')
-        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        setTimeout(() => {
-          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
-        }, 1000)
-      }
+      this.bgImg = this.nodeList[this.nodeIndex].appList[index].status
     },
     setDivHeight () {
       this.$nextTick(() => {
@@ -450,13 +461,12 @@ export default {
           top: 145px;
           left: 42%;
           width: 15%;
-          cursor: pointer;
           img{
             width: 100%;
           }
           p{
             position: absolute;
-            bottom: 23px;
+            bottom: 180px;
             left: 50%;
             transform: translateX(-50%);
             color: #827792;
