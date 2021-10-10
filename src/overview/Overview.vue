@@ -71,7 +71,7 @@
                 </span>
                 <el-popover
                   placement="bottom"
-                  trigger="click"
+                  trigger="hover"
                 >
                   <span
                     slot="reference"
@@ -172,7 +172,7 @@ export default {
             resource: {
               inter: '5G',
               x86Resource: '50C、256G、1T',
-              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              GPU: 'AMD EPYC 7763*2',
               AI: 'Atlas 200*200'
             },
             chartData: [
