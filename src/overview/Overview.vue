@@ -65,7 +65,10 @@
                   </el-carousel-item>
                 </el-carousel>
               </div>
-              <div class="resources-show">
+              <div
+                class="resources-show"
+                v-if="showDetail"
+              >
                 <span class="info-title">
                   {{ $t('overview.resourceDetails') }}
                 </span>
@@ -152,7 +155,8 @@ export default {
       bgImgUrltwoCn: require('../assets/images/configured_bg.png'),
       bgImgUrltwoEn: require('../assets/images/configured_bg_en.png'),
       cpudata: null,
-      memdata: null
+      memdata: null,
+      showDetail: true
     }
   },
   watch: {
@@ -190,7 +194,12 @@ export default {
           this.nodeList.push(item)
         })
         this.initPackageList()
-        this.getNodeKpi(this.nodeList[0].mechostIp)
+        if (this.nodeList[0].vim === 'K8S') {
+          this.getNodeKpi(this.nodeList[0].mechostIp)
+          this.showDetail = true
+        } else {
+          this.showDetail = false
+        }
       }).catch((error) => {
         console.log(error)
       })
@@ -250,7 +259,12 @@ export default {
     },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
-      this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
+      if (this.nodeList[nodeIndex].vim === 'K8S') {
+        this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
+        this.showDetail = true
+      } else {
+        this.showDetail = false
+      }
       this.bgImg = this.nodeList[nodeIndex].appList[0].status ? this.nodeList[nodeIndex].appList[0].status : ''
     },
     handleAppChange (index, status) {
