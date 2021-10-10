@@ -219,23 +219,26 @@ export default {
         console.log(error)
       })
     },
+    handleNodeList (host, val) {
+      this.nodeList.forEach((node, index) => {
+        if (host.hostIp === node.mechostIp) {
+          var result = this.nodeList[index].appList.some(function (item) {
+            if (item.packageId === val.packageId) {
+              return true
+            }
+          })
+          if (!result) {
+            this.nodeList[index].appList.push(val)
+          }
+        }
+      })
+    },
     initPackageList () {
       lcmController.getDistributionList().then(res => {
         res.data.forEach(val => {
           if (val.mecHostInfo && val.mecHostInfo.length > 0) {
             val.mecHostInfo.forEach(host => {
-              this.nodeList.forEach((node, index) => {
-                if (host.hostIp === node.mechostIp) {
-                  var result = this.nodeList[index].appList.some(function (item) {
-                    if (item.packageId === val.packageId) {
-                      return true
-                    }
-                  })
-                  if (!result) {
-                    this.nodeList[index].appList.push(val)
-                  }
-                }
-              })
+              this.handleNodeList(host, val)
             })
           }
         })
