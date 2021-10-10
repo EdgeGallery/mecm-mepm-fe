@@ -505,7 +505,7 @@ export default {
           span{
             color: #7a6e8a;
             font-size: 26px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
           }
         }
         .content-img{
@@ -526,7 +526,7 @@ export default {
             transform: translateX(-50%);
             color: #827792;
             font-size: 16px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
           }
           .startConfig{
              animation: rotate 0.5s infinite linear ;
@@ -561,7 +561,7 @@ export default {
           right: 10%;
           .info-title{
             font-size: 18px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             color: #5e40c8;
           }
           .info-title::before{
@@ -573,7 +573,7 @@ export default {
           }
           .infoBtn{
             font-size: 14px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             color: #5e40c8;
           }
           .resources{
@@ -581,7 +581,7 @@ export default {
             p{
               color: #827792;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             }
             .chartPie{
               display: flex;
@@ -593,7 +593,7 @@ export default {
             .occupiedBefore,.UsableBefore{
               color: #827792;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             }
             .occupiedBefore::before{
               content: '';
@@ -639,7 +639,7 @@ export default {
             width: 310px;
             .info-title{
               font-size: 18px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
               color: #5e40c8;
               padding-bottom: 8px;
             }
@@ -654,7 +654,7 @@ export default {
               padding-left: 12px;
               color: #5e40c8;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
               .el-form-item{
                 margin-bottom: 0;
               }
