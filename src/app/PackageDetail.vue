@@ -16,7 +16,10 @@
 
 <template>
   <div>
-    <div class="package_list padding_default">
+    <div
+      class="package_list padding_default"
+      style="min-height:648px;"
+    >
       <div class="title_top title_left defaultFontBlod clear">
         {{ $t('nav.appDetail') }}
         <span class="line_bot" />

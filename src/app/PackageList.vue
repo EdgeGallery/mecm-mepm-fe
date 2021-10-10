@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="package_list padding_default">
+  <div
+    class="package_list padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       边缘应用市场
       <span class="line_bot1" />
@@ -374,7 +377,13 @@ export default {
         for (let key in data) {
           if (data[key]) {
             reset = true
-            this.filterTableData(data[key].toLowerCase(), key)
+            let dataKey = key
+            if (key === 'name') {
+              dataKey = 'appPkgName'
+            } else if (key === 'affinity') {
+              dataKey = 'appPkgAffinity'
+            }
+            this.filterTableData(data[key].toLowerCase(), dataKey)
           }
         }
         if (!reset) this.paginationData = this.tableData

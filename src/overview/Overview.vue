@@ -1,146 +1,157 @@
 <template>
-  <div class="overview">
-    <div class="mid-content">
-      <div class="title_top font-bold">
-        {{ $t('nav.overview') }}
-        <span class="line_bot" />
-      </div>
-      <div class="content">
-        <el-carousel
-          arrow="always"
-          :autoplay="false"
-          height="800px"
-          @change="handleNodeChange"
-          :initial-index="nodeIndex"
-        >
-          <el-carousel-item
-            v-for="(item,index) in nodeList"
-            :key="index"
+  <div>
+    <div class="overview">
+      <div class="mid-content">
+        <div class="title_top font-bold">
+          {{ $t('nav.overview') }}
+          <span class="line_bot" />
+        </div>
+        <div class="content">
+          <el-carousel
+            arrow="always"
+            :autoplay="false"
+            height="800px"
+            @change="handleNodeChange"
+            :initial-index="nodeIndex"
           >
-            <div
-              class="edge-info"
-              id="edge-info"
+            <el-carousel-item
+              v-for="(item,index) in nodeList"
+              :key="index"
             >
-              <div class="top-name">
-                <span>{{ item.mechostName }}</span>
-              </div>
-              <img
-                v-if="!bgImg"
-                class="content-img"
-                :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
-                alt=""
-              >
-              <img
-                v-else
-                class="content-img"
-                :src="language==='cn'? bgImgUrltwoCn : bgImgUrltwoEn"
-                alt=""
-              >
-              <div class="appimg">
-                <el-carousel
-                  arrow="never"
-                  :autoplay="false"
-                  height="210px"
-                  trigger="click"
-                  @change="handleAppChange"
-                  :initial-index="appIndex"
-                >
-                  <el-carousel-item
-                    v-for="(appItem,appindex) in item.appList"
-                    :key="appindex"
-                  >
-                    <img
-                      v-if="appItem.status"
-                      src="../assets/images/appicon_suc.png"
-                      alt=""
-                    >
-                    <img
-                      class="startConfig"
-                      v-else
-                      src="../assets/images/start-appicon.png"
-                      alt=""
-                      @click="startConfig(index,appindex)"
-                    >
-                    <p>{{ appItem.appPkgName }}</p>
-                  </el-carousel-item>
-                </el-carousel>
-              </div>
               <div
-                class="resources-show"
-                v-if="showDetail"
+                class="edge-info"
+                id="edge-info"
               >
-                <span class="info-title">
-                  {{ $t('overview.resourceDetails') }}
-                </span>
-                <el-popover
-                  placement="bottom"
-                  trigger="hover"
+                <div class="top-name">
+                  <span>{{ item.mechostName }}</span>
+                </div>
+                <img
+                  v-if="!bgImg"
+                  class="content-img"
+                  :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
+                  alt=""
                 >
-                  <span
-                    slot="reference"
-                    class="infoBtn"
-                    style="float: right;cursor: pointer;"
-                  >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
-                  <div
-                    class="detail"
+                <img
+                  v-else
+                  class="content-img"
+                  :src="language==='cn'? bgImgUrltwoCn : bgImgUrltwoEn"
+                  alt=""
+                >
+                <div class="appimg">
+                  <el-carousel
+                    arrow="never"
+                    :autoplay="false"
+                    height="210px"
+                    trigger="click"
+                    @change="handleAppChange"
+                    :initial-index="appIndex"
                   >
-                    <p class="info-title">
-                      {{ $t('overview.moreResource') }}
-                    </p>
-                    <el-form>
-                      <el-form-item :label="$t('overview.network')">
-                        {{ item.detailInfo.resource.inter }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.x86')">
-                        {{ item.detailInfo.resource.x86Resource }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.GPU')">
-                        {{ item.detailInfo.resource.GPU }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.AI')">
-                        {{ item.detailInfo.resource.AI }}
-                      </el-form-item>
-                    </el-form>
-                  </div>
-                </el-popover>
-
-                <div class="resources">
-                  <div
-                    class="chartPie"
+                    <el-carousel-item
+                      v-for="(appItem,appindex) in item.appList"
+                      :key="appindex"
+                    >
+                      <img
+                        v-if="appItem.status"
+                        src="../assets/images/appicon_suc.png"
+                        alt=""
+                      >
+                      <img
+                        class="startConfig"
+                        v-else
+                        src="../assets/images/start-appicon.png"
+                        alt=""
+                        @click="startConfig(index,appindex)"
+                      >
+                      <p>{{ appItem.appPkgName }}</p>
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+                <div
+                  class="resources-show"
+                  v-if="showDetail"
+                >
+                  <span class="info-title">
+                    {{ $t('overview.resourceDetails') }}
+                  </span>
+                  <el-popover
+                    placement="bottom"
+                    trigger="hover"
                   >
-                    <div
-                      class="sumchart"
-                      id="cpuChart"
-                    />
-                    <div
-                      class="sumchart"
-                      id="memoryChart"
-                    />
-                  </div>
-                  <div style="text-align:center;margin-top:4px;">
                     <span
-                      class="occupiedBefore"
-                      style="margin-right:15px;"
-                    >{{ $t('overview.occupied') }}</span>
-                    <span class="UsableBefore">{{ $t('overview.usable') }}</span>
+                      slot="reference"
+                      class="infoBtn"
+                      style="float: right;cursor: pointer;"
+                    >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
+                    <div
+                      class="detail"
+                    >
+                      <p class="info-title">
+                        {{ $t('overview.moreResource') }}
+                      </p>
+                      <el-form>
+                        <el-form-item :label="$t('overview.network')">
+                          {{ item.detailInfo.resource.inter }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.x86')">
+                          {{ item.detailInfo.resource.x86Resource }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.GPU')">
+                          {{ item.detailInfo.resource.GPU }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.AI')">
+                          {{ item.detailInfo.resource.AI }}
+                        </el-form-item>
+                      </el-form>
+                    </div>
+                  </el-popover>
+
+                  <div class="resources">
+                    <div
+                      class="chartPie"
+                    >
+                      <div
+                        class="sumchart"
+                        id="cpuChart"
+                      />
+                      <div
+                        class="sumchart"
+                        id="memoryChart"
+                      />
+                    </div>
+                    <div style="text-align:center;margin-top:4px;">
+                      <span
+                        class="occupiedBefore"
+                        style="margin-right:15px;"
+                      >{{ $t('overview.occupied') }}</span>
+                      <span class="UsableBefore">{{ $t('overview.usable') }}</span>
+                    </div>
+                    <p style="text-align:center;margin-top:4px;">
+                      {{ $t('overview.computeResources') }}
+                    </p>
                   </div>
-                  <p style="text-align:center;margin-top:4px;">
-                    {{ $t('overview.computeResources') }}
-                  </p>
                 </div>
               </div>
-            </div>
-          </el-carousel-item>
-        </el-carousel>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
+    <EgFooter
+      :platform-data="platformData"
+      :show-full-footer-page="showFullFooterPage"
+      :specific-bg="specificBg"
+      :specific-bg-color="specificBgColor"
+    />
   </div>
 </template>
 
 <script>
 import { lcmController } from '../tools/request.js'
 import echarts from 'echarts'
+import EgFooter from 'eg-view/src/components/EgFooter.vue'
+
 export default {
+  components: { EgFooter },
   data () {
     return {
       nodeList: [],
@@ -156,7 +167,11 @@ export default {
       bgImgUrltwoEn: require('../assets/images/configured_bg_en.png'),
       cpudata: null,
       memdata: null,
-      showDetail: true
+      showDetail: true,
+      platformData: [],
+      showFullFooterPage: true,
+      specificBg: true,
+      specificBgColor: '#ffffff'
     }
   },
   watch: {
