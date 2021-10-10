@@ -250,8 +250,8 @@ export default {
     },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
-      this.bgImg = this.nodeList[nodeIndex].appList[0].status
       this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
+      this.bgImg = this.nodeList[nodeIndex].appList[0].status ? this.nodeList[nodeIndex].appList[0].status : ''
     },
     handleAppChange (index, status) {
       this.appIndex = Number(index)
