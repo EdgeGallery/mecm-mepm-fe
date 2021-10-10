@@ -49,7 +49,7 @@ export default {
     }
   },
   watch: {
-    $route (to) {
+    $route (to, from) {
       this.specificRender(to.path)
     }
   }
