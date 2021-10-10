@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="edge_list padding_default">
+  <div
+    class="edge_list padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.edgeNodes') }}
       <span class="line_bot1" />

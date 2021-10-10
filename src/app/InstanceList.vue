@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="padding_default">
+  <div
+    class="padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.appInstance') }}
       <span class="line_bot1" />
