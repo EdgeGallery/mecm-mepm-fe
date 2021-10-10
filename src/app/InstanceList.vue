@@ -21,17 +21,27 @@
       <span class="line_bot1" />
     </div>
     <div class="ainsList">
-      <el-button
-        @click="beforeDelete(selectData,1)"
-        class="delete_btn rt"
-      >
-        {{ this.$t('app.instanceList.batchDelete') }}
-      </el-button>
-      <Search
-        :affinity-item="false"
-        :status-item="false"
-        @getSearchData="getSearchData"
-      />
+      <div class="topOperArea">
+        <el-button
+          @click="beforeDelete(selectData,1)"
+          class="delete_btn rt"
+        >
+          {{ this.$t('app.instanceList.batchDelete') }}
+        </el-button>
+        <el-input
+          maxlength="20"
+          v-model="searchData"
+          :placeholder="$t('app.packageList.name')"
+          @keyup.enter.native="filterHandler"
+          class="enterinput lt"
+        >
+          <em
+            slot="suffix"
+            class="search_icon"
+            @click="filterHandler"
+          />
+        </el-input>
+      </div>
       <div class="tableDiv">
         <el-table
           style="width: 100%;"
@@ -210,7 +220,6 @@
 </template>
 
 <script>
-import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
 import InstanceUsage from './InstanceUsage.vue'
 import { lcmController } from '../tools/request.js'
@@ -218,7 +227,7 @@ import { lcmController } from '../tools/request.js'
 export default {
   name: 'AinsList',
   components: {
-    Search, Pagination, InstanceUsage
+    Pagination, InstanceUsage
   },
   data () {
     return {
@@ -233,7 +242,7 @@ export default {
         podName: ''
       },
       detailData: [],
-      searchData: null,
+      searchData: '',
       selectData: [],
       DeploymentStatus: 'Instantiated',
       instanceListVisible: false,
@@ -313,22 +322,12 @@ export default {
         return itemVal.indexOf(val) > -1
       })
     },
-    getSearchData (data) {
-      this.searchData = data
+    filterHandler () {
       this.paginationData = this.tableData
       if (this.paginationData && this.paginationData.length > 0) {
-        let reset = false
-        for (let key in data) {
-          if (data[key]) {
-            reset = true
-            let dataKey = ''
-            if (key === 'name') {
-              dataKey = 'appName'
-            }
-            this.filterTableData(data[key].toLowerCase(), dataKey)
-          }
+        if (this.searchData && this.searchData.length > 0) {
+          this.filterTableData(this.searchData, 'appName')
         }
-        if (!reset) this.paginationData = this.tableData
       }
     },
     getCurrentPageData (data) {
@@ -372,9 +371,7 @@ export default {
         } else {
           this.tableData = this.paginationData = []
         }
-        if (this.searchData) {
-          this.getSearchData(this.searchData)
-        }
+        this.filterHandler()
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -444,6 +441,18 @@ export default {
     padding: 30px 60px;
     border-radius: 20px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    .topOperArea{
+      height: 65px;
+      .el-input{
+        margin-top: 5px;
+        .search_icon{
+          top: 8px;
+        }
+      }
+      .el-input__inner{
+        height: 30px;
+      }
+    }
     .btn-group{
       margin:15px 0;
     }
