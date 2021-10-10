@@ -192,10 +192,6 @@ export default {
       }
       return this.$t('common.unknown')
     },
-    handleView () {
-
-    },
-    handleEdit () {},
     handleDelete (row) {
       this.$confirm(this.$t('tip.confirmDelete') + row.imageName + this.$t('tip.image'), this.$t('common.warning'), {
         confirmButtonText: this.$t('common.confirm'),
@@ -214,8 +210,7 @@ export default {
           message: '已取消'
         })
       })
-    },
-    handleUpload () {}
+    }
   }
 }
 </script>

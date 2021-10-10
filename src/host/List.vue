@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="edge_list padding_default">
+  <div
+    class="edge_list padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.edgeNodes') }}
       <span class="line_bot1" />
@@ -534,7 +537,7 @@ export default {
       this.$router.push({ name: 'mepinfo', params: { nodeIp: row.mechostIp } })
     },
     showDetails (row) {
-      this.$router.push({ name: 'edge-details', params: { nodeInfo: row, nodeIp: row.mechostIp } })
+      this.$router.push({ name: 'nodeinfo', params: { nodeInfo: row, nodeIp: row.mechostIp } })
     },
     filterTableData (val, key) {
       this.paginationData = this.paginationData.filter(item => {

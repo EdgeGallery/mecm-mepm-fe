@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="ruleconfig padding_default">
+  <div
+    class="ruleconfig padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       {{ $t('nav.ruleConfiguration') }}
       <span class="line_bot1" />

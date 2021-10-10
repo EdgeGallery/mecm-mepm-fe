@@ -161,7 +161,7 @@ export default {
       line-height: 18px;
       font-size: 18px;
       font-weight: bold;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       color: #5d3da0;
       margin: 10px 0 35px 0;
     }
@@ -176,14 +176,13 @@ export default {
       width: 100%;
       font-size: 18px;
       border: none;
-      font-family: HarmonyHeiTi;
-      font-size: 22px;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
       border-radius: 22px;
     }
     .el-button--text{
       color: #53c6d4;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-size: 14px;
       margin-top: 15px;
       margin-left: 0;
@@ -192,11 +191,11 @@ export default {
   .modify-tips{
     margin-top: 15px;
     color: #5d3da0;
-    font-family: HarmonyHeiTi;
+    font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
     font-size: 12px;
     .el-button--text{
       color: #53c6d4;
-      font-family: HarmonyHeiTi;
+      font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
       font-size: 12px;
     }
   }

@@ -15,7 +15,10 @@
   -->
 
 <template>
-  <div class="package_list padding_default">
+  <div
+    class="package_list padding_default"
+    style="min-height:648px;"
+  >
     <div class="title_top title_left defaultFontBlod clear">
       边缘应用市场
       <span class="line_bot1" />
@@ -29,11 +32,21 @@
       </el-button>
     </div>
     <div class="apacList">
-      <Search
-        @getSearchData="getSearchData"
-        :status-item="false"
-        :type-item="false"
-      />
+      <div class="topOperArea">
+        <el-input
+          maxlength="20"
+          v-model="searchData"
+          :placeholder="$t('app.packageList.name')"
+          @keyup.enter.native="filterHandler"
+          class="enterinput lt"
+        >
+          <em
+            slot="suffix"
+            class="search_icon"
+            @click="filterHandler"
+          />
+        </el-input>
+      </div>
       <div class="tableDiv">
         <el-table
           v-loading="dataLoading"
@@ -272,12 +285,11 @@
 
 <script>
 import { lcmController } from '../tools/request.js'
-import Search from '../components/Search.vue'
 import Pagination from '../components/Pagination.vue'
 export default {
   name: 'ApacList',
   components: {
-    Search, Pagination
+    Pagination
   },
   data () {
     return {
@@ -307,7 +319,8 @@ export default {
       currForm: {
         appPkgName: '',
         description: ''
-      }
+      },
+      searchData: ''
     }
   },
   mounted () {
@@ -367,17 +380,12 @@ export default {
       })
     },
     // 根据搜索组件进行筛选
-    getSearchData (data) {
+    filterHandler () {
       this.paginationData = this.tableData
       if (this.paginationData && this.paginationData.length > 0) {
-        let reset = false
-        for (let key in data) {
-          if (data[key]) {
-            reset = true
-            this.filterTableData(data[key].toLowerCase(), key)
-          }
+        if (this.searchData && this.searchData.length > 0) {
+          this.filterTableData(this.searchData, 'appPkgName')
         }
-        if (!reset) this.paginationData = this.tableData
       }
     },
     // 列表根据分页组件显示数据
@@ -555,11 +563,20 @@ export default {
   }
 
   .apacList {
-      height: 100%;
-      background: #fff;
-      padding: 30px 60px;
-      border-radius: 20px;
-      box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    height: 100%;
+    background: #fff;
+    padding: 30px 60px;
+    border-radius: 20px;
+    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    .topOperArea{
+      height: 65px;
+      .el-input{
+        margin-top: 5px;
+        .search_icon{
+          top: 8px;
+        }
+      }
+    }
     .tableDiv {
       width: 100%;
     }

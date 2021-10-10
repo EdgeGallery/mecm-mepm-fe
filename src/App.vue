@@ -27,11 +27,6 @@ export default {
   name: 'App',
   components: {
     Navbar
-  },
-  beforeCreate () {
-    if (sessionStorage.getItem('before_route')) {
-      this.$router.push(sessionStorage.getItem('before_route'))
-    }
   }
 }
 </script>

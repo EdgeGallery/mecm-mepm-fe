@@ -17,18 +17,47 @@
 <template>
   <div class="home-container">
     <router-view id="container" />
+    <EgFooter
+      :platform-data="platformData"
+      :show-full-footer-page="showFullFooterPage"
+      :specific-bg="specificBg"
+      :specific-bg-color="specificBgColor"
+    />
   </div>
 </template>
 
 <script>
+import EgFooter from 'eg-view/src/components/EgFooter.vue'
 export default {
   name: 'Layout',
-  components: {},
-  methods: {}
+  components: { EgFooter },
+  data () {
+    return {
+      platformData: [],
+      showFullFooterPage: false,
+      specificBg: true,
+      specificBgColor: '#f6f5f8'
+    }
+  },
+  methods: {
+    specificRender (path) {
+      if (path.includes('mepm/mepinfo/')) {
+        this.specificBgColor = '#ffffff'
+      } else {
+        this.specificBgColor = '#f6f5f8'
+      }
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.specificRender(to.path)
+    }
+  }
 }
 </script>
 <style lang='less'>
 .home-container{
   padding-top: 60px;
+  background-color: #f6f5f8;
 }
 </style>

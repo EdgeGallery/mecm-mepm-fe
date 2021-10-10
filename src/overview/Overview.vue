@@ -1,132 +1,157 @@
 <template>
-  <div class="overview">
-    <div class="mid-content">
-      <div class="title_top font-bold">
-        {{ $t('nav.overview') }}
-        <span class="line_bot" />
-      </div>
-      <div class="content">
-        <el-carousel
-          arrow="always"
-          :autoplay="false"
-          height="800px"
-        >
-          <el-carousel-item
-            v-for="(item,index) in nodeList"
-            :key="index"
+  <div>
+    <div class="overview">
+      <div class="mid-content">
+        <div class="title_top font-bold">
+          {{ $t('nav.overview') }}
+          <span class="line_bot" />
+        </div>
+        <div class="content">
+          <el-carousel
+            arrow="always"
+            :autoplay="false"
+            height="800px"
+            @change="handleNodeChange"
+            :initial-index="nodeIndex"
           >
-            <div
-              class="edge-info"
-              id="edge-info"
+            <el-carousel-item
+              v-for="(item,index) in nodeList"
+              :key="index"
             >
-              <div class="top-name">
-                <span>{{ item.mechostName }}</span>
-              </div>
-              <img
-                v-if="bgImg===false"
-                class="content-img"
-                :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
-                alt=""
+              <div
+                class="edge-info"
+                id="edge-info"
               >
-              <img
-                v-else
-                class="content-img"
-                :src="language==='cn'? bgImgUrltwoCn : bgImgUrltwoEn"
-                alt=""
-              >
-              <div class="appimg">
-                <el-carousel
-                  arrow="never"
-                  :autoplay="false"
-                  height="210px"
-                  trigger="click"
+                <div class="top-name">
+                  <span>{{ item.mechostName }}</span>
+                </div>
+                <img
+                  v-if="!bgImg"
+                  class="content-img"
+                  :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
+                  alt=""
                 >
-                  <el-carousel-item
-                    v-for="(appItem,appindex) in item.appList"
-                    :key="appindex"
+                <img
+                  v-else
+                  class="content-img"
+                  :src="language==='cn'? bgImgUrltwoCn : bgImgUrltwoEn"
+                  alt=""
+                >
+                <div class="appimg">
+                  <el-carousel
+                    arrow="never"
+                    :autoplay="false"
+                    height="210px"
+                    trigger="click"
+                    @change="handleAppChange"
+                    :initial-index="appIndex"
                   >
-                    <img
-                      class="startConfig"
-                      src="../assets/images/start-appicon.png"
-                      alt=""
+                    <el-carousel-item
+                      v-for="(appItem,appindex) in item.appList"
+                      :key="appindex"
                     >
-                    <p>{{ appItem.appPkgName }}</p>
-                  </el-carousel-item>
-                </el-carousel>
-              </div>
-              <div class="resources-show">
-                <span class="info-title">
-                  {{ $t('overview.resourceDetails') }}
-                </span>
-                <el-popover
-                  placement="bottom"
-                  trigger="click"
+                      <img
+                        v-if="appItem.status"
+                        src="../assets/images/appicon_suc.png"
+                        alt=""
+                      >
+                      <img
+                        class="startConfig"
+                        v-else
+                        src="../assets/images/start-appicon.png"
+                        alt=""
+                        @click="startConfig(index,appindex)"
+                      >
+                      <p>{{ appItem.appPkgName }}</p>
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+                <div
+                  class="resources-show"
+                  v-if="showDetail"
                 >
-                  <span
-                    slot="reference"
-                    class="infoBtn"
-                    style="float: right;cursor: pointer;"
-                  >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
-                  <div
-                    class="detail"
+                  <span class="info-title">
+                    {{ $t('overview.resourceDetails') }}
+                  </span>
+                  <el-popover
+                    placement="bottom"
+                    trigger="hover"
                   >
-                    <p class="info-title">
-                      {{ $t('overview.moreResource') }}
-                    </p>
-                    <el-form>
-                      <el-form-item :label="$t('overview.network')">
-                        {{ item.detailInfo.resource.inter }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.x86')">
-                        {{ item.detailInfo.resource.x86Resource }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.GPU')">
-                        {{ item.detailInfo.resource.GPU }}
-                      </el-form-item>
-                      <el-form-item :label="$t('overview.AI')">
-                        {{ item.detailInfo.resource.AI }}
-                      </el-form-item>
-                    </el-form>
-                  </div>
-                </el-popover>
-
-                <div class="resources">
-                  <div
-                    class="chartPie"
-                  >
-                    <div
-                      class="sumchart"
-                      :id="GPUId(index)"
-                    />
-                    <div
-                      class="sumchart"
-                      :id="MEMORYId(index)"
-                    />
-                  </div>
-                  <div style="text-align:center;margin-top:4px;">
                     <span
-                      class="OccupyedBefore"
-                      style="margin-right:15px;"
-                    >{{ $t('overview.occupyed') }}</span>
-                    <span class="UsableBefore">{{ $t('overview.usable') }}</span>
+                      slot="reference"
+                      class="infoBtn"
+                      style="float: right;cursor: pointer;"
+                    >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
+                    <div
+                      class="detail"
+                    >
+                      <p class="info-title">
+                        {{ $t('overview.moreResource') }}
+                      </p>
+                      <el-form>
+                        <el-form-item :label="$t('overview.network')">
+                          {{ item.detailInfo.resource.inter }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.x86')">
+                          {{ item.detailInfo.resource.x86Resource }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.GPU')">
+                          {{ item.detailInfo.resource.GPU }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.AI')">
+                          {{ item.detailInfo.resource.AI }}
+                        </el-form-item>
+                      </el-form>
+                    </div>
+                  </el-popover>
+
+                  <div class="resources">
+                    <div
+                      class="chartPie"
+                    >
+                      <div
+                        class="sumchart"
+                        id="cpuChart"
+                      />
+                      <div
+                        class="sumchart"
+                        id="memoryChart"
+                      />
+                    </div>
+                    <div style="text-align:center;margin-top:4px;">
+                      <span
+                        class="occupiedBefore"
+                        style="margin-right:15px;"
+                      >{{ $t('overview.occupied') }}</span>
+                      <span class="UsableBefore">{{ $t('overview.usable') }}</span>
+                    </div>
+                    <p style="text-align:center;margin-top:4px;">
+                      {{ $t('overview.computeResources') }}
+                    </p>
                   </div>
-                  <p style="text-align:center;margin-top:4px;">
-                    {{ $t('overview.computeResources') }}
-                  </p>
                 </div>
               </div>
-            </div>
-          </el-carousel-item>
-        </el-carousel>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
     </div>
+    <EgFooter
+      :platform-data="platformData"
+      :show-full-footer-page="showFullFooterPage"
+      :specific-bg="specificBg"
+      :specific-bg-color="specificBgColor"
+    />
   </div>
 </template>
 
 <script>
 import { lcmController } from '../tools/request.js'
 import echarts from 'echarts'
+import EgFooter from 'eg-view/src/components/EgFooter.vue'
+
 export default {
+  components: { EgFooter },
   data () {
     return {
       nodeList: [],
@@ -139,7 +164,14 @@ export default {
       bgImgUrloneCn: require('../assets/images/start_bg.png'),
       bgImgUrloneEn: require('../assets/images/start_bg_en.png'),
       bgImgUrltwoCn: require('../assets/images/configured_bg.png'),
-      bgImgUrltwoEn: require('../assets/images/configured_bg_en.png')
+      bgImgUrltwoEn: require('../assets/images/configured_bg_en.png'),
+      cpudata: null,
+      memdata: null,
+      showDetail: true,
+      platformData: [],
+      showFullFooterPage: true,
+      specificBg: true,
+      specificBgColor: '#ffffff'
     }
   },
   watch: {
@@ -159,17 +191,17 @@ export default {
             resource: {
               inter: '5G',
               x86Resource: '50C、256G、1T',
-              GPU: 'Tesla P4*5、Tesla P1C0*2、TIAN*2',
+              GPU: 'AMD EPYC 7763*2',
               AI: 'Atlas 200*200'
             },
             chartData: [
               {
                 name: 'CPU',
-                Occupyed: '20',
+                occupied: '20',
                 Usable: '80'
               }, {
                 name: 'MEMORY',
-                Occupyed: '20',
+                occupied: '20',
                 Usable: '80'
               }
             ]
@@ -177,65 +209,85 @@ export default {
           this.nodeList.push(item)
         })
         this.initPackageList()
-        this.drawGPUchart()
-        this.drawMEMORYchart()
-        this.drawDISKchart()
-      }).catch((error) => {
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-          this.tableData = this.paginationData = []
+        if (this.nodeList[0].vim === 'K8S') {
+          this.getNodeKpi(this.nodeList[0].mechostIp)
+          this.showDetail = true
         } else {
-          this.$message.error(this.$t('tip.failedToGetList'))
+          this.showDetail = false
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    handleNodeList (host, val) {
+      this.nodeList.forEach((node, index) => {
+        if (host.hostIp === node.mechostIp) {
+          var result = this.nodeList[index].appList.some(function (item) {
+            if (item.packageId === val.packageId) {
+              return true
+            }
+          })
+          if (!result) {
+            this.nodeList[index].appList.push(val)
+          }
         }
       })
     },
     initPackageList () {
       lcmController.getDistributionList().then(res => {
-        res.data.forEach(item => {
-          item.mecHostInfo.forEach(host => {
-            this.nodeList.forEach(node => {
-              if (host.hostIp === node.mechostIp) {
-                node.appList.push(item)
+        res.data.forEach(val => {
+          if (val.mecHostInfo && val.mecHostInfo.length > 0) {
+            val.mecHostInfo.forEach(host => {
+              this.handleNodeList(host, val)
+            })
+          }
+        })
+        this.$nextTick(function () {
+          this.getInstanceList()
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getInstanceList () {
+      lcmController.getInstanceList().then(res => {
+        res.data.forEach(ins => {
+          this.nodeList.forEach((node, index) => {
+            node.appList.forEach((app, key) => {
+              if (ins.appPackageId === app.packageId) {
+                this.nodeList[index].appList[key].status = ins.syncStatus
               }
             })
           })
         })
-      }).catch((error) => {
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-          this.tableData = this.paginationData = []
-        } else {
-          this.$message.error(this.$t('tip.getCommonListFailed'))
-        }
+        this.bgImg = this.nodeList[0].appList[0].status
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getNodeKpi (ip) {
+      lcmController.getNodeKpi(ip).then(res => {
+        this.cpudata = res.data.cpuusage
+        this.memdata = res.data.memusage
+        this.drawCpuChart()
+        this.drawMemoryChart()
+      }).catch(error => {
+        console.log(error)
       })
     },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
-      if (status === 'success') {
-        setTimeout(() => {
-          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        }, 5000)
+      if (this.nodeList[nodeIndex].vim === 'K8S') {
+        this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
+        this.showDetail = true
       } else {
-        setTimeout(() => {
-          this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        }, 5000)
+        this.showDetail = false
       }
+      this.bgImg = this.nodeList[nodeIndex].appList[0].status ? this.nodeList[nodeIndex].appList[0].status : ''
     },
     handleAppChange (index, status) {
       this.appIndex = Number(index)
-      if (status === 'success') {
-        this.$message.success('提交成功，应用部署中！')
-        this.nodeList[this.nodeIndex].appList[this.appIndex].status = 'configed'
-        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        setTimeout(() => {
-          this.$message.success('应用部署成功！')
-          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
-        }, 5000)
-      } else {
-        this.$message.success('保存配置成功！')
-        this.bgImg = this.nodeList[this.nodeIndex].appList[this.appIndex].status !== 'null'
-        setTimeout(() => {
-          this.nodeList[this.nodeIndex].appList[this.appIndex].status = status
-        }, 1000)
-      }
+      this.bgImg = this.nodeList[this.nodeIndex].appList[index].status
     },
     setDivHeight () {
       this.$nextTick(() => {
@@ -257,15 +309,8 @@ export default {
         this.$router.push('/mepm/resource/container')
       }
     },
-    GPUId (index) {
-      return 'GPUchart' + index
-    },
-    MEMORYId (index) {
-      return 'MEMORYchart' + index
-    },
-    drawGPUchart () {
-      let Chart0 = echarts.init(document.getElementById('GPUchart0'))
-      let Chart1 = echarts.init(document.getElementById('GPUchart1'))
+    drawCpuChart () {
+      let cpuChart = echarts.init(document.getElementById('cpuChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -285,8 +330,9 @@ export default {
             type: 'pie',
             radius: '70%',
             data: [
-              { value: 1048,
-                name: '已占用',
+              {
+                value: parseInt((this.cpudata.used / this.cpudata.total) * 100),
+                name: this.$t('overview.occupied'),
                 label: {
                   normal: {
                     position: 'inner',
@@ -296,30 +342,35 @@ export default {
                     show: true,
                     formatter: '{d}%'
                   }
-                } },
-              { value: 735,
-                name: '未占用',
+                }
+              },
+              {
+                value: parseInt(((this.cpudata.total - this.cpudata.used) / this.cpudata.total) * 100),
+                name: this.$t('overview.usable'),
                 label: {
                   normal: {
                     position: 'inner',
-                    show: false
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
                   }
-                } }
+                }
+              }
             ]
           }
         ]
       }
-      Chart0.setOption(option)
-      Chart1.setOption(option)
+      cpuChart.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart0) {
-          Chart0.resize()
+        if (cpuChart) {
+          cpuChart.resize()
         }
       })
     },
-    drawMEMORYchart () {
-      let Chart2 = echarts.init(document.getElementById('MEMORYchart0'))
-      let Chart3 = echarts.init(document.getElementById('MEMORYchart1'))
+    drawMemoryChart () {
+      let memChart = echarts.init(document.getElementById('memoryChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -339,8 +390,9 @@ export default {
             type: 'pie',
             radius: '70%',
             data: [
-              { value: 100,
-                name: '已占用',
+              {
+                value: parseInt((this.memdata.used / this.memdata.total) * 100),
+                name: this.$t('overview.occupied'),
                 label: {
                   normal: {
                     position: 'inner',
@@ -350,51 +402,11 @@ export default {
                     show: true,
                     formatter: '{d}%'
                   }
-                } },
-              { value: 300,
-                name: '未占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false
-                  }
-                } }
-            ]
-          }
-        ]
-      }
-      Chart2.setOption(option)
-      Chart3.setOption(option)
-      window.addEventListener('resize', () => {
-        if (Chart2) {
-          Chart2.resize()
-        }
-      })
-    },
-    drawDISKchart () {
-      let Chart4 = echarts.init(document.getElementById('DISKchart0'))
-      let Chart5 = echarts.init(document.getElementById('DISKchart1'))
-      let colors = ['#7152db', '#9686e1']
-      let option = {
-        color: colors,
-        title: {
-          text: 'DISK',
-          x: 'center',
-          y: 'bottom',
-          padding: 0,
-          textStyle: {
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 'normal'
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '70%',
-            data: [
-              { value: 135,
-                name: '已占用',
+                }
+              },
+              {
+                value: parseInt(((this.memdata.total - this.memdata.used) / this.memdata.total) * 100),
+                name: this.$t('overview.usable'),
                 label: {
                   normal: {
                     position: 'inner',
@@ -404,24 +416,16 @@ export default {
                     show: true,
                     formatter: '{d}%'
                   }
-                } },
-              { value: 235,
-                name: '未占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false
-                  }
-                } }
+                }
+              }
             ]
           }
         ]
       }
-      Chart4.setOption(option)
-      Chart5.setOption(option)
+      memChart.setOption(option)
       window.addEventListener('resize', () => {
-        if (Chart4) {
-          Chart4.resize()
+        if (memChart) {
+          memChart.resize()
         }
       })
     }
@@ -504,7 +508,7 @@ export default {
           span{
             color: #7a6e8a;
             font-size: 26px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
           }
         }
         .content-img{
@@ -515,18 +519,17 @@ export default {
           top: 145px;
           left: 42%;
           width: 15%;
-          cursor: pointer;
           img{
             width: 100%;
           }
           p{
             position: absolute;
-            bottom: 23px;
+            bottom: 180px;
             left: 50%;
             transform: translateX(-50%);
             color: #827792;
             font-size: 16px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
           }
           .startConfig{
              animation: rotate 0.5s infinite linear ;
@@ -561,7 +564,7 @@ export default {
           right: 10%;
           .info-title{
             font-size: 18px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             color: #5e40c8;
           }
           .info-title::before{
@@ -573,7 +576,7 @@ export default {
           }
           .infoBtn{
             font-size: 14px;
-            font-family: HarmonyOS_Sans_Regular;
+            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             color: #5e40c8;
           }
           .resources{
@@ -581,7 +584,7 @@ export default {
             p{
               color: #827792;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             }
             .chartPie{
               display: flex;
@@ -590,12 +593,12 @@ export default {
                 height: 100px;
               }
             }
-            .OccupyedBefore,.UsableBefore{
+            .occupiedBefore,.UsableBefore{
               color: #827792;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
             }
-            .OccupyedBefore::before{
+            .occupiedBefore::before{
               content: '';
               display: inline-block;
               width: 8px;
@@ -639,7 +642,7 @@ export default {
             width: 310px;
             .info-title{
               font-size: 18px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
               color: #5e40c8;
               padding-bottom: 8px;
             }
@@ -654,7 +657,7 @@ export default {
               padding-left: 12px;
               color: #5e40c8;
               font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular;
+              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
               .el-form-item{
                 margin-bottom: 0;
               }

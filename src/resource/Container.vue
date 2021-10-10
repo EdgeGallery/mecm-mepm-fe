@@ -105,12 +105,6 @@ export default {
     }
   },
   methods: {
-    checkDetail () {
-
-    },
-    handleSelectionChange (val) {
-
-    },
     confirmImg () {
       let temp = sessionStorage.getItem('appIndex')
       temp = temp + ',success'
