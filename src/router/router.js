@@ -35,11 +35,6 @@ export default new Router({
       component: () => import('../overview/Overview.vue')
     },
     {
-      path: '/edge-details/:nodeIp',
-      name: 'edge-details',
-      component: () => import('../host/NodeInfo.vue')
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('../user/Login.vue')
@@ -83,6 +78,14 @@ export default new Router({
           path: 'mecm/node/list',
           name: 'hostOverview',
           component: () => import('../host/List.vue')
+        },
+        {
+          path: 'mecm/nodeinfo/:nodeIp',
+          name: 'nodeinfo',
+          component: () => import('../host/NodeInfo.vue'),
+          meta: {
+            keepAlive: false
+          }
         },
         {
           path: 'mepm/mepinfo/:nodeIp',

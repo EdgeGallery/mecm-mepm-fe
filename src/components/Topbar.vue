@@ -125,8 +125,8 @@ export default {
       } else if (this.indexName === '/mecm/ruleconfig') {
         this.indexName = '/mecm/ains/list'
       } else if (this.indexName.includes('mepm/mepinfo/')) {
-        this.indexName = '/'
-      } else if (this.indexName.includes('edge-details')) {
+        this.indexName = '/mecm/node/list'
+      } else if (this.indexName.includes('nodeinfo')) {
         this.indexName = '/mecm/node/list'
       } else if (this.indexName.includes('mepm/resource')) {
         this.indexName = '/'
