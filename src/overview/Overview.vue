@@ -25,7 +25,7 @@
                 <span>{{ item.mechostName }}</span>
               </div>
               <img
-                v-if="bgImg===false"
+                v-if="!bgImg"
                 class="content-img"
                 :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
                 alt=""
@@ -54,7 +54,6 @@
                       src="../assets/images/appicon_suc.png"
                       alt=""
                     >
-
                     <img
                       class="startConfig"
                       v-else
@@ -163,8 +162,6 @@ export default {
   },
   mounted () {
     this.getNodeListInPage()
-    this.drawCpuChart()
-    this.drawMemoryChart()
   },
   methods: {
     getNodeListInPage () {
@@ -196,24 +193,33 @@ export default {
         this.getNodeKpi(this.nodeList[0].mechostIp)
       }).catch((error) => {
         console.log(error)
-        this.$message.error(this.$t('tip.getCommonListFailed'))
       })
     },
     initPackageList () {
       lcmController.getDistributionList().then(res => {
         res.data.forEach(val => {
-          val.mecHostInfo.forEach(host => {
-            this.nodeList.forEach((node, index) => {
-              if (host.hostIp === node.mechostIp) {
-                this.nodeList[index].appList.push(val)
-              }
+          if (val.mecHostInfo && val.mecHostInfo.length > 0) {
+            val.mecHostInfo.forEach(host => {
+              this.nodeList.forEach((node, index) => {
+                if (host.hostIp === node.mechostIp) {
+                  var result = this.nodeList[index].appList.some(function (item) {
+                    if (item.packageId === val.packageId) {
+                      return true
+                    }
+                  })
+                  if (!result) {
+                    this.nodeList[index].appList.push(val)
+                  }
+                }
+              })
             })
-          })
+          }
         })
-        this.getInstanceList()
+        this.$nextTick(function () {
+          this.getInstanceList()
+        })
       }).catch((error) => {
         console.log(error)
-        this.$message.error(this.$t('tip.getCommonListFailed'))
       })
     },
     getInstanceList () {
@@ -230,7 +236,6 @@ export default {
         this.bgImg = this.nodeList[0].appList[0].status
       }).catch(error => {
         console.log(error)
-        this.$message.error(this.$t('tip.getCommonListFailed'))
       })
     },
     getNodeKpi (ip) {
@@ -294,12 +299,32 @@ export default {
             radius: '70%',
             data: [
               {
-                value: parseInt(this.cpudata.used / this.cpudata.total) + '%',
-                name: this.$('overview.occupied')
+                value: parseInt((this.cpudata.used / this.cpudata.total) * 100),
+                name: this.$t('overview.occupied'),
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                }
               },
               {
-                value: parseInt((this.cpudata.total - this.cpudata.used) / this.cpudata.total) + '%',
-                name: this.$('overview.usable')
+                value: parseInt(((this.cpudata.total - this.cpudata.used) / this.cpudata.total) * 100),
+                name: this.$t('overview.usable'),
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                }
               }
             ]
           }
@@ -334,12 +359,32 @@ export default {
             radius: '70%',
             data: [
               {
-                value: parseInt(this.memdata.used / this.memdata.total) + '%',
-                name: this.$('overview.occupied')
+                value: parseInt((this.memdata.used / this.memdata.total) * 100),
+                name: this.$t('overview.occupied'),
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                }
               },
               {
-                value: parseInt((this.memdata.total - this.memdata.used) / this.memdata.total) + '%',
-                name: this.$('overview.usable')
+                value: parseInt(((this.memdata.total - this.memdata.used) / this.memdata.total) * 100),
+                name: this.$t('overview.usable'),
+                label: {
+                  normal: {
+                    position: 'inner',
+                    textStyle: {
+                      fontSize: 10
+                    },
+                    show: true,
+                    formatter: '{d}%'
+                  }
+                }
               }
             ]
           }
