@@ -27,7 +27,7 @@ if (window.location.href.indexOf('31252') > -1) {
   api = 'https://' + window.location.host
 }
 
-let lcmcontrollerApi = 'api/lcmcontroller/v1'
+let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
 let lcmcontrollerApiV2 = api + ':' + serverPort + '/lcmcontroller/v2'
 
