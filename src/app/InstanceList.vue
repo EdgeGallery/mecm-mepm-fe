@@ -29,8 +29,7 @@
       </el-button>
       <Search
         :affinity-item="false"
-        :status-item="true"
-        :status="status"
+        :status-item="false"
         @getSearchData="getSearchData"
       />
       <div class="tableDiv">
@@ -224,7 +223,6 @@ export default {
   data () {
     return {
       loading: false,
-      status: ['Instantiated', 'Create failed', 'Instantiation failed'],
       currPageTableData: [],
       paginationData: [],
       dataLoading: true,
@@ -324,9 +322,7 @@ export default {
           if (data[key]) {
             reset = true
             let dataKey = ''
-            if (key === 'status') {
-              dataKey = 'operationalStatus'
-            } else if (key === 'name') {
+            if (key === 'name') {
               dataKey = 'appName'
             }
             this.filterTableData(data[key].toLowerCase(), dataKey)
