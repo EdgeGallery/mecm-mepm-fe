@@ -108,18 +108,18 @@
                   >
                     <div
                       class="sumchart"
-                      id="GPUchart"
+                      id="cpuChart"
                     />
                     <div
                       class="sumchart"
-                      id="MEMORYchart"
+                      id="memoryChart"
                     />
                   </div>
                   <div style="text-align:center;margin-top:4px;">
                     <span
-                      class="OccupyedBefore"
+                      class="occupiedBefore"
                       style="margin-right:15px;"
-                    >{{ $t('overview.occupyed') }}</span>
+                    >{{ $t('overview.occupied') }}</span>
                     <span class="UsableBefore">{{ $t('overview.usable') }}</span>
                   </div>
                   <p style="text-align:center;margin-top:4px;">
@@ -151,7 +151,9 @@ export default {
       bgImgUrloneCn: require('../assets/images/start_bg.png'),
       bgImgUrloneEn: require('../assets/images/start_bg_en.png'),
       bgImgUrltwoCn: require('../assets/images/configured_bg.png'),
-      bgImgUrltwoEn: require('../assets/images/configured_bg_en.png')
+      bgImgUrltwoEn: require('../assets/images/configured_bg_en.png'),
+      cpudata: null,
+      memdata: null
     }
   },
   watch: {
@@ -161,8 +163,8 @@ export default {
   },
   mounted () {
     this.getNodeListInPage()
-    this.drawGPUchart()
-    this.drawMEMORYchart()
+    this.drawCpuChart()
+    this.drawMemoryChart()
   },
   methods: {
     getNodeListInPage () {
@@ -179,11 +181,11 @@ export default {
             chartData: [
               {
                 name: 'CPU',
-                Occupyed: '20',
+                occupied: '20',
                 Usable: '80'
               }, {
                 name: 'MEMORY',
-                Occupyed: '20',
+                occupied: '20',
                 Usable: '80'
               }
             ]
@@ -233,7 +235,10 @@ export default {
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
-        console.log(res)
+        this.cpudata = res.data.cpuusage
+        this.memdata = res.data.memusage
+        this.drawCpuChart()
+        this.drawMemoryChart()
       }).catch(error => {
         console.log(error)
       })
@@ -267,8 +272,8 @@ export default {
         this.$router.push('/mepm/resource/container')
       }
     },
-    drawGPUchart () {
-      let ChartGpu = echarts.init(document.getElementById('GPUchart'))
+    drawCpuChart () {
+      let cpuChart = echarts.init(document.getElementById('cpuChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -288,39 +293,27 @@ export default {
             type: 'pie',
             radius: '70%',
             data: [
-              { value: 1048,
-                name: '已占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                } },
-              { value: 735,
-                name: '未占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false
-                  }
-                } }
+              {
+                value: parseInt(this.cpudata.used / this.cpudata.total) + '%',
+                name: this.$('overview.occupied')
+              },
+              {
+                value: parseInt((this.cpudata.total - this.cpudata.used) / this.cpudata.total) + '%',
+                name: this.$('overview.usable')
+              }
             ]
           }
         ]
       }
-      ChartGpu.setOption(option)
+      cpuChart.setOption(option)
       window.addEventListener('resize', () => {
-        if (ChartGpu) {
-          ChartGpu.resize()
+        if (cpuChart) {
+          cpuChart.resize()
         }
       })
     },
-    drawMEMORYchart () {
-      let ChartMem = echarts.init(document.getElementById('MEMORYchart'))
+    drawMemoryChart () {
+      let memChart = echarts.init(document.getElementById('memoryChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -340,34 +333,22 @@ export default {
             type: 'pie',
             radius: '70%',
             data: [
-              { value: 100,
-                name: '已占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                } },
-              { value: 300,
-                name: '未占用',
-                label: {
-                  normal: {
-                    position: 'inner',
-                    show: false
-                  }
-                } }
+              {
+                value: parseInt(this.memdata.used / this.memdata.total) + '%',
+                name: this.$('overview.occupied')
+              },
+              {
+                value: parseInt((this.memdata.total - this.memdata.used) / this.memdata.total) + '%',
+                name: this.$('overview.usable')
+              }
             ]
           }
         ]
       }
-      ChartMem.setOption(option)
+      memChart.setOption(option)
       window.addEventListener('resize', () => {
-        if (ChartMem) {
-          ChartMem.resize()
+        if (memChart) {
+          memChart.resize()
         }
       })
     }
@@ -535,12 +516,12 @@ export default {
                 height: 100px;
               }
             }
-            .OccupyedBefore,.UsableBefore{
+            .occupiedBefore,.UsableBefore{
               color: #827792;
               font-size: 14px;
               font-family: HarmonyOS_Sans_Regular;
             }
-            .OccupyedBefore::before{
+            .occupiedBefore::before{
               content: '';
               display: inline-block;
               width: 8px;

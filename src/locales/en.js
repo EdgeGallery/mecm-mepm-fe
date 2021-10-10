@@ -156,7 +156,7 @@ const en = {
     moreDetails: 'more',
     moreResource: ' More Resource display',
     computeResources: 'x86 Computing Resources',
-    occupyed: 'Occupied',
+    occupied: 'Occupied',
     usable: 'Usable',
     network: 'Network:',
     x86: 'X86 Resource:',

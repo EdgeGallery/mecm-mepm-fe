@@ -141,7 +141,6 @@ export default {
   },
   watch: {
     $route (to, from) {
-      sessionStorage.setItem('before_route', to.path)
       if (!sessionStorage.getItem('userName')) {
         this.ifLogin = false
         this.$router.push('/login')
