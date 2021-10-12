@@ -275,7 +275,18 @@ export default {
     }
   },
   mounted () {
-    this.getNodeListInPage()
+    // this.setDivHeight()
+    this.drawGPUchart()
+    this.drawMEMORYchart()
+    this.drawDISKchart()
+    let IndexArr = sessionStorage.getItem('appIndex').split(',')
+    if (IndexArr) {
+      this.nodeIndex = Number(IndexArr[0])
+      this.appIndex = Number(IndexArr[1])
+      sessionStorage.removeItem('appIndex')
+      this.handleNodeChange(IndexArr[0], IndexArr[2])
+      this.handleAppChange(IndexArr[1], IndexArr[2])
+    }
   },
   methods: {
     handleNodeChange (nodeIndex, status) {
