@@ -328,9 +328,10 @@ export default {
     initList () {
       console.log('app Id -> ' + this.appid)
       lcmController.getDistributionList().then(res => {
-        console.log('get distribution list response ', res.data)
+        let resData = res.data
+        console.log('get distribution list response ', resData)
         this.paginationData = []
-        res.data.forEach(item => {
+        resData.data.forEach(item => {
           if (item.appId === this.appid) {
             this.appPkgId = item.packageId
             this.appPkgName = item.appPkgName
@@ -350,7 +351,8 @@ export default {
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
+        let resData = error.response
+        if (resData && resData.status === 404 && resData.data.message === 'Record not found') {
           this.tableData = this.paginationData = []
         } else {
           this.$message.error(this.$t('tip.getCommonListFailed'))

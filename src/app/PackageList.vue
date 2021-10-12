@@ -480,12 +480,10 @@ export default {
       }).catch((error) => {
         this.loading = false
         this.fileList = []
-        if (error.response.status === 400 && error.response.data.details[0] === 'Record already exist') {
-          this.$message.error(error.response.data.details[0])
-        } else if (error.response.status === 403) {
+        if (error.response.status === 403) {
           this.$message.error(this.$t('tip.loginOperation'))
         } else {
-          this.$message.error(error.response.data)
+          this.$message.error(error.response.data.message)
         }
       })
     },
