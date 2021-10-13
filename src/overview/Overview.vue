@@ -225,7 +225,7 @@ export default {
           this.nodeList.push(item)
         })
         this.initPackageList()
-        if (this.nodeList[0].vim === 'K8S') {
+        if (this.nodeList[0].vim.toUpperCase() === 'K8S') {
           this.getNodeKpi(this.nodeList[0].mechostIp)
           this.showDetail = true
         } else {
@@ -293,7 +293,7 @@ export default {
     },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
-      if (this.nodeList[nodeIndex].vim === 'K8S') {
+      if (this.nodeList[nodeIndex].vim.toUpperCase() === 'K8S') {
         this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
         this.showDetail = true
       } else {

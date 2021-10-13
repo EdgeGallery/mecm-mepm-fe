@@ -113,14 +113,6 @@
                 {{ $t('common.modify') }}
               </el-button>
               <el-button
-                id="monitorBtn"
-                type="text"
-                size="small"
-                @click="handleMonitor(scope.row)"
-              >
-                {{ $t('edgeNode.monitor') }}
-              </el-button>
-              <el-button
                 id="detailBtn"
                 type="text"
                 size="small"
@@ -567,10 +559,6 @@ export default {
     },
     getCurrentPageData (data) {
       this.currPageTableData = data
-    },
-    handleMonitor (row) {
-      this.src = 'https://' + row.mechostIp + ':30000/dashboards'
-      window.open(this.src)
     },
     onChanged (val) {
       this.currForm.coordinates = this.$refs.myCascader.getCheckedNodes()[0].value
