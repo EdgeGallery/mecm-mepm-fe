@@ -402,7 +402,7 @@ export default {
       lcmController.batchDeleteInstanceApp(obj).then(response => {
         this.handleDeleteResponse()
       }).catch((error) => {
-        this.$message.error(error.data)
+        this.$message.error(error.response.data.message)
       })
     },
     confirmDetlete (appInstanceId) {
@@ -410,7 +410,7 @@ export default {
       lcmController.deleteInstanceApp(appInstanceId).then(response => {
         this.handleDeleteResponse()
       }).catch((error) => {
-        this.$message.error(error.data)
+        this.$message.error(error.response.data.message)
       })
     },
     handleDeleteResponse () {

@@ -24,7 +24,7 @@ let api
 if (window.location.href.indexOf('31252') > -1) {
   api = 'https://' + window.location.href.split('//')[1].split(':')[0]
 } else {
-  api = 'https://' + window.location.host
+  api = 'https://' + window.location.hostname
 }
 
 let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
@@ -111,30 +111,30 @@ let lcmController = {
     return DELETE(lcmcontrollerApi + '/hosts' + '/' + params)
   },
   uploadConfig (params) {
-    return POST(lcmcontrollerApi + '/configuration', params)
+    return POST(lcmcontrollerApiV2 + '/configuration', params)
   },
   uploadPackage (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages', params)
+    return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages', params)
   },
   getAppPackageList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
   },
   confirmToDistribute (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages/' + params.packageId,
+    return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages/' + params.packageId,
       params)
   },
   getDistributionList () {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
+    return GET(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages')
   },
   deleteDistributionApp (type, hostIp, packageId) {
-    let url = lcmcontrollerApi + '/tenants/' + getUserId() + '/packages/' + packageId + '/hosts/' + hostIp
+    let url = lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages/' + packageId + '/hosts/' + hostIp
     if (type === 2) {
-      url = lcmcontrollerApi + '/tenants/' + getUserId() + '/packages/' + packageId
+      url = lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages/' + packageId
     }
     return DELETE(url)
   },
   getNodeKpi (hostip) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts/' + hostip + '/kpi')
+    return GET(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/hosts/' + hostip + '/kpi')
   },
   getServiceInfo (instanceId) {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
@@ -152,17 +152,17 @@ let lcmController = {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId)
   },
   instantiateApp (params) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + getRandomAppInstanceId() +
+    return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/app_instances/' + getRandomAppInstanceId() +
       '/instantiate', params)
   },
   getInstanceList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances')
   },
   getInstanceDetail (appInstanceId) {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + appInstanceId)
+    return GET(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/app_instances/' + appInstanceId)
   },
   deleteInstanceApp (instanceId) {
-    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/' + instanceId + '/terminate')
+    return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/app_instances/' + instanceId + '/terminate')
   },
   batchDeleteInstanceApp (params) {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
