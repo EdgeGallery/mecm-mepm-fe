@@ -89,6 +89,7 @@
           >
             <template slot-scope="scope">
               <el-button
+                class="operations_btn"
                 id="deleteBtn"
                 @click.native.prevent="beforeDelete(scope.row)"
                 type="text"
@@ -97,6 +98,7 @@
                 {{ $t('common.delete') }}
               </el-button>
               <el-button
+                class="operations_btn"
                 id="uploadBtn"
                 @click.native.prevent="uploadFile(scope.row)"
                 type="text"
@@ -105,6 +107,7 @@
                 {{ $t('system.edgeNodes.uploadFile') }}
               </el-button>
               <el-button
+                class="operations_btn"
                 id="modifyBtn"
                 @click="handleModify(scope.row)"
                 type="text"
@@ -113,6 +116,7 @@
                 {{ $t('common.modify') }}
               </el-button>
               <el-button
+                class="operations_btn"
                 id="detailBtn"
                 type="text"
                 size="small"
@@ -121,6 +125,7 @@
                 {{ $t('edgeNode.detail') }}
               </el-button>
               <el-button
+                class="operations_btn"
                 id="appDetailBtn"
                 type="text"
                 size="small"
