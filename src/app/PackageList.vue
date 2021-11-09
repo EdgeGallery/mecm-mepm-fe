@@ -363,7 +363,6 @@ export default {
     '$i18n.locale': function () {
       let language = localStorage.getItem('language')
       this.language = language
-      this.getAppPackageList()
     }
   },
   methods: {
@@ -422,9 +421,9 @@ export default {
       this.selectedNodeNum = val.length
     },
     getPackageList () {
-      lcmController.getAppPackageList().then(response => {
-        console.log('get package list', response.data)
-        this.tableData = this.paginationData = response.data
+      lcmController.getDistributionList().then(response => {
+        console.log('get package list', response.data.data)
+        this.tableData = this.paginationData = response.data.data
         this.dataLoading = false
       }).catch((error) => {
         console.log('error in catch block', error)
