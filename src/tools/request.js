@@ -116,9 +116,6 @@ let lcmController = {
   uploadPackage (params) {
     return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages', params)
   },
-  getAppPackageList () {
-    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/packages')
-  },
   confirmToDistribute (params) {
     return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages/' + params.packageId,
       params)
