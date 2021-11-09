@@ -251,7 +251,7 @@ export default {
     },
     initPackageList () {
       lcmController.getDistributionList().then(res => {
-        res.data.forEach(val => {
+        res.data.data.forEach(val => {
           if (val.mecHostInfo && val.mecHostInfo.length > 0) {
             val.mecHostInfo.forEach(host => {
               this.handleNodeList(host, val)
