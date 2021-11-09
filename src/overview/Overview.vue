@@ -283,8 +283,8 @@ export default {
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
-        this.cpudata = res.data.cpuusage
-        this.memdata = res.data.memusage
+        this.cpudata = res.data.data.cpuusage
+        this.memdata = res.data.data.memusage
         this.drawCpuChart()
         this.drawMemoryChart()
       }).catch(error => {
