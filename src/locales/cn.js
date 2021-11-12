@@ -622,6 +622,33 @@ const cn = {
     uploadVMImage: '上传虚机镜像',
     upload: '点击上传'
   },
+  resourceMgr: {
+    resManager: '资源管理',
+    resourceOverview: '概览',
+    vm: '虚机',
+    image: '镜像',
+    network: '网络',
+    flavor: '规格',
+    securityGroup: '安全组',
+    createVMInstance: '创建实例',
+    createImage: '创建镜像',
+    edit: '编辑',
+    delete: '删除',
+    noData: '暂无数据',
+    searchPlaceholder: '请输入名称进行搜索',
+    name: '名称',
+    type: '类型',
+    status: '状态',
+    visibility: '可见性',
+    protect: '受保护的',
+    diskFormat: '磁盘格式',
+    size: '大小',
+    operator: '操作',
+    createNetwork: '创建网络',
+    createFlavor: '创建规格',
+    createSecurityGroup: '创建安全组',
+    managerSecurityGroup: '规则管理'
+  },
   ...zhLocale
 }
 

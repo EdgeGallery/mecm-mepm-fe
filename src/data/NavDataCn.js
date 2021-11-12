@@ -35,6 +35,11 @@ const NavDataCn = [
     'id': '2.3',
     'name': '边缘节点管理',
     'path': '/mecm/node/list'
+  },
+  {
+    'id': '2.4',
+    'name': '资源管理',
+    'path': '/mecm/resource/manager'
   }
 ]
 
