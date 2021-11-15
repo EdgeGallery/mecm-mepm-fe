@@ -111,6 +111,11 @@ export default new Router({
           path: 'mecm/image/list',
           name: 'ImageMgmt',
           component: () => import('../imageMgmt/Index.vue')
+        },
+        {
+          path: 'mecm/resource/manager',
+          name: 'hostOverview',
+          component: () => import('../resource/ResourceMgr.vue')
         }
       ]
     }
