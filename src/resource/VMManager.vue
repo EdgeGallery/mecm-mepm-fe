@@ -124,13 +124,20 @@
         />
       </div>
     </div>
+    <div v-if="isShowForm">
+      <VMInstanceDlg
+        v-model="isShowForm"
+      />
+    </div>
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
+import VMInstanceDlg from './vmInstance/VMInstanceDlg.vue'
 export default {
   components: {
-    pagination
+    pagination,
+    VMInstanceDlg
   },
   data () {
     return {
@@ -142,7 +149,8 @@ export default {
         ip: '100.100.100.100',
         flavor: 'm1.small',
         status: 'run'
-      }]
+      }],
+      isShowForm: false
     }
   },
   methods: {
@@ -153,7 +161,7 @@ export default {
 
     },
     createVMInstance () {
-
+      this.isShowForm = true
     },
     queryVM () {
 

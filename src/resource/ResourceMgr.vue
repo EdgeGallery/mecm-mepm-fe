@@ -20,11 +20,22 @@
       <span class="line_bot1" />
     </div>
     <div class="main-tabs">
+      <div class="nodeIP">
+        <span class="ip-addr">100.100.0.0</span>
+        <el-select :popper-append-to-body="false">
+          <el-option
+            v-for="item in edgeNodeList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+            @click.native="getSelectAppstoreData(item)"
+          />
+        </el-select>
+      </div>
       <el-tabs
-        @tab-click="setActive"
         class="elTabs"
-        :class="{'enLeft':language==='en'}"
         v-model="activeName"
+        @tab-click="handleClick"
         tab-position="left"
       >
         <el-tab-pane
@@ -36,9 +47,9 @@
             @mouseenter="groupListHover('1')"
             @mouseleave="groupListLeave('1')"
           >
-            <em :class="[selectedName==='1' || activeName==='1'?'tab_active':'tab_default']" />{{ $t('resourceMgr.resourceOverview') }}
+            <em :class="[selectedName==='1' || activeName==='1'?'overview_active':'overview_default']" />{{ $t('resourceMgr.resourceOverview') }}
           </span>
-          <div>
+          <div v-if="activeName==='1'">
             <ResourceOverview />
           </div>
         </el-tab-pane>
@@ -50,9 +61,9 @@
             @mouseenter="groupListHover('2')"
             @mouseleave="groupListLeave('2')"
           >
-            <em :class="[selectedName==='2' || activeName==='2'?'tab_active':'tab_default']" />{{ $t('resourceMgr.vm') }}
+            <em :class="[selectedName==='2' || activeName==='2'?'vm_active':'vm_default']" />{{ $t('resourceMgr.vm') }}
           </span>
-          <div>
+          <div v-if="activeName==='2'">
             <VMManager />
           </div>
         </el-tab-pane>
@@ -64,9 +75,9 @@
             @mouseenter="groupListHover('3')"
             @mouseleave="groupListLeave('3')"
           >
-            <em :class="[selectedName==='3' || activeName==='3'?'tab_active':'tab_default']" />{{ $t('resourceMgr.image') }}
+            <em :class="[selectedName==='3' || activeName==='3'?'image_active':'image_default']" />{{ $t('resourceMgr.image') }}
           </span>
-          <div>
+          <div v-if="activeName==='3'">
             <ImageManager />
           </div>
         </el-tab-pane>
@@ -78,9 +89,9 @@
             @mouseenter="groupListHover('4')"
             @mouseleave="groupListLeave('4')"
           >
-            <em :class="[selectedName==='4' || activeName==='4'?'tab_active':'tab_default']" />{{ $t('resourceMgr.network') }}
+            <em :class="[selectedName==='4' || activeName==='4'?'network_active':'network_default']" />{{ $t('resourceMgr.network') }}
           </span>
-          <div>
+          <div v-if="activeName==='4'">
             <NetworkManager />
           </div>
         </el-tab-pane>
@@ -92,9 +103,9 @@
             @mouseenter="groupListHover('5')"
             @mouseleave="groupListLeave('5')"
           >
-            <em :class="[selectedName==='5' || activeName==='5'?'tab_active':'tab_default']" />{{ $t('resourceMgr.flavor') }}
+            <em :class="[selectedName==='5' || activeName==='5'?'flavor_active':'flavor_default']" />{{ $t('resourceMgr.flavor') }}
           </span>
-          <div>
+          <div v-if="activeName==='5'">
             <FlavorManager />
           </div>
         </el-tab-pane>
@@ -106,9 +117,9 @@
             @mouseenter="groupListHover('6')"
             @mouseleave="groupListLeave('6')"
           >
-            <em :class="[selectedName==='6' || activeName==='6'?'tab_active':'tab_default']" />{{ $t('resourceMgr.securityGroup') }}
+            <em :class="[selectedName==='6' || activeName==='6'?'securityGroup_active':'securityGroup_default']" />{{ $t('resourceMgr.securityGroup') }}
           </span>
-          <div>
+          <div v-if="activeName==='6'">
             <SecurityGroupManager />
           </div>
         </el-tab-pane>
@@ -135,7 +146,12 @@ export default {
   data () {
     return {
       activeName: '1',
-      selectedName: '1'
+      selectedName: '1',
+      edgeNodeList: [
+        { name: '10.10.10.10', value: '1' },
+        { name: '20.20.20.20', value: '2' },
+        { name: '30.30.30.30', value: '3' }
+      ]
     }
   },
   methods: {
@@ -144,6 +160,13 @@ export default {
     },
     groupListLeave (index) {
       this.selectedName = 1
+    },
+    handleClick (tab, event) {
+      let tempActiveName = this.activeName
+      this.activeName = -1
+      this.$nextTick(() => {
+        this.activeName = tempActiveName
+      })
     }
   },
   mounted () {
@@ -160,17 +183,75 @@ export default {
     border-radius:20px;
     padding:43px 57px 60px 48.5px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    .nodeIP{
+      text-align: right;
+      .ip-addr{
+        margin-left: 170px;
+        color: #5E3FC8;
+      }
+      input::-webkit-input-placeholder {
+        color: #FFFFFF;
+      }
+      input::-moz-input-placeholder {
+        color: #FFFFFF;
+      }
+      input::-ms-input-placeholder {
+        color: #FFFFFF;
+      }
+      .el-input__inner{
+        background-color: #5F40C9;
+        color: #FFFFFF;
+        border: 0px;
+        border-radius: 25px;
+        text-align: center;
+        width: 160px;
+        margin-left: 30px;
+      }
+    }
+    .elTabs{
+      margin-top: 20px;
+    }
     .el-tabs__item{
       height: 49px;
       line-height: 50px;
       margin:7px 8.5px;
       border-radius: 8px;
       font-size: 16px;
-      .tab_default{
-        background: url('../assets/images/menu_iocn_capability_default.png') no-repeat;
+      .overview_default{
+        background: url('../assets/images/overview_default.png') no-repeat;
       }
-      .tab_active{
-        background: url('../assets/images/menu_iocn_capability_selected.png') no-repeat;
+      .overview_active{
+        background: url('../assets/images/overview_active.png') no-repeat;
+      }
+      .vm_default{
+        background: url('../assets/images/vm_default.png') no-repeat;
+      }
+      .vm_active{
+        background: url('../assets/images/vm_active.png') no-repeat;
+      }
+      .image_default{
+        background: url('../assets/images/image_default.png') no-repeat;
+      }
+      .image_active{
+        background: url('../assets/images/image_active.png') no-repeat;
+      }
+      .network_default{
+        background: url('../assets/images/network_default.png') no-repeat;
+      }
+      .network_active{
+        background: url('../assets/images/network_active.png') no-repeat;
+      }
+      .flavor_default{
+        background: url('../assets/images/flavor_default.png') no-repeat;
+      }
+      .flavor_active{
+        background: url('../assets/images/flavor_active.png') no-repeat;
+      }
+      .securityGroup_default{
+        background: url('../assets/images/securityGroup_default.png') no-repeat;
+      }
+      .securityGroup_active{
+        background: url('../assets/images/securityGroup_active.png') no-repeat;
       }
       span{
         display: inline-block;

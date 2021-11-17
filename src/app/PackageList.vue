@@ -20,7 +20,7 @@
     style="min-height:648px;"
   >
     <div class="title_top title_left defaultFontBlod clear">
-      边缘应用市场
+      {{ $t('app.packageList.edgeAppMarket') }}
       <span class="line_bot1" />
       <el-button
         class="newproject_btn linearGradient2"
