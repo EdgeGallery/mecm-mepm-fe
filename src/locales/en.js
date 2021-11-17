@@ -662,7 +662,7 @@ const en = {
     flavorVCPU: 'VCPU Num',
     ram: 'RAM(MB)',
     rootDisk: 'Root Disk',
-    tempDisk: '临时磁盘',
+    tempDisk: 'Temporary Disk',
     swapDisk: 'Swap Disk',
     addSecurityGroupFlavor: 'Add Flavor',
     rule: 'Rule',
