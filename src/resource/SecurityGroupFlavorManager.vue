@@ -14,10 +14,7 @@
   - limitations under the License.
   -->
 <template>
-  <div
-    class="security-group-content"
-    v-if="isSecurityGroupMainDlg"
-  >
+  <div class="security-group-content">
     <div class="search-createBtn">
       <el-row :gutter="24">
         <el-col
@@ -43,10 +40,10 @@
         >
           <el-button
             class="create-btn"
-            id="createSecurityGroupBtn"
-            @click="createSecurityGroup()"
+            id="addSecurityGroupFlavorBtn"
+            @click="addSecurityGroupFlavor()"
           >
-            {{ $t('resourceMgr.createSecurityGroup') }}
+            {{ $t('resourceMgr.addSecurityGroupFlavor') }}
           </el-button>
         </el-col>
       </el-row>
@@ -60,17 +57,29 @@
         ref="multipleTable"
       >
         <el-table-column
-          prop="name"
-          label="Name"
+          prop="direction"
+          label="Direction"
           sortable="custom"
         />
         <el-table-column
-          prop="securityGroupId"
-          label="Security Group ID"
+          prop="etherType"
+          label="Ether Type"
         />
         <el-table-column
-          prop="description"
-          label="Description"
+          prop="ipProtocol"
+          label="IP Protocol"
+        />
+        <el-table-column
+          prop="portRange"
+          label="Port Range"
+        />
+        <el-table-column
+          prop="remoteIpPrefix"
+          label="Remote IP Prefix"
+        />
+        <el-table-column
+          prop="remoteSecurityGroup"
+          label="Remote Security Group"
         />
         <el-table-column
           label="Actions"
@@ -85,7 +94,7 @@
               type="text"
               size="small"
             >
-              {{ $t('resourceMgr.managerSecurityGroup') }}
+              {{ $t('resourceMgr.edit') }}
             </el-button>
             <el-button
               class="operations_btn"
@@ -117,48 +126,43 @@
         />
       </div>
     </div>
-  </div>
-  <div
-    class="security-group-content"
-    v-else
-  >
-    <SecurityGroupFlavorManager />
+    <div v-if="isShowForm">
+      <SecurityGroupFlavorForm
+        v-model="isShowForm"
+      />
+    </div>
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
-import SecurityGroupFlavorManager from './SecurityGroupFlavorManager.vue'
+import SecurityGroupFlavorForm from './SecurityGroupFlavorForm.vue'
 export default {
   components: {
     pagination,
-    SecurityGroupFlavorManager
+    SecurityGroupFlavorForm
   },
   props: {
   },
   data () {
     return {
-      isSecurityGroupMainDlg: true,
       nameQueryVal: '',
-      paginationData: [{
-        name: 'eg-xxxxxx',
-        securityGroupId: 'dedxxxxx',
-        description: 'Default security group'
-      }],
+      paginationData: [],
       currentPageData: [{
-        name: 'eg-xxxxxx',
-        securityGroupId: 'dedxxxxx',
-        description: 'Default security group'
-      }]
+        direction: '出口',
+        etherType: 'IPv4',
+        ipProtocol: '任何',
+        portRange: '任何',
+        remoteIpPrefix: '0.0.0.1',
+        remoteSecurityGroup: 'default'
+      }],
+      isShowForm: false
     }
   },
   methods: {
-    managerSecurityGroup () {
-      this.isSecurityGroupMainDlg = false
+    addSecurityGroupFlavor () {
+      this.isShowForm = true
     },
     deleteSecurityGroup () {
-
-    },
-    createSecurityGroup () {
 
     },
     querySecurityGroup () {

@@ -143,13 +143,20 @@
         />
       </div>
     </div>
+    <div v-if="isShowForm">
+      <FlavorForm
+        v-model="isShowForm"
+      />
+    </div>
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
+import FlavorForm from './FlavorForm.vue'
 export default {
   components: {
-    pagination
+    pagination,
+    FlavorForm
   },
   props: {
   },
@@ -166,7 +173,8 @@ export default {
         ephemeral: '0GB',
         txfactor: '1.0',
         public: 'yes'
-      }]
+      }],
+      isShowForm: false
     }
   },
   methods: {
@@ -177,7 +185,7 @@ export default {
 
     },
     createFlavor () {
-
+      this.isShowForm = true
     },
     queryFlavor () {
 

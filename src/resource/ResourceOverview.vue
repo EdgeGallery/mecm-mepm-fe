@@ -22,18 +22,11 @@
         </el-col>
         <el-col
           :span="12"
-          class="nodeIP"
+          class="resourcePercentage"
         >
-          <span class="ip-addr">100.100.0.0</span>
-          <el-select :popper-append-to-body="false">
-            <el-option
-              v-for="item in edgeNodeList"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-              @click.native="getSelectAppstoreData(item)"
-            />
-          </el-select>
+          <em class="title-icon" />{{ $t("resourceMgr.minPercentage") }}
+          <em class="title-icon" />{{ $t("resourceMgr.middlePercentage") }}
+          <em class="title-icon" />{{ $t("resourceMgr.maxPercentage") }}
         </el-col>
       </el-row>
     </div>
@@ -97,7 +90,9 @@ export default {
     }
   },
   methods: {
+    getSelectAppstoreData () {
 
+    }
   },
   mounted () {
 
@@ -113,34 +108,23 @@ export default {
   .change-node{
     margin-top: 20px;
     margin-left: 20px;
+    .resourcePercentage{
+      text-align: center;
+      .title-icon{
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 12px;
+        background-image: linear-gradient(45deg, #72dcc8, #c0e8e0);
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+        margin-left: 20px;
+      }
+    }
     .resource-status{
       font-weight: 600;
       margin-left: 5px;
-    }
-    .nodeIP{
-      text-align: center;
-      .ip-addr{
-        margin-left: 170px;
-        color: #5E3FC8;
-      }
-      /deep/ input::-webkit-input-placeholder {
-        color: #FFFFFF;
-      }
-      /deep/  input::-moz-input-placeholder {
-        color: #FFFFFF;
-      }
-      /deep/  input::-ms-input-placeholder {
-        color: #FFFFFF;
-      }
-      /deep/ .el-input__inner{
-        background-color: #5F40C9;
-        color: #FFFFFF;
-        border: 0px;
-        border-radius: 25px;
-        text-align: center;
-        width: 160px;
-        margin-left: 30px;
-      }
     }
   }
   .resource-content{

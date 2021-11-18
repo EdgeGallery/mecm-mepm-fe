@@ -132,13 +132,20 @@
         />
       </div>
     </div>
+    <div v-if="isShowForm">
+      <NetworkForm
+        v-model="isShowForm"
+      />
+    </div>
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
+import NetworkForm from './NetworkForm.vue'
 export default {
   components: {
-    pagination
+    pagination,
+    NetworkForm
   },
   props: {
   },
@@ -162,7 +169,8 @@ export default {
         status: '运行中',
         adminState: 'UP',
         availability: 'Nova'
-      }]
+      }],
+      isShowForm: false
     }
   },
   methods: {
@@ -173,7 +181,7 @@ export default {
 
     },
     createNetwork () {
-
+      this.isShowForm = true
     },
     queryNetwork () {
 
