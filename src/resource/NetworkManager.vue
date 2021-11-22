@@ -64,6 +64,7 @@
         <el-table-column
           prop="subnetsAssociated"
           label="Subnets Associated"
+          width="120"
         />
         <el-table-column
           prop="shared"
@@ -82,15 +83,16 @@
         <el-table-column
           prop="adminState"
           label="Admin State"
+          width="140"
         />
         <el-table-column
           prop="availability"
           label="Availability Zones"
+          width="130"
         />
         <el-table-column
           label="Actions"
-          width="170"
-          sortable="custom"
+          width="160"
         >
           <template slot-scope="scope">
             <el-button
@@ -99,6 +101,7 @@
               @click.native.prevent="editNetwork(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
@@ -177,8 +180,16 @@ export default {
     editNetwork () {
 
     },
-    deleteNetwork () {
-
+    deleteNetwork (row) {
+      this.$confirm(this.$t('resourceMgr.deleteNetworkMessage'), this.$t('resourceMgr.deleteNetworkTitle'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        // confirm
+      }).catch(() => {
+        // cancel
+      })
     },
     createNetwork () {
       this.isShowForm = true
@@ -203,10 +214,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .network-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 613px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
     .search-col{
       margin-top: 30px;

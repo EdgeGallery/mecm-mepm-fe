@@ -94,7 +94,6 @@
         <el-table-column
           :label="$t('resourceMgr.operator')"
           width="170"
-          sortable="custom"
         >
           <template slot-scope="scope">
             <el-button
@@ -103,13 +102,14 @@
               @click.native.prevent="editImage(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
             <el-button
               class="operations_btn"
               id="imageDeleteBtn"
-              @click.native.prevent="deleteInstance(scope.row)"
+              @click.native.prevent="deleteImage(scope.row)"
               type="text"
               size="small"
             >
@@ -136,13 +136,20 @@
         />
       </div>
     </div>
+    <div v-if="isShowForm">
+      <ImageForm
+        v-model="isShowForm"
+      />
+    </div>
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
+import ImageForm from './ImageForm.vue'
 export default {
   components: {
-    pagination
+    pagination,
+    ImageForm
   },
   data () {
     return {
@@ -157,7 +164,8 @@ export default {
         protect: '否',
         diskFormat: 'QCOW2',
         size: '760.38M'
-      }]
+      }],
+      isShowForm: false
     }
   },
   methods: {
@@ -165,10 +173,18 @@ export default {
 
     },
     deleteImage () {
-
+      this.$confirm(this.$t('resourceMgr.deleteImageMessage'), this.$t('resourceMgr.deleteImageTitle'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        // confirm
+      }).catch(() => {
+        // cancel
+      })
     },
     createImage () {
-
+      this.isShowForm = true
     },
     queryImage () {
 
@@ -190,10 +206,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .image-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 613px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
     .search-col{
       margin-top: 30px;

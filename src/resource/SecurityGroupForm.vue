@@ -17,7 +17,7 @@
   <div class="network-form">
     <el-dialog
       :visible.sync="dialogVisible"
-      width="50%"
+      width="35%"
       :before-close="handleClose"
       :close-on-click-modal="false"
       class="default_dialog"
@@ -26,61 +26,34 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('resourceMgr.createNetwork') }}
+        <em class="title_icon" />
+        {{ dlgType==="createDlg" ? $t('resourceMgr.createSecurityGroup'):$t('resourceMgr.editSecurityGroup') }}
       </div>
       <el-form
-        :model="createNetworkForm"
+        :model="securityGroupForm"
         ref="form"
         :rules="rules"
         label-position="right"
         label-width="100px"
       >
         <el-form-item
-          :label="$t('resourceMgr.networkName')"
+          :label="$t('resourceMgr.name')"
           prop="networkName"
-          class="w50"
+          class="w80"
         >
           <el-input
             size="small"
-            v-model="createNetworkForm.networkName"
+            v-model="securityGroupForm.securityGroupName"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('resourceMgr.networkAddr')"
+          :label="$t('resourceMgr.description')"
           prop="networkAddr"
-          class="w50"
+          class="w80"
         >
           <el-input
             size="small"
-            v-model="createNetworkForm.networkAddr"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('resourceMgr.ipVersion')"
-          prop="ipVersion"
-          class="w50"
-        >
-          <el-select
-            size="small"
-            v-model="createNetworkForm.ipVersion"
-            :style="{width: '100%'}"
-          >
-            <el-option
-              v-for="item in ipVersions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          :label="$t('resourceMgr.gatewayIP')"
-          prop="gatewayIP"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="createNetworkForm.gatewayIp"
+            v-model="securityGroupForm.securityGroupDescription"
           />
         </el-form-item>
       </el-form>
@@ -113,26 +86,26 @@ export default {
   components: {
   },
   props: {
+    dlgType: {
+      required: true,
+      type: String
+    }
   },
   data () {
     return {
       dialogVisible: true,
+      isCreateDlg: true,
       ipVersions: [
         { label: '1.0', value: '1.0' },
         { label: '2.0', value: '2.0' },
         { label: '3.0', value: '3.0' }
       ],
-      createNetworkForm: {
-        networkName: '',
-        networkAddr: '',
-        ipVersion: '',
-        gatewayIP: ''
+      securityGroupForm: {
+        securityGroupName: '',
+        securityGroupDescription: ''
       },
       rules: {
-        networkName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        networkAddr: [{ required: true, message: '网络地址不能为空', trigger: 'blur' }],
-        ipVersion: [{ required: true, message: 'IP版本不能为空', trigger: 'blur' }],
-        gatewayIP: [{ required: true, message: '网关IP不能为空', trigger: 'blur' }]
+        securityGroupName: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -154,8 +127,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .network-form{
-  .w50 {
-    width: 50%;
+  .w80 {
+    width: 90%;
     display: inline-block;
   }
 }

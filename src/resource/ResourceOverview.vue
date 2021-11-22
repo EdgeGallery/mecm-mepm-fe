@@ -15,18 +15,18 @@
   -->
 <template>
   <div class="overview-content">
-    <div class="change-node">
+    <div class="resource-introduction">
       <el-row :gutter="24">
         <el-col :span="12">
-          <span class="resource-status">资源状态</span>
+          <span class="resource-status">{{ $t('resourceMgr.resourceStatus') }}</span>
         </el-col>
         <el-col
           :span="12"
           class="resourcePercentage"
         >
-          <em class="title-icon" />{{ $t("resourceMgr.minPercentage") }}
-          <em class="title-icon" />{{ $t("resourceMgr.middlePercentage") }}
-          <em class="title-icon" />{{ $t("resourceMgr.maxPercentage") }}
+          <em class="title-icon-blue" />{{ $t("resourceMgr.minPercentage") }}
+          <em class="title-icon-yellow" />{{ $t("resourceMgr.middlePercentage") }}
+          <em class="title-icon-red" />{{ $t("resourceMgr.maxPercentage") }}
         </el-col>
       </el-row>
     </div>
@@ -101,37 +101,60 @@ export default {
 </script>
 <style lang="less" scoped>
 .overview-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 570px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
-  .change-node{
-    margin-top: 20px;
-    margin-left: 20px;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
+  .resource-introduction{
+    margin-top: 40px;
+    margin-left: 50px;
     .resourcePercentage{
       text-align: center;
-      .title-icon{
+      .title-icon-blue{
         display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 12px;
-        background-image: linear-gradient(45deg, #72dcc8, #c0e8e0);
+        width: 14px;
+        height: 14px;
+        border-radius: 14px;
+        background: #40C8A0;
         margin-right: 5px;
         position: relative;
         top: 2px;
-        margin-left: 20px;
+        margin-left: 17px;
+      }
+      .title-icon-yellow{
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 14px;
+        background: #FFB74A;
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+        margin-left: 17px;
+      }
+      .title-icon-red{
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 14px;
+        background: #DA572E;
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+        margin-left: 17px;
       }
     }
     .resource-status{
       font-weight: 600;
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
   .resource-content{
     margin-top: 20px;
-    margin-left: 30px;
+    margin-left: 60px;
     .resource-row{
-      margin-top: 20px;
+      margin-top: 40px;
     }
   }
   .el-select{

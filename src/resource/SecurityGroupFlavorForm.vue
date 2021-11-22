@@ -26,7 +26,8 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('resourceMgr.addSecurityGroupFlavor') }}
+        <em class="title_icon" />
+        {{ dlgType==="createDlg" ? $t('resourceMgr.addSecurityGroupFlavor'):$t('resourceMgr.editSecurityGroupFlavor') }}
       </div>
       <el-form
         :model="securityGroupFlavorForm"
@@ -152,6 +153,10 @@ export default {
   components: {
   },
   props: {
+    dlgType: {
+      required: true,
+      type: String
+    }
   },
   data () {
     return {

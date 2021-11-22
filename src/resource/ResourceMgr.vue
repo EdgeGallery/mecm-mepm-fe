@@ -21,8 +21,11 @@
     </div>
     <div class="main-tabs">
       <div class="nodeIP">
-        <span class="ip-addr">100.100.0.0</span>
-        <el-select :popper-append-to-body="false">
+        <el-select
+          :popper-append-to-body="false"
+          v-model="currentEdgeNode"
+          :placeholder="$t('resourceMgr.selectEdgeNode')"
+        >
           <el-option
             v-for="item in edgeNodeList"
             :key="item.value"
@@ -147,6 +150,7 @@ export default {
     return {
       activeName: '1',
       selectedName: '1',
+      currentEdgeNode: '',
       edgeNodeList: [
         { name: '10.10.10.10', value: '1' },
         { name: '20.20.20.20', value: '2' },
@@ -163,7 +167,7 @@ export default {
     },
     handleClick (tab, event) {
       let tempActiveName = this.activeName
-      this.activeName = -1
+      this.activeName = '-1'
       this.$nextTick(() => {
         this.activeName = tempActiveName
       })
@@ -185,26 +189,28 @@ export default {
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
     .nodeIP{
       text-align: right;
-      .ip-addr{
-        margin-left: 170px;
-        color: #5E3FC8;
-      }
+      margin-right: 30px;
       input::-webkit-input-placeholder {
-        color: #FFFFFF;
+        color: #5E40C8;
       }
       input::-moz-input-placeholder {
-        color: #FFFFFF;
+        color: #5E40C8;
       }
       input::-ms-input-placeholder {
-        color: #FFFFFF;
+        color: #5E40C8;
       }
       .el-input__inner{
-        background-color: #5F40C9;
-        color: #FFFFFF;
-        border: 0px;
+        color: #5E40C8;
+        border: 1px solid #5E40C8;
         border-radius: 25px;
         text-align: center;
         width: 160px;
+        margin-left: 30px;
+      }
+      .el-popper{
+        text-align: center;
+        min-width: 160px !important;
+        width: 160px !important;
         margin-left: 30px;
       }
     }
@@ -286,6 +292,9 @@ export default {
     }
     .el-tabs--left .el-tabs__active-bar.is-left{
       display: none;
+    }
+    .el-tabs__nav-wrap.is-left::after{
+      width: 0;
     }
   }
 }

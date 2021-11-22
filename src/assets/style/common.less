@@ -243,7 +243,9 @@ body .el-table th.gutter{
 .search .el-icon-arrow-up:before {
   color: #380879;
 }
-
+.el-icon-arrow-up:before{
+  background: url('../images/selectTop.png') 50% no-repeat !important;
+}
 .el-button.bgBtn{
   background-color: #5844be;
   border: none;
@@ -422,6 +424,116 @@ body .el-table th.gutter{
 }
 .default_radio .el-radio__input.is-checked + .el-radio__label{
   color: #380879;
+}
+
+/* style for steps */
+.work-steps {
+  margin: 8px;
+}
+
+.work-steps .el-step__line {
+  border-top: 4px dotted #5844be !important;
+  background: #fbfbfb !important;
+  margin-left: 33px !important;
+  margin-right: 15px !important;
+}
+
+.work-steps .el-step__line .el-step__line-inner {
+  border-width: 0 !important;
+}
+
+.work-steps .el-step__icon {
+  position: relative;
+  display: block;
+  top: 6px;
+}
+
+.work-steps .el-step__icon.is-text {
+  width: 14px;
+  height: 14px;
+  font-size: 0;
+}
+
+.work-steps .el-step__head.is-wait {
+  color: #5844be;
+  border-color: #5844be;
+}
+
+.work-steps .el-step__head.is-wait .el-step__icon {
+  background-color: #fbfbfb;
+  border: solid 2px #5844be;
+}
+
+.work-steps .el-step__head.is-process .el-step__icon {
+  background-color: #5844be;
+}
+
+.work-steps .el-step__head.is-process {
+  border-color: #5844be;
+}
+
+.work-steps .el-step__head.is-process::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: -4px;
+  width: 22px;
+  height: 22px;
+  background-color: #bcb7d7;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.work-steps .el-step__head.is-process::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  left: -8px;
+  width: 30px;
+  height: 30px;
+  background-color: #e8e6f0;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.work-steps .el-step__head.is-success .el-step__icon {
+  background-color: #5844be;
+}
+
+.work-steps .el-step__head.is-success::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: -4px;
+  width: 20px;
+  height: 20px;
+  background-color: #bcb7d7;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.work-steps .el-step__head.is-success::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  left: -8px;
+  width: 30px;
+  height: 30px;
+  background-color: #e8e6f0;
+  border-radius: 50%;
+  z-index: 0;
+}
+.work-steps .el-step__title.is-success {
+  color: #380879;
+  margin-top: 5px;
+}
+.work-steps .el-step__title.is-process {
+  color: #380879;
+  margin-top: 5px;
 }
 
 .enterinput {

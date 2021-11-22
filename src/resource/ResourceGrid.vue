@@ -17,13 +17,20 @@
   <div class="resource-grid">
     <div class="grid-chart">
       <el-progress
-        type="dashboard"
+        type="circle"
+        :stroke-width="12"
+        :width="80"
         :percentage="40"
+        color="#40C8A0"
       />
     </div>
     <div class="gird-statistic">
-      <div><span>虚机数量: 6<span /></span></div>
-      <div><span>剩余数量: 66<span /></span></div>
+      <div class="statistic-div">
+        <span class="statistic-detail">虚机数量: 6<span /></span>
+      </div>
+      <div class="statistic-div">
+        <span class="statistic-detail">剩余数量: 66<span /></span>
+      </div>
     </div>
   </div>
 </template>
@@ -46,20 +53,24 @@ export default {
 </script>
 <style lang="less" scoped>
 .resource-grid{
-  width: 290px;
-  height: 135px;
-  border: 2px solid #1E1E1E;
+  width: 258px;
+  height: 112px;
+  border: 1px solid #7A6E8A;
   border-radius: 15px;
   display: flex;
   .grid-chart{
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 120px;
-    height: 120px;
+    margin-top: 16px;
+    margin-left: 30px;
   }
   .gird-statistic{
-    margin-top: 40px;
-    margin-left: 40px;
+    margin-top: 30px;
+    margin-left: 25px;
+    .statistic-div{
+      padding: 3px;
+      .statistic-detail{
+        color: #1F1348;
+      }
+    }
   }
 }
 </style>
