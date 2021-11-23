@@ -120,7 +120,7 @@
         <template slot="empty">
           <div>
             <img
-              src="../assets/images/empty.png"
+              src="../../assets/images/empty.png"
               alt=""
               style="padding: 10px;"
             >
@@ -144,8 +144,8 @@
   </div>
 </template>
 <script>
-import pagination from '../components/Pagination.vue'
-import ImageForm from './ImageForm.vue'
+import pagination from '../../components/Pagination.vue'
+import ImageForm from '../form/ImageForm.vue'
 export default {
   components: {
     pagination,

@@ -144,7 +144,7 @@
         <template slot="empty">
           <div>
             <img
-              src="../assets/images/empty.png"
+              src="../../assets/images/empty.png"
               alt=""
               style="padding: 10px;"
             >
@@ -168,8 +168,8 @@
   </div>
 </template>
 <script>
-import pagination from '../components/Pagination.vue'
-import VMInstanceDlg from './vmInstance/VMInstanceDlg.vue'
+import pagination from '../../components/Pagination.vue'
+import VMInstanceDlg from '../vmInstance/VMInstanceDlg.vue'
 export default {
   components: {
     pagination,

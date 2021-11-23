@@ -14,7 +14,10 @@
   - limitations under the License.
   -->
 <template>
-  <div class="flavor-content">
+  <div
+    class="security-group-content"
+    v-if="isSecurityGroupMainDlg"
+  >
     <div class="search-createBtn">
       <el-row :gutter="24">
         <el-col
@@ -23,14 +26,14 @@
         >
           <el-input
             v-model="nameQueryVal"
-            @change="queryFlavor"
+            @change="querySecurityGroup"
             :placeholder="$t('resourceMgr.searchPlaceholder')"
             class="enterinput lt"
           >
             <em
               slot="suffix"
               class="search_icon"
-              @click="queryFlavor"
+              @click="querySecurityGroup"
             />
           </el-input>
         </el-col>
@@ -40,15 +43,15 @@
         >
           <el-button
             class="create-btn"
-            id="createFlavorBtn"
-            @click="createFlavor()"
+            id="createSecurityGroupBtn"
+            @click="createSecurityGroup()"
           >
-            {{ $t('resourceMgr.createFlavor') }}
+            {{ $t('resourceMgr.createSecurityGroup') }}
           </el-button>
         </el-col>
       </el-row>
     </div>
-    <div class="flavor-table">
+    <div class="security-group-table">
       <el-table
         :data="currentPageData"
         class="tableStyle"
@@ -57,63 +60,45 @@
         ref="multipleTable"
       >
         <el-table-column
-          prop="flavorName"
-          label="Flavor Name"
-          width="158"
+          prop="name"
+          label="Name"
           sortable="custom"
         />
         <el-table-column
-          prop="id"
-          label="ID"
-          width="50"
+          prop="securityGroupId"
+          label="Security Group ID"
         />
         <el-table-column
-          prop="vcpus"
-          label="VCPUs"
-          width="85"
-        />
-        <el-table-column
-          prop="ram"
-          label="RAM"
-        />
-        <el-table-column
-          prop="rootDisk"
-          label="Root Disk"
-          width="120"
-        />
-        <el-table-column
-          prop="ephemeral"
-          label="Ephemeral Disk"
-          width="120"
-        />
-        <el-table-column
-          prop="txfactor"
-          label="RX/TXfactor"
-          width="120"
-        />
-        <el-table-column
-          prop="public"
-          label="Public"
+          prop="description"
+          label="Description"
         />
         <el-table-column
           label="Actions"
-          width="170"
+          width="260"
         >
           <template slot-scope="scope">
             <el-button
               class="operations_btn"
-              id="flavorEditBtn"
-              @click.native.prevent="editFlavor(scope.row)"
+              id="secrityGroupEditBtn"
+              @click.native.prevent="managerSecurityGroup(scope.row)"
               type="text"
               size="small"
-              :disabled="true"
+            >
+              {{ $t('resourceMgr.managerSecurityGroup') }}
+            </el-button>
+            <el-button
+              class="operations_btn"
+              id="securityGroupEditBtn"
+              @click.native.prevent="editSecurityGroup(scope.row)"
+              type="text"
+              size="small"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
             <el-button
               class="operations_btn"
-              id="flavorDeleteBtn"
-              @click.native.prevent="deleteFlavor(scope.row)"
+              id="securityGroupDeleteBtn"
+              @click.native.prevent="deleteSecurityGroup(scope.row)"
               type="text"
               size="small"
             >
@@ -124,7 +109,7 @@
         <template slot="empty">
           <div>
             <img
-              src="../assets/images/empty.png"
+              src="../../assets/images/empty.png"
               alt=""
               style="padding: 10px;"
             >
@@ -140,59 +125,77 @@
         />
       </div>
     </div>
-    <div v-if="isShowForm">
-      <FlavorForm
-        v-model="isShowForm"
+    <div v-if="isShowFormDlg">
+      <SecurityGroupForm
+        v-model="isShowFormDlg"
+        :dlg-type="dlgType"
       />
     </div>
   </div>
+  <div
+    class="security-group-content"
+    v-else
+  >
+    <SecurityGroupFlavorManager
+      @returnBack="returnBack"
+    />
+  </div>
 </template>
 <script>
-import pagination from '../components/Pagination.vue'
-import FlavorForm from './FlavorForm.vue'
+import pagination from '../../components/Pagination.vue'
+import SecurityGroupFlavorManager from './SecurityGroupFlavorManager.vue'
+import SecurityGroupForm from '../form/SecurityGroupForm.vue'
 export default {
   components: {
     pagination,
-    FlavorForm
+    SecurityGroupFlavorManager,
+    SecurityGroupForm
   },
   props: {
   },
   data () {
     return {
+      isSecurityGroupMainDlg: true,
+      isShowFormDlg: false,
+      dlgType: 'createDlg',
       nameQueryVal: '',
-      paginationData: [],
-      currentPageData: [{
-        flavorName: 'CIRROS256',
-        id: 'c1',
-        vcpus: '12',
-        ram: '256GB',
-        rootDisk: '10GB',
-        ephemeral: '0GB',
-        txfactor: '1.0',
-        public: 'yes'
+      paginationData: [{
+        name: 'eg-xxxxxx',
+        securityGroupId: 'dedxxxxx',
+        description: 'Default security group'
       }],
-      isShowForm: false
+      currentPageData: [{
+        name: 'eg-xxxxxx',
+        securityGroupId: 'dedxxxxx',
+        description: 'Default security group'
+      }]
     }
   },
   methods: {
-    editFlavor () {
-
+    managerSecurityGroup () {
+      this.isSecurityGroupMainDlg = false
     },
-    deleteFlavor (row) {
-      this.$confirm(this.$t('resourceMgr.deleteFlavorMessage'), this.$t('resourceMgr.deleteFlavorTitle'), {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
-        type: 'warning'
-      }).then(() => {
+    deleteSecurityGroup (row) {
+      this.$confirm(this.$t('resourceMgr.deleteSecurityGroupMessage'),
+        this.$t('resourceMgr.deleteSecurityGroupTitle'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
         // confirm
       }).catch(() => {
         // cancel
       })
     },
-    createFlavor () {
-      this.isShowForm = true
+    editSecurityGroup () {
+      this.isShowFormDlg = true
+      this.dlgType = 'editDlg'
     },
-    queryFlavor () {
+    createSecurityGroup () {
+      this.isShowFormDlg = true
+      this.dlgType = 'createDlg'
+    },
+    querySecurityGroup () {
 
     },
     sortChange () {
@@ -200,6 +203,9 @@ export default {
     },
     getCurrentPageData (data) {
       this.currentPageData = data
+    },
+    returnBack () {
+      this.isSecurityGroupMainDlg = true
     },
     getTableData () {
 
@@ -211,7 +217,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.flavor-content{
+.security-group-content{
   width: 1053px;
   height: 613px;
   padding-top: 1px;
@@ -225,7 +231,7 @@ export default {
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 470px;
+        margin-left: 447px;
         margin-top: 30px;
         height: 40px;
         color: #fff;
@@ -237,7 +243,7 @@ export default {
       }
     }
   }
-  .flavor-table{
+  .security-group-table{
     width: 1000px;
     margin: 30px auto;
   }
