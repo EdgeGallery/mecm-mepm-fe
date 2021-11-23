@@ -75,33 +75,29 @@
         <el-table-column
           prop="ram"
           label="RAM"
-          width="75"
         />
         <el-table-column
           prop="rootDisk"
           label="Root Disk"
-          sortable="custom"
-          width="135"
+          width="120"
         />
         <el-table-column
           prop="ephemeral"
           label="Ephemeral Disk"
-          width="157"
+          width="120"
         />
         <el-table-column
           prop="txfactor"
           label="RX/TXfactor"
-          width="135"
+          width="120"
         />
         <el-table-column
           prop="public"
           label="Public"
-          width="80"
         />
         <el-table-column
           label="Actions"
           width="170"
-          sortable="custom"
         >
           <template slot-scope="scope">
             <el-button
@@ -110,6 +106,7 @@
               @click.native.prevent="editFlavor(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
@@ -181,8 +178,16 @@ export default {
     editFlavor () {
 
     },
-    deleteFlavor () {
-
+    deleteFlavor (row) {
+      this.$confirm(this.$t('resourceMgr.deleteFlavorMessage'), this.$t('resourceMgr.deleteFlavorTitle'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
+        // confirm
+      }).catch(() => {
+        // cancel
+      })
     },
     createFlavor () {
       this.isShowForm = true
@@ -207,10 +212,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .flavor-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 613px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
     .search-col{
       margin-top: 30px;

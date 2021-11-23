@@ -74,8 +74,7 @@
         />
         <el-table-column
           label="Actions"
-          sortable="custom"
-          width="200"
+          width="260"
         >
           <template slot-scope="scope">
             <el-button
@@ -86,6 +85,15 @@
               size="small"
             >
               {{ $t('resourceMgr.managerSecurityGroup') }}
+            </el-button>
+            <el-button
+              class="operations_btn"
+              id="securityGroupEditBtn"
+              @click.native.prevent="editSecurityGroup(scope.row)"
+              type="text"
+              size="small"
+            >
+              {{ $t('resourceMgr.edit') }}
             </el-button>
             <el-button
               class="operations_btn"
@@ -117,27 +125,39 @@
         />
       </div>
     </div>
+    <div v-if="isShowFormDlg">
+      <SecurityGroupForm
+        v-model="isShowFormDlg"
+        :dlg-type="dlgType"
+      />
+    </div>
   </div>
   <div
     class="security-group-content"
     v-else
   >
-    <SecurityGroupFlavorManager />
+    <SecurityGroupFlavorManager
+      @returnBack="returnBack"
+    />
   </div>
 </template>
 <script>
 import pagination from '../components/Pagination.vue'
 import SecurityGroupFlavorManager from './SecurityGroupFlavorManager.vue'
+import SecurityGroupForm from './SecurityGroupForm.vue'
 export default {
   components: {
     pagination,
-    SecurityGroupFlavorManager
+    SecurityGroupFlavorManager,
+    SecurityGroupForm
   },
   props: {
   },
   data () {
     return {
       isSecurityGroupMainDlg: true,
+      isShowFormDlg: false,
+      dlgType: 'createDlg',
       nameQueryVal: '',
       paginationData: [{
         name: 'eg-xxxxxx',
@@ -155,11 +175,25 @@ export default {
     managerSecurityGroup () {
       this.isSecurityGroupMainDlg = false
     },
-    deleteSecurityGroup () {
-
+    deleteSecurityGroup (row) {
+      this.$confirm(this.$t('resourceMgr.deleteSecurityGroupMessage'),
+        this.$t('resourceMgr.deleteSecurityGroupTitle'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+        // confirm
+      }).catch(() => {
+        // cancel
+      })
+    },
+    editSecurityGroup () {
+      this.isShowFormDlg = true
+      this.dlgType = 'editDlg'
     },
     createSecurityGroup () {
-
+      this.isShowFormDlg = true
+      this.dlgType = 'createDlg'
     },
     querySecurityGroup () {
 
@@ -169,6 +203,9 @@ export default {
     },
     getCurrentPageData (data) {
       this.currentPageData = data
+    },
+    returnBack () {
+      this.isSecurityGroupMainDlg = true
     },
     getTableData () {
 
@@ -181,10 +218,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .security-group-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 613px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
     .search-col{
       margin-top: 30px;
@@ -193,7 +231,7 @@ export default {
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 470px;
+        margin-left: 447px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

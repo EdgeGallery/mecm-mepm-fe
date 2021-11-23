@@ -14,7 +14,7 @@
   - limitations under the License.
   -->
 <template>
-  <div class="network-form">
+  <div class="image-form">
     <el-dialog
       :visible.sync="dialogVisible"
       width="50%"
@@ -26,47 +26,47 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('resourceMgr.createNetwork') }}
+        <em class="title_icon" />{{ $t('resourceMgr.createImage') }}
       </div>
       <el-form
-        :model="createNetworkForm"
+        :model="createImageForm"
         ref="form"
         :rules="rules"
         label-position="right"
         label-width="100px"
       >
         <el-form-item
-          :label="$t('resourceMgr.networkName')"
-          prop="networkName"
+          :label="$t('resourceMgr.imageName')"
+          prop="name"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="createNetworkForm.networkName"
+            v-model="createImageForm.name"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('resourceMgr.networkAddr')"
-          prop="networkAddr"
+          :label="$t('resourceMgr.containerFormat')"
+          prop="containerFormat"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="createNetworkForm.networkAddr"
+            v-model="createImageForm.containerFormat"
           />
         </el-form-item>
         <el-form-item
-          :label="$t('resourceMgr.ipVersion')"
-          prop="ipVersion"
+          :label="$t('resourceMgr.diskFormat')"
+          prop="diskFormat"
           class="w50"
         >
           <el-select
             size="small"
-            v-model="createNetworkForm.ipVersion"
+            v-model="createImageForm.diskFormat"
             :style="{width: '100%'}"
           >
             <el-option
-              v-for="item in ipVersions"
+              v-for="item in diskFormatList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -74,13 +74,43 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('resourceMgr.gatewayIP')"
-          prop="gatewayIP"
+          :label="$t('resourceMgr.properties')"
+          prop="properties"
           class="w50"
         >
           <el-input
             size="small"
-            v-model="createNetworkForm.gatewayIp"
+            v-model="createImageForm.properties"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.minDisk')"
+          prop="minDisk"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="createImageForm.minDisk"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.minRam')"
+          prop="minRam"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="createImageForm.minRam"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.resourceUri')"
+          prop="resourceUri"
+          class="w100"
+        >
+          <el-input
+            size="small"
+            v-model="createImageForm.resourceUri"
           />
         </el-form-item>
       </el-form>
@@ -117,22 +147,25 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      ipVersions: [
-        { label: '1.0', value: '1.0' },
-        { label: '2.0', value: '2.0' },
-        { label: '3.0', value: '3.0' }
+      diskFormatList: [
+        { label: 'diskType1', value: 'diskType1' },
+        { label: 'diskType2', value: 'diskType2' },
+        { label: 'diskType3', value: 'diskType3' }
       ],
-      createNetworkForm: {
-        networkName: '',
-        networkAddr: '',
-        ipVersion: '',
-        gatewayIP: ''
+      createImageForm: {
+        name: '',
+        containerFormat: '',
+        diskFormat: '',
+        minRam: '',
+        minDisk: '',
+        porperties: {},
+        resourceUri: ''
       },
       rules: {
-        networkName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        networkAddr: [{ required: true, message: '网络地址不能为空', trigger: 'blur' }],
-        ipVersion: [{ required: true, message: 'IP版本不能为空', trigger: 'blur' }],
-        gatewayIP: [{ required: true, message: '网关IP不能为空', trigger: 'blur' }]
+        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        minRam: [{ required: true, message: '最小内存不能为空', trigger: 'blur' }],
+        minDisk: [{ required: true, message: '最小磁盘不能为空', trigger: 'blur' }],
+        resourceUri: [{ required: true, message: '镜像源不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -153,9 +186,13 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.network-form{
+.image-form{
   .w50 {
     width: 50%;
+    display: inline-block;
+  }
+  .w100 {
+    width: 100%;
     display: inline-block;
   }
 }

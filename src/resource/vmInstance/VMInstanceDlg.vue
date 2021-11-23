@@ -30,15 +30,29 @@
       </div>
       <div>
         <el-steps
+          class="work-steps"
           :active="active"
           finish-status="success"
         >
-          <el-step :title="$t('resourceMgr.detail')" />
-          <el-step :title="$t('resourceMgr.imageSelect')" />
-          <el-step :title="$t('resourceMgr.instanceType')" />
-          <el-step :title="$t('resourceMgr.network')" />
-          <el-step :title="$t('resourceMgr.securityGroup')" />
-          <el-step :title="$t('resourceMgr.userParam')" />
+          <el-step
+            class="step-item"
+            :title="$t('resourceMgr.detail')"
+          />
+          <el-step
+            :title="$t('resourceMgr.imageSelect')"
+          />
+          <el-step
+            :title="$t('resourceMgr.instanceType')"
+          />
+          <el-step
+            :title="$t('resourceMgr.network')"
+          />
+          <el-step
+            :title="$t('resourceMgr.securityGroup')"
+          />
+          <el-step
+            :title="$t('resourceMgr.userParam')"
+          />
         </el-steps>
       </div>
       <div

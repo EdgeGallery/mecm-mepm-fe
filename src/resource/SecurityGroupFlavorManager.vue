@@ -18,7 +18,7 @@
     <div class="search-createBtn">
       <el-row :gutter="24">
         <el-col
-          :span="8"
+          :span="12"
           class="search-col"
         >
           <el-input
@@ -35,9 +35,16 @@
           </el-input>
         </el-col>
         <el-col
-          :span="12"
+          :span="11"
           class="create-col"
         >
+          <el-button
+            class="return-btn"
+            id="addSecurityGroupFlavorBtn"
+            @click="returnSecurityGroup()"
+          >
+            {{ $t('resourceMgr.returnSecurityGroup') }}
+          </el-button>
           <el-button
             class="create-btn"
             id="addSecurityGroupFlavorBtn"
@@ -83,14 +90,13 @@
         />
         <el-table-column
           label="Actions"
-          sortable="custom"
           width="200"
         >
           <template slot-scope="scope">
             <el-button
               class="operations_btn"
               id="secrityGroupEditBtn"
-              @click.native.prevent="managerSecurityGroup(scope.row)"
+              @click.native.prevent="editSecurityGroupFlavor(scope.row)"
               type="text"
               size="small"
             >
@@ -99,7 +105,7 @@
             <el-button
               class="operations_btn"
               id="securityGroupDeleteBtn"
-              @click.native.prevent="deleteSecurityGroup(scope.row)"
+              @click.native.prevent="deleteSecurityGroupFlavor(scope.row)"
               type="text"
               size="small"
             >
@@ -129,6 +135,7 @@
     <div v-if="isShowForm">
       <SecurityGroupFlavorForm
         v-model="isShowForm"
+        :dlg-type="dlgType"
       />
     </div>
   </div>
@@ -155,15 +162,30 @@ export default {
         remoteIpPrefix: '0.0.0.1',
         remoteSecurityGroup: 'default'
       }],
-      isShowForm: false
+      isShowForm: false,
+      dlgType: 'createDlg'
     }
   },
   methods: {
     addSecurityGroupFlavor () {
       this.isShowForm = true
+      this.dlgType = 'createDlg'
     },
-    deleteSecurityGroup () {
-
+    editSecurityGroupFlavor () {
+      this.isShowForm = true
+      this.dlgType = 'editDlg'
+    },
+    deleteSecurityGroupFlavor (row) {
+      this.$confirm(this.$t('resourceMgr.deleteSecurityGroupFlavorMessage'),
+        this.$t('resourceMgr.deleteSecurityGroupFlavorTitle'), {
+          confirmButtonText: this.$t('common.confirm'),
+          cancelButtonText: this.$t('common.cancel'),
+          type: 'warning'
+        }).then(() => {
+        // confirm
+      }).catch(() => {
+        // cancel
+      })
     },
     querySecurityGroup () {
 
@@ -176,6 +198,9 @@ export default {
     },
     getTableData () {
 
+    },
+    returnSecurityGroup () {
+      this.$emit('returnBack')
     }
   },
   mounted () {
@@ -185,20 +210,32 @@ export default {
 </script>
 <style lang="less" scoped>
 .security-group-content{
-  width: 1100px;
-  height: 590px;
+  width: 1053px;
+  height: 613px;
   padding-top: 1px;
-  box-shadow: 2px 5px 23px 10px rgba(104, 142, 243, 0.2) inset;
+  border-radius: 16px;
+  box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 50px;
+      margin-left: 30px;
     }
     .create-col{
-      text-align: center;
-      .create-btn{
-        margin-left: 470px;
+      text-align: right;
+      display: inline-block;
+      .return-btn{
         margin-top: 30px;
+        height: 40px;
+        color: #5E40C8;
+        font-size: 20px !important;
+        border-radius: 10px;
+        border: 1px solid #5E40C8;
+        padding: 0 35px;
+        background-color: #FFFFFF;
+      }
+      .create-btn{
+        margin-top: 30px;
+        margin-right: 10px;
         height: 40px;
         color: #fff;
         font-size: 20px !important;
