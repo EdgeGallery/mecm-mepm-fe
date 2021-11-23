@@ -131,12 +131,12 @@
   </div>
 </template>
 <script>
-import ResourceOverview from './ResourceOverview.vue'
-import VMManager from './VMManager.vue'
-import ImageManager from './ImageManager.vue'
-import NetworkManager from './NetworkManager.vue'
-import FlavorManager from './FlavorManager.vue'
-import SecurityGroupManager from './SecurityGroupManager.vue'
+import ResourceOverview from './manager/ResourceOverview.vue'
+import VMManager from './manager/VMManager.vue'
+import ImageManager from './manager/ImageManager.vue'
+import NetworkManager from './manager/NetworkManager.vue'
+import FlavorManager from './manager/FlavorManager.vue'
+import SecurityGroupManager from './manager/SecurityGroupManager.vue'
 export default {
   components: {
     ResourceOverview,

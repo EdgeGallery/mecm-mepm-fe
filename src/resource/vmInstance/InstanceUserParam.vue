@@ -20,14 +20,14 @@
     <div class="radio-select">
       {{ $t('resourceMgr.enableUserParam') }}
       <el-radio
-        class="radioStyle"
+        class="default_radio"
         v-model="radio"
         label="1"
       >
         true
       </el-radio>
       <el-radio
-        class="radioStyle"
+        class="default_radio"
         v-model="radio"
         label="2"
       >
@@ -38,7 +38,7 @@
       <el-input
         type="textarea"
         :autosize="{ minRows: 4, maxRows: 8}"
-        v-model="textarea2"
+        v-model="userParamTextarea"
       />
     </div>
   </div>
@@ -52,7 +52,8 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      radio: '1'
+      radio: '1',
+      userParamTextarea: ''
     }
   },
   methods: {

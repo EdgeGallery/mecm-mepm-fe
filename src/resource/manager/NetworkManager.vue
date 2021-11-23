@@ -14,48 +14,41 @@
   - limitations under the License.
   -->
 <template>
-  <div class="security-group-content">
+  <div class="network-content">
     <div class="search-createBtn">
       <el-row :gutter="24">
         <el-col
-          :span="12"
+          :span="8"
           class="search-col"
         >
           <el-input
             v-model="nameQueryVal"
-            @change="querySecurityGroup"
+            @change="queryNetwork"
             :placeholder="$t('resourceMgr.searchPlaceholder')"
             class="enterinput lt"
           >
             <em
               slot="suffix"
               class="search_icon"
-              @click="querySecurityGroup"
+              @click="queryNetwork"
             />
           </el-input>
         </el-col>
         <el-col
-          :span="11"
+          :span="12"
           class="create-col"
         >
           <el-button
-            class="return-btn"
-            id="addSecurityGroupFlavorBtn"
-            @click="returnSecurityGroup()"
-          >
-            {{ $t('resourceMgr.returnSecurityGroup') }}
-          </el-button>
-          <el-button
             class="create-btn"
-            id="addSecurityGroupFlavorBtn"
-            @click="addSecurityGroupFlavor()"
+            id="createNetworkBtn"
+            @click="createNetwork()"
           >
-            {{ $t('resourceMgr.addSecurityGroupFlavor') }}
+            {{ $t('resourceMgr.createNetwork') }}
           </el-button>
         </el-col>
       </el-row>
     </div>
-    <div class="security-group-table">
+    <div class="network-table">
       <el-table
         :data="currentPageData"
         class="tableStyle"
@@ -64,48 +57,58 @@
         ref="multipleTable"
       >
         <el-table-column
-          prop="direction"
-          label="Direction"
+          prop="name"
+          label="Name"
           sortable="custom"
         />
         <el-table-column
-          prop="etherType"
-          label="Ether Type"
+          prop="subnetsAssociated"
+          label="Subnets Associated"
+          width="120"
         />
         <el-table-column
-          prop="ipProtocol"
-          label="IP Protocol"
+          prop="shared"
+          label="Shared"
         />
         <el-table-column
-          prop="portRange"
-          label="Port Range"
+          prop="external"
+          label="External"
         />
         <el-table-column
-          prop="remoteIpPrefix"
-          label="Remote IP Prefix"
+          prop="status"
+          label="Status"
+          width="110"
+          sortable="custom"
         />
         <el-table-column
-          prop="remoteSecurityGroup"
-          label="Remote Security Group"
+          prop="adminState"
+          label="Admin State"
+          width="140"
+        />
+        <el-table-column
+          prop="availability"
+          label="Availability Zones"
+          width="130"
         />
         <el-table-column
           label="Actions"
-          width="200"
+          width="160"
         >
           <template slot-scope="scope">
             <el-button
               class="operations_btn"
-              id="secrityGroupEditBtn"
-              @click.native.prevent="editSecurityGroupFlavor(scope.row)"
+              id="networkEditBtn"
+              @click.native.prevent="editNetwork(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
             <el-button
               class="operations_btn"
-              id="securityGroupDeleteBtn"
-              @click.native.prevent="deleteSecurityGroupFlavor(scope.row)"
+              id="networkDeleteBtn"
+              @click.native.prevent="deleteNetwork(scope.row)"
               type="text"
               size="small"
             >
@@ -116,7 +119,7 @@
         <template slot="empty">
           <div>
             <img
-              src="../assets/images/empty.png"
+              src="../../assets/images/empty.png"
               alt=""
               style="padding: 10px;"
             >
@@ -133,61 +136,65 @@
       </div>
     </div>
     <div v-if="isShowForm">
-      <SecurityGroupFlavorForm
+      <NetworkForm
         v-model="isShowForm"
-        :dlg-type="dlgType"
       />
     </div>
   </div>
 </template>
 <script>
-import pagination from '../components/Pagination.vue'
-import SecurityGroupFlavorForm from './SecurityGroupFlavorForm.vue'
+import pagination from '../../components/Pagination.vue'
+import NetworkForm from '../form/NetworkForm.vue'
 export default {
   components: {
     pagination,
-    SecurityGroupFlavorForm
+    NetworkForm
   },
   props: {
   },
   data () {
     return {
       nameQueryVal: '',
-      paginationData: [],
-      currentPageData: [{
-        direction: '出口',
-        etherType: 'IPv4',
-        ipProtocol: '任何',
-        portRange: '任何',
-        remoteIpPrefix: '0.0.0.1',
-        remoteSecurityGroup: 'default'
+      paginationData: [{
+        name: 'Public',
+        subnetsAssociated: 'public-hsei-sdhs20015p',
+        shared: 'No',
+        external: 'No',
+        status: '运行中',
+        adminState: 'UP',
+        availability: 'Nova'
       }],
-      isShowForm: false,
-      dlgType: 'createDlg'
+      currentPageData: [{
+        name: 'Public',
+        subnetsAssociated: 'public-hsei-sdhs20015p',
+        shared: 'No',
+        external: 'No',
+        status: '运行中',
+        adminState: 'UP',
+        availability: 'Nova'
+      }],
+      isShowForm: false
     }
   },
   methods: {
-    addSecurityGroupFlavor () {
-      this.isShowForm = true
-      this.dlgType = 'createDlg'
+    editNetwork () {
+
     },
-    editSecurityGroupFlavor () {
-      this.isShowForm = true
-      this.dlgType = 'editDlg'
-    },
-    deleteSecurityGroupFlavor (row) {
-      this.$confirm(this.$t('resourceMgr.deleteSecurityGroupFlavorMessage'),
-        this.$t('resourceMgr.deleteSecurityGroupFlavorTitle'), {
-          confirmButtonText: this.$t('common.confirm'),
-          cancelButtonText: this.$t('common.cancel'),
-          type: 'warning'
-        }).then(() => {
+    deleteNetwork (row) {
+      this.$confirm(this.$t('resourceMgr.deleteNetworkMessage'), this.$t('resourceMgr.deleteNetworkTitle'), {
+        confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel'),
+        type: 'warning'
+      }).then(() => {
         // confirm
       }).catch(() => {
         // cancel
       })
     },
-    querySecurityGroup () {
+    createNetwork () {
+      this.isShowForm = true
+    },
+    queryNetwork () {
 
     },
     sortChange () {
@@ -198,9 +205,6 @@ export default {
     },
     getTableData () {
 
-    },
-    returnSecurityGroup () {
-      this.$emit('returnBack')
     }
   },
   mounted () {
@@ -209,7 +213,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.security-group-content{
+.network-content{
   width: 1053px;
   height: 613px;
   padding-top: 1px;
@@ -218,24 +222,13 @@ export default {
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 30px;
+      margin-left: 50px;
     }
     .create-col{
-      text-align: right;
-      display: inline-block;
-      .return-btn{
-        margin-top: 30px;
-        height: 40px;
-        color: #5E40C8;
-        font-size: 20px !important;
-        border-radius: 10px;
-        border: 1px solid #5E40C8;
-        padding: 0 35px;
-        background-color: #FFFFFF;
-      }
+      text-align: center;
       .create-btn{
+        margin-left: 470px;
         margin-top: 30px;
-        margin-right: 10px;
         height: 40px;
         color: #fff;
         font-size: 20px !important;
@@ -246,7 +239,7 @@ export default {
       }
     }
   }
-  .security-group-table{
+  .network-table{
     width: 1000px;
     margin: 30px auto;
   }
