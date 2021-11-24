@@ -514,7 +514,7 @@ const cn = {
     haidian: '海淀区',
     caict: '中国信通院',
     huaweiBeijing: '华为北京研究所',
-    shanxi: '陕西省',
+    shaanxi: '陕西省',
     xian: '西安市',
     huaweiXian: '华为西安研究所',
     xidian: '西安电子科技大学',

@@ -426,7 +426,7 @@ export default {
         },
         {
           value: '1',
-          label: this.$t('area.shanxi'),
+          label: this.$t('area.shaanxi'),
           children: [{
             value: '1.1',
             label: this.$t('area.xian'),
