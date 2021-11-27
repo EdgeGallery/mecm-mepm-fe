@@ -32,19 +32,22 @@
         <el-table-column
           prop="networkName"
           label="Network"
-          sortable="custom"
+          width="150px"
         />
         <el-table-column
           prop="connectSubnet"
           :label="$t('resourceMgr.connectSubnet')"
+          width="180px"
         />
         <el-table-column
           prop="shared"
           :label="$t('resourceMgr.shared')"
+          width="90px"
         />
         <el-table-column
           prop="adminStatus"
           :label="$t('resourceMgr.adminStatus')"
+          width="200px"
         />
         <el-table-column
           prop="status"

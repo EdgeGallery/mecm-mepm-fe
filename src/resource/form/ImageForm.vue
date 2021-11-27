@@ -33,7 +33,7 @@
         ref="form"
         :rules="rules"
         label-position="right"
-        label-width="100px"
+        :label-width="language==='cn'? '100px': '120px'"
       >
         <el-form-item
           :label="$t('resourceMgr.imageName')"
@@ -139,6 +139,7 @@
   </div>
 </template>
 <script>
+import { resController } from '../../tools/request.js'
 export default {
   components: {
   },
@@ -166,7 +167,8 @@ export default {
         minRam: [{ required: true, message: '最小内存不能为空', trigger: 'blur' }],
         minDisk: [{ required: true, message: '最小磁盘不能为空', trigger: 'blur' }],
         resourceUri: [{ required: true, message: '镜像源不能为空', trigger: 'blur' }]
-      }
+      },
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -175,13 +177,42 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        name: this.createImageForm.name,
+        containerFormat: this.createImageForm.containerFormat,
+        diskFormat: this.createImageForm.diskFormat,
+        minRam: this.createImageForm.minRam,
+        minDisk: this.createImageForm.minDisk,
+        properties: this.createImageForm.properties
+      }
+      resController.createImage(hostIp, params).then(res => {
+        // TODO
+        let imageId = res.data.data.imageId
+        this.importImage(hostIp, imageId)
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
+    },
+    importImage (hostIp, imageId) {
+      resController.importImage(hostIp, imageId, this.createImageForm.resourceUri).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     cancelAction () {
       this.handleClose()
     }
   },
   mounted () {
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>

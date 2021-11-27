@@ -82,6 +82,7 @@
   </div>
 </template>
 <script>
+import { resController } from '../../tools/request.js'
 export default {
   components: {
   },
@@ -115,6 +116,16 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        name: this.securityGroupForm.securityGroupName
+      }
+      resController.createSecurityGroup(hostIp, params).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
     },
     cancelAction () {

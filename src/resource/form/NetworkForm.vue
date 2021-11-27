@@ -33,7 +33,7 @@
         ref="form"
         :rules="rules"
         label-position="right"
-        label-width="100px"
+        :label-width="language==='cn'? '100px': '130px'"
       >
         <el-form-item
           :label="$t('resourceMgr.networkName')"
@@ -83,6 +83,16 @@
             v-model="createNetworkForm.gatewayIp"
           />
         </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.subnetName')"
+          prop="subnetName"
+          class="w50"
+        >
+          <el-input
+            size="small"
+            v-model="createNetworkForm.subnetName"
+          />
+        </el-form-item>
       </el-form>
       <div
         slot="footer"
@@ -109,6 +119,7 @@
   </div>
 </template>
 <script>
+import { resController } from '../../tools/request.js'
 export default {
   components: {
   },
@@ -126,14 +137,17 @@ export default {
         networkName: '',
         networkAddr: '',
         ipVersion: '',
-        gatewayIP: ''
+        gatewayIP: '',
+        subnetName: ''
       },
       rules: {
         networkName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         networkAddr: [{ required: true, message: '网络地址不能为空', trigger: 'blur' }],
         ipVersion: [{ required: true, message: 'IP版本不能为空', trigger: 'blur' }],
-        gatewayIP: [{ required: true, message: '网关IP不能为空', trigger: 'blur' }]
-      }
+        gatewayIP: [{ required: true, message: '网关IP不能为空', trigger: 'blur' }],
+        subnetName: [{ required: true, message: '子网名称不能为空', trigger: 'blur' }]
+      },
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -142,6 +156,21 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        name: this.createFlavorForm.flavorName,
+        vcpus: this.createFlavorForm.flavorVCPU,
+        ram: this.createFlavorForm.flavorRAM,
+        disk: this.createFlavorForm.flavorRootDisk,
+        swap: this.createFlavorForm.flavorSwapDisk,
+        extraSpecs: this.createFlavorForm.extraSpecs
+      }
+      resController.createNetwork(hostIp, params).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
     },
     cancelAction () {
@@ -149,6 +178,11 @@ export default {
     }
   },
   mounted () {
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>

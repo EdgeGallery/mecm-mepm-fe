@@ -32,31 +32,36 @@
         <el-table-column
           prop="name"
           label="Name"
-          sortable="custom"
         />
         <el-table-column
           prop="virtualCore"
           :label="$t('resourceMgr.virtualCore')"
+          width="125px"
         />
         <el-table-column
           prop="ram"
           :label="$t('resourceMgr.ram')"
+          width="110px"
         />
         <el-table-column
           prop="totalDisk"
           :label="$t('resourceMgr.totalDisk')"
+          width="110px"
         />
         <el-table-column
           prop="rootDisk"
           :label="$t('resourceMgr.rootDisk')"
+          width="110px"
         />
         <el-table-column
           prop="tempDisk"
           :label="$t('resourceMgr.tempDisk')"
+          width="120px"
         />
         <el-table-column
           prop="public"
           :label="$t('resourceMgr.public')"
+          width="90px"
         />
         <template slot="empty">
           <div>

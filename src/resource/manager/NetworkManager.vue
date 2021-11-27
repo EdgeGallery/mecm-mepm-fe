@@ -39,7 +39,7 @@
           class="create-col"
         >
           <el-button
-            class="create-btn"
+            :class="language==='cn'? 'create-btn':'create-btn-en'"
             id="createNetworkBtn"
             @click="createNetwork()"
           >
@@ -55,6 +55,7 @@
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
+        v-loading="dataLoading"
       >
         <el-table-column
           prop="name"
@@ -78,7 +79,6 @@
           prop="status"
           label="Status"
           width="110"
-          sortable="custom"
         />
         <el-table-column
           prop="adminState"
@@ -92,7 +92,7 @@
         />
         <el-table-column
           label="Actions"
-          width="160"
+          width="170"
         >
           <template slot-scope="scope">
             <el-button
@@ -138,6 +138,7 @@
     <div v-if="isShowForm">
       <NetworkForm
         v-model="isShowForm"
+        @reloadTableData="reloadTableData"
       />
     </div>
   </div>
@@ -145,6 +146,7 @@
 <script>
 import pagination from '../../components/Pagination.vue'
 import NetworkForm from '../form/NetworkForm.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
@@ -173,7 +175,9 @@ export default {
         adminState: 'UP',
         availability: 'Nova'
       }],
-      isShowForm: false
+      isShowForm: false,
+      dataLoading: true,
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -187,6 +191,13 @@ export default {
         type: 'warning'
       }).then(() => {
         // confirm
+        let hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteNetworkByFlavorId(hostIp, row.id).then(res => {
+        // TODO
+          this.getTableData()
+        }).catch((error) => {
+          console.log(error)
+        })
       }).catch(() => {
         // cancel
       })
@@ -194,8 +205,18 @@ export default {
     createNetwork () {
       this.isShowForm = true
     },
+    filterTableData (val, key) {
+      this.paginationData = this.paginationData.filter(item => {
+        let itemVal = item[key].toLowerCase()
+        return itemVal.indexOf(val) > -1
+      })
+    },
     queryNetwork () {
-
+      if (this.paginationData && this.paginationData.length > 0) {
+        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+          this.filterTableData(this.nameQueryVal, 'name')
+        }
+      }
     },
     sortChange () {
 
@@ -204,11 +225,27 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryNetworksByMechost(hostIp).then(res => {
+        // TODO
+        this.paginationData = res.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
+    },
+    reloadTableData () {
+      this.getTableData()
     }
   },
   mounted () {
     this.getTableData()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -222,12 +259,23 @@ export default {
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 50px;
+      margin-left: 30px;
     }
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 470px;
+        margin-left: 486px;
+        margin-top: 30px;
+        height: 40px;
+        color: #fff;
+        font-size: 20px !important;
+        border-radius: 10px;
+        padding: 0 35px;
+        background-image: linear-gradient(127deg, #4444d0, #6724cb);
+        border: none;
+      }
+      .create-btn-en{
+        margin-left: 425px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

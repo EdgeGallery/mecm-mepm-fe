@@ -15,7 +15,7 @@
   -->
 <template>
   <div class="resource-grid">
-    <div class="grid-chart">
+    <div :class="language==='cn'?'grid-chart': 'grid-chart-en'">
       <el-progress
         type="circle"
         :stroke-width="12"
@@ -24,12 +24,12 @@
         color="#40C8A0"
       />
     </div>
-    <div class="gird-statistic">
-      <div class="statistic-div">
-        <span class="statistic-detail">虚机数量: 6<span /></span>
+    <div :class="language==='cn'?'gird-statistic': 'gird-statistic-en'">
+      <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
+        <span class="statistic-detail">{{ $t('resourceMgr.vmAmount') }}: 6</span>
       </div>
-      <div class="statistic-div">
-        <span class="statistic-detail">剩余数量: 66<span /></span>
+      <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
+        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: 66</span>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -48,6 +48,11 @@ export default {
   },
   mounted () {
 
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -66,6 +71,20 @@ export default {
     margin-top: 30px;
     margin-left: 25px;
     .statistic-div{
+      padding: 3px;
+      .statistic-detail{
+        color: #1F1348;
+      }
+    }
+  }
+  .grid-chart-en{
+    margin-top: 16px;
+    margin-left: 15px;
+  }
+  .gird-statistic-en{
+    margin-top: 30px;
+    margin-left: 10px;
+    .statistic-div-en{
       padding: 3px;
       .statistic-detail{
         color: #1F1348;
