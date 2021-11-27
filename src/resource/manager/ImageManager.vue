@@ -39,7 +39,7 @@
           class="create-col"
         >
           <el-button
-            class="create-btn"
+            :class="language==='cn'? 'create-btn':'create-btn-en'"
             id="createImageBtn"
             @click="createImage()"
           >
@@ -55,6 +55,7 @@
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
+        v-loading="dataLoading"
       >
         <el-table-column
           prop="imageName"
@@ -76,12 +77,12 @@
         <el-table-column
           prop="visibility"
           :label="$t('resourceMgr.visibility')"
-          width="110"
-          sortable="custom"
+          width="100"
         />
         <el-table-column
           prop="protect"
           :label="$t('resourceMgr.protect')"
+          width="115"
         />
         <el-table-column
           prop="diskFormat"
@@ -139,6 +140,7 @@
     <div v-if="isShowForm">
       <ImageForm
         v-model="isShowForm"
+        @reloadTableData="reloadTableData"
       />
     </div>
   </div>
@@ -146,6 +148,7 @@
 <script>
 import pagination from '../../components/Pagination.vue'
 import ImageForm from '../form/ImageForm.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
@@ -165,20 +168,29 @@ export default {
         diskFormat: 'QCOW2',
         size: '760.38M'
       }],
-      isShowForm: false
+      isShowForm: false,
+      dataLoading: true,
+      language: localStorage.getItem('language')
     }
   },
   methods: {
     editImage () {
 
     },
-    deleteImage () {
+    deleteImage (row) {
       this.$confirm(this.$t('resourceMgr.deleteImageMessage'), this.$t('resourceMgr.deleteImageTitle'), {
         confirmButtonText: this.$t('common.confirm'),
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
         // confirm
+        let hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteImageByImageId(hostIp, row.id).then(res => {
+        // TODO
+          this.getTableData()
+        }).catch((error) => {
+          console.log(error)
+        })
       }).catch(() => {
         // cancel
       })
@@ -186,8 +198,18 @@ export default {
     createImage () {
       this.isShowForm = true
     },
+    filterTableData (val, key) {
+      this.paginationData = this.paginationData.filter(item => {
+        let itemVal = item[key].toLowerCase()
+        return itemVal.indexOf(val) > -1
+      })
+    },
     queryImage () {
-
+      if (this.paginationData && this.paginationData.length > 0) {
+        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+          this.filterTableData(this.nameQueryVal, 'imageName')
+        }
+      }
     },
     sortChange () {
 
@@ -196,11 +218,27 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(hostIp).then(res => {
+        // TODO
+        this.paginationData = res.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
+    },
+    reloadTableData () {
+      this.getTableData()
     }
   },
   mounted () {
     this.getTableData()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -214,12 +252,23 @@ export default {
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 50px;
+      margin-left: 30px;
     }
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 470px;
+        margin-left: 486px;
+        margin-top: 30px;
+        height: 40px;
+        color: #fff;
+        font-size: 20px !important;
+        border-radius: 10px;
+        padding: 0 35px;
+        background-image: linear-gradient(127deg, #4444d0, #6724cb);
+        border: none;
+      }
+      .create-btn-en{
+        margin-left: 445px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

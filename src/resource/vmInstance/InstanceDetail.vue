@@ -22,7 +22,7 @@
       ref="form"
       :rules="rules"
       label-position="right"
-      label-width="100px"
+      :label-width="language==='cn'? '100px':'130px'"
     >
       <el-form-item
         :label="$t('resourceMgr.instanceName')"
@@ -100,7 +100,8 @@ export default {
         instanceName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         useDomain: [{ required: true, message: '可用域不能为空', trigger: 'blur' }],
         number: [{ required: true, message: '数量不能为空', trigger: 'blur' }]
-      }
+      },
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -110,6 +111,11 @@ export default {
     }
   },
   mounted () {
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>

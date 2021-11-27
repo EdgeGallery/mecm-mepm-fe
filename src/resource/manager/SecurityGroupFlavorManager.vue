@@ -23,14 +23,14 @@
         >
           <el-input
             v-model="nameQueryVal"
-            @change="querySecurityGroup"
+            @change="querySecurityGroupFlavor"
             :placeholder="$t('resourceMgr.searchPlaceholder')"
             class="enterinput lt"
           >
             <em
               slot="suffix"
               class="search_icon"
-              @click="querySecurityGroup"
+              @click="querySecurityGroupFlavor"
             />
           </el-input>
         </el-col>
@@ -62,6 +62,7 @@
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
+        v-loading="dataLoading"
       >
         <el-table-column
           prop="direction"
@@ -136,6 +137,7 @@
       <SecurityGroupFlavorForm
         v-model="isShowForm"
         :dlg-type="dlgType"
+        @reloadTableData="reloadTableData"
       />
     </div>
   </div>
@@ -143,6 +145,7 @@
 <script>
 import pagination from '../../components/Pagination.vue'
 import SecurityGroupFlavorForm from '../form/SecurityGroupFlavorForm.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
@@ -163,7 +166,8 @@ export default {
         remoteSecurityGroup: 'default'
       }],
       isShowForm: false,
-      dlgType: 'createDlg'
+      dlgType: 'createDlg',
+      dataLoading: true
     }
   },
   methods: {
@@ -183,12 +187,29 @@ export default {
           type: 'warning'
         }).then(() => {
         // confirm
+        let hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteSecurityGroupRuleBySecurityGroupRuleId(hostIp, row.id).then(res => {
+        // TODO
+          this.getTableData()
+        }).catch((error) => {
+          console.log(error)
+        })
       }).catch(() => {
         // cancel
       })
     },
-    querySecurityGroup () {
-
+    filterTableData (val, key) {
+      this.paginationData = this.paginationData.filter(item => {
+        let itemVal = item[key].toLowerCase()
+        return itemVal.indexOf(val) > -1
+      })
+    },
+    querySecurityGroupFlavor () {
+      if (this.paginationData && this.paginationData.length > 0) {
+        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+          this.filterTableData(this.nameQueryVal, 'securityGroupFlavorName')
+        }
+      }
     },
     sortChange () {
 
@@ -197,7 +218,18 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupRulesByMechost(hostIp).then(res => {
+        // TODO
+        this.paginationData = res.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
+    },
+    reloadTableData () {
+      this.getTableData()
     },
     returnSecurityGroup () {
       this.$emit('returnBack')

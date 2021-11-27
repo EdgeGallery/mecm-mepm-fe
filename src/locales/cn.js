@@ -718,7 +718,10 @@ const cn = {
     imageName: '镜像名称',
     flavorConfig: '规格配置',
     check: '查看',
-    canonicalInfo: '请填写完整的信息'
+    canonicalInfo: '请填写完整的信息',
+    subnetName: '子网名称',
+    vmAmount: '虚机数量',
+    remainAmount: '剩余数量'
   },
   ...zhLocale
 }

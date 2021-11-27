@@ -120,7 +120,7 @@ export default {
         margin-right: 5px;
         position: relative;
         top: 2px;
-        margin-left: 17px;
+        margin-left: 14px;
       }
       .title-icon-yellow{
         display: inline-block;
@@ -131,7 +131,7 @@ export default {
         margin-right: 5px;
         position: relative;
         top: 2px;
-        margin-left: 17px;
+        margin-left: 14px;
       }
       .title-icon-red{
         display: inline-block;
@@ -142,7 +142,7 @@ export default {
         margin-right: 5px;
         position: relative;
         top: 2px;
-        margin-left: 17px;
+        margin-left: 14px;
       }
     }
     .resource-status{

@@ -158,6 +158,7 @@ import InstanceType from './InstanceType.vue'
 import InstanceNetwork from './InstanceNetwork.vue'
 import InstanceSecurityGroup from './InstanceSecurityGroup.vue'
 import InstanceUserParam from './InstanceUserParam.vue'
+import { resController } from '../../tools/request.js'
 export default {
   name: 'VMInstanceDlg',
   components: {
@@ -231,6 +232,26 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        server: {
+          name: '',
+          flavor: '',
+          image: '',
+          imageRef: '',
+          availabilityZone: '',
+          user_data: '',
+          configDrive: '',
+          securityGroups: [],
+          netWork: []
+        }
+      }
+      resController.createVM(hostIp, params).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
     },
     cancelAction () {

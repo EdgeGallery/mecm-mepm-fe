@@ -30,6 +30,7 @@ if (window.location.href.indexOf('31252') > -1) {
 let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
 let appRuleMgrApi = api + ':' + serverPort + '/apprulemgr/v1'
 let lcmcontrollerApiV2 = api + ':' + serverPort + '/lcmcontroller/v2'
+let resControllerApi = api + ':' + serverPort + '/rescontroller/v1'
 
 axios.interceptors.response.use(
   function (response) {
@@ -202,11 +203,94 @@ let appRuleMgr = {
   }
 }
 
+let resController = {
+  createFlavor (hostIp, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/flavors', params)
+  },
+  queryFlavorsByMechost (hostIp) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/flavors')
+  },
+  queryFlavorByFlavorId (hostIp, flavorId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/flavors/' + flavorId)
+  },
+  deleteFlavorByFlavorId (hostIp, flavorId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/flavors/' + flavorId)
+  },
+
+  createImage (hostIp, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/images', params)
+  },
+  importImage (hostIp, imageId, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/images/' + imageId, params)
+  },
+  queryImagesByMechost (hostIp) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/images')
+  },
+  queryImageByImageId (hostIp, imageId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/images/' + imageId)
+  },
+  deleteImageByImageId (hostIp, imageId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/images/' + imageId)
+  },
+
+  createNetwork (hostIp, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/networks', params)
+  },
+  queryNetworksByMechost (hostIp) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/networks')
+  },
+  queryNetworkByNetworkId (hostIp, networkId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/networks/' + networkId)
+  },
+  deleteNetworkByNetworkId (hostIp, networkId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/networks/' + networkId)
+  },
+
+  createSecurityGroup (hostIp, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups', params)
+  },
+  querySecurityGroupsByMechost (hostIp) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups')
+  },
+  querySecurityGroupBySecurityGroupId (hostIp, securityGroupId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId)
+  },
+  deleteSecurityGroupBySecurityGroupId (hostIp, securityGroupId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId)
+  },
+  createSecurityGroupRule (hostIp, securityGroupId, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId + '/securityGroupRules', params)
+  },
+  querySecurityGroupRulesByMechost (hostIp, securityGroupId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId + '/securityGroupRules')
+  },
+  deleteSecurityGroupRuleBySecurityGroupId (hostIp, securityGroupId, securityGroupRuleId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + 'securityGroupRules' + securityGroupRuleId)
+  },
+
+  createVM (hostIp, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers', params)
+  },
+  queryVMsByMechost (hostIp) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers')
+  },
+  queryVMByVMId (hostIp, serverId) {
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers/' + serverId)
+  },
+  deleteVMByVMId (hostIp, serverId) {
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers/' + serverId)
+  },
+  operateVM (hostIp, serverId, params) {
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers/' + serverId, params)
+  }
+}
+
 export {
   GET,
   POST,
   PUT,
   DELETE,
   lcmController,
-  appRuleMgr
+  appRuleMgr,
+  resController
 }

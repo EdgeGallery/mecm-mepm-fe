@@ -39,7 +39,7 @@
           class="create-col"
         >
           <el-button
-            class="create-btn"
+            :class="language==='cn'? 'create-btn': 'create-btn-en'"
             id="createFlavorBtn"
             @click="createFlavor()"
           >
@@ -55,11 +55,12 @@
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
+        v-loading="dataLoading"
       >
         <el-table-column
           prop="flavorName"
           label="Flavor Name"
-          width="158"
+          width="165"
           sortable="custom"
         />
         <el-table-column
@@ -70,7 +71,7 @@
         <el-table-column
           prop="vcpus"
           label="VCPUs"
-          width="85"
+          width="90"
         />
         <el-table-column
           prop="ram"
@@ -89,7 +90,7 @@
         <el-table-column
           prop="txfactor"
           label="RX/TXfactor"
-          width="120"
+          width="110"
         />
         <el-table-column
           prop="public"
@@ -143,6 +144,7 @@
     <div v-if="isShowForm">
       <FlavorForm
         v-model="isShowForm"
+        @reloadTableData="reloadTableData"
       />
     </div>
   </div>
@@ -150,6 +152,7 @@
 <script>
 import pagination from '../../components/Pagination.vue'
 import FlavorForm from '../form/FlavorForm.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
@@ -171,7 +174,9 @@ export default {
         txfactor: '1.0',
         public: 'yes'
       }],
-      isShowForm: false
+      isShowForm: false,
+      dataLoading: true,
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -185,6 +190,13 @@ export default {
         type: 'warning'
       }).then(() => {
         // confirm
+        let hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteFlavorByFlavorId(hostIp, row.id).then(res => {
+        // TODO
+          this.getTableData()
+        }).catch((error) => {
+          console.log(error)
+        })
       }).catch(() => {
         // cancel
       })
@@ -192,8 +204,18 @@ export default {
     createFlavor () {
       this.isShowForm = true
     },
+    filterTableData (val, key) {
+      this.paginationData = this.paginationData.filter(item => {
+        let itemVal = item[key].toLowerCase()
+        return itemVal.indexOf(val) > -1
+      })
+    },
     queryFlavor () {
-
+      if (this.paginationData && this.paginationData.length > 0) {
+        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+          this.filterTableData(this.nameQueryVal, 'flavorName')
+        }
+      }
     },
     sortChange () {
 
@@ -202,11 +224,27 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(hostIp).then(res => {
+        // TODO
+        this.paginationData = res.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
+    },
+    reloadTableData () {
+      this.getTableData()
     }
   },
   mounted () {
     this.getTableData()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -220,12 +258,23 @@ export default {
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 50px;
+      margin-left: 30px;
     }
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 470px;
+        margin-left: 486px;
+        margin-top: 30px;
+        height: 40px;
+        color: #fff;
+        font-size: 20px !important;
+        border-radius: 10px;
+        padding: 0 35px;
+        background-image: linear-gradient(127deg, #4444d0, #6724cb);
+        border: none;
+      }
+      .create-btn-en{
+        margin-left: 445px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

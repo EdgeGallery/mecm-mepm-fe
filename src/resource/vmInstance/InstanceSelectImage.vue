@@ -49,7 +49,6 @@
         <el-table-column
           prop="visibility"
           :label="$t('resourceMgr.visibility')"
-          sortable="custom"
         />
         <template slot="empty">
           <div>

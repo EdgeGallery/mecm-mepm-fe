@@ -31,7 +31,7 @@
             :key="item.value"
             :label="item.name"
             :value="item.value"
-            @click.native="getSelectAppstoreData(item)"
+            @click.native="changeEdgeNode()"
           />
         </el-select>
       </div>
@@ -40,6 +40,7 @@
         v-model="activeName"
         @tab-click="handleClick"
         tab-position="left"
+        :class="{'enLeft':language==='en'}"
       >
         <el-tab-pane
           class="tab-item"
@@ -152,13 +153,17 @@ export default {
       selectedName: '1',
       currentEdgeNode: '',
       edgeNodeList: [
-        { name: '10.10.10.10', value: '1' },
-        { name: '20.20.20.20', value: '2' },
-        { name: '30.30.30.30', value: '3' }
-      ]
+        { name: '10.10.10.10', value: '10.10.10.10' },
+        { name: '20.20.20.20', value: '20.20.20.20' },
+        { name: '30.30.30.30', value: '30.30.30.30' }
+      ],
+      language: localStorage.getItem('language')
     }
   },
   methods: {
+    changeEdgeNode () {
+      sessionStorage.setItem('hostIp', this.currentEdgeNode)
+    },
     groupListHover (index) {
       this.selectedName = index
     },
@@ -175,6 +180,11 @@ export default {
   },
   mounted () {
 
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -262,7 +272,6 @@ export default {
       span{
         display: inline-block;
         height: 50px;
-        letter-spacing: 4px;
         em{
           float: left;
           width: 28px;
@@ -288,7 +297,10 @@ export default {
       color: #7a6e8a;
     }
     .el-tabs--left .el-tabs__header.is-left{
-      margin-right: 50px;
+      margin-right: 60px;
+    }
+    .el-tabs--left.enLeft .el-tabs__header.is-left{
+      margin-right: 10px;
     }
     .el-tabs--left .el-tabs__active-bar.is-left{
       display: none;

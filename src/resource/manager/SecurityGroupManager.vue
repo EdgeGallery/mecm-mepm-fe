@@ -42,7 +42,7 @@
           class="create-col"
         >
           <el-button
-            class="create-btn"
+            :class="language==='cn'? 'create-btn': 'create-btn-en'"
             id="createSecurityGroupBtn"
             @click="createSecurityGroup()"
           >
@@ -58,6 +58,7 @@
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
+        v-loading="dataLoading"
       >
         <el-table-column
           prop="name"
@@ -74,7 +75,7 @@
         />
         <el-table-column
           label="Actions"
-          width="260"
+          :width="language==='cn'?'260': '330'"
         >
           <template slot-scope="scope">
             <el-button
@@ -129,6 +130,7 @@
       <SecurityGroupForm
         v-model="isShowFormDlg"
         :dlg-type="dlgType"
+        @reloadTableData="reloadTableData"
       />
     </div>
   </div>
@@ -145,6 +147,7 @@
 import pagination from '../../components/Pagination.vue'
 import SecurityGroupFlavorManager from './SecurityGroupFlavorManager.vue'
 import SecurityGroupForm from '../form/SecurityGroupForm.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
@@ -168,7 +171,9 @@ export default {
         name: 'eg-xxxxxx',
         securityGroupId: 'dedxxxxx',
         description: 'Default security group'
-      }]
+      }],
+      dataLoading: true,
+      language: localStorage.getItem('language')
     }
   },
   methods: {
@@ -183,6 +188,13 @@ export default {
           type: 'warning'
         }).then(() => {
         // confirm
+        let hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteSecurityGroupBySecurityGroupId(hostIp, row.id).then(res => {
+        // TODO
+          this.getTableData()
+        }).catch((error) => {
+          console.log(error)
+        })
       }).catch(() => {
         // cancel
       })
@@ -195,8 +207,18 @@ export default {
       this.isShowFormDlg = true
       this.dlgType = 'createDlg'
     },
+    filterTableData (val, key) {
+      this.paginationData = this.paginationData.filter(item => {
+        let itemVal = item[key].toLowerCase()
+        return itemVal.indexOf(val) > -1
+      })
+    },
     querySecurityGroup () {
-
+      if (this.paginationData && this.paginationData.length > 0) {
+        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+          this.filterTableData(this.nameQueryVal, 'name')
+        }
+      }
     },
     sortChange () {
 
@@ -208,11 +230,27 @@ export default {
       this.isSecurityGroupMainDlg = true
     },
     getTableData () {
-
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+        // TODO
+        this.paginationData = res.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
+    },
+    reloadTableData () {
+      this.getTableData()
     }
   },
   mounted () {
     this.getTableData()
+  },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
   }
 }
 </script>
@@ -226,12 +264,23 @@ export default {
   .search-createBtn{
     .search-col{
       margin-top: 30px;
-      margin-left: 50px;
+      margin-left: 30px;
     }
     .create-col{
       text-align: center;
       .create-btn{
-        margin-left: 447px;
+        margin-left: 465px;
+        margin-top: 30px;
+        height: 40px;
+        color: #fff;
+        font-size: 20px !important;
+        border-radius: 10px;
+        padding: 0 35px;
+        background-image: linear-gradient(127deg, #4444d0, #6724cb);
+        border: none;
+      }
+      .create-btn-en{
+        margin-left: 374px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

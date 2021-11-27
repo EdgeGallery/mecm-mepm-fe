@@ -719,7 +719,10 @@ const en = {
     imageName: 'image name',
     flavorConfig: 'flavor config',
     check: 'check',
-    canonicalInfo: 'Please fill in the canonical information'
+    canonicalInfo: 'Please fill in the canonical information',
+    subnetName: 'subnet name',
+    vmAmount: 'VM amount',
+    remainAmount: 'remain amount'
   },
   ...enLocale
 }

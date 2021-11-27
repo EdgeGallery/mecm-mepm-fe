@@ -149,6 +149,7 @@
   </div>
 </template>
 <script>
+import { resController } from '../../tools/request.js'
 export default {
   components: {
   },
@@ -195,6 +196,23 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        securityGroupId: this.securityGroupFlavorForm.securityGroupId,
+        direction: this.securityGroupFlavorForm.direction,
+        protocol: this.securityGroupFlavorForm.protocol,
+        ethertype: this.securityGroupFlavorForm.ethertype,
+        port_range_min: this.securityGroupFlavorForm.port_range_min,
+        port_range_max: this.securityGroupFlavorForm.port_range_max,
+        remoteTpPrefix: this.securityGroupFlavorForm.remoteTpPrefix,
+        remote_group_id: this.securityGroupFlavorForm.remote_group_id
+      }
+      resController.createSecurityGroupRule(hostIp, params).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
     },
     cancelAction () {

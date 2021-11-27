@@ -156,6 +156,7 @@
 </template>
 <script>
 import FlavorConfig from './FlavorConfig.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     FlavorConfig
@@ -196,6 +197,21 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      let params = {
+        name: this.createFlavorForm.flavorName,
+        vcpus: this.createFlavorForm.flavorVCPU,
+        ram: this.createFlavorForm.flavorRAM,
+        disk: this.createFlavorForm.flavorRootDisk,
+        swap: this.createFlavorForm.flavorSwapDisk,
+        extraSpecs: this.createFlavorForm.extraSpecs
+      }
+      resController.createFlavor(hostIp, params).then(res => {
+        // TODO
+        this.$emit('reloadTableData')
+      }).catch((error) => {
+        console.log(error)
+      })
       this.handleClose()
     },
     cancelAction () {
