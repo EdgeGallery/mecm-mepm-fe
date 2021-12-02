@@ -20,16 +20,28 @@
         type="circle"
         :stroke-width="12"
         :width="80"
-        :percentage="40"
+        :percentage="showPercent"
         color="#40C8A0"
       />
     </div>
     <div :class="language==='cn'?'gird-statistic': 'gird-statistic-en'">
       <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
-        <span class="statistic-detail">{{ $t('resourceMgr.vmAmount') }}: 6</span>
+        <span class="statistic-detail">
+          {{
+            statisticData.index===1?$t('resourceMgr.vmAmount'):
+            statisticData.index===2?$t('resourceMgr.vpuAmount'):
+            statisticData.index===3?$t('resourceMgr.ramAmount'):
+            statisticData.index===4?$t('resourceMgr.volumeAmount'):
+            statisticData.index===5?$t('resourceMgr.volumeSnapshotAmount'):
+            statisticData.index===6?$t('resourceMgr.volumeStorageAmount'):
+            statisticData.index===7?$t('resourceMgr.networkAmount'):
+            statisticData.index===8?$t('resourceMgr.securityGroupAmount'):
+            statisticData.index===9?$t('resourceMgr.securityGroupRuleAmount'):
+            "unknow"
+          }}: {{ statisticData.totalUsed }}</span>
       </div>
       <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
-        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: 66</span>
+        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: {{ statisticData.maxTotal }}</span>
       </div>
     </div>
   </div>
@@ -37,17 +49,22 @@
 <script>
 export default {
   props: {
+    statisticData: {
+      required: true,
+      type: Object
+    }
   },
   data () {
     return {
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      showPercent: 0
     }
   },
   methods: {
 
   },
   mounted () {
-
+    this.showPercent = this.statisticData.percent
   },
   watch: {
     '$i18n.locale': function () {

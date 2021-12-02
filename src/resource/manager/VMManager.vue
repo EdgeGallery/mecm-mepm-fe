@@ -51,9 +51,7 @@
     <div class="vm-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle tableHeight"
         ref="multipleTable"
         v-loading="dataLoading"
       >
@@ -61,7 +59,7 @@
           prop="instanceName"
           label="Instance Name"
           width="190"
-          sortable="custom"
+          sortable
         />
         <el-table-column
           prop="imageName"
@@ -78,7 +76,7 @@
         <el-table-column
           prop="status"
           label="Status"
-          sortable="custom"
+          sortable
         />
         <el-table-column
           label="Actions"
@@ -182,13 +180,7 @@ export default {
     return {
       nameQueryVal: '',
       paginationData: [],
-      currentPageData: [{
-        instanceName: 'testVM',
-        imageName: 'testImage',
-        ip: '100.100.100.100',
-        flavor: 'm1.small',
-        status: 'run'
-      }],
+      currentPageData: [],
       isShowForm: false,
       dataLoading: true,
       language: localStorage.getItem('language')
@@ -204,16 +196,13 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        // confirm
         let hostIp = sessionStorage.getItem('hostIp')
         resController.deleteVMByVMId(hostIp, row.id).then(res => {
-        // TODO
           this.getTableData()
         }).catch((error) => {
           console.log(error)
         })
       }).catch(() => {
-        // cancel
       })
     },
     createVMInstance () {
@@ -231,30 +220,65 @@ export default {
     hangInstance (row) {
 
     },
-    sortChange () {
-
-    },
     filterTableData (val, key) {
-      this.paginationData = this.paginationData.filter(item => {
-        let itemVal = item[key].toLowerCase()
-        return itemVal.indexOf(val) > -1
+      let hostIp = sessionStorage.getItem('hostIp')
+      this.dataLoading = true
+      resController.queryVMsByMechost(hostIp).then(res => {
+        let tempArr = []
+        res.data.data.forEach(item => {
+          let tempItem = {
+            instanceName: item.name,
+            imageName: item.image.id,
+            ip: this.getIpAddr(item.addresses),
+            flavor: '',
+            status: item.status
+          }
+          tempArr.push(tempItem)
+        })
+        this.paginationData = tempArr
+        this.paginationData = this.paginationData.filter(item => {
+          let itemVal = item[key].toLowerCase()
+          return itemVal.indexOf(val) > -1
+        })
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
       })
     },
     queryVM () {
-      if (this.paginationData && this.paginationData.length > 0) {
-        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
-          this.filterTableData(this.nameQueryVal, 'instanceName')
-        }
+      if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+        this.filterTableData(this.nameQueryVal, 'instanceName')
+      } else {
+        this.reloadTableData()
       }
     },
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    getIpAddr (obj) {
+      let results = ''
+      for (let key in obj) {
+        let item = key + obj[key][0].addr
+        results += item
+      }
+      return results
+    },
     getTableData () {
       let hostIp = sessionStorage.getItem('hostIp')
       resController.queryVMsByMechost(hostIp).then(res => {
-        // TODO
-        this.paginationData = res.data
+        let tempArr = []
+        res.data.data.forEach(item => {
+          let tempItem = {
+            instanceName: item.name,
+            imageName: item.image.id,
+            ip: this.getIpAddr(item.addresses),
+            flavor: '',
+            status: item.status
+          }
+          tempArr.push(tempItem)
+        })
+        this.paginationData = tempArr
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -316,6 +340,10 @@ export default {
   .vm-table{
     width: 1000px;
     margin: 30px auto;
+    .tableHeight {
+      height: 400px;
+      overflow: auto;
+    }
   }
 }
 </style>

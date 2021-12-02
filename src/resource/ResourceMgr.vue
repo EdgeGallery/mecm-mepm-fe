@@ -138,6 +138,7 @@ import ImageManager from './manager/ImageManager.vue'
 import NetworkManager from './manager/NetworkManager.vue'
 import FlavorManager from './manager/FlavorManager.vue'
 import SecurityGroupManager from './manager/SecurityGroupManager.vue'
+import { lcmController } from '../tools/request.js'
 export default {
   components: {
     ResourceOverview,
@@ -152,11 +153,7 @@ export default {
       activeName: '1',
       selectedName: '1',
       currentEdgeNode: '',
-      edgeNodeList: [
-        { name: '10.10.10.10', value: '10.10.10.10' },
-        { name: '20.20.20.20', value: '20.20.20.20' },
-        { name: '30.30.30.30', value: '30.30.30.30' }
-      ],
+      edgeNodeList: [],
       language: localStorage.getItem('language')
     }
   },
@@ -176,10 +173,25 @@ export default {
       this.$nextTick(() => {
         this.activeName = tempActiveName
       })
+    },
+    getHosts () {
+      lcmController.getHostList().then(response => {
+        response.data.forEach((item) => {
+          let node = {
+            name: item.mechostIp,
+            value: item.mechostIp
+          }
+          this.edgeNodeList.push(node)
+          this.currentEdgeNode = this.edgeNodeList[0].value
+        })
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error(this.$t('tip.failedToGetList'))
+      })
     }
   },
   mounted () {
-
+    this.getHosts()
   },
   watch: {
     '$i18n.locale': function () {

@@ -73,6 +73,58 @@
           </el-select>
         </el-form-item>
         <el-form-item
+          :label="$t('resourceMgr.openPort')"
+          prop="openPort"
+          class="w50"
+        >
+          <el-select
+            size="small"
+            :style="{width: '100%'}"
+            v-model="securityGroupFlavorForm.openPort"
+          >
+            <el-option
+              v-for="item in portList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @click.native="getSelectPortType(item)"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.port')"
+          prop="port"
+          class="w50"
+          v-if="isPortType"
+        >
+          <el-input
+            size="small"
+            v-model="securityGroupFlavorForm.port"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.portRangeMin')"
+          prop="portRangeMin"
+          class="w50"
+          v-if="isPortRangeType"
+        >
+          <el-input
+            size="small"
+            v-model="securityGroupFlavorForm.portRangeMin"
+          />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.portRangeMax')"
+          prop="portRangeMax"
+          class="w50"
+          v-if="isPortRangeType"
+        >
+          <el-input
+            size="small"
+            v-model="securityGroupFlavorForm.portRangeMax"
+          />
+        </el-form-item>
+        <el-form-item
           :label="$t('resourceMgr.description')"
           prop="description"
           class="w100"
@@ -84,44 +136,72 @@
           />
         </el-form-item>
         <el-form-item
-          :label="$t('resourceMgr.openPort')"
-          prop="openPort"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="securityGroupFlavorForm.openPort"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('resourceMgr.port')"
-          prop="port"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="securityGroupFlavorForm.port"
-          />
-        </el-form-item>
-        <el-form-item
           :label="$t('resourceMgr.remote')"
           prop="remote"
           class="w50"
         >
-          <el-input
+          <el-select
             size="small"
+            :style="{width: '100%'}"
             v-model="securityGroupFlavorForm.remote"
-          />
+          >
+            <el-option
+              v-for="item in remoteList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              @click.native="getSelectRemoteType(item)"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item
           label="CIDR"
-          prop="cidr"
+          prop="remoteIpPrefix"
           class="w50"
+          v-if="isCIDR"
         >
           <el-input
             size="small"
-            v-model="securityGroupFlavorForm.cidr"
+            v-model="securityGroupFlavorForm.remoteIpPrefix"
           />
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.securityGroup')"
+          prop="remoteGroupId"
+          class="w50"
+          v-if="!isCIDR"
+        >
+          <el-select
+            size="small"
+            v-model="securityGroupFlavorForm.remoteGroupId"
+            :style="{width: '100%'}"
+          >
+            <el-option
+              v-for="item in remoteGroupList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('resourceMgr.ethertype')"
+          prop="ethertype"
+          class="w50"
+          v-if="!isCIDR"
+        >
+          <el-select
+            size="small"
+            v-model="securityGroupFlavorForm.ethertype"
+            :style="{width: '100%'}"
+          >
+            <el-option
+              v-for="item in ethertypeList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div
@@ -157,37 +237,60 @@ export default {
     dlgType: {
       required: true,
       type: String
+    },
+    securityGroupId: {
+      required: true,
+      type: String
     }
   },
   data () {
     return {
       dialogVisible: true,
       ruleList: [
-        { label: '规则1', value: '1' },
-        { label: '规则2', value: '2' },
-        { label: '规则3', value: '3' }
+        { label: 'tcp', value: 'tcp' },
+        { label: 'udp', value: 'udp' },
+        { label: 'icmp', value: 'icmp' }
       ],
       directList: [
-        { label: '出口1', value: '1' },
-        { label: '出口2', value: '2' },
-        { label: '出口3', value: '3' }
+        { label: '入口', value: 'ingress' },
+        { label: '出口', value: 'egress' }
       ],
+      ethertypeList: [
+        { label: 'IPv4', value: 'IPv4' },
+        { label: 'IPv6', value: 'IPv6' }
+      ],
+      portList: [
+        { label: '端口', value: 'port' },
+        { label: '端口范围', value: 'portRange' },
+        { label: '所有端口', value: 'allPort' }
+      ],
+      remoteList: [
+        { label: 'CIDR', value: 'CIDR' },
+        { label: '安全组', value: 'securityGroup' }
+      ],
+      isPortType: true,
+      isPortRangeType: false,
+      isCIDR: true,
       securityGroupFlavorForm: {
         rule: '',
         direct: '',
+        ethertype: '',
         description: '',
-        openPort: '',
         port: '',
+        openPort: '',
         remote: '',
-        cidr: ''
+        portRangeMin: '',
+        portRangeMax: '',
+        remoteIpPrefix: '',
+        remoteGroupId: ''
       },
       rules: {
-        rule: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        openPort: [{ required: true, message: 'VCPU不能为空', trigger: 'blur' }],
-        port: [{ required: true, message: '内存不能为空', trigger: 'blur' }],
+        direct: [{ required: true, message: '方向不能为空', trigger: 'blur' }],
+        openPort: [{ required: true, message: '端口类型不能为空', trigger: 'blur' }],
         remote: [{ required: true, message: '根磁盘不能为空', trigger: 'blur' }],
         cidr: [{ required: true, message: '临时磁盘不能为空', trigger: 'blur' }]
-      }
+      },
+      remoteGroupList: []
     }
   },
   methods: {
@@ -198,28 +301,64 @@ export default {
     confirmAction () {
       let hostIp = sessionStorage.getItem('hostIp')
       let params = {
-        securityGroupId: this.securityGroupFlavorForm.securityGroupId,
-        direction: this.securityGroupFlavorForm.direction,
-        protocol: this.securityGroupFlavorForm.protocol,
+        securityGroupId: this.securityGroupId,
+        direction: this.securityGroupFlavorForm.direct,
+        protocol: this.securityGroupFlavorForm.rule,
         ethertype: this.securityGroupFlavorForm.ethertype,
-        port_range_min: this.securityGroupFlavorForm.port_range_min,
-        port_range_max: this.securityGroupFlavorForm.port_range_max,
-        remoteTpPrefix: this.securityGroupFlavorForm.remoteTpPrefix,
-        remote_group_id: this.securityGroupFlavorForm.remote_group_id
+        port_range_min: parseInt(this.securityGroupFlavorForm.portRangeMin, 10),
+        port_range_max: parseInt(this.securityGroupFlavorForm.portRangeMax, 10),
+        remoteIpPrefix: this.securityGroupFlavorForm.remoteIpPrefix,
+        remoteGroupId: this.securityGroupFlavorForm.remoteGroupId
       }
-      resController.createSecurityGroupRule(hostIp, params).then(res => {
-        // TODO
+      resController.createSecurityGroupRule(hostIp, this.securityGroupId, params).then(res => {
+        this.$message.success(this.$t('resourceMgr.createSecurityGroupFlavorSuccess'))
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
-      this.handleClose()
     },
     cancelAction () {
       this.handleClose()
+    },
+    getSelectPortType (item) {
+      if (item.value === 'port') {
+        this.isPortType = true
+        this.isPortRangeType = false
+        // Todo
+      } else if (item.value === 'portRange') {
+        this.isPortRangeType = true
+        this.isPortType = false
+      } else {
+        this.isPortType = false
+        this.isPortRangeType = false
+      }
+    },
+    getSelectRemoteType (item) {
+      if (item.value === 'CIDR') {
+        this.isCIDR = true
+      } else {
+        this.isCIDR = false
+      }
+    },
+    getRemoteGroupList () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+        res.data.data.forEach(item => {
+          let securityGroupItem = {
+            label: item.name,
+            value: item.id
+          }
+          this.remoteGroupList.push(securityGroupItem)
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   },
   mounted () {
+    this.getRemoteGroupList()
   }
 }
 </script>

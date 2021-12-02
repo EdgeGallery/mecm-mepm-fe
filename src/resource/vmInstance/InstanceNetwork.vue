@@ -20,7 +20,8 @@
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle"
+        class="tableStyle tableHeight"
+        @selection-change="selectionLineChangeHandle"
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
@@ -30,7 +31,7 @@
           width="50"
         />
         <el-table-column
-          prop="networkName"
+          prop="name"
           label="Network"
           width="150px"
         />
@@ -76,6 +77,7 @@
 </template>
 <script>
 import pagination from '../../components/Pagination.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination
@@ -85,33 +87,54 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      currentPageData: [{
-        networkName: 'public_net',
-        connectSubnet: 'ipv6-public',
-        shared: '否',
-        adminStatus: '正常',
-        status: '运行中'
-      }]
+      currentPageData: [],
+      paginationData: [],
+      selectNetwork: {
+        step: 'stepNetwork',
+        networks: [],
+        availabilityZone: ''
+      }
     }
   },
   methods: {
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    selectionLineChangeHandle (val) {
+      val.forEach(item => {
+        let tempNetwork = {
+          network: item.id,
+          fixedIp: '192.168.225.199'
+        }
+        this.selectNetwork.networks.push(tempNetwork)
+        this.selectNetwork.availabilityZone = item.availabilityZones[0]
+      })
+    },
     // receive msg from parent component
     parentMsg: function (active) {
-      this.$emit('getStepData', this.currentPageData)
+      this.$emit('getStepData', this.selectNetwork)
+    },
+    getTableData () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryNetworksByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
     }
   },
   mounted () {
+    this.getTableData()
   }
 }
 </script>
 <style lang="less" scoped>
 .instance-network{
-  .w50 {
-    width: 50%;
-    display: inline-block;
+  .tableHeight {
+    height: 260px;
+    overflow: auto;
   }
 }
 </style>

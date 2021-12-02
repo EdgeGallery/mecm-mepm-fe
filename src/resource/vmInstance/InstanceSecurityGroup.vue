@@ -20,9 +20,10 @@
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle"
+        class="tableStyle tableHeight"
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
+        @selection-change="selectionLineChangeHandle"
         ref="multipleTable"
       >
         <el-table-column
@@ -30,7 +31,7 @@
           width="50"
         />
         <el-table-column
-          prop="securityGroupName"
+          prop="name"
           :label="$t('resourceMgr.name')"
           sortable="custom"
         />
@@ -61,6 +62,7 @@
 </template>
 <script>
 import pagination from '../../components/Pagination.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination
@@ -70,30 +72,46 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      currentPageData: [{
-        securityGroupName: 'eg-576542',
-        description: 'i am your daddy'
-      }]
+      currentPageData: [],
+      paginationData: [],
+      selectSecurityGroup: {
+        step: 'stepSecurityGroup',
+        securityGroups: []
+      }
     }
   },
   methods: {
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    selectionLineChangeHandle (val) {
+      this.selectSecurityGroup.securityGroups.push(val[0].id)
+    },
     // receive msg from parent component
     parentMsg: function (active) {
-      this.$emit('getStepData', this.currentPageData)
+      this.$emit('getStepData', this.selectSecurityGroup)
+    },
+    getTableData () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
     }
   },
   mounted () {
+    this.getTableData()
   }
 }
 </script>
 <style lang="less" scoped>
 .instance-security-group{
-  .w50 {
-    width: 50%;
-    display: inline-block;
+  .tableHeight {
+    height: 260px;
+    overflow: auto;
   }
 }
 </style>

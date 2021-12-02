@@ -198,21 +198,23 @@ export default {
     },
     confirmAction () {
       let hostIp = sessionStorage.getItem('hostIp')
+      this.transArrToObj(this.keyValueDatas)
       let params = {
         name: this.createFlavorForm.flavorName,
-        vcpus: this.createFlavorForm.flavorVCPU,
-        ram: this.createFlavorForm.flavorRAM,
-        disk: this.createFlavorForm.flavorRootDisk,
-        swap: this.createFlavorForm.flavorSwapDisk,
+        vcpus: parseInt(this.createFlavorForm.flavorVCPU, 10),
+        ram: parseInt(this.createFlavorForm.flavorRAM, 10),
+        disk: parseInt(this.createFlavorForm.flavorRootDisk, 10),
+        swap: parseInt(this.createFlavorForm.flavorSwapDisk, 10),
         extraSpecs: this.createFlavorForm.extraSpecs
       }
       resController.createFlavor(hostIp, params).then(res => {
-        // TODO
+        this.$message.success(this.$t('resourceMgr.createFlavorSuccess'))
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
-      this.handleClose()
     },
     cancelAction () {
       this.handleClose()
@@ -233,12 +235,18 @@ export default {
       }
       return objArr
     },
+    transArrToObj (data) {
+      data.forEach(item => {
+        this.createFlavorForm.extraSpecs[item.name] = item.value
+      })
+    },
     addMore () {
       this.isShwoFlavorConfigDlg = true
       this.keyValueDatas = this.transStrToArr(this.showExtraSpecs)
     },
     getConfigData (data) {
       this.showExtraSpecs = data
+      this.keyValueDatas = this.transStrToArr(this.showExtraSpecs)
     }
   },
   mounted () {

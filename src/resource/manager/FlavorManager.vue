@@ -51,22 +51,20 @@
     <div class="flavor-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle tableHeight"
         ref="multipleTable"
         v-loading="dataLoading"
       >
         <el-table-column
-          prop="flavorName"
+          prop="name"
           label="Flavor Name"
           width="165"
-          sortable="custom"
+          sortable
         />
         <el-table-column
           prop="id"
           label="ID"
-          width="50"
+          width="100"
         />
         <el-table-column
           prop="vcpus"
@@ -90,7 +88,7 @@
         <el-table-column
           prop="txfactor"
           label="RX/TXfactor"
-          width="110"
+          width="80"
         />
         <el-table-column
           prop="public"
@@ -164,16 +162,7 @@ export default {
     return {
       nameQueryVal: '',
       paginationData: [],
-      currentPageData: [{
-        flavorName: 'CIRROS256',
-        id: 'c1',
-        vcpus: '12',
-        ram: '256GB',
-        rootDisk: '10GB',
-        ephemeral: '0GB',
-        txfactor: '1.0',
-        public: 'yes'
-      }],
+      currentPageData: [],
       isShowForm: false,
       dataLoading: true,
       language: localStorage.getItem('language')
@@ -189,36 +178,40 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        // confirm
         let hostIp = sessionStorage.getItem('hostIp')
         resController.deleteFlavorByFlavorId(hostIp, row.id).then(res => {
-        // TODO
+          this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
           console.log(error)
         })
       }).catch(() => {
-        // cancel
       })
     },
     createFlavor () {
       this.isShowForm = true
     },
     filterTableData (val, key) {
-      this.paginationData = this.paginationData.filter(item => {
-        let itemVal = item[key].toLowerCase()
-        return itemVal.indexOf(val) > -1
+      this.dataLoading = true
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.paginationData = this.paginationData.filter(item => {
+          let itemVal = item[key].toLowerCase()
+          return itemVal.indexOf(val) > -1
+        })
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
       })
     },
     queryFlavor () {
-      if (this.paginationData && this.paginationData.length > 0) {
-        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
-          this.filterTableData(this.nameQueryVal, 'flavorName')
-        }
+      if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+        this.filterTableData(this.nameQueryVal, 'name')
+      } else {
+        this.reloadTableData()
       }
-    },
-    sortChange () {
-
     },
     getCurrentPageData (data) {
       this.currentPageData = data
@@ -226,8 +219,7 @@ export default {
     getTableData () {
       let hostIp = sessionStorage.getItem('hostIp')
       resController.queryFlavorsByMechost(hostIp).then(res => {
-        // TODO
-        this.paginationData = res.data
+        this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -289,6 +281,10 @@ export default {
   .flavor-table{
     width: 1000px;
     margin: 30px auto;
+    .tableHeight {
+      height: 400px;
+      overflow: auto;
+    }
   }
 }
 </style>

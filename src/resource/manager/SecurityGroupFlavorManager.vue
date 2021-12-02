@@ -18,24 +18,7 @@
     <div class="search-createBtn">
       <el-row :gutter="24">
         <el-col
-          :span="12"
-          class="search-col"
-        >
-          <el-input
-            v-model="nameQueryVal"
-            @change="querySecurityGroupFlavor"
-            :placeholder="$t('resourceMgr.searchPlaceholder')"
-            class="enterinput lt"
-          >
-            <em
-              slot="suffix"
-              class="search_icon"
-              @click="querySecurityGroupFlavor"
-            />
-          </el-input>
-        </el-col>
-        <el-col
-          :span="11"
+          :span="24"
           class="create-col"
         >
           <el-button
@@ -58,19 +41,17 @@
     <div class="security-group-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle tableHeight"
         ref="multipleTable"
         v-loading="dataLoading"
       >
         <el-table-column
           prop="direction"
           label="Direction"
-          sortable="custom"
+          sortable
         />
         <el-table-column
-          prop="etherType"
+          prop="ethertype"
           label="Ether Type"
         />
         <el-table-column
@@ -137,6 +118,7 @@
       <SecurityGroupFlavorForm
         v-model="isShowForm"
         :dlg-type="dlgType"
+        :security-group-id="securityGroupId"
         @reloadTableData="reloadTableData"
       />
     </div>
@@ -152,19 +134,16 @@ export default {
     SecurityGroupFlavorForm
   },
   props: {
+    securityGroupId: {
+      required: true,
+      type: String
+    }
   },
   data () {
     return {
       nameQueryVal: '',
       paginationData: [],
-      currentPageData: [{
-        direction: '出口',
-        etherType: 'IPv4',
-        ipProtocol: '任何',
-        portRange: '任何',
-        remoteIpPrefix: '0.0.0.1',
-        remoteSecurityGroup: 'default'
-      }],
+      currentPageData: [],
       isShowForm: false,
       dlgType: 'createDlg',
       dataLoading: true
@@ -186,42 +165,38 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-        // confirm
         let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteSecurityGroupRuleBySecurityGroupRuleId(hostIp, row.id).then(res => {
-        // TODO
+        resController.deleteSecurityGroupRuleBySecurityGroupRuleId(hostIp, this.securityGroupId, row.id).then(res => {
           this.getTableData()
         }).catch((error) => {
           console.log(error)
         })
       }).catch(() => {
-        // cancel
       })
-    },
-    filterTableData (val, key) {
-      this.paginationData = this.paginationData.filter(item => {
-        let itemVal = item[key].toLowerCase()
-        return itemVal.indexOf(val) > -1
-      })
-    },
-    querySecurityGroupFlavor () {
-      if (this.paginationData && this.paginationData.length > 0) {
-        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
-          this.filterTableData(this.nameQueryVal, 'securityGroupFlavorName')
-        }
-      }
-    },
-    sortChange () {
-
     },
     getCurrentPageData (data) {
       this.currentPageData = data
     },
     getTableData () {
       let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupRulesByMechost(hostIp).then(res => {
-        // TODO
-        this.paginationData = res.data
+      resController.querySecurityGroupRulesByMechost(hostIp, this.securityGroupId).then(res => {
+        this.paginationData = res.data.data.securityGroupRules
+        let tempArr = []
+        res.data.data.securityGroupRules.forEach(item => {
+          let tempItem = {
+            id: item.id,
+            direction: item.direction,
+            ethertype: item.ethertype,
+            ipProtocol: item.ipProtocol,
+            portRange: (item.portRangeMin === null && item.portRangeMax === null
+              ? 'ALL' : (item.portRangeMin === item.portRangeMax
+                ? item.portRangeMin : item.portRangeMin + '-' + item.portRangeMax)),
+            remoteIpPrefix: item.remoteIpPrefix,
+            remoteSecurityGroup: item.remoteGroupId
+          }
+          tempArr.push(tempItem)
+        })
+        this.paginationData = tempArr
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -248,10 +223,6 @@ export default {
   border-radius: 16px;
   box-shadow: 0px 3px 62px 6px rgba(226, 220, 247, 0.6) inset;
   .search-createBtn{
-    .search-col{
-      margin-top: 30px;
-      margin-left: 30px;
-    }
     .create-col{
       text-align: right;
       display: inline-block;
@@ -267,7 +238,7 @@ export default {
       }
       .create-btn{
         margin-top: 30px;
-        margin-right: 10px;
+        margin-right: 25px;
         height: 40px;
         color: #fff;
         font-size: 20px !important;
@@ -281,6 +252,10 @@ export default {
   .security-group-table{
     width: 1000px;
     margin: 30px auto;
+    .tableHeight {
+      height: 400px;
+      overflow: auto;
+    }
   }
 }
 </style>

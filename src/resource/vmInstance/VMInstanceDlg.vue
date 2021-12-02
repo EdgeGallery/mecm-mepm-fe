@@ -232,23 +232,23 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      this.next()
       let hostIp = sessionStorage.getItem('hostIp')
       let params = {
         server: {
-          name: '',
-          flavor: '',
-          image: '',
-          imageRef: '',
-          availabilityZone: '',
-          user_data: '',
-          configDrive: '',
-          securityGroups: [],
-          netWork: []
+          name: this.allStepData['stepDetail'].instanceName,
+          flavor: this.allStepData['stepFlavor'].flavor,
+          image: this.allStepData['stepImage'].imageId,
+          availabilityZone: this.allStepData['stepNetwork'].availabilityZone,
+          userData: this.allStepData['userConfigStep'].userData,
+          configDrive: this.allStepData['userConfigStep'].configDrive,
+          securityGroups: this.allStepData['stepSecurityGroup'].securityGroups,
+          networks: this.allStepData['stepNetwork'].networks
         }
       }
       resController.createVM(hostIp, params).then(res => {
-        // TODO
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
       })
