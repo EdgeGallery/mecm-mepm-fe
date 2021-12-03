@@ -232,27 +232,29 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
+      this.next()
       let hostIp = sessionStorage.getItem('hostIp')
       let params = {
-        server: {
-          name: '',
-          flavor: '',
-          image: '',
-          imageRef: '',
-          availabilityZone: '',
-          user_data: '',
-          configDrive: '',
-          securityGroups: [],
-          netWork: []
-        }
+        name: this.allStepData['stepDetail'].instanceName,
+        flavor: this.allStepData['stepFlavor'].flavor,
+        image: this.allStepData['stepImage'].imageId,
+        availabilityZone: this.allStepData['stepNetwork'].availabilityZone,
+        userData: this.allStepData['userConfigStep'].userData,
+        configDrive: this.allStepData['userConfigStep'].configDrive,
+        securityGroups: this.allStepData['stepSecurityGroup'].securityGroups,
+        networks: this.allStepData['stepNetwork'].networks
       }
       resController.createVM(hostIp, params).then(res => {
-        // TODO
-        this.$emit('reloadTableData')
+        this.$message.success(this.$t('resourceMgr.createVMSuccess'))
+        // vm创建过程较慢，后续需要定时刷新任务状态
+        setTimeout(() => {
+          this.$emit('reloadTableData')
+          this.handleClose()
+        }, 3000)
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
-      this.handleClose()
     },
     cancelAction () {
       this.handleClose()

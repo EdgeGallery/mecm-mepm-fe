@@ -38,7 +38,7 @@
       <el-input
         type="textarea"
         :autosize="{ minRows: 4, maxRows: 8}"
-        v-model="userParamTextarea"
+        v-model="testareaData"
       />
     </div>
   </div>
@@ -53,13 +53,24 @@ export default {
     return {
       dialogVisible: true,
       radio: '1',
-      userParamTextarea: ''
+      testareaData: '',
+      userConfigparam: {
+        step: 'userConfigStep',
+        configDrive: true,
+        userData: ''
+      }
     }
   },
   methods: {
     // receive msg from parent component
     parentMsg: function (active) {
-      this.$emit('getStepData', this.createInstanceDetailForm)
+      if (this.radio === '1') {
+        this.userConfigparam.configDrive = true
+      } else {
+        this.userConfigparam.configDrive = false
+      }
+      this.userConfigparam.userData = this.testareaData
+      this.$emit('getStepData', this.userConfigparam)
     }
   },
   mounted () {

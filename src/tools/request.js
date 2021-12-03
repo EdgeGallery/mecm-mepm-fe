@@ -103,7 +103,7 @@ let lcmController = {
     return POST(lcmcontrollerApi + '/hosts', params)
   },
   getHostList () {
-    return GET(lcmcontrollerApi + '/hosts')
+    return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts')
   },
   modifyHost (params) {
     return PUT(lcmcontrollerApi + '/hosts', params)
@@ -262,9 +262,9 @@ let resController = {
     return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId + '/securityGroupRules', params)
   },
   querySecurityGroupRulesByMechost (hostIp, securityGroupId) {
-    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId + '/securityGroupRules')
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId)
   },
-  deleteSecurityGroupRuleBySecurityGroupId (hostIp, securityGroupId, securityGroupRuleId) {
+  deleteSecurityGroupRuleBySecurityGroupRuleId (hostIp, securityGroupId, securityGroupRuleId) {
     return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + 'securityGroupRules' + securityGroupRuleId)
   },
 

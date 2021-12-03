@@ -51,19 +51,17 @@
     <div class="image-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle tableHeight"
         ref="multipleTable"
         v-loading="dataLoading"
       >
         <el-table-column
           prop="imageName"
           :label="$t('resourceMgr.name')"
-          sortable="custom"
+          sortable
         />
         <el-table-column
-          prop="id"
+          prop="imageId"
           label="ID"
         />
         <el-table-column
@@ -80,9 +78,10 @@
           width="100"
         />
         <el-table-column
-          prop="protect"
+          prop="protected"
           :label="$t('resourceMgr.protect')"
           width="115"
+          :formatter="formatBoolean"
         />
         <el-table-column
           prop="diskFormat"
@@ -158,16 +157,7 @@ export default {
     return {
       nameQueryVal: '',
       paginationData: [],
-      currentPageData: [{
-        imageName: 'testImage',
-        id: 'xxx',
-        type: 'image',
-        status: '运行中',
-        visibility: '共享的',
-        protect: '否',
-        diskFormat: 'QCOW2',
-        size: '760.38M'
-      }],
+      currentPageData: [],
       isShowForm: false,
       dataLoading: true,
       language: localStorage.getItem('language')
@@ -183,36 +173,49 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        // confirm
         let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteImageByImageId(hostIp, row.id).then(res => {
-        // TODO
+        resController.deleteImageByImageId(hostIp, row.imageId).then(res => {
+          this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
           console.log(error)
         })
       }).catch(() => {
-        // cancel
       })
     },
     createImage () {
       this.isShowForm = true
     },
+    formatBoolean (row, column, cellValue) {
+      var ret = ''
+      if (cellValue) {
+        ret = 'true'
+      } else {
+        ret = 'false'
+      }
+      return ret
+    },
     filterTableData (val, key) {
-      this.paginationData = this.paginationData.filter(item => {
-        let itemVal = item[key].toLowerCase()
-        return itemVal.indexOf(val) > -1
+      this.dataLoading = true
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.paginationData = this.paginationData.filter(item => {
+          let itemVal = item[key].toLowerCase()
+          return itemVal.indexOf(val) > -1
+        })
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
       })
     },
     queryImage () {
-      if (this.paginationData && this.paginationData.length > 0) {
-        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
-          this.filterTableData(this.nameQueryVal, 'imageName')
-        }
+      if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+        this.filterTableData(this.nameQueryVal, 'imageName')
+      } else {
+        this.reloadTableData()
       }
-    },
-    sortChange () {
-
     },
     getCurrentPageData (data) {
       this.currentPageData = data
@@ -220,8 +223,7 @@ export default {
     getTableData () {
       let hostIp = sessionStorage.getItem('hostIp')
       resController.queryImagesByMechost(hostIp).then(res => {
-        // TODO
-        this.paginationData = res.data
+        this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -283,6 +285,10 @@ export default {
   .image-table{
     width: 1000px;
     margin: 30px auto;
+    .tableHeight {
+      height: 400px;
+      overflow: auto;
+    }
   }
 }
 </style>

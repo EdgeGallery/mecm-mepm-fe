@@ -66,7 +66,7 @@
             :style="{width: '100%'}"
           >
             <el-option
-              v-for="item in ipVersions"
+              v-for="item in ipVersionList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -75,7 +75,7 @@
         </el-form-item>
         <el-form-item
           :label="$t('resourceMgr.gatewayIP')"
-          prop="gatewayIP"
+          prop="gatewayIp"
           class="w50"
         >
           <el-input
@@ -128,23 +128,21 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      ipVersions: [
-        { label: '1.0', value: '1.0' },
-        { label: '2.0', value: '2.0' },
-        { label: '3.0', value: '3.0' }
+      ipVersionList: [
+        { label: 'ipv4', value: 'ipv4' },
+        { label: 'ipv6', value: 'ipv6' }
       ],
       createNetworkForm: {
         networkName: '',
         networkAddr: '',
         ipVersion: '',
-        gatewayIP: '',
+        gatewayIp: '',
         subnetName: ''
       },
       rules: {
         networkName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
         networkAddr: [{ required: true, message: '网络地址不能为空', trigger: 'blur' }],
         ipVersion: [{ required: true, message: 'IP版本不能为空', trigger: 'blur' }],
-        gatewayIP: [{ required: true, message: '网关IP不能为空', trigger: 'blur' }],
         subnetName: [{ required: true, message: '子网名称不能为空', trigger: 'blur' }]
       },
       language: localStorage.getItem('language')
@@ -158,20 +156,51 @@ export default {
     confirmAction () {
       let hostIp = sessionStorage.getItem('hostIp')
       let params = {
-        name: this.createFlavorForm.flavorName,
-        vcpus: this.createFlavorForm.flavorVCPU,
-        ram: this.createFlavorForm.flavorRAM,
-        disk: this.createFlavorForm.flavorRootDisk,
-        swap: this.createFlavorForm.flavorSwapDisk,
-        extraSpecs: this.createFlavorForm.extraSpecs
+        network: {
+          name: this.createNetworkForm.networkName,
+          adminStateUp: true,
+          dnsDomain: 'my-domain.org.',
+          mtu: 1400,
+          portSecurityEnabled: true,
+          providerNetworkType: 'vlan',
+          providerPhysicalNetwork: 'network',
+          providerSegmentationId: 1,
+          qosPolicyId: null,
+          routerExternal: true,
+          segments: [
+            {
+              providerSegmentationId: 1,
+              providerPhysicalNetwork: 'abc',
+              providerNetworkType: ''
+            }
+          ],
+          shared: true,
+          vlanTransparent: true,
+          isDefault: true,
+          subnets: [{
+            name: this.createNetworkForm.subnetName,
+            ipVersion: this.createNetworkForm.ipVersion,
+            cidr: this.createNetworkForm.networkAddr,
+            gatewayIp: this.createNetworkForm.gatewayIp,
+            enableDhcp: true,
+            dnsNameservers: ['', ''],
+            allocationPools: [{
+              start: '192.168.1.5',
+              end: '192.168.2.25'
+            }],
+            ipv6AddressMode: '',
+            ipv6RaMode: ''
+          }]
+        }
       }
       resController.createNetwork(hostIp, params).then(res => {
-        // TODO
+        this.$message.success(this.$t('resourceMgr.createNetworkSuccess'))
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
-      this.handleClose()
     },
     cancelAction () {
       this.handleClose()

@@ -38,7 +38,7 @@
       >
         <el-form-item
           :label="$t('resourceMgr.name')"
-          prop="networkName"
+          prop="securityGroupName"
           class="w80"
         >
           <el-input
@@ -48,7 +48,7 @@
         </el-form-item>
         <el-form-item
           :label="$t('resourceMgr.description')"
-          prop="networkAddr"
+          prop="securityGroupDescription"
           class="w80"
         >
           <el-input
@@ -95,12 +95,6 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      isCreateDlg: true,
-      ipVersions: [
-        { label: '1.0', value: '1.0' },
-        { label: '2.0', value: '2.0' },
-        { label: '3.0', value: '3.0' }
-      ],
       securityGroupForm: {
         securityGroupName: '',
         securityGroupDescription: ''
@@ -122,11 +116,13 @@ export default {
       }
       resController.createSecurityGroup(hostIp, params).then(res => {
         // TODO
+        this.$message.success(this.$t('resourceMgr.createSecurityGroupSuccess'))
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
-      this.handleClose()
     },
     cancelAction () {
       this.handleClose()

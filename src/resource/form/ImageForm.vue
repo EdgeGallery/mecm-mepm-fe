@@ -149,7 +149,7 @@ export default {
     return {
       dialogVisible: true,
       diskFormatList: [
-        { label: 'diskType1', value: 'diskType1' },
+        { label: 'qcow2', value: 'qcow2' },
         { label: 'diskType2', value: 'diskType2' },
         { label: 'diskType3', value: 'diskType3' }
       ],
@@ -159,7 +159,7 @@ export default {
         diskFormat: '',
         minRam: '',
         minDisk: '',
-        porperties: {},
+        properties: '',
         resourceUri: ''
       },
       rules: {
@@ -182,25 +182,28 @@ export default {
         name: this.createImageForm.name,
         containerFormat: this.createImageForm.containerFormat,
         diskFormat: this.createImageForm.diskFormat,
-        minRam: this.createImageForm.minRam,
-        minDisk: this.createImageForm.minDisk,
-        properties: this.createImageForm.properties
+        minRam: parseInt(this.createImageForm.minRam),
+        minDisk: parseInt(this.createImageForm.minDisk),
+        properties: {}
       }
       resController.createImage(hostIp, params).then(res => {
-        // TODO
         let imageId = res.data.data.imageId
         this.importImage(hostIp, imageId)
       }).catch((error) => {
         console.log(error)
       })
-      this.handleClose()
     },
     importImage (hostIp, imageId) {
-      resController.importImage(hostIp, imageId, this.createImageForm.resourceUri).then(res => {
-        // TODO
+      let params = {
+        resourceUri: this.createImageForm.resourceUri
+      }
+      resController.importImage(hostIp, imageId, params).then(res => {
+        this.$message.success(this.$t('resourceMgr.createImageSuccess'))
         this.$emit('reloadTableData')
+        this.handleClose()
       }).catch((error) => {
         console.log(error)
+        this.handleClose()
       })
     },
     cancelAction () {

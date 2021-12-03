@@ -20,7 +20,8 @@
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle"
+        class="tableStyle tableHeight"
+        @selection-change="selectionLineChangeHandle"
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
         ref="multipleTable"
@@ -30,7 +31,7 @@
           width="70"
         />
         <el-table-column
-          prop="name"
+          prop="imageName"
           label="Name"
           sortable="custom"
         />
@@ -73,6 +74,7 @@
 </template>
 <script>
 import pagination from '../../components/Pagination.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination
@@ -82,33 +84,46 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      currentPageData: [{
-        name: 'test',
-        hasUpdate: '9/721 6:29 AM',
-        size: '769.38MB',
-        type: 'QCOW2',
-        visibility: '共享的'
-      }]
+      currentPageData: [],
+      paginationData: [],
+      selectImage: {
+        step: 'stepImage',
+        imageId: ''
+      }
     }
   },
   methods: {
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    selectionLineChangeHandle (val) {
+      this.selectImage.imageId = val[0].imageId
+    },
     // receive msg from parent component
     parentMsg: function (active) {
-      this.$emit('getStepData', this.currentPageData)
+      this.$emit('getStepData', this.selectImage)
+    },
+    getTableData () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
     }
   },
   mounted () {
+    this.getTableData()
   }
 }
 </script>
 <style lang="less" scoped>
 .select-image{
-  .w50 {
-    width: 50%;
-    display: inline-block;
+  .tableHeight {
+    height: 260px;
+    overflow: auto;
   }
 }
 </style>

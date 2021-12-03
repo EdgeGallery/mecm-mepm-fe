@@ -20,9 +20,10 @@
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle"
+        class="tableStyle tableHeight"
         :default-sort="{ prop: 'createTime', order: 'descending' }"
         @sort-change="sortChange"
+        @selection-change="selectionLineChangeHandle"
         ref="multipleTable"
       >
         <el-table-column
@@ -34,7 +35,7 @@
           label="Name"
         />
         <el-table-column
-          prop="virtualCore"
+          prop="vcpus"
           :label="$t('resourceMgr.virtualCore')"
           width="125px"
         />
@@ -44,7 +45,7 @@
           width="110px"
         />
         <el-table-column
-          prop="totalDisk"
+          prop="disk"
           :label="$t('resourceMgr.totalDisk')"
           width="110px"
         />
@@ -59,9 +60,10 @@
           width="120px"
         />
         <el-table-column
-          prop="public"
+          prop="isPublic"
           :label="$t('resourceMgr.public')"
           width="90px"
+          :formatter="formatBoolean"
         />
         <template slot="empty">
           <div>
@@ -86,6 +88,7 @@
 </template>
 <script>
 import pagination from '../../components/Pagination.vue'
+import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination
@@ -95,35 +98,55 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      currentPageData: [{
-        name: 'test Ins Type',
-        virtualCore: '1',
-        ram: '128MB',
-        totalDisk: '1GB',
-        rootDisk: '1GB',
-        tempDisk: '0GB',
-        public: '是'
-      }]
+      currentPageData: [],
+      paginationData: [],
+      selectFlavor: {
+        step: 'stepFlavor',
+        flavor: ''
+      }
     }
   },
   methods: {
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    formatBoolean (row, column, cellValue) {
+      var ret = ''
+      if (cellValue) {
+        ret = 'true'
+      } else {
+        ret = 'false'
+      }
+      return ret
+    },
+    selectionLineChangeHandle (val) {
+      this.selectFlavor.flavor = val[0].id
+    },
     // receive msg from parent component
     parentMsg: function (active) {
-      this.$emit('getStepData', this.currentPageData)
+      this.$emit('getStepData', this.selectFlavor)
+    },
+    getTableData () {
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
+      })
     }
   },
   mounted () {
+    this.getTableData()
   }
 }
 </script>
 <style lang="less" scoped>
 .instance-type{
-  .w50 {
-    width: 50%;
-    display: inline-block;
+  .tableHeight {
+    height: 260px;
+    overflow: auto;
   }
 }
 </style>

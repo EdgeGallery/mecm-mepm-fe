@@ -54,24 +54,23 @@
     <div class="security-group-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle tableHeight"
         ref="multipleTable"
         v-loading="dataLoading"
       >
         <el-table-column
           prop="name"
           label="Name"
-          sortable="custom"
+          sortable
         />
         <el-table-column
-          prop="securityGroupId"
+          prop="id"
           label="Security Group ID"
         />
         <el-table-column
           prop="description"
           label="Description"
+          width="150"
         />
         <el-table-column
           label="Actions"
@@ -140,6 +139,7 @@
   >
     <SecurityGroupFlavorManager
       @returnBack="returnBack"
+      :security-group-id="editSecurityGroupId"
     />
   </div>
 </template>
@@ -162,22 +162,16 @@ export default {
       isShowFormDlg: false,
       dlgType: 'createDlg',
       nameQueryVal: '',
-      paginationData: [{
-        name: 'eg-xxxxxx',
-        securityGroupId: 'dedxxxxx',
-        description: 'Default security group'
-      }],
-      currentPageData: [{
-        name: 'eg-xxxxxx',
-        securityGroupId: 'dedxxxxx',
-        description: 'Default security group'
-      }],
+      paginationData: [],
+      currentPageData: [],
       dataLoading: true,
-      language: localStorage.getItem('language')
+      language: localStorage.getItem('language'),
+      editSecurityGroupId: ''
     }
   },
   methods: {
-    managerSecurityGroup () {
+    managerSecurityGroup (row) {
+      this.editSecurityGroupId = row.id
       this.isSecurityGroupMainDlg = false
     },
     deleteSecurityGroup (row) {
@@ -187,16 +181,14 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-        // confirm
         let hostIp = sessionStorage.getItem('hostIp')
         resController.deleteSecurityGroupBySecurityGroupId(hostIp, row.id).then(res => {
-        // TODO
+          this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
           console.log(error)
         })
       }).catch(() => {
-        // cancel
       })
     },
     editSecurityGroup () {
@@ -208,20 +200,26 @@ export default {
       this.dlgType = 'createDlg'
     },
     filterTableData (val, key) {
-      this.paginationData = this.paginationData.filter(item => {
-        let itemVal = item[key].toLowerCase()
-        return itemVal.indexOf(val) > -1
+      this.dataLoading = true
+      let hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+        this.paginationData = res.data.data
+        this.paginationData = this.paginationData.filter(item => {
+          let itemVal = item[key].toLowerCase()
+          return itemVal.indexOf(val) > -1
+        })
+        this.dataLoading = false
+      }).catch((error) => {
+        this.dataLoading = false
+        console.log(error)
       })
     },
     querySecurityGroup () {
-      if (this.paginationData && this.paginationData.length > 0) {
-        if (this.nameQueryVal && this.nameQueryVal.length > 0) {
-          this.filterTableData(this.nameQueryVal, 'name')
-        }
+      if (this.nameQueryVal && this.nameQueryVal.length > 0) {
+        this.filterTableData(this.nameQueryVal, 'name')
+      } else {
+        this.reloadTableData()
       }
-    },
-    sortChange () {
-
     },
     getCurrentPageData (data) {
       this.currentPageData = data
@@ -232,8 +230,7 @@ export default {
     getTableData () {
       let hostIp = sessionStorage.getItem('hostIp')
       resController.querySecurityGroupsByMechost(hostIp).then(res => {
-        // TODO
-        this.paginationData = res.data
+        this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -295,6 +292,10 @@ export default {
   .security-group-table{
     width: 1000px;
     margin: 30px auto;
+    .tableHeight {
+      height: 400px;
+      overflow: auto;
+    }
   }
 }
 </style>

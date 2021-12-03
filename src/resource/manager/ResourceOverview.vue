@@ -30,19 +30,28 @@
         </el-col>
       </el-row>
     </div>
-    <div class="resource-content">
+    <div
+      class="resource-content"
+      v-if="isShowContent"
+    >
       <el-row
         class="resource-row"
         :gutter="24"
       >
         <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticInstanceData"
+          />
         </el-col>
         <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticVpuData"
+          />
         </el-col>
         <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticRamData"
+          />
         </el-col>
       </el-row>
       <el-row
@@ -50,27 +59,19 @@
         :gutter="24"
       >
         <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticFloatingIpsData"
+          />
         </el-col>
         <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticSecurityGroupsData"
+          />
         </el-col>
         <el-col :span="8">
-          <ResourceGrid />
-        </el-col>
-      </el-row>
-      <el-row
-        class="resource-row"
-        :gutter="24"
-      >
-        <el-col :span="8">
-          <ResourceGrid />
-        </el-col>
-        <el-col :span="8">
-          <ResourceGrid />
-        </el-col>
-        <el-col :span="8">
-          <ResourceGrid />
+          <ResourceGrid
+            :statistic-data="statisticServerGroupsData"
+          />
         </el-col>
       </el-row>
     </div>
@@ -78,6 +79,7 @@
 </template>
 <script>
 import ResourceGrid from './ResourceGrid.vue'
+import { lcmController } from '../../tools/request.js'
 export default {
   components: {
     ResourceGrid
@@ -86,16 +88,63 @@ export default {
   },
   data () {
     return {
-      edgeNodeList: []
+      statisticInstanceData: {},
+      statisticVpuData: {},
+      statisticRamData: {},
+      statisticFloatingIpsData: {},
+      statisticSecurityGroupsData: {},
+      statisticServerGroupsData: {},
+      isShowContent: false
     }
   },
   methods: {
-    getSelectAppstoreData () {
-
+    getKpi (ip) {
+      let hostIp = sessionStorage.getItem('hostIp')
+      lcmController.getNodeKpi(hostIp).then(res => {
+        this.statisticInstanceData = {
+          index: 1,
+          totalUsed: res.data.data.totalInstancesUsed,
+          maxTotal: res.data.data.maxTotalInstances,
+          percent: res.data.data.totalInstancesUsed / res.data.data.maxTotalInstances * 100
+        }
+        this.statisticVpuData = {
+          index: 2,
+          totalUsed: res.data.data.totalCoresUsed,
+          maxTotal: res.data.data.maxTotalCores,
+          percent: res.data.data.totalCoresUsed / res.data.data.maxTotalCores * 100
+        }
+        this.statisticRamData = {
+          index: 3,
+          totalUsed: res.data.data.totalRAMUsed,
+          maxTotal: res.data.data.maxTotalRAMSize,
+          percent: res.data.data.totalRAMUsed / res.data.data.maxTotalRAMSize * 100
+        }
+        this.statisticFloatingIpsData = {
+          index: 4,
+          totalUsed: res.data.data.totalFloatingIpsUsed,
+          maxTotal: res.data.data.maxTotalFloatingIps,
+          percent: res.data.data.totalFloatingIpsUsed / res.data.data.maxTotalFloatingIps * 100
+        }
+        this.statisticSecurityGroupsData = {
+          index: 5,
+          totalUsed: res.data.data.totalSecurityGroupsUsed,
+          maxTotal: res.data.data.maxSecurityGroups,
+          percent: res.data.data.totalSecurityGroupsUsed / res.data.data.maxSecurityGroups * 100
+        }
+        this.statisticServerGroupsData = {
+          index: 6,
+          totalUsed: res.data.data.totalServerGroupsUsed,
+          maxTotal: res.data.data.maxServerGroups,
+          percent: res.data.data.totalServerGroupsUsed / res.data.data.maxServerGroups * 100
+        }
+        this.isShowContent = true
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
   mounted () {
-
+    this.getKpi()
   }
 }
 </script>
