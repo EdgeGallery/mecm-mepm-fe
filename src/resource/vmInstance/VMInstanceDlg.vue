@@ -246,7 +246,6 @@ export default {
       }
       resController.createVM(hostIp, params).then(res => {
         this.$message.success(this.$t('resourceMgr.createVMSuccess'))
-        this.$emit('reloadTableData')
         // vm创建过程较慢，后续需要定时刷新任务状态
         setTimeout(() => {
           this.$emit('reloadTableData')
