@@ -35,7 +35,7 @@
           label="Name"
         />
         <el-table-column
-          prop="virtualCore"
+          prop="vcpus"
           :label="$t('resourceMgr.virtualCore')"
           width="125px"
         />
@@ -45,7 +45,7 @@
           width="110px"
         />
         <el-table-column
-          prop="totalDisk"
+          prop="disk"
           :label="$t('resourceMgr.totalDisk')"
           width="110px"
         />
@@ -60,9 +60,10 @@
           width="120px"
         />
         <el-table-column
-          prop="public"
+          prop="isPublic"
           :label="$t('resourceMgr.public')"
           width="90px"
+          :formatter="formatBoolean"
         />
         <template slot="empty">
           <div>
@@ -108,6 +109,15 @@ export default {
   methods: {
     getCurrentPageData (data) {
       this.currentPageData = data
+    },
+    formatBoolean (row, column, cellValue) {
+      var ret = ''
+      if (cellValue) {
+        ret = 'true'
+      } else {
+        ret = 'false'
+      }
+      return ret
     },
     selectionLineChangeHandle (val) {
       this.selectFlavor.flavor = val[0].id

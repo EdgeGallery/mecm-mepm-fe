@@ -740,7 +740,10 @@ const en = {
     volumeStorageAmount: 'Volume storage Amount',
     networkAmount: 'Network',
     securityGroupAmount: 'SecurityGroup Amount',
-    securityGroupRuleAmount: 'Security group rule'
+    securityGroupRuleAmount: 'Security group rule',
+    floatIpAmount: 'Float Ip Amount',
+    serverGroupAmount: 'ServerGroup Amount',
+    noLimit: 'no limit'
   },
   ...enLocale
 }

@@ -91,8 +91,9 @@
           width="80"
         />
         <el-table-column
-          prop="public"
+          prop="isPublic"
           label="Public"
+          :formatter="formatBoolean"
         />
         <el-table-column
           label="Actions"
@@ -171,6 +172,15 @@ export default {
   methods: {
     editFlavor () {
 
+    },
+    formatBoolean (row, column, cellValue) {
+      var ret = ''
+      if (cellValue) {
+        ret = 'true'
+      } else {
+        ret = 'false'
+      }
+      return ret
     },
     deleteFlavor (row) {
       this.$confirm(this.$t('resourceMgr.deleteFlavorMessage'), this.$t('resourceMgr.deleteFlavorTitle'), {

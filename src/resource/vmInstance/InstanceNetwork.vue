@@ -36,19 +36,28 @@
           width="150px"
         />
         <el-table-column
-          prop="connectSubnet"
           :label="$t('resourceMgr.connectSubnet')"
           width="180px"
-        />
+        >
+          <template slot-scope="scope">
+            <el-input
+              type="text"
+              size="small"
+              v-model="scope.row.fixedIp"
+            />
+          </template>
+        </el-table-column>
         <el-table-column
           prop="shared"
           :label="$t('resourceMgr.shared')"
           width="90px"
+          :formatter="formatBoolean"
         />
         <el-table-column
           prop="adminStatus"
           :label="$t('resourceMgr.adminStatus')"
           width="200px"
+          :formatter="formatBoolean"
         />
         <el-table-column
           prop="status"
@@ -100,11 +109,20 @@ export default {
     getCurrentPageData (data) {
       this.currentPageData = data
     },
+    formatBoolean (row, column, cellValue) {
+      var ret = ''
+      if (cellValue) {
+        ret = 'true'
+      } else {
+        ret = 'false'
+      }
+      return ret
+    },
     selectionLineChangeHandle (val) {
       val.forEach(item => {
         let tempNetwork = {
           network: item.id,
-          fixedIp: '192.168.225.199'
+          fixedIp: item.fixedIp
         }
         this.selectNetwork.networks.push(tempNetwork)
         this.selectNetwork.availabilityZone = item.availabilityZones[0]

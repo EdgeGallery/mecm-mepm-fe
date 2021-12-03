@@ -45,12 +45,12 @@
         </el-col>
         <el-col :span="8">
           <ResourceGrid
-            :statistic-data="statisticRamData"
+            :statistic-data="statisticVpuData"
           />
         </el-col>
         <el-col :span="8">
           <ResourceGrid
-            :statistic-data="statisticSecurityGroupData"
+            :statistic-data="statisticRamData"
           />
         </el-col>
       </el-row>
@@ -58,39 +58,19 @@
         class="resource-row"
         :gutter="24"
       >
-        <el-col :span="8">
-          <ResourceGrid
-            :statistic-data="statisticServerGroupData"
-          />
-        </el-col>
-        <el-col :span="8">
-          <ResourceGrid
-            :statistic-data="statisticCoreData"
-          />
-        </el-col>
         <el-col :span="8">
           <ResourceGrid
             :statistic-data="statisticFloatingIpsData"
           />
         </el-col>
-      </el-row>
-      <el-row
-        class="resource-row"
-        :gutter="24"
-      >
         <el-col :span="8">
           <ResourceGrid
-            :statistic-data="statisticInstance1Data"
+            :statistic-data="statisticSecurityGroupsData"
           />
         </el-col>
         <el-col :span="8">
           <ResourceGrid
-            :statistic-data="statisticRam1Data"
-          />
-        </el-col>
-        <el-col :span="8">
-          <ResourceGrid
-            :statistic-data="statisticSecurityGroup1Data"
+            :statistic-data="statisticServerGroupsData"
           />
         </el-col>
       </el-row>
@@ -109,14 +89,11 @@ export default {
   data () {
     return {
       statisticInstanceData: {},
+      statisticVpuData: {},
       statisticRamData: {},
-      statisticSecurityGroupData: {},
-      statisticServerGroupData: {},
-      statisticCoreData: {},
       statisticFloatingIpsData: {},
-      statisticInstance1Data: {}, // 待更改
-      statisticRam1Data: {}, // 待更改
-      statisticSecurityGroup1Data: {}, // 待更改
+      statisticSecurityGroupsData: {},
+      statisticServerGroupsData: {},
       isShowContent: false
     }
   },
@@ -130,53 +107,35 @@ export default {
           maxTotal: res.data.data.maxTotalInstances,
           percent: res.data.data.totalInstancesUsed / res.data.data.maxTotalInstances * 100
         }
-        this.statisticRamData = {
+        this.statisticVpuData = {
           index: 2,
-          totalUsed: res.data.data.totalRAMUsed,
-          maxTotal: res.data.data.maxTotalRAMSize,
-          percent: res.data.data.totalRAMUsed / res.data.data.maxTotalRAMSize * 100
-        }
-        this.statisticSecurityGroupData = {
-          index: 3,
-          totalUsed: res.data.data.totalSecurityGroupsUsed,
-          maxTotal: 10, // 待补充
-          percent: res.data.data.totalSecurityGroupsUsed / 10 * 100
-        }
-        this.statisticServerGroupData = {
-          index: 4,
-          totalUsed: res.data.data.totalServerGroupsUsed,
-          maxTotal: 10, // 待补充
-          percent: res.data.data.totalServerGroupsUsed / 10 * 100
-        }
-        this.statisticCoreData = {
-          index: 5,
           totalUsed: res.data.data.totalCoresUsed,
           maxTotal: res.data.data.maxTotalCores,
           percent: res.data.data.totalCoresUsed / res.data.data.maxTotalCores * 100
         }
+        this.statisticRamData = {
+          index: 3,
+          totalUsed: res.data.data.totalRAMUsed,
+          maxTotal: res.data.data.maxTotalRAMSize,
+          percent: res.data.data.totalRAMUsed / res.data.data.maxTotalRAMSize * 100
+        }
         this.statisticFloatingIpsData = {
-          index: 6,
+          index: 4,
           totalUsed: res.data.data.totalFloatingIpsUsed,
           maxTotal: res.data.data.maxTotalFloatingIps,
           percent: res.data.data.totalFloatingIpsUsed / res.data.data.maxTotalFloatingIps * 100
         }
-        this.statisticInstance1Data = {
-          index: 7,
-          totalUsed: res.data.data.totalInstancesUsed,
-          maxTotal: res.data.data.maxTotalInstances,
-          percent: res.data.data.totalInstancesUsed / res.data.data.maxTotalInstances * 100
+        this.statisticSecurityGroupsData = {
+          index: 5,
+          totalUsed: res.data.data.totalSecurityGroupsUsed,
+          maxTotal: res.data.data.maxSecurityGroups,
+          percent: res.data.data.totalSecurityGroupsUsed / res.data.data.maxSecurityGroups * 100
         }
-        this.statisticRam1Data = {
-          index: 8,
-          totalUsed: res.data.data.totalInstancesUsed,
-          maxTotal: res.data.data.maxTotalInstances,
-          percent: res.data.data.totalInstancesUsed / res.data.data.maxTotalInstances * 100
-        }
-        this.statisticSecurityGroup1Data = {
-          index: 9,
-          totalUsed: res.data.data.totalInstancesUsed,
-          maxTotal: res.data.data.maxTotalInstances,
-          percent: res.data.data.totalInstancesUsed / res.data.data.maxTotalInstances * 100
+        this.statisticServerGroupsData = {
+          index: 6,
+          totalUsed: res.data.data.totalServerGroupsUsed,
+          maxTotal: res.data.data.maxServerGroups,
+          percent: res.data.data.totalServerGroupsUsed / res.data.data.maxServerGroups * 100
         }
         this.isShowContent = true
       }).catch(error => {

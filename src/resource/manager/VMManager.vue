@@ -198,7 +198,10 @@ export default {
       }).then(() => {
         let hostIp = sessionStorage.getItem('hostIp')
         resController.deleteVMByVMId(hostIp, row.id).then(res => {
-          this.getTableData()
+          this.$message.success(this.$t('resourceMgr.deleteSuccess'))
+          setTimeout(() => {
+            this.getTableData()
+          }, 3000)
         }).catch((error) => {
           console.log(error)
         })
@@ -227,6 +230,7 @@ export default {
         let tempArr = []
         res.data.data.forEach(item => {
           let tempItem = {
+            id: item.id,
             instanceName: item.name,
             imageName: item.image.id,
             ip: this.getIpAddr(item.addresses),
@@ -270,6 +274,7 @@ export default {
         let tempArr = []
         res.data.data.forEach(item => {
           let tempItem = {
+            id: item.id,
             instanceName: item.name,
             imageName: item.image.id,
             ip: this.getIpAddr(item.addresses),

@@ -21,7 +21,7 @@
         :stroke-width="12"
         :width="80"
         :percentage="showPercent"
-        color="#40C8A0"
+        :color="showPercent>=80?'#DA572E':showPercent>=50?'#FFB74A':'#40C8A0'"
       />
     </div>
     <div :class="language==='cn'?'gird-statistic': 'gird-statistic-en'">
@@ -31,17 +31,14 @@
             statisticData.index===1?$t('resourceMgr.vmAmount'):
             statisticData.index===2?$t('resourceMgr.vpuAmount'):
             statisticData.index===3?$t('resourceMgr.ramAmount'):
-            statisticData.index===4?$t('resourceMgr.volumeAmount'):
-            statisticData.index===5?$t('resourceMgr.volumeSnapshotAmount'):
-            statisticData.index===6?$t('resourceMgr.volumeStorageAmount'):
-            statisticData.index===7?$t('resourceMgr.networkAmount'):
-            statisticData.index===8?$t('resourceMgr.securityGroupAmount'):
-            statisticData.index===9?$t('resourceMgr.securityGroupRuleAmount'):
+            statisticData.index===4?$t('resourceMgr.floatIpAmount'):
+            statisticData.index===5?$t('resourceMgr.securityGroupAmount'):
+            statisticData.index===6?$t('resourceMgr.serverGroupAmount'):
             "unknow"
           }}: {{ statisticData.totalUsed }}</span>
       </div>
       <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
-        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: {{ statisticData.maxTotal }}</span>
+        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: {{ statisticData.maxTotal===-1?$t('resourceMgr.noLimit'):statisticData.maxTotal-statisticData.totalUsed }}</span>
       </div>
     </div>
   </div>
@@ -64,7 +61,7 @@ export default {
 
   },
   mounted () {
-    this.showPercent = this.statisticData.percent
+    this.showPercent = Math.round(this.statisticData.percent)
   },
   watch: {
     '$i18n.locale': function () {

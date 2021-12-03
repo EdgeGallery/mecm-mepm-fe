@@ -739,7 +739,10 @@ const cn = {
     volumeStorageAmount: '卷储存',
     networkAmount: '网络',
     securityGroupAmount: '安全组用量',
-    securityGroupRuleAmount: '安全组规则'
+    securityGroupRuleAmount: '安全组规则',
+    floatIpAmount: '浮动ip数量',
+    serverGroupAmount: '服务组数量',
+    noLimit: '无限制'
   },
   ...zhLocale
 }

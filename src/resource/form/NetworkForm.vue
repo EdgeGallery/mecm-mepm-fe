@@ -158,11 +158,38 @@ export default {
       let params = {
         network: {
           name: this.createNetworkForm.networkName,
+          adminStateUp: true,
+          dnsDomain: 'my-domain.org.',
+          mtu: 1400,
+          portSecurityEnabled: true,
+          providerNetworkType: 'vlan',
+          providerPhysicalNetwork: 'network',
+          providerSegmentationId: 1,
+          qosPolicyId: null,
+          routerExternal: true,
+          segments: [
+            {
+              providerSegmentationId: 1,
+              providerPhysicalNetwork: 'abc',
+              providerNetworkType: ''
+            }
+          ],
+          shared: true,
+          vlanTransparent: true,
+          isDefault: true,
           subnets: [{
             name: this.createNetworkForm.subnetName,
             ipVersion: this.createNetworkForm.ipVersion,
             cidr: this.createNetworkForm.networkAddr,
-            gatewayIp: this.createNetworkForm.gatewayIp
+            gatewayIp: this.createNetworkForm.gatewayIp,
+            enableDhcp: true,
+            dnsNameservers: ['', ''],
+            allocationPools: [{
+              start: '192.168.1.5',
+              end: '192.168.2.25'
+            }],
+            ipv6AddressMode: '',
+            ipv6RaMode: ''
           }]
         }
       }
