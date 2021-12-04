@@ -99,8 +99,8 @@ export default {
   },
   methods: {
     getKpi (ip) {
-      let hostIp = sessionStorage.getItem('hostIp')
-      lcmController.getNodeKpi(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      lcmController.getNodeKpi(_hostIp).then(res => {
         this.statisticInstanceData = {
           index: 1,
           totalUsed: res.data.data.totalInstancesUsed,

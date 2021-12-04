@@ -54,9 +54,10 @@
     <div class="security-group-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="name"
@@ -92,6 +93,7 @@
               @click.native.prevent="editSecurityGroup(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
@@ -181,8 +183,8 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteSecurityGroupBySecurityGroupId(hostIp, row.id).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteSecurityGroupBySecurityGroupId(_hostIp, row.id).then(res => {
           this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
@@ -201,12 +203,12 @@ export default {
     },
     filterTableData (val, key) {
       this.dataLoading = true
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.paginationData = this.paginationData.filter(item => {
-          let itemVal = item[key].toLowerCase()
-          return itemVal.indexOf(val) > -1
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
       }).catch((error) => {
@@ -228,8 +230,8 @@ export default {
       this.isSecurityGroupMainDlg = true
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -292,10 +294,6 @@ export default {
   .security-group-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

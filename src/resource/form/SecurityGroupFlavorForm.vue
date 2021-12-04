@@ -34,20 +34,20 @@
         ref="form"
         :rules="rules"
         label-position="right"
-        label-width="100px"
+        label-width="110px"
       >
         <el-form-item
-          :label="$t('resourceMgr.rule')"
-          prop="rule"
+          :label="$t('resourceMgr.protocol')"
+          prop="protocol"
           class="w50"
         >
           <el-select
             size="small"
-            v-model="securityGroupFlavorForm.rule"
+            v-model="securityGroupFlavorForm.protocol"
             :style="{width: '100%'}"
           >
             <el-option
-              v-for="item in ruleList"
+              v-for="item in protocolList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -67,7 +67,7 @@
             <el-option
               v-for="item in directList"
               :key="item.value"
-              :label="item.label"
+              :label="language==='cn'?item.label_cn: item.label_en"
               :value="item.value"
             />
           </el-select>
@@ -85,7 +85,7 @@
             <el-option
               v-for="item in portList"
               :key="item.value"
-              :label="item.label"
+              :label="language==='cn'?item.label_cn: item.label_en"
               :value="item.value"
               @click.native="getSelectPortType(item)"
             />
@@ -105,7 +105,7 @@
         <el-form-item
           :label="$t('resourceMgr.portRangeMin')"
           prop="portRangeMin"
-          class="w50"
+          class="w100"
           v-if="isPortRangeType"
         >
           <el-input
@@ -116,7 +116,7 @@
         <el-form-item
           :label="$t('resourceMgr.portRangeMax')"
           prop="portRangeMax"
-          class="w50"
+          class="w100"
           v-if="isPortRangeType"
         >
           <el-input
@@ -148,7 +148,7 @@
             <el-option
               v-for="item in remoteList"
               :key="item.value"
-              :label="item.label"
+              :label="language==='cn'?item.label_cn: item.label_en"
               :value="item.value"
               @click.native="getSelectRemoteType(item)"
             />
@@ -168,7 +168,7 @@
         <el-form-item
           :label="$t('resourceMgr.securityGroup')"
           prop="remoteGroupId"
-          class="w50"
+          class="w100"
           v-if="!isCIDR"
         >
           <el-select
@@ -179,7 +179,7 @@
             <el-option
               v-for="item in remoteGroupList"
               :key="item.value"
-              :label="item.label"
+              :label="language==='cn'?item.label_cn: item.label_en"
               :value="item.value"
             />
           </el-select>
@@ -187,7 +187,7 @@
         <el-form-item
           :label="$t('resourceMgr.ethertype')"
           prop="ethertype"
-          class="w50"
+          class="w100"
           v-if="!isCIDR"
         >
           <el-select
@@ -246,33 +246,35 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      ruleList: [
-        { label: 'tcp', value: 'tcp' },
-        { label: 'udp', value: 'udp' },
-        { label: 'icmp', value: 'icmp' }
+      protocolList: [
+        { label: 'TCP', value: 'tcp' },
+        { label: 'UDP', value: 'udp' },
+        { label: 'ICMP', value: 'icmp' },
+        { label: 'ALL', value: 'all' }
       ],
       directList: [
-        { label: '入口', value: 'ingress' },
-        { label: '出口', value: 'egress' }
+        { label_cn: '入口', label_en: 'Ingress', value: 'ingress' },
+        { label_cn: '出口', label_en: 'Egress', value: 'egress' }
       ],
       ethertypeList: [
         { label: 'IPv4', value: 'IPv4' },
         { label: 'IPv6', value: 'IPv6' }
       ],
       portList: [
-        { label: '端口', value: 'port' },
-        { label: '端口范围', value: 'portRange' },
-        { label: '所有端口', value: 'allPort' }
+        { label_cn: '端口', label_en: 'Port', value: 'port' },
+        { label_cn: '端口范围', label_en: 'Port Range', value: 'portRange' },
+        { label_cn: '所有端口', label_en: 'All Ports', value: 'allPort' }
       ],
       remoteList: [
-        { label: 'CIDR', value: 'CIDR' },
-        { label: '安全组', value: 'securityGroup' }
+        { label_cn: 'CIDR', label_en: 'CIDR', value: 'CIDR' },
+        { label_cn: '安全组', label_en: 'Security Group', value: 'securityGroup' }
       ],
+      language: localStorage.getItem('language'),
       isPortType: true,
       isPortRangeType: false,
       isCIDR: true,
       securityGroupFlavorForm: {
-        rule: '',
+        protocol: '',
         direct: '',
         ethertype: '',
         description: '',
@@ -285,10 +287,10 @@ export default {
         remoteGroupId: ''
       },
       rules: {
-        direct: [{ required: true, message: '方向不能为空', trigger: 'blur' }],
-        openPort: [{ required: true, message: '端口类型不能为空', trigger: 'blur' }],
-        remote: [{ required: true, message: '根磁盘不能为空', trigger: 'blur' }],
-        cidr: [{ required: true, message: '临时磁盘不能为空', trigger: 'blur' }]
+        direct: [{ required: true, message: this.$t('resourceMgr.directRule'), trigger: 'blur' }],
+        openPort: [{ required: true, message: this.$t('resourceMgr.openPortRule'), trigger: 'blur' }],
+        remote: [{ required: true, message: this.$t('resourceMgr.remoteRule'), trigger: 'blur' }],
+        cidr: [{ required: true, message: this.$t('resourceMgr.cidrRule'), trigger: 'blur' }]
       },
       remoteGroupList: []
     }
@@ -299,18 +301,18 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      let params = {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      let _params = {
         securityGroupId: this.securityGroupId,
         direction: this.securityGroupFlavorForm.direct,
-        protocol: this.securityGroupFlavorForm.rule,
+        protocol: this.securityGroupFlavorForm.protocol,
         ethertype: this.securityGroupFlavorForm.ethertype,
         port_range_min: parseInt(this.securityGroupFlavorForm.portRangeMin, 10),
         port_range_max: parseInt(this.securityGroupFlavorForm.portRangeMax, 10),
         remoteIpPrefix: this.securityGroupFlavorForm.remoteIpPrefix,
         remoteGroupId: this.securityGroupFlavorForm.remoteGroupId
       }
-      resController.createSecurityGroupRule(hostIp, this.securityGroupId, params).then(res => {
+      resController.createSecurityGroupRule(_hostIp, this.securityGroupId, _params).then(res => {
         this.$message.success(this.$t('resourceMgr.createSecurityGroupFlavorSuccess'))
         this.$emit('reloadTableData')
         this.handleClose()
@@ -343,22 +345,30 @@ export default {
       }
     },
     getRemoteGroupList () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(_hostIp).then(res => {
         res.data.data.forEach(item => {
-          let securityGroupItem = {
+          let _securityGroupItem = {
             label: item.name,
             value: item.id
           }
-          this.remoteGroupList.push(securityGroupItem)
+          this.remoteGroupList.push(_securityGroupItem)
         })
       }).catch((error) => {
         console.log(error)
       })
     }
   },
+  watch: {
+    '$i18n.locale': function () {
+      this.language = localStorage.getItem('language')
+    }
+  },
   mounted () {
     this.getRemoteGroupList()
+    this.securityGroupFlavorForm.direct = this.directList[0].value
+    this.securityGroupFlavorForm.remote = this.remoteList[0].value
+    this.securityGroupFlavorForm.openPort = this.portList[0].value
   }
 }
 </script>

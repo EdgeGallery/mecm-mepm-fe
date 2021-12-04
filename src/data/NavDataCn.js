@@ -24,22 +24,22 @@ const NavDataCn = [
   {
     'id': '2.2.1',
     'name': '边缘应用市场',
-    'path': '/mecm/apac/list'
+    'path': '/mepm/apac/list'
   },
   {
     'id': '2.2.3',
     'name': '应用实例管理',
-    'path': '/mecm/ains/list'
+    'path': '/mepm/ains/list'
   },
   {
     'id': '2.3',
     'name': '边缘节点管理',
-    'path': '/mecm/node/list'
+    'path': '/mepm/node/list'
   },
   {
     'id': '2.4',
     'name': '资源管理',
-    'path': '/mecm/resource/manager'
+    'path': '/mepm/resource/manager'
   }
 ]
 

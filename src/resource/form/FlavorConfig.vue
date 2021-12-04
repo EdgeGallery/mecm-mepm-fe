@@ -27,7 +27,6 @@
       >
         <em class="title_icon" />{{ $t('resourceMgr.flavorConfig') }}
         <em
-          v-if="isEdit"
           class="el-icon-circle-plus-outline rt editBtn"
           @click="addListData"
         />
@@ -50,7 +49,6 @@
             v-model="item.value"
           />
           <em
-            v-if="isEdit"
             class="el-icon-delete editBtn"
             @click="deleteListData(index)"
           />
@@ -64,11 +62,6 @@
           @click="cancelAction"
           class="bgBtn"
         >{{ $t('resourceMgr.cancel') }}</el-button>
-        <el-button
-          v-if="!isEdit"
-          @click="isEdit=true"
-          class="bgBtn"
-        >{{ $t('resourceMgr.edit') }}</el-button>
         <el-button
           type="primary"
           @click="confirmAction"
@@ -90,8 +83,7 @@ export default {
   },
   data () {
     return {
-      dialogVisible: true,
-      isEdit: false
+      dialogVisible: true
     }
   },
   methods: {
@@ -107,30 +99,29 @@ export default {
       this.handleClose()
     },
     addListData () {
-      let obj = {
+      let _obj = {
         name: '',
         value: ''
       }
-      this.keyValueDatas.unshift(obj)
+      this.keyValueDatas.unshift(_obj)
     },
     deleteListData (index) {
       this.keyValueDatas.splice(index, 1)
     },
     confirmData () {
-      let nullMum = 0
+      let _nullMum = 0
       this.keyValueDatas.forEach(item => {
         if (item.name === '' || item.value === '') {
-          nullMum++
+          _nullMum++
         }
       })
-      if (nullMum === 0) {
-        let str = ''
+      if (_nullMum === 0) {
+        let _str = ''
         this.keyValueDatas.forEach(item => {
-          str += item.name + '=' + item.value + ';'
+          _str += item.name + '=' + item.value + ';'
         })
-        this.$emit('configData', str.substr(0, str.length - 1))
+        this.$emit('configData', _str.substr(0, _str.length - 1))
         this.dialogVisible = false
-        this.isEdit = false
       } else {
         this.$message.warning(this.$t('resourceMgr.canonicalInfo'))
       }

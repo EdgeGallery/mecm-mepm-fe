@@ -448,7 +448,7 @@ export default {
       this.loading = false
       this.dialogVisible = false
       this.$nextTick(() => {
-        this.$router.push('/mecm/ains/list')
+        this.$router.push('/mepm/ains/list')
       })
     }
   }

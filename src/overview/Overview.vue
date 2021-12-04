@@ -314,7 +314,7 @@ export default {
     startConfig (node, app) {
       let appIndex = [node, app]
       sessionStorage.setItem('appIndex', appIndex)
-      this.$router.push('/mecm/ruleconfig')
+      this.$router.push('/mepm/ruleconfig')
     },
     ConfigSteptwo (node, app) {
       let appIndex = [node, app]

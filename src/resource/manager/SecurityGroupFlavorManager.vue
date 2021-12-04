@@ -41,38 +41,46 @@
     <div class="security-group-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="direction"
           label="Direction"
           sortable
+          width="150"
         />
         <el-table-column
           prop="ethertype"
           label="Ether Type"
+          width="130"
         />
         <el-table-column
           prop="ipProtocol"
           label="IP Protocol"
+          width="130"
         />
         <el-table-column
           prop="portRange"
           label="Port Range"
+          width="130"
         />
         <el-table-column
           prop="remoteIpPrefix"
           label="Remote IP Prefix"
+          width="180"
         />
         <el-table-column
           prop="remoteSecurityGroup"
           label="Remote Security Group"
+          width="230"
         />
         <el-table-column
           label="Actions"
           width="200"
+          fixed="right"
         >
           <template slot-scope="scope">
             <el-button
@@ -81,6 +89,7 @@
               @click.native.prevent="editSecurityGroupFlavor(scope.row)"
               type="text"
               size="small"
+              :disabled="true"
             >
               {{ $t('resourceMgr.edit') }}
             </el-button>
@@ -165,8 +174,8 @@ export default {
           cancelButtonText: this.$t('common.cancel'),
           type: 'warning'
         }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteSecurityGroupRuleBySecurityGroupRuleId(hostIp, this.securityGroupId, row.id).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteSecurityGroupRuleBySecurityGroupRuleId(_hostIp, this.securityGroupId, row.id).then(res => {
           this.getTableData()
         }).catch((error) => {
           console.log(error)
@@ -178,12 +187,12 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupRulesByMechost(hostIp, this.securityGroupId).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupRulesByMechost(_hostIp, this.securityGroupId).then(res => {
         this.paginationData = res.data.data.securityGroupRules
-        let tempArr = []
+        let _tempArr = []
         res.data.data.securityGroupRules.forEach(item => {
-          let tempItem = {
+          let _tempItem = {
             id: item.id,
             direction: item.direction,
             ethertype: item.ethertype,
@@ -194,9 +203,9 @@ export default {
             remoteIpPrefix: item.remoteIpPrefix,
             remoteSecurityGroup: item.remoteGroupId
           }
-          tempArr.push(tempItem)
+          _tempArr.push(_tempItem)
         })
-        this.paginationData = tempArr
+        this.paginationData = _tempArr
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -252,10 +261,6 @@ export default {
   .security-group-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

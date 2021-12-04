@@ -14,17 +14,14 @@
   - limitations under the License.
   -->
 <template>
-  <div
-    class="instance-security-group"
-  >
+  <div>
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle"
         @selection-change="selectionLineChangeHandle"
         ref="multipleTable"
+        height="260"
       >
         <el-table-column
           type="selection"
@@ -33,7 +30,7 @@
         <el-table-column
           prop="name"
           :label="$t('resourceMgr.name')"
-          sortable="custom"
+          sortable
         />
         <el-table-column
           prop="description"
@@ -92,8 +89,8 @@ export default {
       this.$emit('getStepData', this.selectSecurityGroup)
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.querySecurityGroupsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.querySecurityGroupsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -108,10 +105,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.instance-security-group{
-  .tableHeight {
-    height: 260px;
-    overflow: auto;
-  }
-}
 </style>

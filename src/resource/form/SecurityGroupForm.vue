@@ -100,7 +100,7 @@ export default {
         securityGroupDescription: ''
       },
       rules: {
-        securityGroupName: [{ required: true, message: '名称不能为空', trigger: 'blur' }]
+        securityGroupName: [{ required: true, message: this.$t('resourceMgr.nameRule'), trigger: 'blur' }]
       }
     }
   },
@@ -110,11 +110,11 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      let params = {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      let _params = {
         name: this.securityGroupForm.securityGroupName
       }
-      resController.createSecurityGroup(hostIp, params).then(res => {
+      resController.createSecurityGroup(_hostIp, _params).then(res => {
         // TODO
         this.$message.success(this.$t('resourceMgr.createSecurityGroupSuccess'))
         this.$emit('reloadTableData')
