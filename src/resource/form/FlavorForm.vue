@@ -33,7 +33,7 @@
         ref="form"
         :rules="rules"
         label-position="right"
-        label-width="100px"
+        :label-width="language==='cn'? '100px': '120px'"
       >
         <el-form-item
           :label="$t('resourceMgr.name')"
@@ -117,9 +117,8 @@
             <span
               slot="suffix"
               @click="addMore"
-              class="view_more_btn"
-            >
-              {{ $t('resourceMgr.check') }}</span>
+              class="el-icon-more"
+            />
           </el-input>
         </el-form-item>
       </el-form>
@@ -166,7 +165,7 @@ export default {
   data () {
     return {
       dialogVisible: true,
-      showExtraSpecs: 'network_name_internet=mec_network_internet1;network_name_mep=mec_network_mep1',
+      showExtraSpecs: 'network_internet=mec_network_internet1;network_mep=mec_network_mep1',
       createFlavorForm: {
         flavorName: '',
         flavorID: '',
@@ -175,17 +174,15 @@ export default {
         flavorRootDisk: '',
         flavorTempDisk: '',
         flavorSwapDisk: '',
-        extraSpecs: {
-          EG: 'true'
-        }
+        extraSpecs: {}
       },
       rules: {
-        flavorName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        flavorVCPU: [{ required: true, message: 'VCPU不能为空', trigger: 'blur' }],
-        flavorRAM: [{ required: true, message: '内存不能为空', trigger: 'blur' }],
-        flavorRootDisk: [{ required: true, message: '根磁盘不能为空', trigger: 'blur' }],
-        flavorTempDisk: [{ required: true, message: '临时磁盘不能为空', trigger: 'blur' }],
-        flavorSwapDisk: [{ required: true, message: 'Swap磁盘不能为空', trigger: 'blur' }]
+        flavorName: [{ required: true, message: this.$t('resourceMgr.nameRule'), trigger: 'blur' }],
+        flavorVCPU: [{ required: true, message: this.$t('resourceMgr.vCPURule'), trigger: 'blur' }],
+        flavorRAM: [{ required: true, message: this.$t('resourceMgr.ramRule'), trigger: 'blur' }],
+        flavorRootDisk: [{ required: true, message: this.$t('resourceMgr.rootDiskRule'), trigger: 'blur' }],
+        flavorTempDisk: [{ required: true, message: this.$t('resourceMgr.tempDiskRule'), trigger: 'blur' }],
+        flavorSwapDisk: [{ required: true, message: this.$t('resourceMgr.swapDiskRule'), trigger: 'blur' }]
       },
       isShwoFlavorConfigDlg: false,
       keyValueDatas: []
@@ -197,9 +194,9 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let hostIp = sessionStorage.getItem('hostIp')
+      let _hostIp = sessionStorage.getItem('hostIp')
       this.transArrToObj(this.keyValueDatas)
-      let params = {
+      let _params = {
         name: this.createFlavorForm.flavorName,
         vcpus: parseInt(this.createFlavorForm.flavorVCPU, 10),
         ram: parseInt(this.createFlavorForm.flavorRAM, 10),
@@ -207,7 +204,7 @@ export default {
         swap: parseInt(this.createFlavorForm.flavorSwapDisk, 10),
         extraSpecs: this.createFlavorForm.extraSpecs
       }
-      resController.createFlavor(hostIp, params).then(res => {
+      resController.createFlavor(_hostIp, _params).then(res => {
         this.$message.success(this.$t('resourceMgr.createFlavorSuccess'))
         this.$emit('reloadTableData')
         this.handleClose()
@@ -220,20 +217,20 @@ export default {
       this.handleClose()
     },
     transStrToArr (data) {
-      let objArr = []
+      let _objArr = []
       if (data) {
-        let tempArr = data.split(';')
-        tempArr.forEach(item => {
-          let obj = {
+        let _tempArr = data.split(';')
+        _tempArr.forEach(item => {
+          let _obj = {
             name: '',
             value: ''
           }
-          obj.name = item.split('=')[0]
-          obj.value = item.split('=')[1]
-          objArr.push(obj)
+          _obj.name = item.split('=')[0]
+          _obj.value = item.split('=')[1]
+          _objArr.push(_obj)
         })
       }
-      return objArr
+      return _objArr
     },
     transArrToObj (data) {
       data.forEach(item => {
@@ -262,8 +259,8 @@ export default {
   .w100 {
     width: 100%;
     display: inline-block;
-    .view_more_btn{
-      color: #7a6e8a;
+    .el-icon-more{
+      color: #0A0A0A;
       background: #efefef;
       padding: 2px 8px;
       border-radius: 5px;

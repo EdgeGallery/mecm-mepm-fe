@@ -84,6 +84,7 @@ export default {
   data () {
     return {
       dialogVisible: true,
+      language: localStorage.getItem('language'),
       createInstanceDetailForm: {
         step: 'stepDetail',
         instanceName: '',
@@ -97,11 +98,9 @@ export default {
         { label: 'domain3', value: 'domain3' }
       ],
       rules: {
-        instanceName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        useDomain: [{ required: true, message: '可用域不能为空', trigger: 'blur' }],
-        number: [{ required: true, message: '数量不能为空', trigger: 'blur' }]
-      },
-      language: localStorage.getItem('language')
+        instanceName: [{ required: true, message: this.$t('resourceMgr.nameRule'), trigger: 'blur' }],
+        useDomain: [{ required: true, message: this.$t('resourceMgr.availabilityZoneRule'), trigger: 'blur' }]
+      }
     }
   },
   methods: {

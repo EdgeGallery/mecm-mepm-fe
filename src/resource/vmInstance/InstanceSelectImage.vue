@@ -14,17 +14,14 @@
   - limitations under the License.
   -->
 <template>
-  <div
-    class="select-image"
-  >
+  <div>
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         @selection-change="selectionLineChangeHandle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
         ref="multipleTable"
+        height="260"
       >
         <el-table-column
           type="selection"
@@ -32,8 +29,8 @@
         />
         <el-table-column
           prop="imageName"
-          label="Name"
-          sortable="custom"
+          :label="$t('resourceMgr.name')"
+          sortable
         />
         <el-table-column
           prop="hasUpdate"
@@ -104,8 +101,8 @@ export default {
       this.$emit('getStepData', this.selectImage)
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryImagesByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -120,10 +117,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.select-image{
-  .tableHeight {
-    height: 260px;
-    overflow: auto;
-  }
-}
 </style>

@@ -51,29 +51,33 @@
     <div class="network-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="name"
           label="Name"
+          width="150"
           sortable
         />
         <el-table-column
           prop="subnetsAssociated"
           label="Subnets Associated"
-          width="120"
+          width="200"
         />
         <el-table-column
           prop="shared"
           label="Shared"
+          width="110"
           :formatter="formatBoolean"
         />
         <el-table-column
           prop="external"
           label="External"
           :formatter="formatBoolean"
+          width="130"
         />
         <el-table-column
           prop="status"
@@ -89,11 +93,12 @@
         <el-table-column
           prop="availability"
           label="Availability Zones"
-          width="130"
+          width="200"
         />
         <el-table-column
           label="Actions"
           width="170"
+          fixed="right"
         >
           <template slot-scope="scope">
             <el-button
@@ -184,8 +189,8 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteNetworkByNetworkId(hostIp, row.id).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteNetworkByNetworkId(_hostIp, row.id).then(res => {
           this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
@@ -199,11 +204,11 @@ export default {
     },
     filterTableData (val, key) {
       this.dataLoading = true
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryNetworksByMechost(hostIp).then(res => {
-        let tempTableData = []
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryNetworksByMechost(_hostIp).then(res => {
+        let _tempTableData = []
         res.data.data.forEach(item => {
-          let temp = {
+          let _temp = {
             id: item.id,
             name: item.name,
             shared: item.shared,
@@ -213,12 +218,12 @@ export default {
             subnetsAssociated: '',
             availability: item.availabilityZones[0]
           }
-          tempTableData.push(temp)
+          _tempTableData.push(_temp)
         })
-        this.paginationData = tempTableData
+        this.paginationData = _tempTableData
         this.paginationData = this.paginationData.filter(item => {
-          let itemVal = item[key].toLowerCase()
-          return itemVal.indexOf(val) > -1
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
       }).catch((error) => {
@@ -237,11 +242,11 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryNetworksByMechost(hostIp).then(res => {
-        let tempTableData = []
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryNetworksByMechost(_hostIp).then(res => {
+        let _tempTableData = []
         res.data.data.forEach(item => {
-          let temp = {
+          let _temp = {
             id: item.id,
             name: item.name,
             shared: item.shared,
@@ -251,9 +256,9 @@ export default {
             subnetsAssociated: '',
             availability: item.availabilityZones[0]
           }
-          tempTableData.push(temp)
+          _tempTableData.push(_temp)
         })
-        this.paginationData = tempTableData
+        this.paginationData = _tempTableData
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -315,10 +320,6 @@ export default {
   .network-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

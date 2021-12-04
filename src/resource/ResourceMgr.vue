@@ -21,6 +21,7 @@
     </div>
     <div class="main-tabs">
       <div class="nodeIP">
+        <span class="host-text">{{ $t('resourceMgr.currentHost') }}</span>
         <el-select
           :popper-append-to-body="false"
           v-model="currentEdgeNode"
@@ -168,10 +169,10 @@ export default {
       this.selectedName = 1
     },
     handleClick (tab, event) {
-      let tempActiveName = this.activeName
+      let _tempActiveName = this.activeName
       this.activeName = '-1'
       this.$nextTick(() => {
-        this.activeName = tempActiveName
+        this.activeName = _tempActiveName
       })
     },
     getHosts () {
@@ -182,7 +183,9 @@ export default {
             value: item.mechostIp
           }
           this.edgeNodeList.push(node)
-          this.currentEdgeNode = this.edgeNodeList[0].value
+          if (sessionStorage.getItem('hostIp')) {
+            this.currentEdgeNode = sessionStorage.getItem('hostIp')
+          }
         })
       }).catch((error) => {
         console.log(error)
@@ -211,7 +214,7 @@ export default {
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
     .nodeIP{
       text-align: right;
-      margin-right: 30px;
+      margin-right: 25px;
       input::-webkit-input-placeholder {
         color: #5E40C8;
       }
@@ -227,13 +230,16 @@ export default {
         border-radius: 25px;
         text-align: center;
         width: 160px;
-        margin-left: 30px;
+        margin-left: 10px;
       }
       .el-popper{
         text-align: center;
         min-width: 160px !important;
         width: 160px !important;
         margin-left: 30px;
+      }
+      .host-text{
+        color: #5E40C8;
       }
     }
     .elTabs{

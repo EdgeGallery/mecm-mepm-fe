@@ -17,7 +17,7 @@
   <div class="network-form">
     <el-dialog
       :visible.sync="dialogVisible"
-      width="50%"
+      width="40%"
       :before-close="handleClose"
       :close-on-click-modal="false"
       class="default_dialog"
@@ -38,7 +38,7 @@
         <el-form-item
           :label="$t('resourceMgr.networkName')"
           prop="networkName"
-          class="w50"
+          class="w100"
         >
           <el-input
             size="small"
@@ -46,9 +46,19 @@
           />
         </el-form-item>
         <el-form-item
+          :label="$t('resourceMgr.subnetName')"
+          prop="subnetName"
+          class="w100"
+        >
+          <el-input
+            size="small"
+            v-model="createNetworkForm.subnetName"
+          />
+        </el-form-item>
+        <el-form-item
           :label="$t('resourceMgr.networkAddr')"
           prop="networkAddr"
-          class="w50"
+          class="w100"
         >
           <el-input
             size="small"
@@ -58,7 +68,7 @@
         <el-form-item
           :label="$t('resourceMgr.ipVersion')"
           prop="ipVersion"
-          class="w50"
+          class="w100"
         >
           <el-select
             size="small"
@@ -76,21 +86,11 @@
         <el-form-item
           :label="$t('resourceMgr.gatewayIP')"
           prop="gatewayIp"
-          class="w50"
+          class="w100"
         >
           <el-input
             size="small"
             v-model="createNetworkForm.gatewayIp"
-          />
-        </el-form-item>
-        <el-form-item
-          :label="$t('resourceMgr.subnetName')"
-          prop="subnetName"
-          class="w50"
-        >
-          <el-input
-            size="small"
-            v-model="createNetworkForm.subnetName"
           />
         </el-form-item>
       </el-form>
@@ -140,10 +140,10 @@ export default {
         subnetName: ''
       },
       rules: {
-        networkName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        networkAddr: [{ required: true, message: '网络地址不能为空', trigger: 'blur' }],
-        ipVersion: [{ required: true, message: 'IP版本不能为空', trigger: 'blur' }],
-        subnetName: [{ required: true, message: '子网名称不能为空', trigger: 'blur' }]
+        networkName: [{ required: true, message: this.$t('resourceMgr.nameRule'), trigger: 'blur' }],
+        networkAddr: [{ required: true, message: this.$t('resourceMgr.networkAddrRule'), trigger: 'blur' }],
+        ipVersion: [{ required: true, message: this.$t('resourceMgr.ipVersionRule'), trigger: 'blur' }],
+        subnetName: [{ required: true, message: this.$t('resourceMgr.subnetNameRule'), trigger: 'blur' }]
       },
       language: localStorage.getItem('language')
     }
@@ -154,8 +154,8 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      let params = {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      let _params = {
         network: {
           name: this.createNetworkForm.networkName,
           adminStateUp: true,
@@ -193,7 +193,7 @@ export default {
           }]
         }
       }
-      resController.createNetwork(hostIp, params).then(res => {
+      resController.createNetwork(_hostIp, _params).then(res => {
         this.$message.success(this.$t('resourceMgr.createNetworkSuccess'))
         this.$emit('reloadTableData')
         this.handleClose()
@@ -217,8 +217,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .network-form{
-  .w50 {
-    width: 50%;
+  .w100 {
+    width: 75%;
     display: inline-block;
   }
 }

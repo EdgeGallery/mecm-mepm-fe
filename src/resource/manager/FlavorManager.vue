@@ -51,9 +51,10 @@
     <div class="flavor-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="name"
@@ -73,31 +74,29 @@
         />
         <el-table-column
           prop="ram"
-          label="RAM"
+          label="RAM(MB)"
+          width="130"
         />
         <el-table-column
           prop="rootDisk"
           label="Root Disk"
-          width="120"
+          width="130"
         />
         <el-table-column
-          prop="ephemeral"
+          prop="ephemeralDisk"
           label="Ephemeral Disk"
-          width="120"
-        />
-        <el-table-column
-          prop="txfactor"
-          label="RX/TXfactor"
-          width="80"
+          width="180"
         />
         <el-table-column
           prop="isPublic"
           label="Public"
+          width="120"
           :formatter="formatBoolean"
         />
         <el-table-column
           label="Actions"
           width="170"
+          fixed="right"
         >
           <template slot-scope="scope">
             <el-button
@@ -188,8 +187,8 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteFlavorByFlavorId(hostIp, row.id).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteFlavorByFlavorId(_hostIp, row.id).then(res => {
           this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
@@ -203,12 +202,12 @@ export default {
     },
     filterTableData (val, key) {
       this.dataLoading = true
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryFlavorsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.paginationData = this.paginationData.filter(item => {
-          let itemVal = item[key].toLowerCase()
-          return itemVal.indexOf(val) > -1
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
       }).catch((error) => {
@@ -227,8 +226,8 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryFlavorsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -291,10 +290,6 @@ export default {
   .flavor-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

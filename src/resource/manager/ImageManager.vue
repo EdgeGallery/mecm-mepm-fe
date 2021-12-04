@@ -51,9 +51,10 @@
     <div class="image-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="imageName"
@@ -82,10 +83,6 @@
           :label="$t('resourceMgr.protect')"
           width="115"
           :formatter="formatBoolean"
-        />
-        <el-table-column
-          prop="diskFormat"
-          :label="$t('resourceMgr.diskFormat')"
         />
         <el-table-column
           prop="size"
@@ -173,8 +170,8 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteImageByImageId(hostIp, row.imageId).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteImageByImageId(_hostIp, row.imageId).then(res => {
           this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           this.getTableData()
         }).catch((error) => {
@@ -197,12 +194,12 @@ export default {
     },
     filterTableData (val, key) {
       this.dataLoading = true
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryImagesByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.paginationData = this.paginationData.filter(item => {
-          let itemVal = item[key].toLowerCase()
-          return itemVal.indexOf(val) > -1
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
       }).catch((error) => {
@@ -221,8 +218,8 @@ export default {
       this.currentPageData = data
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryImagesByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryImagesByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -285,10 +282,6 @@ export default {
   .image-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

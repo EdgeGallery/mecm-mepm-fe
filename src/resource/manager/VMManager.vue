@@ -51,9 +51,10 @@
     <div class="vm-table">
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        height="400"
       >
         <el-table-column
           prop="instanceName"
@@ -196,8 +197,8 @@ export default {
         cancelButtonText: this.$t('common.cancel'),
         type: 'warning'
       }).then(() => {
-        let hostIp = sessionStorage.getItem('hostIp')
-        resController.deleteVMByVMId(hostIp, row.id).then(res => {
+        let _hostIp = sessionStorage.getItem('hostIp')
+        resController.deleteVMByVMId(_hostIp, row.id).then(res => {
           this.$message.success(this.$t('resourceMgr.deleteSuccess'))
           setTimeout(() => {
             this.getTableData()
@@ -224,12 +225,12 @@ export default {
 
     },
     filterTableData (val, key) {
-      let hostIp = sessionStorage.getItem('hostIp')
+      let _hostIp = sessionStorage.getItem('hostIp')
       this.dataLoading = true
-      resController.queryVMsByMechost(hostIp).then(res => {
-        let tempArr = []
+      resController.queryVMsByMechost(_hostIp).then(res => {
+        let _tempArr = []
         res.data.data.forEach(item => {
-          let tempItem = {
+          let _tempItem = {
             id: item.id,
             instanceName: item.name,
             imageName: item.image.id,
@@ -237,12 +238,12 @@ export default {
             flavor: '',
             status: item.status
           }
-          tempArr.push(tempItem)
+          _tempArr.push(_tempItem)
         })
-        this.paginationData = tempArr
+        this.paginationData = _tempArr
         this.paginationData = this.paginationData.filter(item => {
-          let itemVal = item[key].toLowerCase()
-          return itemVal.indexOf(val) > -1
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
       }).catch((error) => {
@@ -261,19 +262,19 @@ export default {
       this.currentPageData = data
     },
     getIpAddr (obj) {
-      let results = ''
+      let _results = ''
       for (let key in obj) {
-        let item = key + obj[key][0].addr
-        results += item
+        let _item = key + obj[key][0].addr
+        _results += _item
       }
-      return results
+      return _results
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryVMsByMechost(hostIp).then(res => {
-        let tempArr = []
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryVMsByMechost(_hostIp).then(res => {
+        let _tempArr = []
         res.data.data.forEach(item => {
-          let tempItem = {
+          let _tempItem = {
             id: item.id,
             instanceName: item.name,
             imageName: item.image.id,
@@ -281,9 +282,9 @@ export default {
             flavor: '',
             status: item.status
           }
-          tempArr.push(tempItem)
+          _tempArr.push(_tempItem)
         })
-        this.paginationData = tempArr
+        this.paginationData = _tempArr
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
@@ -345,10 +346,6 @@ export default {
   .vm-table{
     width: 1000px;
     margin: 30px auto;
-    .tableHeight {
-      height: 400px;
-      overflow: auto;
-    }
   }
 }
 </style>

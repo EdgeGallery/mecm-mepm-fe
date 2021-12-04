@@ -267,7 +267,7 @@ export default {
     jump (row) {
       sessionStorage.setItem('instanceId', row.appInstanceId)
       sessionStorage.setItem('instanceName', row.appName)
-      this.$router.push('/mecm/ruleconfig')
+      this.$router.push('/mepm/ruleconfig')
     },
     getMemValue (rowVal) {
       let val = rowVal.containers[0].metricsusage.memusage.split('/')

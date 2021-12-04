@@ -50,37 +50,37 @@ export default new Router({
       component: Layout,
       children: [
         {
-          path: 'mecm/apac/list',
+          path: 'mepm/apac/list',
           name: 'apaclist',
           component: () => import('../app/PackageList.vue')
         },
         {
-          path: 'mecm/ruleconfig',
+          path: 'mepm/ruleconfig',
           name: 'rule',
           component: () => import('../app/RuleConfig.vue')
         },
         {
-          path: 'mecm/edge/list',
+          path: 'mepm/edge/list',
           name: 'edgelist',
           component: () => import('../app/EdgeList.vue')
         },
         {
-          path: 'mecm/apac/detail',
+          path: 'mepm/apac/detail',
           name: 'apacdetail',
           component: () => import('../app/PackageDetail.vue')
         },
         {
-          path: 'mecm/ains/list',
+          path: 'mepm/ains/list',
           name: 'ainslist',
           component: () => import('../app/InstanceList.vue')
         },
         {
-          path: 'mecm/node/list',
+          path: 'mepm/node/list',
           name: 'hostOverview',
           component: () => import('../host/List.vue')
         },
         {
-          path: 'mecm/nodeinfo/:nodeIp',
+          path: 'mepm/nodeinfo/:nodeIp',
           name: 'nodeinfo',
           component: () => import('../host/NodeInfo.vue'),
           meta: {
@@ -108,12 +108,12 @@ export default new Router({
           component: () => import('../resource/Container.vue')
         },
         {
-          path: 'mecm/image/list',
+          path: 'mepm/image/list',
           name: 'ImageMgmt',
           component: () => import('../imageMgmt/Index.vue')
         },
         {
-          path: 'mecm/resource/manager',
+          path: 'mepm/resource/manager',
           name: 'hostOverview',
           component: () => import('../resource/ResourceMgr.vue')
         }

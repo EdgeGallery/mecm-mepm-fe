@@ -29,7 +29,7 @@
         <span class="statistic-detail">
           {{
             statisticData.index===1?$t('resourceMgr.vmAmount'):
-            statisticData.index===2?$t('resourceMgr.vpuAmount'):
+            statisticData.index===2?$t('resourceMgr.vcpuAmount'):
             statisticData.index===3?$t('resourceMgr.ramAmount'):
             statisticData.index===4?$t('resourceMgr.floatIpAmount'):
             statisticData.index===5?$t('resourceMgr.securityGroupAmount'):
@@ -38,7 +38,7 @@
           }}: {{ statisticData.totalUsed }}</span>
       </div>
       <div :class="language==='cn'?'statistic-div': 'statistic-div-en'">
-        <span class="statistic-detail">{{ $t('resourceMgr.remainAmount') }}: {{ statisticData.maxTotal===-1?$t('resourceMgr.noLimit'):statisticData.maxTotal-statisticData.totalUsed }}</span>
+        <span class="statistic-detail">{{ $t('resourceMgr.total') }}: {{ statisticData.maxTotal===-1?$t('resourceMgr.noLimit'):statisticData.maxTotal }}</span>
       </div>
     </div>
   </div>

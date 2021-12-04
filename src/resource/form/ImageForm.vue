@@ -33,7 +33,7 @@
         ref="form"
         :rules="rules"
         label-position="right"
-        :label-width="language==='cn'? '100px': '120px'"
+        :label-width="language==='cn'? '100px': '130px'"
       >
         <el-form-item
           :label="$t('resourceMgr.imageName')"
@@ -163,10 +163,9 @@ export default {
         resourceUri: ''
       },
       rules: {
-        name: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-        minRam: [{ required: true, message: '最小内存不能为空', trigger: 'blur' }],
-        minDisk: [{ required: true, message: '最小磁盘不能为空', trigger: 'blur' }],
-        resourceUri: [{ required: true, message: '镜像源不能为空', trigger: 'blur' }]
+        name: [{ required: true, message: this.$t('resourceMgr.nameRule'), trigger: 'blur' }],
+        minRam: [{ required: true, message: this.$t('resourceMgr.minRamRule'), trigger: 'blur' }],
+        minDisk: [{ required: true, message: this.$t('resourceMgr.diskRule'), trigger: 'blur' }]
       },
       language: localStorage.getItem('language')
     }
@@ -177,8 +176,8 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      let params = {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      let _params = {
         name: this.createImageForm.name,
         containerFormat: this.createImageForm.containerFormat,
         diskFormat: this.createImageForm.diskFormat,
@@ -186,18 +185,18 @@ export default {
         minDisk: parseInt(this.createImageForm.minDisk),
         properties: {}
       }
-      resController.createImage(hostIp, params).then(res => {
-        let imageId = res.data.data.imageId
-        this.importImage(hostIp, imageId)
+      resController.createImage(_hostIp, _params).then(res => {
+        let _imageId = res.data.data.imageId
+        this.importImage(_hostIp, _imageId)
       }).catch((error) => {
         console.log(error)
       })
     },
     importImage (hostIp, imageId) {
-      let params = {
+      let _params = {
         resourceUri: this.createImageForm.resourceUri
       }
-      resController.importImage(hostIp, imageId, params).then(res => {
+      resController.importImage(hostIp, imageId, _params).then(res => {
         this.$message.success(this.$t('resourceMgr.createImageSuccess'))
         this.$emit('reloadTableData')
         this.handleClose()

@@ -133,7 +133,6 @@
           id="confirmBtn"
           type="text"
           @click="cancelAction"
-          v-if="active<5"
         >
           <strong>{{ $t('resourceMgr.cancel') }}</strong>
         </el-button>
@@ -233,18 +232,18 @@ export default {
     },
     confirmAction () {
       this.next()
-      let hostIp = sessionStorage.getItem('hostIp')
-      let params = {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      let _params = {
         name: this.allStepData['stepDetail'].instanceName,
         flavor: this.allStepData['stepFlavor'].flavor,
         image: this.allStepData['stepImage'].imageId,
         availabilityZone: this.allStepData['stepNetwork'].availabilityZone,
-        userData: this.allStepData['userConfigStep'].userData,
+        user_data: this.allStepData['userConfigStep'].userData,
         configDrive: this.allStepData['userConfigStep'].configDrive,
         securityGroups: this.allStepData['stepSecurityGroup'].securityGroups,
-        networks: this.allStepData['stepNetwork'].networks
+        netWorks: this.allStepData['stepNetwork'].networks
       }
-      resController.createVM(hostIp, params).then(res => {
+      resController.createVM(_hostIp, _params).then(res => {
         this.$message.success(this.$t('resourceMgr.createVMSuccess'))
         // vm创建过程较慢，后续需要定时刷新任务状态
         setTimeout(() => {

@@ -14,17 +14,14 @@
   - limitations under the License.
   -->
 <template>
-  <div
-    class="instance-network"
-  >
+  <div>
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
+        class="tableStyle"
         @selection-change="selectionLineChangeHandle"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
         ref="multipleTable"
+        height="260"
       >
         <el-table-column
           type="selection"
@@ -34,15 +31,17 @@
           prop="name"
           label="Network"
           width="150px"
+          sortable
         />
         <el-table-column
-          :label="$t('resourceMgr.connectSubnet')"
+          :label="$t('resourceMgr.fixedIp')"
           width="180px"
         >
           <template slot-scope="scope">
             <el-input
               type="text"
               size="small"
+              placeholder="enter fixedIp"
               v-model="scope.row.fixedIp"
             />
           </template>
@@ -120,11 +119,11 @@ export default {
     },
     selectionLineChangeHandle (val) {
       val.forEach(item => {
-        let tempNetwork = {
+        let _tempNetwork = {
           network: item.id,
           fixedIp: item.fixedIp
         }
-        this.selectNetwork.networks.push(tempNetwork)
+        this.selectNetwork.networks.push(_tempNetwork)
         this.selectNetwork.availabilityZone = item.availabilityZones[0]
       })
     },
@@ -133,8 +132,8 @@ export default {
       this.$emit('getStepData', this.selectNetwork)
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryNetworksByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryNetworksByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -149,10 +148,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.instance-network{
-  .tableHeight {
-    height: 260px;
-    overflow: auto;
-  }
-}
 </style>

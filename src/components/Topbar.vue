@@ -118,16 +118,16 @@ export default {
     $route (to, from) {
       this.indexName = to.path
       // 解决MECDeveloper下DevTools导航子菜单首次点击没有选中状态问题
-      if (this.indexName === '/mecm/apac/detail') {
-        this.indexName = '/mecm/apac/list'
-      } else if (this.indexName === '/mecm/ruleconfig/addTrafficRules') {
-        this.indexName = '/mecm/ains/list'
-      } else if (this.indexName === '/mecm/ruleconfig') {
-        this.indexName = '/mecm/ains/list'
+      if (this.indexName === '/mepm/apac/detail') {
+        this.indexName = '/mepm/apac/list'
+      } else if (this.indexName === '/mepm/ruleconfig/addTrafficRules') {
+        this.indexName = '/mepm/ains/list'
+      } else if (this.indexName === '/mepm/ruleconfig') {
+        this.indexName = '/mepm/ains/list'
       } else if (this.indexName.includes('mepm/mepinfo/')) {
-        this.indexName = '/mecm/node/list'
+        this.indexName = '/mepm/node/list'
       } else if (this.indexName.includes('nodeinfo')) {
-        this.indexName = '/mecm/node/list'
+        this.indexName = '/mepm/node/list'
       } else if (this.indexName.includes('mepm/resource')) {
         this.indexName = '/'
       } else {

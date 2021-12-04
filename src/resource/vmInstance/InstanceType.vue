@@ -14,17 +14,14 @@
   - limitations under the License.
   -->
 <template>
-  <div
-    class="instance-type"
-  >
+  <div>
     <div>
       <el-table
         :data="currentPageData"
-        class="tableStyle tableHeight"
-        :default-sort="{ prop: 'createTime', order: 'descending' }"
-        @sort-change="sortChange"
+        class="tableStyle"
         @selection-change="selectionLineChangeHandle"
         ref="multipleTable"
+        height="260"
       >
         <el-table-column
           type="selection"
@@ -32,12 +29,13 @@
         />
         <el-table-column
           prop="name"
-          label="Name"
+          :label="$t('resourceMgr.name')"
+          sortable
         />
         <el-table-column
           prop="vcpus"
           :label="$t('resourceMgr.virtualCore')"
-          width="125px"
+          width="115px"
         />
         <el-table-column
           prop="ram"
@@ -50,12 +48,7 @@
           width="110px"
         />
         <el-table-column
-          prop="rootDisk"
-          :label="$t('resourceMgr.rootDisk')"
-          width="110px"
-        />
-        <el-table-column
-          prop="tempDisk"
+          prop="ephemeralDisk"
           :label="$t('resourceMgr.tempDisk')"
           width="120px"
         />
@@ -127,8 +120,8 @@ export default {
       this.$emit('getStepData', this.selectFlavor)
     },
     getTableData () {
-      let hostIp = sessionStorage.getItem('hostIp')
-      resController.queryFlavorsByMechost(hostIp).then(res => {
+      let _hostIp = sessionStorage.getItem('hostIp')
+      resController.queryFlavorsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
       }).catch((error) => {
@@ -143,10 +136,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.instance-type{
-  .tableHeight {
-    height: 260px;
-    overflow: auto;
-  }
-}
 </style>
