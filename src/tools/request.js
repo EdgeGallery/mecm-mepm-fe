@@ -265,7 +265,7 @@ let resController = {
     return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId)
   },
   deleteSecurityGroupRuleBySecurityGroupRuleId (hostIp, securityGroupId, securityGroupRuleId) {
-    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + 'securityGroupRules' + securityGroupRuleId)
+    return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + '/securityGroupRules/' + securityGroupRuleId)
   },
 
   createVM (hostIp, params) {
