@@ -259,10 +259,10 @@ let resController = {
     return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId)
   },
   createSecurityGroupRule (hostIp, securityGroupId, params) {
-    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId + '/securityGroupRules', params)
+    return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + '/securityGroupRules', params)
   },
   querySecurityGroupRulesByMechost (hostIp, securityGroupId) {
-    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + 'securityGroups' + securityGroupId)
+    return GET(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId)
   },
   deleteSecurityGroupRuleBySecurityGroupRuleId (hostIp, securityGroupId, securityGroupRuleId) {
     return DELETE(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/securityGroups/' + securityGroupId + 'securityGroupRules' + securityGroupRuleId)
