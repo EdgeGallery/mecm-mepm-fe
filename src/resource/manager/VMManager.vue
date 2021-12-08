@@ -65,6 +65,7 @@
         <el-table-column
           prop="imageName"
           label="Image Name"
+          width="160"
         />
         <el-table-column
           prop="ip"
