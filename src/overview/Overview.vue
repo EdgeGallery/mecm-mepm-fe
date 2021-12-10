@@ -54,45 +54,30 @@
                   alt=""
                 >
                 <div class="appimg">
-                  <el-carousel
-                    arrow="never"
-                    :autoplay="false"
-                    height="220px"
-                    trigger="click"
-                    @change="handleAppChange"
-                    :initial-index="appIndex"
-                  >
-                    <el-carousel-item
-                      v-for="(appItem,appindex) in item.appList"
-                      :key="appindex"
+                  <div>
+                    <img
+                      v-if="currentApp.status"
+                      src="../assets/images/appicon_suc.png"
+                      alt=""
                     >
-                      <img
-                        v-if="appItem.status"
-                        src="../assets/images/appicon_suc.png"
-                        alt=""
-                      >
-                      <img
-                        class="startConfig"
-                        v-else
-                        src="../assets/images/start-appicon.png"
-                        alt=""
-                        @click="startConfig(index,appindex)"
-                      >
-                      <p>{{ appItem.appPkgName }}</p>
-                    </el-carousel-item>
-                  </el-carousel>
-                  <div class="search">
+                    <img
+                      class="startConfig"
+                      v-else
+                      src="../assets/images/start-appicon.png"
+                      alt=""
+                    >
+                  </div>
+                  <div class="searchAppBox">
                     <el-col
                       :span="12"
                       style="width:70%"
                     >
                       <el-autocomplete
-                        :placement="bottom-start"
                         class="inline-input"
-                        v-model="state1"
+                        v-model="inputAppName"
                         size="small"
-                        :fetch-suggestions="querySearch"
-                        placeholder="名称搜索"
+                        :fetch-suggestions="((queryString,cb)=>{querySearch(queryString, cb, item.appList)})"
+                        :placeholder="$t('overview.nameSearch')"
                         suffix-icon="el-icon-search"
                         @select="handleSelect"
                       />
@@ -100,45 +85,44 @@
                   </div>
                 </div>
                 <div
-                  class="resources-show"
-                  v-if="showDetail"
+                  class="resources-k8sShow"
+                  v-if="showK8sDetail"
                 >
-                  <div style="display: flex;flex-direction: row;align-items: center;justify-content: space-around;margin-bottom: 10px">
-                    <span class="info-title">
-                      {{ $t('overview.resourceDetails') }}
-                    </span>
-                    <el-popover
-                      placement="bottom"
-                      trigger="hover"
+                  <span class="info-title">
+                    {{ $t('overview.resourceDetails') }}
+                  </span>
+                  <el-popover
+                    placement="bottom"
+                    trigger="hover"
+                  >
+                    <span
+                      slot="reference"
+                      class="infoBtn"
+                      style="float: right;cursor: pointer;"
+                    >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
+                    <div
+                      class="detail"
                     >
-                      <span
-                        slot="reference"
-                        class="infoBtn"
-                        style="float: right;cursor: pointer;"
-                      >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
-                      <div
-                        class="detail"
-                      >
-                        <p class="info-title">
-                          {{ $t('overview.moreResource') }}
-                        </p>
-                        <el-form>
-                          <el-form-item :label="$t('overview.network')">
-                            {{ item.detailInfo.resource.inter }}
-                          </el-form-item>
-                          <el-form-item :label="$t('overview.x86')">
-                            {{ item.detailInfo.resource.x86Resource }}
-                          </el-form-item>
-                          <el-form-item :label="$t('overview.GPU')">
-                            {{ item.detailInfo.resource.GPU }}
-                          </el-form-item>
-                          <el-form-item :label="$t('overview.AI')">
-                            {{ item.detailInfo.resource.AI }}
-                          </el-form-item>
-                        </el-form>
-                      </div>
-                    </el-popover>
-                  </div>
+                      <p class="info-title">
+                        {{ $t('overview.moreResource') }}
+                      </p>
+                      <el-form>
+                        <el-form-item :label="$t('overview.network')">
+                          {{ item.detailInfo.resource.inter }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.x86')">
+                          {{ item.detailInfo.resource.x86Resource }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.GPU')">
+                          {{ item.detailInfo.resource.GPU }}
+                        </el-form-item>
+                        <el-form-item :label="$t('overview.AI')">
+                          {{ item.detailInfo.resource.AI }}
+                        </el-form-item>
+                      </el-form>
+                    </div>
+                  </el-popover>
+
                   <div class="resources">
                     <div
                       class="chartPie"
@@ -146,48 +130,31 @@
                       <div
                         class="sumchart"
                         id="cpuChart"
-                      >
-                        <cpupie />
-                        <p style="text-align:center;margin-top:4px;">
-                          {{ $t('overview.cpu') }}
-                        </p>
-                      </div>
+                      />
                       <div
                         class="sumchart"
                         id="memoryChart"
-                      >
-                        <memorypie />
-                        <p style="text-align:center;margin-top:4px;">
-                          {{ $t('overview.mem') }}
-                        </p>
-                      </div>
-                      <div
-                        class="sumchart"
-                        id="diskChart"
-                      >
-                        <diskpie />
-                        <p style="text-align:center;margin-top:4px;">
-                          {{ $t('overview.disk') }}
-                        </p>
-                      </div>
+                      />
                     </div>
-                    <div style="text-align:center;margin-top:10px;">
+                    <div style="text-align:center;margin-top:4px;">
                       <span
                         class="occupiedBefore"
                         style="margin-right:15px;"
                       >{{ $t('overview.occupied') }}</span>
                       <span class="UsableBefore">{{ $t('overview.usable') }}</span>
                     </div>
-                    <div class="button">
-                      <el-button
-                        round
-                        style="background-color: #6950CA;color: #fff"
-                        @click="applyres"
-                      >
-                        申请边缘资源
-                      </el-button>
-                    </div>
+                    <p style="text-align:center;margin-top:4px;">
+                      {{ $t('overview.computeResources') }}
+                    </p>
                   </div>
+                </div>
+                <div
+                  class="resources-openStackShow"
+                  v-else
+                >
+                  <OpenStackOverView
+                    :percent-value="percentValue"
+                  />
                 </div>
               </div>
             </el-carousel-item>
@@ -208,44 +175,13 @@
 import { lcmController } from '../tools/request.js'
 import echarts from 'echarts'
 import EgFooter from 'eg-view/src/components/EgFooter.vue'
-import Cpupie from '../components/Cpupie.vue'
-import Memorypie from '../components/Memorypie.vue'
-import Diskpie from '../components/Diskpie.vue'
+import OpenStackOverView from './OpenStackOverView.vue'
 
 export default {
-  components: { EgFooter, Cpupie, Memorypie, Diskpie },
+  components: { EgFooter, OpenStackOverView },
   data () {
     return {
-      searchlists: [],
-      state1: '',
-      nodeList: [
-        {
-          address: '',
-          affinity: 'X86',
-          appList: [],
-          city: 'beijing',
-          configUploadStatus: 'Uploaded',
-          coordinates: '',
-          detailInfo: {
-            chartData: [],
-            resource: [
-              {
-                AI: 'Atlas 200*200',
-                GPU: 'AMD EPYC 7763*2',
-                inter: '5G',
-                x86Resource: '50C、256G、1T'
-              }
-            ]
-          },
-          hwcapabilities: [],
-          mechostIp: '192.168.1.156',
-          mechostName: '北京openstack沙箱',
-          origin: 'developer',
-          userName: '',
-          vim: 'OpenStack',
-          zipCode: ''
-        }
-      ],
+      nodeList: [],
       nodeIndex: 0,
       appIndex: 0,
       bgImg: false,
@@ -258,11 +194,15 @@ export default {
       bgImgUrltwoEn: require('../assets/images/configured_bg_en.png'),
       cpudata: null,
       memdata: null,
-      showDetail: true,
+      showK8sDetail: true,
       platformData: [],
       showFullFooterPage: true,
       specificBg: true,
-      specificBgColor: '#ffffff'
+      specificBgColor: '#ffffff',
+      percentValue: {},
+      currentApp: {},
+      currentNodeIndex: 0,
+      inputAppName: ''
     }
   },
   watch: {
@@ -271,34 +211,9 @@ export default {
     }
   },
   mounted () {
-    this.searchlist = this.loadAll()
+    this.getNodeListInPage()
   },
   methods: {
-    querySearch (queryString, cb) {
-      var searchlists = this.searchlist
-      var results = queryString ? searchlists.filter(this.createFilter(queryString)) : searchlists
-      cb(results)
-    },
-    createFilter (queryString) {
-      return (searchlist) => {
-        return (searchlist.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-      }
-    },
-    loadAll () {
-      return [
-        { 'value': '应用名称001' },
-        { 'value': '应用名称002' },
-        { 'value': '应用名称003' },
-        { 'value': '应用名称004' },
-        { 'value': '应用名称005' },
-        { 'value': '应用名称006' },
-        { 'value': '应用名称007' },
-        { 'value': '应用名称008' }
-      ]
-    },
-    handleSelect (item) {
-      console.log(item)
-    },
     getNodeListInPage () {
       lcmController.getHostList().then(res => {
         res.data.forEach(item => {
@@ -327,9 +242,8 @@ export default {
         this.initPackageList()
         if (this.nodeList[0].vim.toUpperCase() === 'K8S') {
           this.getNodeKpi(this.nodeList[0].mechostIp)
-          this.showDetail = true
         } else {
-          this.showDetail = false
+          this.getOpenStackNodeKpi(this.nodeList[0].mechostIp)
         }
       }).catch((error) => {
         console.log(error)
@@ -377,12 +291,14 @@ export default {
           })
         })
         this.bgImg = this.nodeList[0].appList[0].status
+        this.currentApp = this.nodeList[0].appList[0]
       }).catch(error => {
         console.log(error)
       })
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
+        this.showK8sDetail = true
         this.cpudata = res.data.data.cpuusage
         this.memdata = res.data.data.memusage
         this.drawCpuChart()
@@ -391,15 +307,40 @@ export default {
         console.log(error)
       })
     },
+    getOpenStackNodeKpi (ip) {
+      lcmController.getNodeKpi(ip).then(res => {
+        let statisticInstanceData = {
+          used: res.data.data.totalInstancesUsed,
+          unUsed: res.data.data.maxTotalInstances - res.data.data.totalInstancesUsed
+        }
+        let statistivCpuData = {
+          used: res.data.data.totalCoresUsed,
+          unUsed: res.data.data.maxTotalCores - res.data.data.totalCoresUsed
+        }
+        let statisticRamData = {
+          used: res.data.data.totalRAMUsed,
+          unUsed: res.data.data.maxTotalRAMSize - res.data.data.totalRAMUsed
+        }
+        this.percentValue = {
+          instance: statisticInstanceData,
+          vCpu: statistivCpuData,
+          ram: statisticRamData
+        }
+        this.showK8sDetail = false
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     handleNodeChange (nodeIndex, status) {
       this.nodeIndex = Number(nodeIndex)
       if (this.nodeList[nodeIndex].vim.toUpperCase() === 'K8S') {
         this.getNodeKpi(this.nodeList[nodeIndex].mechostIp)
-        this.showDetail = true
       } else {
-        this.showDetail = false
+        this.getOpenStackNodeKpi(this.nodeList[nodeIndex].mechostIp)
       }
       this.bgImg = this.nodeList[nodeIndex].appList[0].status ? this.nodeList[nodeIndex].appList[0].status : ''
+      this.currentApp = this.nodeList[nodeIndex].appList[0]
+      this.currentNodeIndex = nodeIndex
     },
     handleAppChange (index, status) {
       this.appIndex = Number(index)
@@ -544,14 +485,38 @@ export default {
           memChart.resize()
         }
       })
+    },
+    handleSelect (selectItem) {
+      this.nodeList[this.currentNodeIndex].appList.forEach(item => {
+        if (item.appId === selectItem.id) {
+          this.currentApp = item
+        }
+      })
+    },
+    querySearch (queryString, cb, allList) {
+      let _tempAppArr = []
+      allList.forEach(item => {
+        let _tempItem = {
+          value: item.appPkgName,
+          id: item.appId
+        }
+        _tempAppArr.push(_tempItem)
+      })
+      if (this.inputAppName === '') {
+        cb(_tempAppArr)
+      } else {
+        cb(_tempAppArr.filter(this.createFilter(queryString)))
+      }
+    },
+    createFilter (queryString) {
+      return (item) => {
+        return (item.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+      }
     }
   }
 }
 </script>
 <style lang='less'>
-.el-autocomplete-suggestion__list {
-  height: 90px;
-}
 .font-bold{
   font-family: HarmonyOS_Sans_Bold, Arial, Helvetica, sans-serif;
 }
@@ -635,7 +600,7 @@ export default {
         }
         .appimg{
           position: absolute;
-          top: 135px;
+          top: 145px;
           left: 42%;
           width: 15%;
           img{
@@ -672,15 +637,23 @@ export default {
               }
             }
           }
+          .searchAppBox{
+            margin-left: 20px;
+            .inline-input{
+              width: 170px;
+            }
+          }
         }
-        .search{
-          margin-top: 10px;
-          width: 210px;
-          height: 40px;
-          display: flex;
-          justify-content: space-around;
+        .resources-openStackShow{
+          position: absolute;
+          background-color: #dedfea;
+          border-radius: 10px;
+          width: 30%;
+          padding: 20px 15px;
+          top: 135px;
+          right: 10%;
         }
-        .resources-show{
+        .resources-k8sShow{
           position: absolute;
           background-color: #dedfea;
           border-radius: 10px;
@@ -706,6 +679,7 @@ export default {
             color: #5e40c8;
           }
           .resources{
+            padding-left: 24px;
             p{
               color: #827792;
               font-size: 14px;
@@ -716,21 +690,7 @@ export default {
               .sumchart{
                 width: 80%;
                 height: 100px;
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                flex-direction: column;
-                .el-progress{
-                  width: 75px;
-                  height: 75px;
-                }
               }
-            }
-            .button{
-              margin-top: 20px;
-              display: flex;
-              justify-content: space-around;
-              align-items: center;
             }
             .occupiedBefore,.UsableBefore{
               color: #827792;
@@ -775,42 +735,42 @@ export default {
 }
 .el-popover{
   border-radius: 15px;
-          .detail{
-            background-color: #fff;
-            border-radius: 20px;
-            width: 310px;
-            .info-title{
-              font-size: 18px;
-              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-              color: #5e40c8;
-              padding-bottom: 8px;
-            }
-            .info-title::before{
-              content: '';
-              display: inline-block;
-              background-image: url('../assets/images/info-title.png');
-              width: 12px;
-              height: 12px;
-            }
-            .el-form{
-              padding-left: 12px;
-              color: #5e40c8;
-              font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-              .el-form-item{
-                margin-bottom: 0;
-              }
-              .el-form-item__label{
-                 color: #857a93;
-                 height: 25px;
-                 line-height: 25px;
-              }
-              .el-form-item__content{
-                 height: 25px;
-                 line-height: 25px;
-              }
-            }
-          }
+  .detail{
+    background-color: #fff;
+    border-radius: 20px;
+    width: 310px;
+    .info-title{
+      font-size: 18px;
+      font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
+      color: #5e40c8;
+      padding-bottom: 8px;
+    }
+    .info-title::before{
+      content: '';
+      display: inline-block;
+      background-image: url('../assets/images/info-title.png');
+      width: 12px;
+      height: 12px;
+    }
+    .el-form{
+      padding-left: 12px;
+      color: #5e40c8;
+      font-size: 14px;
+      font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
+      .el-form-item{
+        margin-bottom: 0;
+      }
+      .el-form-item__label{
+          color: #857a93;
+          height: 25px;
+          line-height: 25px;
+      }
+      .el-form-item__content{
+          height: 25px;
+          line-height: 25px;
+      }
+    }
+  }
 }
 
 </style>

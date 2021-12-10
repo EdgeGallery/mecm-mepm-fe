@@ -159,7 +159,8 @@ const cn = {
     network: '网络：',
     x86: 'X86计算资源：',
     GPU: 'GPU算力：',
-    AI: 'AI加速能力：'
+    AI: 'AI加速能力：',
+    nameSearch: '名称搜索'
   },
   footer: {
     about: '关于',
@@ -765,7 +766,8 @@ const cn = {
     currentHost: '当前节点:',
     enterIp: '请输入Ip地址',
     enterRightIp: '请输入正确的Ip地址',
-    isShared: '是否共享'
+    isShared: '是否共享',
+    applyRes: '申请边缘资源'
   },
   ...zhLocale
 }

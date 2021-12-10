@@ -161,7 +161,8 @@ const en = {
     network: 'Network:',
     x86: 'X86 Resource:',
     GPU: 'GPU:',
-    AI: 'AI:'
+    AI: 'AI:',
+    nameSearch: 'name search'
   },
   footer: {
     about: 'About',
@@ -766,7 +767,8 @@ const en = {
     currentHost: 'current host:',
     enterIp: 'Please enter the IP address',
     enterRightIp: 'Please enter the correct IP address',
-    isShared: 'shared'
+    isShared: 'shared',
+    applyRes: 'Apply for edge resources'
   },
   ...enLocale
 }
