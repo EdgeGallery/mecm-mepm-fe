@@ -183,11 +183,11 @@ export default {
       lcmController.getHostList().then(response => {
         response.data.forEach((item) => {
           if (item.vim === 'OpenStack') {
-            let node = {
-              name: item.mechostIp,
+            let _node = {
+              name: item.mechostName,
               value: item.mechostIp
             }
-            this.edgeNodeList.push(node)
+            this.edgeNodeList.push(_node)
           }
           if (sessionStorage.getItem('hostIp')) {
             this.currentEdgeNode = sessionStorage.getItem('hostIp')

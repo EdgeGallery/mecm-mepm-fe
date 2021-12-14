@@ -65,7 +65,7 @@
         <el-table-column
           prop="imageName"
           label="Image Name"
-          width="160"
+          width="150"
         />
         <el-table-column
           prop="ip"
@@ -75,10 +75,12 @@
         <el-table-column
           prop="flavor"
           label="Flavor"
+          width="100"
         />
         <el-table-column
           prop="status"
           label="Status"
+          width="120"
           sortable
         />
         <el-table-column
