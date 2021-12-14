@@ -644,7 +644,7 @@ const cn = {
     visibility: '可见性',
     protect: '受保护的',
     diskFormat: '磁盘格式',
-    size: '大小(KB)',
+    size: '大小(MB)',
     operator: '操作',
     createNetwork: '创建网络',
     createFlavor: '创建规格',
