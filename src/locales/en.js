@@ -645,7 +645,7 @@ const en = {
     visibility: 'visibility',
     protect: 'Protected',
     diskFormat: 'Disk Format',
-    size: 'Size(MB)',
+    size: 'Size(KB)',
     operator: 'Operator',
     createNetwork: 'Create Network',
     createFlavor: 'Create Flavor',

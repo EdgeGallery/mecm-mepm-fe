@@ -584,6 +584,7 @@ export default {
       this.isDisable = true
       let middleData = JSON.parse(JSON.stringify(row))
       this.currForm = middleData
+      this.currForm.vim = this.currForm.vim.toLowerCase() === 'k8s' ? 'K8S' : this.currForm.vim
       this.selectedArea = row.address.split('/')
       this.dialogVisible = true
       this.area = true
