@@ -193,6 +193,7 @@ export default {
           this.getTableData()
         }).catch((error) => {
           console.log(error)
+          this.$message.error(this.$t('resourceMgr.deleteFlavorFailed'))
         })
       }).catch(() => {
       })
@@ -213,6 +214,7 @@ export default {
       }).catch((error) => {
         this.dataLoading = false
         console.log(error)
+        this.$message.error(this.$t('resourceMgr.queryFlavorsFailed'))
       })
     },
     queryFlavor () {
@@ -232,6 +234,7 @@ export default {
         this.dataLoading = false
       }).catch((error) => {
         this.dataLoading = false
+        this.$message.error(this.$t('resourceMgr.queryFlavorsFailed'))
         console.log(error)
       })
     },
