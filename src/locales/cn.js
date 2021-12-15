@@ -293,7 +293,7 @@ const cn = {
       addRuleSuc: '添加规则成功',
       editRuleSuc: '编辑规则成功',
       delRuleSuc: '删除规则成功',
-      save: '保存配置'
+      returnPrePage: '返回'
     }
   },
   resource: {

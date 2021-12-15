@@ -294,7 +294,7 @@ const en = {
       addRuleSuc: 'You have added rule successfully',
       editRuleSuc: 'You have modified the rule successfully',
       delRuleSuc: 'You have deleted the rule successfully',
-      save: 'Save configuration'
+      returnPrePage: 'Return'
     }
   },
   resource: {
