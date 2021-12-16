@@ -83,7 +83,7 @@
 
     <!-- 接口信息 -->
     <p class="title">
-      接口信息
+      {{ $t('app.ruleConfig.interfaceInfo') }}
     </p>
     <el-table
       class="mt20"
@@ -123,7 +123,7 @@
       />
       <el-table-column
         prop="dstIpAddress"
-        label="目的IP地址"
+        :label="$t('app.ruleConfig.dstAddress')"
       />
     </el-table>
   </div>
