@@ -104,7 +104,8 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('app.instanceList.newRules') }}
+        <em class="title_icon" />
+        {{ dlgType==="createDlg" ? $t('app.instanceList.newRules'):$t('app.instanceList.editRules') }}
       </div>
       <div class="dialogContent">
         <el-form
@@ -215,6 +216,7 @@ export default {
     return {
       isModify: false,
       dialog: false,
+      dlgType: 'createDlg',
       index: -1,
       timer: null,
       loading: false,
@@ -334,6 +336,7 @@ export default {
     showDialog () {
       this.isModify = false
       this.index = -1
+      this.dlgType = 'createDlg'
       this.dialog = true
       this.dnsRule = {
         dnsRuleId: '',
@@ -351,6 +354,7 @@ export default {
     },
     editDnsRule (index, row) {
       this.index = index
+      this.dlgType = 'editDlg'
       this.dialog = true
       let data = JSON.parse(JSON.stringify(row[index]))
       this.dnsRule = data

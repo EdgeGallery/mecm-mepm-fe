@@ -245,7 +245,8 @@ const cn = {
       addFilter: '新增流过滤规则',
       batchDelete: '批量删除应用',
       appKpi: '应用KPI',
-      newRules: '新建规则'
+      newRules: '新建规则',
+      editRules: '编辑规则'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
@@ -265,6 +266,8 @@ const cn = {
       checkRules: '查看详情',
       dnsRule: 'DNS规则',
       trafficRule: '分流规则',
+      addTrafficRule: '新增分流规则',
+      editTrafficRule: '编辑分流规则',
       trafficFilter: '流过滤规则',
       appRuleManReg: 'App Rule MGR 注册',
       appRuleManEdit: 'App Rule MGR 编辑',
@@ -282,6 +285,7 @@ const cn = {
       tunnelType: '隧道类型',
       interfaceType: '接口类型',
       addNewInterfaceInfo: '新增接口信息',
+      editInterfaceInfo: '编辑接口信息',
       interfaceDescriptor: '转发接口信息',
       ipInfo: 'IP信息',
       macInfo: 'MAC信息',

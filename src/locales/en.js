@@ -246,7 +246,8 @@ const en = {
       addFilter: 'Add Traffic Filter',
       batchDelete: 'Batch delete instances',
       appKpi: 'Application KPI',
-      newRules: 'New Rules'
+      newRules: 'New Rules',
+      editRules: 'Edit Rules'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',
@@ -266,6 +267,8 @@ const en = {
       checkRules: 'Check Rules',
       dnsRule: 'DNS Rules',
       trafficRule: 'Traffic Rules',
+      addTrafficRule: 'Add Traffic Rules',
+      editTrafficRule: 'Edit Traffic Rules',
       trafficFilter: 'Traffic Filter',
       appRuleManReg: 'App Rule MGR Registration',
       appRuleManEdit: 'App Rule MGR Editor',
@@ -283,6 +286,7 @@ const en = {
       tunnelType: 'Tunnel Type',
       interfaceType: 'Interface Type',
       addNewInterfaceInfo: 'Add New Interface Info',
+      editInterfaceInfo: 'Edit Interface Info',
       interfaceDescriptor: 'Interface Descriptor',
       ipInfo: 'IP Information',
       macInfo: 'MAC Information',
