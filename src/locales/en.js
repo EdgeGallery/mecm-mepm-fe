@@ -216,7 +216,8 @@ const en = {
       uploadPackage: 'Upload Package',
       fileDeleteConfirmInfo: 'Are you sure want to remove %s ?',
       onlyOneFile: 'Only one file is allowed, please remove the file first!',
-      edgeAppMarket: 'Edge App Market'
+      edgeAppMarket: 'Edge App Market',
+      getPackagesError: 'Failed to query app package information'
     },
     distriList: {
       mecHost: 'MEC Hosts',
@@ -231,7 +232,8 @@ const en = {
       podSel: 'Pod Selector',
       deploymentConf: 'Deployment Configuration',
       multipleDeploy: 'Batch Deployment',
-      deleteError: 'Please delete the error status applications'
+      deleteError: 'Please delete the error status applications',
+      getHostError: 'Failed to query host information'
     },
     instanceList: {
       operationStatus: 'Operational Status',
@@ -239,14 +241,15 @@ const en = {
       instanceDetail: 'Instance Detail',
       beforeDelete: 'Are you sure to delete this instance from the MEC host?',
       addRule: 'Add Rules',
-      batchDeleteDnsRules: 'Batch delete DNS ruls',
-      batchDeleteTrafficRules: 'Batch delete traffic ruls',
+      batchDeleteDnsRules: 'Batch delete DNS rules',
+      batchDeleteTrafficRules: 'Batch delete traffic rules',
       addDnsRules: 'Add DNS rules',
       addTrafficRules: 'Add Traffic rules',
       addFilter: 'Add Traffic Filter',
       batchDelete: 'Batch delete instances',
       appKpi: 'Application KPI',
-      newRules: 'New Rules'
+      newRules: 'New Rules',
+      editRules: 'Edit Rules'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',
@@ -266,6 +269,8 @@ const en = {
       checkRules: 'Check Rules',
       dnsRule: 'DNS Rules',
       trafficRule: 'Traffic Rules',
+      addTrafficRule: 'Add Traffic Rules',
+      editTrafficRule: 'Edit Traffic Rules',
       trafficFilter: 'Traffic Filter',
       appRuleManReg: 'App Rule MGR Registration',
       appRuleManEdit: 'App Rule MGR Editor',
@@ -283,6 +288,7 @@ const en = {
       tunnelType: 'Tunnel Type',
       interfaceType: 'Interface Type',
       addNewInterfaceInfo: 'Add New Interface Info',
+      editInterfaceInfo: 'Edit Interface Info',
       interfaceDescriptor: 'Interface Descriptor',
       ipInfo: 'IP Information',
       macInfo: 'MAC Information',
@@ -294,7 +300,7 @@ const en = {
       addRuleSuc: 'You have added rule successfully',
       editRuleSuc: 'You have modified the rule successfully',
       delRuleSuc: 'You have deleted the rule successfully',
-      save: 'Save configuration'
+      returnPrePage: 'Return'
     }
   },
   resource: {

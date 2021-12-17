@@ -182,24 +182,28 @@
       v-loading="loading"
       class="default_dialog"
     >
-      <div
-        slot="title"
-        class="el-dialog__title"
-      >
-        <em class="title_icon" />{{ $t('app.packageList.slectEdgeNodes') }}
-      </div>
-      <el-input
-        id="nodesearch"
-        class="enterinput lt"
-        v-model="edgeNodeSearchInput"
-        size="small"
-      >
-        <em
-          slot="suffix"
-          class="el-input__icon el-icon-search"
-        />
-      </el-input>
-      <el-row class="el-row-table">
+      <el-row>
+        <div
+          slot="title"
+          class="el-dialog__title"
+        >
+          <em class="title_icon" />{{ $t('app.packageList.slectEdgeNodes') }}
+        </div>
+        <el-input
+          id="nodesearch"
+          class="enterinput lt"
+          v-model="edgeNodeSearchInput"
+          @change="hostFilterHandler"
+          size="small"
+        >
+          <em
+            slot="suffix"
+            class="el-input__icon el-icon-search"
+            @click="hostFilterHandler"
+          />
+        </el-input>
+      </el-row>
+      <el-row>
         <el-col :span="24">
           <el-table
             ref="multipleEdgeNodeTable"
@@ -247,16 +251,10 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-pagination
-          background
-          class="pageBar"
-          @size-change="handleEdgeNodePageSizeChange"
-          @current-change="handleEdgeNodeCurrentPageChange"
-          :current-page="edgeNodeCurrentPage"
-          :page-sizes="[5, 10, 15, 20]"
-          :page-size="edgeNodePageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="edgeNodeTotalNum"
+        <pagination
+          :page-sizes="[10,15,20,25]"
+          :table-data="distPaginationData"
+          @getCurrentPageData="getCurrentDistPageData"
         />
       </el-row>
       <div
@@ -298,7 +296,8 @@ export default {
       tableData: [],
       paginationData: [],
       currPageTableData: [],
-      edgeNodesData: [],
+      distPaginationData: [],
+      currPageEdgeNodeTableData: [],
       dialogVisible: false,
       uploadPkgDialogVisible: false,
       packageSearchInput: '',
@@ -328,15 +327,6 @@ export default {
     this.getPackageList()
   },
   computed: {
-    edgeNodeTotalNum: function () {
-      return this.edgeNodesData.length
-    },
-    totalNum: function () {
-      return this.tableData.length
-    },
-    currPageEdgeNodeTableData: function () {
-      return this.edgeNodesData.filter(data => !this.edgeNodeSearchInput || data.mechostName.toLowerCase().includes(this.edgeNodeSearchInput.toLowerCase()))
-    },
     rules () {
       return {
         mechostIp: [
@@ -387,9 +377,39 @@ export default {
         }
       }
     },
+    hostFilterHandler () {
+      if (this.edgeNodeSearchInput && this.edgeNodeSearchInput.length > 0) {
+        this.filterHostTableData(this.edgeNodeSearchInput, 'mechostName')
+      } else {
+        this.reloadHostTableData()
+      }
+    },
+    filterHostTableData (val, key) {
+      lcmController.getHostList().then(response => {
+        this.distPaginationData = response.data
+        this.distPaginationData = this.distPaginationData.filter(item => {
+          let _itemVal = item[key].toLowerCase()
+          return _itemVal.indexOf(val) > -1
+        })
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error(this.$t('app.distriList.getHostError'))
+      })
+    },
+    reloadHostTableData () {
+      lcmController.getHostList().then(response => {
+        this.distPaginationData = response.data
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error(this.$t('app.distriList.getHostError'))
+      })
+    },
     // 列表根据分页组件显示数据
     getCurrentPageData (data) {
       this.currPageTableData = data
+    },
+    getCurrentDistPageData (data) {
+      this.currPageEdgeNodeTableData = data
     },
     handleSelectionChange (val) {
       if (val.length > 0) {
@@ -428,24 +448,17 @@ export default {
       }).catch((error) => {
         console.log('error in catch block', error)
         this.dataLoading = false
-        // this.$message.error(this.$t('Failed to get app package list'))
+        this.$message.error(this.$t('app.packageList.getPackagesError'))
       })
     },
     async getNodeList (row) {
       sessionStorage.setItem('appId', row.appId)
       await lcmController.getHostList().then(response => {
-        this.edgeNodesData = response.data
+        this.distPaginationData = response.data
       }).catch((error) => {
-        if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-          this.edgeNodesData = []
-        }
+        console.log(error)
+        this.$message.error(this.$t('app.distriList.getHostError'))
       })
-    },
-    handleEdgeNodePageSizeChange (edgeNodePageSize) {
-      this.edgeNodePageSize = edgeNodePageSize
-    },
-    handleEdgeNodeCurrentPageChange (edgeNodeCurrentPage) {
-      this.edgeNodeCurrentPage = edgeNodeCurrentPage
     },
     cancel () {
       this.dialogVisible = false
@@ -558,7 +571,6 @@ export default {
       top: 2px;
     }
   }
-
   .apacList {
     height: 100%;
     background: #fff;
@@ -578,9 +590,6 @@ export default {
       width: 100%;
     }
     .el-row-button-input {
-      margin-top: 10px;
-    }
-    .el-row-table {
       margin-top: 10px;
     }
     .shortdesc{

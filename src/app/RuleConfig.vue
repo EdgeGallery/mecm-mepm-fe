@@ -28,7 +28,7 @@
         @click="saveConfig"
       >
         <em class="new_icon" />
-        {{ $t('app.ruleConfig.save') }}
+        {{ $t('app.ruleConfig.returnPrePage') }}
       </el-button>
     </div>
     <div class="ruleconfigcontent">
@@ -75,8 +75,7 @@ export default {
         appDnsRule: [],
         appName: '',
         appSupportMp1: true
-      },
-      showConfirmBtn: false
+      }
     }
   },
   methods: {
@@ -93,14 +92,11 @@ export default {
       let temp = sessionStorage.getItem('appIndex')
       temp = temp + ',configed'
       sessionStorage.setItem('appIndex', temp)
-      this.$router.push('/')
+      this.$router.push('/mepm/ains/list')
     }
   },
   mounted () {
     this.getAppRules()
-    if (this.sessionStorage.getItem('appIndex')) {
-      this.showConfirmBtn = true
-    }
   }
 }
 

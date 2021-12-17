@@ -215,7 +215,8 @@ const cn = {
       uploadPackage: '上传应用包',
       fileDeleteConfirmInfo: '确认移除%s?',
       onlyOneFile: '仅支持一个文件，请先移除已有文件！',
-      edgeAppMarket: '边缘应用市场'
+      edgeAppMarket: '边缘应用市场',
+      getPackagesError: '查询应用包信息失败'
     },
     distriList: {
       mecHost: 'MEC 主机',
@@ -230,7 +231,8 @@ const cn = {
       podSel: 'Pod选择器',
       deploymentConf: '部署配置',
       multipleDeploy: '批量部署',
-      deleteError: '请先删除分发状态为“Error”的应用'
+      deleteError: '请先删除分发状态为“Error”的应用',
+      getHostError: '查询节点信息失败'
     },
     instanceList: {
       operationStatus: '运行状态',
@@ -245,7 +247,8 @@ const cn = {
       addFilter: '新增流过滤规则',
       batchDelete: '批量删除应用',
       appKpi: '应用KPI',
-      newRules: '新建规则'
+      newRules: '新建规则',
+      editRules: '编辑规则'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
@@ -265,6 +268,8 @@ const cn = {
       checkRules: '查看详情',
       dnsRule: 'DNS规则',
       trafficRule: '分流规则',
+      addTrafficRule: '新增分流规则',
+      editTrafficRule: '编辑分流规则',
       trafficFilter: '流过滤规则',
       appRuleManReg: 'App Rule MGR 注册',
       appRuleManEdit: 'App Rule MGR 编辑',
@@ -282,6 +287,7 @@ const cn = {
       tunnelType: '隧道类型',
       interfaceType: '接口类型',
       addNewInterfaceInfo: '新增接口信息',
+      editInterfaceInfo: '编辑接口信息',
       interfaceDescriptor: '转发接口信息',
       ipInfo: 'IP信息',
       macInfo: 'MAC信息',
@@ -293,7 +299,7 @@ const cn = {
       addRuleSuc: '添加规则成功',
       editRuleSuc: '编辑规则成功',
       delRuleSuc: '删除规则成功',
-      save: '保存配置'
+      returnPrePage: '返回'
     }
   },
   resource: {

@@ -123,7 +123,8 @@
         slot="title"
         class="el-dialog__title"
       >
-        <em class="title_icon" />{{ $t('app.instanceList.newRules') }}
+        <em class="title_icon" />
+        {{ dlgType==="createDlg" ? $t('app.instanceList.newRules'):$t('app.instanceList.editRules') }}
       </div>
       <div class="dialogContent">
         <el-form
@@ -394,7 +395,8 @@
             slot="title"
             class="el-dialog__title"
           >
-            <em class="title_icon" />{{ $t('app.ruleConfig.trafficRule') }}
+            <em class="title_icon" />
+            {{ filterDlgType==="createDlg" ? $t('app.ruleConfig.addTrafficRule'):$t('app.ruleConfig.editTrafficRule') }}
           </div>
           <el-row>
             <el-form
@@ -571,7 +573,8 @@
             slot="title"
             class="el-dialog__title"
           >
-            <em class="title_icon" />{{ $t('app.ruleConfig.interfaceInfo') }}
+            <em class="title_icon" />
+            {{ interfaceDlgType==="createDlg" ? $t('app.ruleConfig.addNewInterfaceInfo'):$t('app.ruleConfig.editInterfaceInfo') }}
           </div>
           <el-row>
             <el-form
@@ -737,6 +740,9 @@ export default {
       timer: null,
       loading: false,
       operationDialog: false,
+      dlgType: 'createDlg',
+      filterDlgType: 'createDlg',
+      interfaceDlgType: 'createDlg',
       innerFilterVisible: false,
       innerInterfaceVisible: false,
       showDetail: false,
@@ -923,6 +929,7 @@ export default {
     showDialog () {
       this.isModify = false
       this.index = -1
+      this.dlgType = 'createDlg'
       this.operationDialog = true
     },
     changeSToA (str) {
@@ -1036,6 +1043,7 @@ export default {
     },
     editTraRule (index, row) {
       this.index = index
+      this.dlgType = 'editDlg'
       this.operationDialog = true
       this.appTrafficRule = row[index]
       this.trafficFilterData = row[index].trafficFilter
@@ -1096,19 +1104,23 @@ export default {
       if (type === 1) {
         this.filterIndex = index
         this.trafficFilter = JSON.parse(JSON.stringify(row))
+        this.filterDlgType = 'editDlg'
         this.innerFilterVisible = true
       } else {
         this.interfaceIndex = index
         this.dstInterface = JSON.parse(JSON.stringify(row))
+        this.interfaceDlgType = 'editDlg'
         this.innerInterfaceVisible = true
       }
     },
     addNew (type) {
       if (type === 1) {
         this.filterIndex = -1
+        this.filterDlgType = 'createDlg'
         this.innerFilterVisible = true
       } else {
         this.interfaceIndex = -1
+        this.interfaceDlgType = 'createDlg'
         this.innerInterfaceVisible = true
       }
     },

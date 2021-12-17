@@ -44,7 +44,7 @@
         :column-key="'status'"
         :label="tableHeaderStatus"
         prop="status"
-        :filters="[{text: 'ACTIVE', value: 'ACTIVE'}, {text: 'INACTIVE', value: 'INACTIVE'}]"
+        :filters="[{text: 'ACTIVE', value: 'ACTIVE'}, {text: 'INACTIVE', value: 'INACTIVE'}, {text: 'SUSPENDED', value: 'SUSPENDED'}]"
         :filtered-value="filterValue.status"
       />
       <el-table-column
