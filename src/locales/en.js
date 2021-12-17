@@ -216,7 +216,8 @@ const en = {
       uploadPackage: 'Upload Package',
       fileDeleteConfirmInfo: 'Are you sure want to remove %s ?',
       onlyOneFile: 'Only one file is allowed, please remove the file first!',
-      edgeAppMarket: 'Edge App Market'
+      edgeAppMarket: 'Edge App Market',
+      getPackagesError: 'Failed to query app package information'
     },
     distriList: {
       mecHost: 'MEC Hosts',
@@ -231,7 +232,8 @@ const en = {
       podSel: 'Pod Selector',
       deploymentConf: 'Deployment Configuration',
       multipleDeploy: 'Batch Deployment',
-      deleteError: 'Please delete the error status applications'
+      deleteError: 'Please delete the error status applications',
+      getHostError: 'Failed to query host information'
     },
     instanceList: {
       operationStatus: 'Operational Status',

@@ -215,7 +215,8 @@ const cn = {
       uploadPackage: '上传应用包',
       fileDeleteConfirmInfo: '确认移除%s?',
       onlyOneFile: '仅支持一个文件，请先移除已有文件！',
-      edgeAppMarket: '边缘应用市场'
+      edgeAppMarket: '边缘应用市场',
+      getPackagesError: '查询应用包信息失败'
     },
     distriList: {
       mecHost: 'MEC 主机',
@@ -230,7 +231,8 @@ const cn = {
       podSel: 'Pod选择器',
       deploymentConf: '部署配置',
       multipleDeploy: '批量部署',
-      deleteError: '请先删除分发状态为“Error”的应用'
+      deleteError: '请先删除分发状态为“Error”的应用',
+      getHostError: '查询节点信息失败'
     },
     instanceList: {
       operationStatus: '运行状态',
