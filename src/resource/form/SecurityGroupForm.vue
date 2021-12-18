@@ -110,19 +110,22 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let _hostIp = sessionStorage.getItem('hostIp')
-      let _params = {
-        name: this.securityGroupForm.securityGroupName
-      }
-      resController.createSecurityGroup(_hostIp, _params).then(res => {
-        // TODO
-        this.$message.success(this.$t('resourceMgr.createSecurityGroupSuccess'))
-        this.$emit('reloadTableData')
-        this.handleClose()
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error(this.$t('resourceMgr.createSecurityGroupFailed'))
-        this.handleClose()
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          let _hostIp = sessionStorage.getItem('hostIp')
+          let _params = {
+            name: this.securityGroupForm.securityGroupName
+          }
+          resController.createSecurityGroup(_hostIp, _params).then(res => {
+            this.$message.success(this.$t('resourceMgr.createSecurityGroupSuccess'))
+            this.$emit('reloadTableData')
+            this.handleClose()
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error(this.$t('resourceMgr.createSecurityGroupFailed'))
+            this.handleClose()
+          })
+        }
       })
     },
     cancelAction () {
