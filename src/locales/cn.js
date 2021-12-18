@@ -488,6 +488,7 @@ const cn = {
     faileToUpload: '上传config文件失败',
     failToRegNode: '注册新的node节点失败',
     failToModifyNode: '修改节点失败',
+    failToAddNode: '新增边缘节点失败',
     typeApp: '请先输入节点IP地址!',
     uploadConf: '请上传config文件',
     typeCity: '请选择部署位置',
