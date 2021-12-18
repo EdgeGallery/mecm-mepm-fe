@@ -52,13 +52,8 @@
           v-loading="dataLoading"
           :data="currPageTableData"
           style="width: 100%;"
-          @selection-change="handleSelectionChange"
           class="tableStyle"
         >
-          <el-table-column
-            type="selection"
-            width="55"
-          />
           <el-table-column
             prop="appPkgName"
             sortable
@@ -314,7 +309,6 @@ export default {
       dialogLoading: false,
       appId: '',
       language: localStorage.getItem('language'),
-      selectData: [],
       currForm: {
         appPkgName: '',
         description: ''
@@ -410,19 +404,6 @@ export default {
     },
     getCurrentDistPageData (data) {
       this.currPageEdgeNodeTableData = data
-    },
-    handleSelectionChange (val) {
-      if (val.length > 0) {
-        val.forEach(item => {
-          this.selectData.push(
-            {
-              appId: item.appId,
-              appstoreIp: item.appstoreIp,
-              packageId: item.packageId
-            }
-          )
-        })
-      }
     },
     checkDetail (row) {
       sessionStorage.setItem('appId', row.appId)
