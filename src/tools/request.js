@@ -100,7 +100,7 @@ let lcmController = {
     return axios.post(lcmcontrollerApi + '/password', '', { headers: headers })
   },
   createHost (params) {
-    return POST(lcmcontrollerApi + '/hosts', params)
+    return POST(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts', params)
   },
   getHostList () {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts')
