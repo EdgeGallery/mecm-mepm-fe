@@ -130,10 +130,12 @@
                       <div
                         class="sumchart"
                         id="cpuChart"
+                        ref="cpuChart"
                       />
                       <div
                         class="sumchart"
                         id="memoryChart"
+                        ref="memoryChart"
                       />
                     </div>
                     <div style="text-align:center;margin-top:4px;">
@@ -173,7 +175,6 @@
 
 <script>
 import { lcmController } from '../tools/request.js'
-import echarts from 'echarts'
 import EgFooter from 'eg-view/src/components/EgFooter.vue'
 import OpenStackOverView from './OpenStackOverView.vue'
 
@@ -292,17 +293,20 @@ export default {
         })
         this.bgImg = this.nodeList[0].appList[0].status
         this.currentApp = this.nodeList[0].appList[0]
+        this.inputAppName = this.currentApp.appPkgName
       }).catch(error => {
         console.log(error)
       })
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
-        this.showK8sDetail = true
         this.cpudata = res.data.data.cpuusage
         this.memdata = res.data.data.memusage
-        this.drawCpuChart()
-        this.drawMemoryChart()
+        this.showK8sDetail = true
+        this.$nextTick(() => {
+          this.drawCpuChart()
+          this.drawMemoryChart()
+        })
       }).catch(error => {
         console.log(error)
       })
@@ -367,7 +371,7 @@ export default {
       }
     },
     drawCpuChart () {
-      let cpuChart = echarts.init(document.getElementById('cpuChart'))
+      let cpuChart = this.$echarts.init(document.getElementById('cpuChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
@@ -427,7 +431,7 @@ export default {
       })
     },
     drawMemoryChart () {
-      let memChart = echarts.init(document.getElementById('memoryChart'))
+      let memChart = this.$echarts.init(document.getElementById('memoryChart'))
       let colors = ['#7152db', '#9686e1']
       let option = {
         color: colors,
