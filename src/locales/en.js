@@ -249,7 +249,9 @@ const en = {
       batchDelete: 'Batch delete instances',
       appKpi: 'Application KPI',
       newRules: 'New Rules',
-      editRules: 'Edit Rules'
+      editRules: 'Edit Rules',
+      failedDeleteInstance: 'Failed to delete app instance',
+      failedBatchDeleteInstance: 'Failed to delete app instance in batch'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',

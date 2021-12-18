@@ -401,16 +401,16 @@ export default {
       this.dataLoading = true
       lcmController.batchDeleteInstanceApp(obj).then(response => {
         this.handleDeleteResponse()
-      }).catch((error) => {
-        this.$message.error(error.response.data.message)
+      }).catch(() => {
+        this.$message.error(this.$t('instanceList.failedBatchDeleteInstance'))
       })
     },
     confirmDetlete (appInstanceId) {
       this.dataLoading = true
       lcmController.deleteInstanceApp(appInstanceId).then(response => {
         this.handleDeleteResponse()
-      }).catch((error) => {
-        this.$message.error(error.response.data.message)
+      }).catch(() => {
+        this.$message.error(this.$t('instanceList.failedDeleteInstance'))
       })
     },
     handleDeleteResponse () {

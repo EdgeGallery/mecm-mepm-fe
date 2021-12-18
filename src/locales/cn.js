@@ -248,7 +248,9 @@ const cn = {
       batchDelete: '批量删除应用',
       appKpi: '应用KPI',
       newRules: '新建规则',
-      editRules: '编辑规则'
+      editRules: '编辑规则',
+      failedDeleteInstance: '删除应用实例失败',
+      failedBatchDeleteInstance: '批量删除应用实例失败'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
