@@ -723,8 +723,8 @@ export default {
               this.dialogVisible = false
               this.area = false
               this.isDisable = false
-            }).catch((error) => {
-              this.handleError(error)
+            }).catch(() => {
+              this.$message.error(this.$t('tip.failToAddNode'))
             })
           } else {
             lcmController.modifyHost(this.currForm).then(response => {
@@ -741,17 +741,6 @@ export default {
         }
       })
     },
-
-    handleError (error) {
-      if (error.response.status === 404 && error.response.data.details[0] === 'Record not found') {
-        this.$message.error(error.data.details[0])
-      } else if (error.status === 403) {
-        this.$message.error(this.$t('tip.loginOperation'))
-      } else {
-        this.$message.error(error.data)
-      }
-    },
-
     setCapabilities () {
       this.currForm.hwcapabilities = []
       if (this.capabilities.length > 0) {

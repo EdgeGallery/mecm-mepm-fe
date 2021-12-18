@@ -249,7 +249,9 @@ const en = {
       batchDelete: 'Batch delete instances',
       appKpi: 'Application KPI',
       newRules: 'New Rules',
-      editRules: 'Edit Rules'
+      editRules: 'Edit Rules',
+      failedDeleteInstance: 'Failed to delete app instance',
+      failedBatchDeleteInstance: 'Failed to delete app instance in batch'
     },
     ruleConfig: {
       srcAddress: 'Src IP Address',
@@ -488,7 +490,8 @@ const en = {
     faileToDeleteNode: 'Failed to delete edge node!',
     faileToUpload: 'Failed to upload config file.',
     failToRegNode: 'Failed to register the node.',
-    failToModifyNode: 'Failed to modify.',
+    failToModifyNode: 'Failed to modify Edge Node.',
+    failToAddNode: 'Failed to add Edge Node.',
     typeApp: 'Please type MEC host ip first!',
     uploadConf: 'Please upload config file first.',
     typeCity: 'Please select deployment area.',

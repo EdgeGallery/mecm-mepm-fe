@@ -128,6 +128,8 @@ export default {
         this.indexName = '/mepm/node/list'
       } else if (this.indexName.includes('nodeinfo')) {
         this.indexName = '/mepm/node/list'
+      } else if (this.indexName.includes('mepm/resource/manager')) {
+        this.indexName = '/mepm/resource/manager'
       } else if (this.indexName.includes('mepm/resource')) {
         this.indexName = '/'
       } else {

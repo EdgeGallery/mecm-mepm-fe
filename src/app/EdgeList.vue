@@ -30,13 +30,7 @@
       style="width: 100%;"
       :data="currPageTableData"
       v-loading="dataLoading"
-      @selection-change="handleSelectionChange"
     >
-      <el-table-column
-        type="selection"
-        revers-selection
-        width="50"
-      />
       <el-table-column
         prop="appPkgName"
         :label="$t('app.packageList.name')"
@@ -216,7 +210,6 @@ export default {
       paginationData: [],
       searchVal: '',
       selectedNum: 0,
-      selectData: null,
       selectedData: [],
       appPkgId: '',
       appPkgVersion: '',
@@ -440,9 +433,6 @@ export default {
         this.dialogVisible = false
         this.loading = false
       })
-    },
-    handleSelectionChange (selection) {
-      this.selectData = selection
     },
     handleInstantiateResponse () {
       this.loading = false

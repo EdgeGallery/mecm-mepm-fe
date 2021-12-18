@@ -248,7 +248,9 @@ const cn = {
       batchDelete: '批量删除应用',
       appKpi: '应用KPI',
       newRules: '新建规则',
-      editRules: '编辑规则'
+      editRules: '编辑规则',
+      failedDeleteInstance: '删除应用实例失败',
+      failedBatchDeleteInstance: '批量删除应用实例失败'
     },
     ruleConfig: {
       srcAddress: '源IP地址',
@@ -488,6 +490,7 @@ const cn = {
     faileToUpload: '上传config文件失败',
     failToRegNode: '注册新的node节点失败',
     failToModifyNode: '修改节点失败',
+    failToAddNode: '新增边缘节点失败',
     typeApp: '请先输入节点IP地址!',
     uploadConf: '请上传config文件',
     typeCity: '请选择部署位置',
