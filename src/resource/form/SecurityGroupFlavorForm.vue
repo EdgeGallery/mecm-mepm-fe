@@ -301,25 +301,29 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let _hostIp = sessionStorage.getItem('hostIp')
-      let _params = {
-        securityGroupId: this.securityGroupId,
-        direction: this.securityGroupFlavorForm.direct,
-        protocol: this.securityGroupFlavorForm.protocol,
-        ethertype: this.securityGroupFlavorForm.ethertype,
-        port_range_min: parseInt(this.securityGroupFlavorForm.portRangeMin, 10),
-        port_range_max: parseInt(this.securityGroupFlavorForm.portRangeMax, 10),
-        remoteIpPrefix: this.securityGroupFlavorForm.remoteIpPrefix,
-        remoteGroupId: this.securityGroupFlavorForm.remoteGroupId
-      }
-      resController.createSecurityGroupRule(_hostIp, this.securityGroupId, _params).then(res => {
-        this.$message.success(this.$t('resourceMgr.createSecurityGroupFlavorSuccess'))
-        this.$emit('reloadTableData')
-        this.handleClose()
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error(this.$t('resourceMgr.createSecurityGroupRuleFailed'))
-        this.handleClose()
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          let _hostIp = sessionStorage.getItem('hostIp')
+          let _params = {
+            securityGroupId: this.securityGroupId,
+            direction: this.securityGroupFlavorForm.direct,
+            protocol: this.securityGroupFlavorForm.protocol,
+            ethertype: this.securityGroupFlavorForm.ethertype,
+            port_range_min: parseInt(this.securityGroupFlavorForm.portRangeMin, 10),
+            port_range_max: parseInt(this.securityGroupFlavorForm.portRangeMax, 10),
+            remoteIpPrefix: this.securityGroupFlavorForm.remoteIpPrefix,
+            remoteGroupId: this.securityGroupFlavorForm.remoteGroupId
+          }
+          resController.createSecurityGroupRule(_hostIp, this.securityGroupId, _params).then(res => {
+            this.$message.success(this.$t('resourceMgr.createSecurityGroupFlavorSuccess'))
+            this.$emit('reloadTableData')
+            this.handleClose()
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error(this.$t('resourceMgr.createSecurityGroupRuleFailed'))
+            this.handleClose()
+          })
+        }
       })
     },
     cancelAction () {

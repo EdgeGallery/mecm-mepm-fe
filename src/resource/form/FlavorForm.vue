@@ -194,24 +194,28 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let _hostIp = sessionStorage.getItem('hostIp')
-      this.transArrToObj(this.keyValueDatas)
-      let _params = {
-        name: this.createFlavorForm.flavorName,
-        vcpus: parseInt(this.createFlavorForm.flavorVCPU, 10),
-        ram: parseInt(this.createFlavorForm.flavorRAM, 10),
-        disk: parseInt(this.createFlavorForm.flavorRootDisk, 10),
-        swap: parseInt(this.createFlavorForm.flavorSwapDisk, 10),
-        extraSpecs: this.createFlavorForm.extraSpecs
-      }
-      resController.createFlavor(_hostIp, _params).then(res => {
-        this.$message.success(this.$t('resourceMgr.createFlavorSuccess'))
-        this.$emit('reloadTableData')
-        this.handleClose()
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error(this.$t('resourceMgr.createFlavorFailed'))
-        this.handleClose()
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          let _hostIp = sessionStorage.getItem('hostIp')
+          this.transArrToObj(this.keyValueDatas)
+          let _params = {
+            name: this.createFlavorForm.flavorName,
+            vcpus: parseInt(this.createFlavorForm.flavorVCPU, 10),
+            ram: parseInt(this.createFlavorForm.flavorRAM, 10),
+            disk: parseInt(this.createFlavorForm.flavorRootDisk, 10),
+            swap: parseInt(this.createFlavorForm.flavorSwapDisk, 10),
+            extraSpecs: this.createFlavorForm.extraSpecs
+          }
+          resController.createFlavor(_hostIp, _params).then(res => {
+            this.$message.success(this.$t('resourceMgr.createFlavorSuccess'))
+            this.$emit('reloadTableData')
+            this.handleClose()
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error(this.$t('resourceMgr.createFlavorFailed'))
+            this.handleClose()
+          })
+        }
       })
     },
     cancelAction () {

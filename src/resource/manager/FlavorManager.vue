@@ -78,7 +78,7 @@
           width="130"
         />
         <el-table-column
-          prop="rootDisk"
+          prop="disk"
           label="Root Disk"
           width="130"
         />

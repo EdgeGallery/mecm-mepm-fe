@@ -176,21 +176,25 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let _hostIp = sessionStorage.getItem('hostIp')
-      let _params = {
-        name: this.createImageForm.name,
-        containerFormat: this.createImageForm.containerFormat,
-        diskFormat: this.createImageForm.diskFormat,
-        minRam: parseInt(this.createImageForm.minRam),
-        minDisk: parseInt(this.createImageForm.minDisk),
-        properties: {}
-      }
-      resController.createImage(_hostIp, _params).then(res => {
-        let _imageId = res.data.data.imageId
-        this.importImage(_hostIp, _imageId)
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error(this.$t('resourceMgr.createImageFailed'))
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          let _hostIp = sessionStorage.getItem('hostIp')
+          let _params = {
+            name: this.createImageForm.name,
+            containerFormat: this.createImageForm.containerFormat,
+            diskFormat: this.createImageForm.diskFormat,
+            minRam: parseInt(this.createImageForm.minRam),
+            minDisk: parseInt(this.createImageForm.minDisk),
+            properties: {}
+          }
+          resController.createImage(_hostIp, _params).then(res => {
+            let _imageId = res.data.data.imageId
+            this.importImage(_hostIp, _imageId)
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error(this.$t('resourceMgr.createImageFailed'))
+          })
+        }
       })
     },
     importImage (hostIp, imageId) {

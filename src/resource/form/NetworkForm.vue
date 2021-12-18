@@ -175,24 +175,28 @@ export default {
       this.dialogVisible = false
     },
     confirmAction () {
-      let _hostIp = sessionStorage.getItem('hostIp')
-      let _params = {
-        name: this.createNetworkForm.networkName,
-        shared: this.createNetworkForm.shared === '1',
-        subnet: {
-          name: this.createNetworkForm.subnetName,
-          cidr: this.createNetworkForm.networkAddr,
-          gatewayIp: this.createNetworkForm.gatewayIp
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          let _hostIp = sessionStorage.getItem('hostIp')
+          let _params = {
+            name: this.createNetworkForm.networkName,
+            shared: this.createNetworkForm.shared === '1',
+            subnet: {
+              name: this.createNetworkForm.subnetName,
+              cidr: this.createNetworkForm.networkAddr,
+              gatewayIp: this.createNetworkForm.gatewayIp
+            }
+          }
+          resController.createNetwork(_hostIp, _params).then(res => {
+            this.$message.success(this.$t('resourceMgr.createNetworkSuccess'))
+            this.$emit('reloadTableData')
+            this.handleClose()
+          }).catch((error) => {
+            console.log(error)
+            this.$message.error(this.$t('resourceMgr.createNetworkFailed'))
+            this.handleClose()
+          })
         }
-      }
-      resController.createNetwork(_hostIp, _params).then(res => {
-        this.$message.success(this.$t('resourceMgr.createNetworkSuccess'))
-        this.$emit('reloadTableData')
-        this.handleClose()
-      }).catch((error) => {
-        console.log(error)
-        this.$message.error(this.$t('resourceMgr.createNetworkFailed'))
-        this.handleClose()
       })
     },
     cancelAction () {
