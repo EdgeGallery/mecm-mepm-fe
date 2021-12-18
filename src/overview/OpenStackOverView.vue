@@ -186,7 +186,9 @@ export default {
     }
   },
   mounted () {
-    this.initOpenStackChart()
+    this.$nextTick(() => {
+      this.initOpenStackChart()
+    })
   }
 }
 </script>

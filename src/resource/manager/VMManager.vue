@@ -63,8 +63,8 @@
           sortable
         />
         <el-table-column
-          prop="imageName"
-          label="Image Name"
+          prop="imageId"
+          label="Image ID"
           width="150"
         />
         <el-table-column
@@ -238,7 +238,7 @@ export default {
           let _tempItem = {
             id: item.id,
             instanceName: item.name,
-            imageName: item.image.id,
+            imageId: item.image.id,
             ip: this.getIpAddr(item.addresses),
             flavor: '',
             status: item.status
@@ -283,7 +283,7 @@ export default {
           let _tempItem = {
             id: item.id,
             instanceName: item.name,
-            imageName: item.image.id,
+            imageId: item.image.id,
             ip: this.getIpAddr(item.addresses),
             flavor: '',
             status: item.status

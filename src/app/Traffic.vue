@@ -100,15 +100,34 @@
     </div>
     <!-- check Detail dialog-->
     <el-dialog
-      :close-on-click-modal="false"
-      :title="$t('common.detail')"
       :visible.sync="showDetail"
       width="45%"
+      class="default_dialog"
     >
-      <div class="dialogContent">
+      <div
+        slot="title"
+        class="el-dialog__title"
+      >
+        <em class="title_icon" />
+        {{ $t('common.detail') }}
+      </div>
+      <div>
         <Detail
           :data="detail"
         />
+      </div>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          size="medium"
+          @click="confirmAction"
+          class="bgBtn"
+        >
+          {{ $t('resourceMgr.confirm') }}
+        </el-button>
       </div>
     </el-dialog>
 
@@ -124,9 +143,9 @@
         class="el-dialog__title"
       >
         <em class="title_icon" />
-        {{ dlgType==="createDlg" ? $t('app.instanceList.newRules'):$t('app.instanceList.editRules') }}
+        {{ $t('app.ruleConfig.trafficFilter') }}
       </div>
-      <div class="dialogContent">
+      <div>
         <el-form
           label-width="auto"
           :model="appTrafficRule"
@@ -926,6 +945,9 @@ export default {
     }
   },
   methods: {
+    confirmAction () {
+      this.showDetail = false
+    },
     showDialog () {
       this.isModify = false
       this.index = -1
