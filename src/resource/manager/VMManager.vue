@@ -54,13 +54,14 @@
         class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        @sort-change="sortMethod"
         height="400"
       >
         <el-table-column
           prop="instanceName"
           label="Instance Name"
           width="190"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           prop="imageId"
@@ -81,7 +82,7 @@
           prop="status"
           label="Status"
           width="120"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           label="Actions"
@@ -216,6 +217,27 @@ export default {
     },
     createVMInstance () {
       this.isShowForm = true
+    },
+    sortMethod (column) {
+      if (column.order === 'ascending') {
+        this.paginationData.sort((a, b) => {
+          let _tempA = column.prop === 'instanceName' ? a['instanceName'] : a['status']
+          let _tempB = column.prop === 'instanceName' ? b['instanceName'] : b['status']
+          if (_tempA.toLowerCase().substring(0, 1) > _tempB.toLowerCase().substring(0, 1)) {
+            return 1
+          }
+          return -1
+        })
+      } else if (column.order === 'descending') {
+        this.paginationData.sort((a, b) => {
+          let _tempA = column.prop === 'instanceName' ? a['instanceName'] : a['status']
+          let _tempB = column.prop === 'instanceName' ? b['instanceName'] : b['status']
+          if (_tempA.toLowerCase().substring(0, 1) > _tempB.toLowerCase().substring(0, 1)) {
+            return -1
+          }
+          return 1
+        })
+      }
     },
     createSnapshot (row) {
 
