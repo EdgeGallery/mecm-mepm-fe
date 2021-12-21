@@ -54,12 +54,13 @@
         class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        @sort-change="sortMethod"
         height="400"
       >
         <el-table-column
           prop="imageName"
           :label="$t('resourceMgr.name')"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           prop="imageId"
@@ -162,7 +163,7 @@ export default {
   },
   methods: {
     editImage () {
-
+      // This is intentional
     },
     deleteImage (row) {
       this.$confirm(this.$t('resourceMgr.deleteImageMessage'), this.$t('resourceMgr.deleteImageTitle'), {
@@ -179,6 +180,7 @@ export default {
           this.$message.error(this.$t('resourceMgr.deleteImageFailed'))
         })
       }).catch(() => {
+        // This is intentional
       })
     },
     createImage () {
@@ -203,9 +205,8 @@ export default {
           return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.queryImagesFailed'))
       })
     },
@@ -229,14 +230,30 @@ export default {
           this.paginationData.push(_tempItem)
         })
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.queryImagesFailed'))
       })
     },
     reloadTableData () {
       this.getTableData()
+    },
+    sortMethod (column) {
+      if (column.order === 'ascending') {
+        this.paginationData.sort((a, b) => {
+          if (a.imageName.toLowerCase().substring(0, 1) > b.imageName.toLowerCase().substring(0, 1)) {
+            return 1
+          }
+          return -1
+        })
+      } else if (column.order === 'descending') {
+        this.paginationData.sort((a, b) => {
+          if (a.imageName.toLowerCase().substring(0, 1) > b.imageName.toLowerCase().substring(0, 1)) {
+            return -1
+          }
+          return 1
+        })
+      }
     }
   },
   mounted () {

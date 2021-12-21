@@ -54,13 +54,14 @@
         class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        @sort-change="sortMethod"
         height="400"
       >
         <el-table-column
           prop="instanceName"
           label="Instance Name"
           width="190"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           prop="imageId"
@@ -81,7 +82,7 @@
           prop="status"
           label="Status"
           width="120"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           label="Actions"
@@ -193,7 +194,7 @@ export default {
   },
   methods: {
     editInstance () {
-
+      // This is intentional
     },
     deleteInstance (row) {
       this.$confirm(this.$t('resourceMgr.deleteVMMessage'), this.$t('resourceMgr.deleteVMTitle'), {
@@ -212,48 +213,57 @@ export default {
           this.$message.error(this.$t('resourceMgr.deleteVMFailed'))
         })
       }).catch(() => {
+        // This is intentional
       })
     },
     createVMInstance () {
       this.isShowForm = true
     },
+    sortMethod (column) {
+      if (column.order === 'ascending') {
+        this.paginationData.sort((a, b) => {
+          let _tempA = column.prop === 'instanceName' ? a['instanceName'] : a['status']
+          let _tempB = column.prop === 'instanceName' ? b['instanceName'] : b['status']
+          if (_tempA.toLowerCase().substring(0, 1) > _tempB.toLowerCase().substring(0, 1)) {
+            return 1
+          }
+          return -1
+        })
+      } else if (column.order === 'descending') {
+        this.paginationData.sort((a, b) => {
+          let _tempA = column.prop === 'instanceName' ? a['instanceName'] : a['status']
+          let _tempB = column.prop === 'instanceName' ? b['instanceName'] : b['status']
+          if (_tempA.toLowerCase().substring(0, 1) > _tempB.toLowerCase().substring(0, 1)) {
+            return -1
+          }
+          return 1
+        })
+      }
+    },
     createSnapshot (row) {
-
+      // This is intentional
     },
     openControl (row) {
-
+      // This is intentional
     },
     pauseInstance (row) {
-
+      // This is intentional
     },
     hangInstance (row) {
-
+      // This is intentional
     },
     filterTableData (val, key) {
       let _hostIp = sessionStorage.getItem('hostIp')
       this.dataLoading = true
       resController.queryVMsByMechost(_hostIp).then(res => {
-        let _tempArr = []
-        res.data.data.forEach(item => {
-          let _tempItem = {
-            id: item.id,
-            instanceName: item.name,
-            imageId: item.image.id,
-            ip: this.getIpAddr(item.addresses),
-            flavor: '',
-            status: item.status
-          }
-          _tempArr.push(_tempItem)
-        })
-        this.paginationData = _tempArr
+        this.paginationData = this.transferData(res.data.data)
         this.paginationData = this.paginationData.filter(item => {
           let _itemVal = item[key].toLowerCase()
           return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.queryVMsFailed'))
       })
     },
@@ -275,26 +285,28 @@ export default {
       }
       return _results
     },
+    transferData (dataList) {
+      let _tempArr = []
+      dataList.forEach(item => {
+        let _tempItem = {
+          id: item.id,
+          instanceName: item.name,
+          imageId: item.image.id,
+          ip: this.getIpAddr(item.addresses),
+          flavor: '',
+          status: item.status
+        }
+        _tempArr.push(_tempItem)
+      })
+      return _tempArr
+    },
     getTableData () {
       let _hostIp = sessionStorage.getItem('hostIp')
       resController.queryVMsByMechost(_hostIp).then(res => {
-        let _tempArr = []
-        res.data.data.forEach(item => {
-          let _tempItem = {
-            id: item.id,
-            instanceName: item.name,
-            imageId: item.image.id,
-            ip: this.getIpAddr(item.addresses),
-            flavor: '',
-            status: item.status
-          }
-          _tempArr.push(_tempItem)
-        })
-        this.paginationData = _tempArr
+        this.paginationData = this.transferData(res.data.data)
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.queryVMsFailed'))
       })
     },

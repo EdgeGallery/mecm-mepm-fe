@@ -57,12 +57,13 @@
         class="tableStyle"
         ref="multipleTable"
         v-loading="dataLoading"
+        @sort-change="sortMethod"
         height="400"
       >
         <el-table-column
           prop="name"
           label="Name"
-          sortable
+          sortable="custom"
         />
         <el-table-column
           prop="id"
@@ -192,6 +193,7 @@ export default {
           this.$message.error(this.$t('resourceMgr.deleteSecurityGroupFailed'))
         })
       }).catch(() => {
+        // This is intentional
       })
     },
     editSecurityGroup () {
@@ -212,9 +214,8 @@ export default {
           return _itemVal.indexOf(val) > -1
         })
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.querySecurityGroupsFailed'))
       })
     },
@@ -236,14 +237,30 @@ export default {
       resController.querySecurityGroupsByMechost(_hostIp).then(res => {
         this.paginationData = res.data.data
         this.dataLoading = false
-      }).catch((error) => {
+      }).catch(() => {
         this.dataLoading = false
-        console.log(error)
         this.$message.error(this.$t('resourceMgr.querySecurityGroupsFailed'))
       })
     },
     reloadTableData () {
       this.getTableData()
+    },
+    sortMethod (column) {
+      if (column.order === 'ascending') {
+        this.paginationData.sort((a, b) => {
+          if (a.name.toLowerCase().substring(0, 1) > b.name.toLowerCase().substring(0, 1)) {
+            return 1
+          }
+          return -1
+        })
+      } else if (column.order === 'descending') {
+        this.paginationData.sort((a, b) => {
+          if (a.name.toLowerCase().substring(0, 1) > b.name.toLowerCase().substring(0, 1)) {
+            return -1
+          }
+          return 1
+        })
+      }
     }
   },
   mounted () {
