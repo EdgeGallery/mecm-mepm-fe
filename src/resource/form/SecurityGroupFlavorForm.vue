@@ -333,7 +333,6 @@ export default {
       if (item.value === 'port') {
         this.isPortType = true
         this.isPortRangeType = false
-        // Todo
       } else if (item.value === 'portRange') {
         this.isPortRangeType = true
         this.isPortType = false
