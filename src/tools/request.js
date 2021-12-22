@@ -106,13 +106,13 @@ let lcmController = {
     return GET(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts')
   },
   modifyHost (params) {
-    return PUT(lcmcontrollerApi + '/hosts', params)
+    return PUT(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts', params)
   },
   deleteHost (params) {
-    return DELETE(lcmcontrollerApi + '/hosts' + '/' + params)
+    return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/hosts' + '/' + params)
   },
   uploadConfig (params) {
-    return POST(lcmcontrollerApiV2 + '/configuration', params)
+    return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/configuration', params)
   },
   uploadPackage (params) {
     return POST(lcmcontrollerApiV2 + '/tenants/' + getUserId() + '/packages', params)
