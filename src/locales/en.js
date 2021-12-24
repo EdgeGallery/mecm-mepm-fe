@@ -63,7 +63,8 @@ const en = {
     phoneNumberRule: 'The mobile phone number is not in accordance with the rules',
     mailAddressRule: 'The email address is not in accordance with the rules',
     userLock: 'You have entered the wrong password five times in a row, the account has been locked, please try again in 5 minutes',
-    hasLogin: ' has logged in.'
+    hasLogin: ' has logged in.',
+    rightUserAndPwd: 'Please enter the correct username and password！'
   },
   pwdmodify: {
     oldPw: 'Old Password',

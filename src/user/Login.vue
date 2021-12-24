@@ -110,6 +110,7 @@ export default {
             sessionStorage.setItem('userId', res.data.authenticate_id)
             this.$router.push('/')
           }).catch(err => {
+            this.$message.error(this.$t('login.rightUserAndPwd'))
             sessionStorage.removeItem('userName')
             sessionStorage.removeItem('password')
             sessionStorage.removeItem('userId')
