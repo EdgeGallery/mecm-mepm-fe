@@ -64,13 +64,15 @@ const cn = {
     mailAddressRule: '邮箱地址不满足要求',
     userLock: '您已经连续输入错误密码五次，账户已被锁定，请在5分钟后重试',
     hasLogin: '已登录',
-    rightUserAndPwd: '请输入正确的用户名和密码！'
+    rightUserAndPwd: '请输入正确的用户名和密码！',
+    newPwdNotNull: '密码不能为空',
+    confirmPwdNotNull: '确认密码不能为空'
   },
   pwdmodify: {
     oldPw: '旧密码',
     newPw: '新密码',
     confirmNewPw: '确认新密码',
-    passNotChanged: '输入的新密码与旧密码一致',
+    pwdNotConsistent: '输入的新密码与旧密码不一致！',
     modifyPwdSucceed: '密码修改成功！',
     modifyPwdFailed: '密码修改失败！',
     firstLoginTip: '修改默认密码（首次登录）',

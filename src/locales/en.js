@@ -64,13 +64,15 @@ const en = {
     mailAddressRule: 'The email address is not in accordance with the rules',
     userLock: 'You have entered the wrong password five times in a row, the account has been locked, please try again in 5 minutes',
     hasLogin: ' has logged in.',
-    rightUserAndPwd: 'Please enter the correct username and password！'
+    rightUserAndPwd: 'Please enter the correct username and password!',
+    newPwdNotNull: 'password can not be empty!',
+    confirmPwdNotNull: 'confirm password can not be empty!'
   },
   pwdmodify: {
     oldPw: 'Old Password',
     newPw: 'New Password',
     confirmNewPw: 'Confirm Password',
-    passNotChanged: 'New password is same as old password',
+    pwdNotConsistent: 'New password is not same as old password!',
     modifyPwdSucceed: 'Successfully modify your password!',
     modifyPwdFailed: 'Failed to modify your password, please try again later.',
     firstLoginTip: 'Modify Password (First time login)',
