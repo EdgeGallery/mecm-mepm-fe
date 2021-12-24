@@ -88,6 +88,7 @@ export default {
     return {
       nextValue: false,
       newPwd: '',
+      confirmNewPwd: '',
       verify: false
     }
   },
@@ -96,7 +97,7 @@ export default {
       this.nextValue = true
     },
     submit () {
-      if (this.newPwd.length > 0 && this.verify) {
+      if (this.newPwd.length > 0 && this.newPwd === this.confirmNewPwd && this.verify) {
         sessionStorage.setItem('newpassword', this.newPwd)
         setTimeout(() => {
           lcmController.changPwd().then(res => {
@@ -122,6 +123,7 @@ export default {
     checkPwd (value) {
       if (value.type === 1) {
         this.newPwd = value.value.newPassword
+        this.confirmNewPwd = value.value.newConfirmPassword
       } else {
         this.verify = value.value
       }

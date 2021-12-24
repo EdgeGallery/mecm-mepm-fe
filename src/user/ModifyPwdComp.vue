@@ -19,6 +19,7 @@
     <el-form
       :model="modifyPassData"
       ref="modifyPassForm"
+      :rules="rules"
     >
       <el-row v-if="next">
         <el-col :span="24">
@@ -36,7 +37,7 @@
       <el-row>
         <el-col :span="24">
           <el-form-item
-            prop="newPassword"
+            prop="oldPassword"
           >
             <el-input
               v-model="modifyPassData.oldPassword"
@@ -64,10 +65,10 @@
       <el-row v-if="!next">
         <el-col :span="24">
           <el-form-item
-            prop="newPassword"
+            prop="newConfirmPassword"
           >
             <el-input
-              v-model="newConfirmPassword"
+              v-model="modifyPassData.newConfirmPassword"
               @blur.native.capture="checkPassword"
               :placeholder="$t('pwdmodify.confirmNewPw')"
               clearable
@@ -100,13 +101,31 @@ export default {
     }
   },
   data () {
+    const validateNewPwd = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('login.newPwdNotNull')))
+      } else {
+        callback()
+      }
+    }
+    const validateConfirmPwd = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(this.$t('login.confirmPwdNotNull')))
+      } else {
+        callback()
+      }
+    }
     return {
       modifyPassData: {
         oldPassword: '',
-        newPassword: ''
+        newPassword: '',
+        newConfirmPassword: ''
       },
-      newConfirmPassword: '',
-      ifVerify: false
+      ifVerify: false,
+      rules: {
+        newPassword: [{ required: true, validator: validateNewPwd, trigger: 'blur' }],
+        newConfirmPassword: [{ required: true, validator: validateConfirmPwd, trigger: 'blur' }]
+      }
     }
   },
   watch: {
@@ -129,8 +148,8 @@ export default {
     },
     checkPassword () {
       if (this.modifyPassData.newPassword.length > 0) {
-        if (this.modifyPassData.newPassword !== this.newConfirmPassword) {
-          this.$message.error(this.$t('pwdmodify.passNotChanged'))
+        if (this.modifyPassData.newPassword !== this.modifyPassData.newConfirmPassword) {
+          this.$message.error(this.$t('pwdmodify.pwdNotConsistent'))
         }
       }
     }
