@@ -63,7 +63,8 @@ const cn = {
     phoneNumberRule: '手机号码不满足要求',
     mailAddressRule: '邮箱地址不满足要求',
     userLock: '您已经连续输入错误密码五次，账户已被锁定，请在5分钟后重试',
-    hasLogin: '已登录'
+    hasLogin: '已登录',
+    rightUserAndPwd: '请输入正确的用户名和密码！'
   },
   pwdmodify: {
     oldPw: '旧密码',
