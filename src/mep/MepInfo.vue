@@ -264,7 +264,7 @@ export default {
 .box {
   .inner-nav{
     position: fixed;
-    z-index: 99;
+    z-index: 10;
     width: 100%;
     .opera-area{
       display: flex;
