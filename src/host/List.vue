@@ -448,10 +448,10 @@ export default {
           { pattern: /^[\da-zA-Z_\u4e00-\u9f5a]{1,16}$/, message: this.$t('verify.edgeNodeNameVerify') }
         ],
         city: [
-          { required: true, message: this.$t('tip.typeCity'), trigger: 'change' }
+          { required: true, message: this.$t('tip.typeAddress'), trigger: 'change' }
         ],
         address: [
-          { required: true, message: this.$t('tip.typeAddress'), trigger: 'change' }
+          { required: true, message: this.$t('tip.typeCity'), trigger: 'change' }
         ],
         coordinates: [
           { required: true, message: this.$t('verify.coordinates'), trigger: 'blur' },

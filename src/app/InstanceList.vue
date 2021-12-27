@@ -302,11 +302,20 @@ export default {
       })
     },
     getUsageData () {
-      let matrics = this.appKPIInfo
-      if (matrics) {
+      let _staticCpuValue = 0
+      let _staticMemValue = 0
+      if (this.appKPIInfo.pods) {
+        this.appKPIInfo.pods.forEach(item => {
+          let _cpuValue = item.containers[0].metricsusage.cpuusage.split('/')
+          let _cpuTemp = (_cpuValue[0] / _cpuValue[1]) * 100
+          let _memValue = item.containers[0].metricsusage.memusage.split('/')
+          let _memTemp = (_memValue[0] / _memValue[1]) * 100
+          _staticCpuValue += _cpuTemp
+          _staticMemValue += _memTemp
+        })
         this.kpiInfo = {
-          'cpuusage': matrics.cpupercent,
-          'memusage': matrics.mempercent
+          cpuusage: _staticCpuValue.toFixed(2) + '%',
+          memusage: _staticMemValue.toFixed(2) + '%'
         }
       } else {
         this.kpiInfo = {}
