@@ -384,7 +384,9 @@ const cn = {
       coordinates: '坐标',
       chooseLocation: '选择部署位置',
       vim: '虚拟机',
-      newEdge: '新增边缘节点'
+      newEdge: '新增边缘节点',
+      coordPlaceholder: '经,纬度，例如：116,39',
+      referCoord: '坐标获取请参考：'
     }
   },
   common: {
@@ -497,6 +499,7 @@ const cn = {
     typeApp: '请先输入节点IP地址!',
     uploadConf: '请上传config文件',
     typeCity: '请选择部署位置',
+    typeAddress: '请输入详细地址',
     confirmToDeleteNode: '确认要删除该节点吗？',
     deleteAppBeforeDeleteNode: '你需要先删除安装在该节点上的应用',
     beforeDeleteApplcm: '确认要删除App LCM？',

@@ -210,18 +210,40 @@
                 :label="$t('system.edgeNodes.location')"
                 prop="city"
               >
-                <el-cascader
-                  :options="options"
-                  :placeholder="$t('system.edgeNodes.chooseLocation')"
+                <area-select
                   v-model="selectedArea"
-                  @change="onChanged"
-                  ref="myCascader"
-                >
-                  <template slot-scope="{ node, data }">
-                    <span>{{ data.label }}</span>
-                    <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-                  </template>
-                </el-cascader>
+                  :data="$pcaa"
+                  @change="cityChanged"
+                  :level="2"
+                  type="text"
+                />
+              </el-form-item>
+              <el-form-item
+                :label="$t('system.edgeNodes.address')"
+                prop="address"
+              >
+                <el-input
+                  id="address"
+                  v-model="currForm.address"
+                  :placeholder="$t('system.edgeNodes.address')"
+                />
+              </el-form-item>
+              <el-form-item
+                :label="$t('system.edgeNodes.coordinates')"
+                prop="coordinates"
+              >
+                <el-input
+                  id="coord"
+                  v-model="currForm.coordinates"
+                  :placeholder="$t('system.edgeNodes.coordPlaceholder')"
+                />
+                <p class="referCoord">
+                  {{ $t('system.edgeNodes.referCoord') }}
+                  <a
+                    href="https://www.openstreetmap.org/#map=11/39.9064/116.3913"
+                    target="_blank"
+                  >OpenStreetMap</a>
+                </p>
               </el-form-item>
               <el-form-item
                 :label="$t('app.packageList.affinity')"
@@ -393,7 +415,7 @@ export default {
         userName: '',
         zipCode: '',
         hwcapabilities: [],
-        coordinate: '',
+        coordinates: '',
         vim: 'K8S',
         origin: 'MEPM'
       },
@@ -408,98 +430,6 @@ export default {
       affinityList: ['X86', 'ARM64', 'ARM32'],
       capability: ['GPU', 'NPU'],
       fileConfirm: true,
-      options: [
-        {
-          value: '1',
-          label: this.$t('area.beijing'),
-          children: [{
-            value: '1.1',
-            label: this.$t('area.haidian'),
-            children: [{
-              value: '116.35,39.979508',
-              label: this.$t('area.caict')
-            }, {
-              value: '116.185087,40.054096',
-              label: this.$t('area.huaweiBeijing')
-            }]
-          }]
-        },
-        {
-          value: '1',
-          label: this.$t('area.shaanxi'),
-          children: [{
-            value: '1.1',
-            label: this.$t('area.xian'),
-            children: [{
-              value: '108.839257,34.197356',
-              label: this.$t('area.huaweiXian')
-            }, {
-              value: '108.916787,34.230834',
-              label: this.$t('area.xidian')
-            }]
-          }]
-        }, {
-          value: '2',
-          label: this.$t('area.jiangsu'),
-          children: [{
-            value: '2.1',
-            label: this.$t('area.nanjing'),
-            children: [{
-              label: this.$t('area.zijinshan'),
-              value: '118.822617,31.871027'
-            }]
-          }]
-        }, {
-          value: '3',
-          label: this.$t('area.shanghai'),
-          children: [{
-            value: '3.1',
-            label: this.$t('area.pudong'),
-            children: [
-              {
-                label: this.$t('area.huaweiShanghai'),
-                value: '121.633202,31.26335'
-              }
-            ]
-          }]
-        }, {
-          value: '4',
-          label: this.$t('area.guangdong'),
-          children: [{
-            value: '4.1',
-            label: this.$t('area.shenzhen'),
-            children: [
-              {
-                label: this.$t('area.huaweiBantian'),
-                value: '114.054927,22.658795'
-              },
-              {
-                label: this.$t('area.tiananyungu'),
-                value: '114.064276,22.661791'
-              },
-              {
-                label: this.$t('area.clab'),
-                value: '114.05283,22.656889'
-              },
-              {
-                label: this.$t('area.SUSTech'),
-                value: '113.996625,22.603375'
-              }
-            ]
-          }]
-        }, {
-          value: '5',
-          label: this.$t('area.shandong'),
-          children: [{
-            value: '5.1',
-            label: this.$t('area.qingdao'),
-            children: [{
-              value: '120.4154467,36.1322617',
-              label: this.$t('area.haier')
-            }]
-          }]
-        }
-      ],
       rlp: sessionStorage.getItem('rlp')
     }
   },
@@ -520,8 +450,12 @@ export default {
         city: [
           { required: true, message: this.$t('tip.typeCity'), trigger: 'change' }
         ],
+        address: [
+          { required: true, message: this.$t('tip.typeAddress'), trigger: 'change' }
+        ],
         coordinates: [
-          { required: true, message: this.$t('verify.coordinates'), trigger: 'blur' }
+          { required: true, message: this.$t('verify.coordinates'), trigger: 'blur' },
+          { pattern: /^([789][3-9](?:\.\d{1,10})?|[1][0-2][0-9](?:\.\d{1,10})?|[13][0-6](?:\.\d{1,10})?)[,]\s?([3-9](?:\.\d{1,10})?|[1234][0-9](?:\.\d{1,10})?|[5][0-4](?:\.\d{1,10})?)$/, message: this.$t('verify.coordinates') }
         ],
         affinity: [
           { required: true, message: this.$t('verify.affinityTip'), trigger: 'change' }
@@ -565,10 +499,12 @@ export default {
     getCurrentPageData (data) {
       this.currPageTableData = data
     },
-    onChanged (val) {
-      this.currForm.coordinates = this.$refs.myCascader.getCheckedNodes()[0].value
-      this.currForm.city = this.$refs.myCascader.getCheckedNodes()[0].pathLabels.join('/')
-      this.currForm.address = val.join(',')
+    cityChanged (val) {
+      if (val) {
+        this.currForm.city = val.join('/')
+      } else {
+        this.location = []
+      }
     },
     changeType () {
       this.op = !this.op
@@ -585,7 +521,7 @@ export default {
       let middleData = JSON.parse(JSON.stringify(row))
       this.currForm = middleData
       this.currForm.vim = this.currForm.vim.toLowerCase() === 'k8s' ? 'K8S' : this.currForm.vim
-      this.selectedArea = row.address.split('/')
+      this.selectedArea = row.city.split('/')
       this.dialogVisible = true
       this.area = true
       row.hwcapabilities.forEach(item => {
@@ -621,7 +557,7 @@ export default {
         userName: '',
         zipCode: '',
         hwcapabilities: [],
-        coordinate: '',
+        coordinates: '',
         vim: 'K8S',
         origin: 'MEPM'
       }
@@ -714,8 +650,6 @@ export default {
       this.$refs[form].validate((valid) => {
         if (valid) {
           this.setCapabilities()
-          console.log(this.currForm)
-          this.currForm.address = this.selectedArea.join('/')
           if (this.editType === 1) {
             lcmController.createHost(this.currForm).then(response => {
               this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
@@ -792,6 +726,13 @@ export default {
     padding: 30px 60px;
     border-radius: 20px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    .referCoord{
+      height:25px;
+      font-size: 12px;
+      a{
+        color: #166bea;
+      }
+    }
   }
   .el-col{
     padding-left:0 !important;
