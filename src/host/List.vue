@@ -208,7 +208,7 @@
               </el-form-item>
               <el-form-item
                 :label="$t('system.edgeNodes.location')"
-                prop="city"
+                prop="address"
               >
                 <area-select
                   v-model="selectedArea"
@@ -220,11 +220,11 @@
               </el-form-item>
               <el-form-item
                 :label="$t('system.edgeNodes.address')"
-                prop="address"
+                prop="city"
               >
                 <el-input
                   id="address"
-                  v-model="currForm.address"
+                  v-model="currForm.city"
                   :placeholder="$t('system.edgeNodes.address')"
                 />
               </el-form-item>
@@ -501,7 +501,7 @@ export default {
     },
     cityChanged (val) {
       if (val) {
-        this.currForm.city = val.join('/')
+        this.currForm.address = val.join('/')
       } else {
         this.location = []
       }
@@ -521,7 +521,7 @@ export default {
       let middleData = JSON.parse(JSON.stringify(row))
       this.currForm = middleData
       this.currForm.vim = this.currForm.vim.toLowerCase() === 'k8s' ? 'K8S' : this.currForm.vim
-      this.selectedArea = row.city.split('/')
+      this.selectedArea = row.address.split('/')
       this.dialogVisible = true
       this.area = true
       row.hwcapabilities.forEach(item => {
