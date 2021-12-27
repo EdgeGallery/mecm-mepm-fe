@@ -385,7 +385,9 @@ const en = {
       hwCapability: 'HW Capabilities',
       coordinates: 'Coordinates',
       chooseLocation: 'Please select location',
-      newEdge: 'New Edge'
+      newEdge: 'New Edge',
+      coordPlaceholder: 'Please enter longitude and latitude, eg: 116,39',
+      referCoord: 'For coordinate acquisition, please refer to:'
     }
   },
   common: {
@@ -498,6 +500,7 @@ const en = {
     typeApp: 'Please type MEC host ip first!',
     uploadConf: 'Please upload config file first.',
     typeCity: 'Please select deployment area.',
+    typeAddress: 'Please type address details. ',
     confirmToDeleteNode: 'Are you sure to delete this node?',
     deleteAppBeforeDeleteNode: 'You need to delete the application installed on the node first.',
     beforeDeleteApplcm: 'Are you sure to delete this App LCM?',
