@@ -342,7 +342,6 @@ export default {
       } else {
         this.getOpenStackNodeKpi(this.nodeList[nodeIndex].mechostIp)
       }
-      this.bgImg = this.nodeList[nodeIndex].appList[0].status ? this.nodeList[nodeIndex].appList[0].status : ''
       this.currentApp = this.nodeList[nodeIndex].appList[0]
       this.currentNodeIndex = nodeIndex
     },
