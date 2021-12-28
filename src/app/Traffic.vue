@@ -143,7 +143,7 @@
         class="el-dialog__title"
       >
         <em class="title_icon" />
-        {{ $t('app.ruleConfig.trafficFilter') }}
+        {{ dlgType==="createDlg" ? $t('app.ruleConfig.addTrafficRule'):$t('app.ruleConfig.editTrafficRule') }}
       </div>
       <div>
         <el-form
@@ -630,7 +630,7 @@
                 prop="tunnelType"
               >
                 <el-select
-                  v-model="dstInterface.tunnelInfo.tunnelType"
+                  v-model="dstInterface.TunnelInfo.tunnelType"
                   :placeholder="$t('tip.pleaseSelect')"
                 >
                   <el-option
@@ -646,7 +646,7 @@
                 prop="tunnelSrcAddress"
               >
                 <el-input
-                  v-model="dstInterface.tunnelInfo.tunnelSrcAddress"
+                  v-model="dstInterface.TunnelInfo.tunnelSrcAddress"
                 />
               </el-form-item>
               <el-form-item
@@ -654,7 +654,7 @@
                 prop="tunnelDstAddress"
               >
                 <el-input
-                  v-model="dstInterface.tunnelInfo.tunnelDstAddress"
+                  v-model="dstInterface.TunnelInfo.tunnelDstAddress"
                 />
               </el-form-item>
               <el-form-item
@@ -662,7 +662,7 @@
                 prop="tunnelSpecificData"
               >
                 <el-input
-                  v-model="dstInterface.tunnelInfo.tunnelSpecificData"
+                  v-model="dstInterface.TunnelInfo.tunnelSpecificData"
                 />
               </el-form-item>
               <p class="title">
