@@ -859,7 +859,7 @@ export default {
       },
       dstInterface: {
         interfaceType: 'TUNNEL',
-        tunnelInfo: {
+        TunnelInfo: {
           tunnelType: 'GRE',
           tunnelDstAddress: '3.3.3.3',
           tunnelSrcAddress: '4.4.4.4',
