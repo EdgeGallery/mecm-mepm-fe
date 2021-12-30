@@ -343,6 +343,7 @@ export default {
         this.getOpenStackNodeKpi(this.nodeList[nodeIndex].mechostIp)
       }
       this.currentApp = this.nodeList[nodeIndex].appList[0]
+      this.inputAppName = this.currentApp.appPkgName
       this.currentNodeIndex = nodeIndex
     },
     handleAppChange (index, status) {
