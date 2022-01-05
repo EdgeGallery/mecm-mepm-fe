@@ -1,5 +1,5 @@
 <!--
-  -  Copyright 2020 Huawei Technologies Co., Ltd.
+  -  Copyright 2022 Huawei Technologies Co., Ltd.
   -
   -  Licensed under the Apache License, Version 2.0 (the "License");
   -  you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@
           :label="$t('app.ruleConfig.trafficRule')"
           name="traffic"
         >
-          <trafficpannel
+          <Trafficpannel
             :app-rule="appRule"
             @onChange="getAppRules"
           />
@@ -83,7 +83,6 @@ export default {
       appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
           console.log('response for rule config ->', res.data)
-          this.type = 2
           this.appRule = res.data
         }
       })
@@ -122,7 +121,7 @@ export default {
       display: inline-block;
       width: 19px;
       height: 19px;
-      background: url('../assets/images/new_icon.png');
+      background: url('../../assets/images/new_icon.png');
       margin-right: 3px;
       position: relative;
       top: 2px;

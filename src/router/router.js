@@ -57,7 +57,7 @@ export default new Router({
         {
           path: 'mepm/ruleconfig',
           name: 'rule',
-          component: () => import('../app/RuleConfig.vue')
+          component: () => import('../app/rule/RuleConfig.vue')
         },
         {
           path: 'mepm/edge/list',
@@ -95,7 +95,7 @@ export default new Router({
         {
           path: 'mepm/resource/network',
           name: 'network',
-          component: () => import('../app/RuleConfig.vue')
+          component: () => import('../app/rule/RuleConfig.vue')
         },
         {
           path: 'mepm/resource/vm',
