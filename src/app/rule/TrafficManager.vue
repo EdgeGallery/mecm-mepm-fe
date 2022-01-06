@@ -364,6 +364,7 @@ export default {
       isShowTrafficFilterForm: false,
       isShowTrafficInterfaceForm: false,
       type: 1,
+      appName: sessionStorage.getItem('instanceName'),
       trafficFilter: {
         srcAddress: '192.168.1.1/32',
         srcPort: '8080',
@@ -488,7 +489,9 @@ export default {
             appName: this.appName,
             appSupportMp1: true
           }
-          this.isShowTrafficManagerDlg = false
+          if (this.managerDlgType === 'editDlg') {
+            data.appTrafficRule = data.appTrafficRule.filter(rule => rule.trafficRuleId !== this.appTrafficRule.trafficRuleId)
+          }
           data.appTrafficRule.push(this.appTrafficRule)
           if (data.appTrafficRule.length > 0) {
             this.type = 2
@@ -504,6 +507,7 @@ export default {
           }).catch(err => {
             console.log('error modifying traffic rule', err)
             this.cancelAction()
+            this.$emit('reloadTableData')
           }
           )
         }
