@@ -73,16 +73,9 @@
           />
           <el-table-column
             :label="$t('common.operation')"
-            width="280"
+            width="250"
           >
             <template slot-scope="scope">
-              <el-button
-                id="detailBtn"
-                @click="checkDetail(scope.row)"
-                class="operations_btn"
-              >
-                {{ $t('common.detail') }}
-              </el-button>
               <el-button
                 id="distributeBtn"
                 @click="distribute(scope.row)"
@@ -91,11 +84,11 @@
                 {{ $t('app.packageList.distribute') }}
               </el-button>
               <el-button
-                id="deployBtn"
+                id="detailAnddeployBtn"
                 @click="checkDetail(scope.row)"
                 class="operations_btn"
               >
-                {{ $t('app.distriList.deploy') }}
+                {{ $t('app.distriList.detailAnddeploy') }}
               </el-button>
             </template>
           </el-table-column>

@@ -45,6 +45,7 @@
               <el-input
                 id=""
                 maxlength="30"
+                :disabled="managerDlgType==='createDlg'? false:true"
                 v-model="appTrafficRule.trafficRuleId"
               />
             </el-form-item>
