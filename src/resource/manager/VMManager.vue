@@ -59,33 +59,33 @@
       >
         <el-table-column
           prop="instanceName"
-          label="Instance Name"
+          :label="$t('resourceMgr.instanceName')"
           width="190"
           sortable="custom"
         />
         <el-table-column
           prop="imageId"
-          label="Image ID"
+          :label="$t('resourceMgr.imageId')"
           width="150"
         />
         <el-table-column
           prop="ip"
-          label="IP Address"
+          :label="$t('resourceMgr.ipAddr')"
           width="250"
         />
         <el-table-column
           prop="flavor"
-          label="Flavor"
+          :label="$t('resourceMgr.flavor')"
           width="100"
         />
         <el-table-column
           prop="status"
-          label="Status"
+          :label="$t('resourceMgr.status')"
           width="120"
           sortable="custom"
         />
         <el-table-column
-          label="Actions"
+          :label="$t('resourceMgr.operator')"
           width="180"
         >
           <template slot-scope="scope">
