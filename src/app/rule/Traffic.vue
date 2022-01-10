@@ -172,6 +172,9 @@ export default {
     showAddTrafficDlg () {
       this.index = -1
       this.managerDlgType = 'createDlg'
+      this.appTrafficRule = {}
+      this.trafficFilterData = []
+      this.trafficInterfaceData = []
       this.isShowTrafficManagerDlg = true
     },
     changeAToS (arr) {

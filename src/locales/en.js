@@ -227,6 +227,7 @@ const en = {
       hostIp: 'Host IP',
       status: 'Status',
       deploy: 'Deploy',
+      detailAnddeploy: 'Detail&Deploy',
       appName: 'App Name',
       appDesc: 'App Description',
       podName: 'Pod Name',

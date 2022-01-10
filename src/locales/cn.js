@@ -226,6 +226,7 @@ const cn = {
       hostIp: '主机IP地址',
       status: '状态',
       deploy: '部署',
+      detailAnddeploy: '详情&部署',
       appName: '应用名称',
       appDesc: '应用描述',
       podName: 'Pod名称',
