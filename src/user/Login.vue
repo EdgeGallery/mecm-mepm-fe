@@ -127,8 +127,9 @@ export default {
 <style lang="less">
 .login {
   height: 100%;
+  width: 100%;
   background: url('../assets/images/user-bg.png') no-repeat center;
-  position: relative;
+  position: fixed;
   background-size: cover;
   .loginBox {
     position: relative;
@@ -177,18 +178,18 @@ export default {
   }
   @media screen and (max-width: 1380px) {
     .loginBox{
-      margin: 140px 10px 0 0;
+      margin: 40px 10px 0 0;
     }
   }
   @media screen and (max-width: 1024px) {
     .loginBox{
-      margin: 200px 10px 0 0;
+      margin: 40px 10px 0 0;
     }
   }
   @media screen and (max-width: 640px) {
     .loginBox{
       width: 340px;
-      margin: 140px 10px 0 0;
+      margin: 40px 10px 0 0;
     }
   }
   .login-btn {
