@@ -240,12 +240,16 @@ export default {
           }
           this.nodeList.push(item)
         })
-        this.initPackageList()
-        if (this.nodeList[0].vim.toUpperCase() === 'K8S') {
-          this.getNodeKpi(this.nodeList[0].mechostIp)
-        } else {
-          this.getOpenStackNodeKpi(this.nodeList[0].mechostIp)
-        }
+        setTimeout(() => {
+          this.initPackageList()
+          setTimeout(() => {
+            if (this.nodeList[0].vim.toUpperCase() === 'K8S') {
+              this.getNodeKpi(this.nodeList[0].mechostIp)
+            } else {
+              this.getOpenStackNodeKpi(this.nodeList[0].mechostIp)
+            }
+          }, 200)
+        }, 200)
       }).catch((error) => {
         console.log(error)
       })
@@ -274,7 +278,9 @@ export default {
           }
         })
         this.$nextTick(function () {
-          this.getInstanceList()
+          setTimeout(() => {
+            this.getInstanceList()
+          }, 400)
         })
       }).catch((error) => {
         console.log(error)
