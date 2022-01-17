@@ -31,7 +31,10 @@
         {{ $t('app.ruleConfig.returnPrePage') }}
       </el-button>
     </div>
-    <div class="ruleconfigcontent">
+    <div
+      class="ruleconfigcontent"
+      v-if="isShowRuleDlg"
+    >
       <el-tabs
         v-model="activeName"
       >
@@ -41,7 +44,6 @@
         >
           <Dnspannel
             :app-rule="appRule"
-            @onChange="getAppRules"
           />
         </el-tab-pane>
         <el-tab-pane
@@ -50,7 +52,6 @@
         >
           <Trafficpannel
             :app-rule="appRule"
-            @onChange="getAppRules"
           />
         </el-tab-pane>
       </el-tabs>
@@ -70,6 +71,7 @@ export default {
   data () {
     return {
       activeName: 'dns',
+      isShowRuleDlg: false,
       appRule: {
         appTrafficRule: [],
         appDnsRule: [],
@@ -84,7 +86,10 @@ export default {
         if (res.data) {
           console.log('response for rule config ->', res.data)
           this.appRule = res.data
+          this.isShowRuleDlg = true
         }
+      }).catch(() => {
+        this.isShowRuleDlg = true
       })
     },
     saveConfig () {

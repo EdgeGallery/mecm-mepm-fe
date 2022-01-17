@@ -240,13 +240,7 @@ export default {
         }
       ],
       selectedData: [],
-      appName: sessionStorage.getItem('instanceName'),
-      rule: {
-        'appTrafficRule': [],
-        'appDnsRule': [],
-        'appName': '',
-        'appSupportMp1': true
-      }
+      appName: sessionStorage.getItem('instanceName')
     }
   },
   computed: {
@@ -272,15 +266,11 @@ export default {
     getAppRules () {
       appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
-          console.log('get config rules response -> ', res.data)
-          this.type = 2
-          this.rule = res.data
-          this.appName = this.rule.appName
+          this.appName = res.data.appName
           this.dnsRuleTableData = res.data.appDnsRule
         }
       })
       this.loading = false
-      this.$emit('onChange')
     },
     resetForm (formName) {
       this.dialog = false
@@ -292,33 +282,31 @@ export default {
           console.log('parent apprule -> ', this.appRule)
           appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
             this.type = 2
-          })
-          let data = {
-            appTrafficRule: [...this.appRule.appTrafficRule],
-            appDnsRule: [...this.appRule.appDnsRule],
-            appName: this.appName,
-            appSupportMp1: true
-          }
-          this.dialog = false
-          this.dnsRule.ttl = +this.dnsRule.ttl
-          if (this.isModify) {
-            this.type = 2
-            data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
-          }
-          data.appDnsRule.push(this.dnsRule)
-          console.log('data', data)
-          console.log('type ', this.type)
-          appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
-            if (res.data) {
-              this.handleResponse(res)
-              this.loading = true
-              this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+            let data = {
+              appTrafficRule: [...this.appRule.appTrafficRule],
+              appDnsRule: [...this.appRule.appDnsRule],
+              appName: this.appName,
+              appSupportMp1: true
             }
-          }).catch(err => {
-            console.log('error modifying dns rule', err)
-            this.getAppRules()
-          }
-          )
+            this.dialog = false
+            this.dnsRule.ttl = +this.dnsRule.ttl
+            if (this.isModify) {
+              this.type = 2
+              data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
+            }
+            data.appDnsRule.push(this.dnsRule)
+            appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
+              if (res.data) {
+                this.appRule.appDnsRule.push(this.dnsRule)
+                this.handleResponse(res)
+                this.loading = true
+                this.timer = setTimeout(() => { this.getAppRules() }, 3000)
+              }
+            }).catch(err => {
+              console.log('error modifying dns rule', err)
+              this.getAppRules()
+            })
+          })
         }
       })
     },
@@ -413,7 +401,8 @@ export default {
     }
   },
   mounted () {
-    this.getAppRules()
+    this.appName = this.appRule.appName
+    this.dnsRuleTableData = this.appRule.appDnsRule
   },
   beforeDestroy () {
     this.timer = null
