@@ -146,12 +146,6 @@ export default {
       isShowDetail: false,
       index: -1,
       appName: sessionStorage.getItem('instanceName'),
-      rule: {
-        appTrafficRule: [],
-        appDnsRule: [],
-        appName: '',
-        appSupportMp1: true
-      },
       detail: {},
       trafficRuleTableData: [],
       appTrafficRule: {
@@ -164,8 +158,7 @@ export default {
       },
       trafficFilterData: [],
       trafficInterfaceData: [],
-      selectedData: [],
-      type: 1
+      selectedData: []
     }
   },
   methods: {
@@ -189,10 +182,8 @@ export default {
     getAppRules () {
       appRuleMgr.getConfigRules(sessionStorage.getItem('instanceId')).then(res => {
         if (res.data) {
-          this.type = 2
-          this.rule = JSON.parse(JSON.stringify(res.data))
           this.appName = res.data.appName
-          this.rule.appTrafficRule.forEach(val => {
+          res.data.appTrafficRule.forEach(val => {
             val.trafficFilter.forEach(item => {
               item.srcAddress = this.changeAToS(item.srcAddress)
               item.srcPort = this.changeAToS(item.srcPort)
@@ -206,11 +197,10 @@ export default {
               item.tag = this.changeAToS(item.tag)
             })
           })
-          this.trafficRuleTableData = this.rule.appTrafficRule
+          this.trafficRuleTableData = res.data.appTrafficRule
         }
       })
       this.loading = false
-      this.$emit('onChange')
     },
     handleResponse (res) {
       if (res.data.configResult === 'FAILURE') {
@@ -290,7 +280,23 @@ export default {
     }
   },
   mounted () {
-    this.getAppRules()
+    this.appName = this.appRule.appName
+    let _tempData = JSON.parse(JSON.stringify(this.appRule.appTrafficRule))
+    _tempData.forEach(val => {
+      val.trafficFilter.forEach(item => {
+        item.srcAddress = this.changeAToS(item.srcAddress)
+        item.srcPort = this.changeAToS(item.srcPort)
+        item.dstAddress = this.changeAToS(item.dstAddress)
+        item.dstPort = this.changeAToS(item.dstPort)
+        item.protocol = this.changeAToS(item.protocol)
+        item.srcTunnelAddress = this.changeAToS(item.srcTunnelAddress)
+        item.dstTunnelAddress = this.changeAToS(item.dstTunnelAddress)
+        item.srcTunnelPort = this.changeAToS(item.srcTunnelPort)
+        item.dstTunnelPort = this.changeAToS(item.dstTunnelPort)
+        item.tag = this.changeAToS(item.tag)
+      })
+    })
+    this.trafficRuleTableData = _tempData
   },
   beforeDestroy () {
     this.timer = null

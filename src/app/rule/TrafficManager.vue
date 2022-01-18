@@ -497,10 +497,9 @@ export default {
           if (data.appTrafficRule.length > 0) {
             this.type = 2
           }
-          console.log('data -> ', data)
-          console.log('type -> ', this.type)
           appRuleMgr.addConfigRules(this.type, sessionStorage.getItem('instanceId'), data).then(res => {
             if (res.data) {
+              this.appRule.appTrafficRule.push(this.appTrafficRule)
               this.handleResponse(res)
               this.$emit('reloadTableData')
               this.cancelAction()
