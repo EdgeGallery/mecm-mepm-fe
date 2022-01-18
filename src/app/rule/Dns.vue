@@ -289,7 +289,6 @@ export default {
               appSupportMp1: true
             }
             this.dialog = false
-            this.dnsRule.ttl = +this.dnsRule.ttl
             if (this.isModify) {
               this.type = 2
               data.appDnsRule = data.appDnsRule.filter(rule => rule.dnsRuleId !== this.dnsRule.dnsRuleId)
