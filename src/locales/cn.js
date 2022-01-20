@@ -163,7 +163,8 @@ const cn = {
     x86: 'X86计算资源：',
     GPU: 'GPU算力：',
     AI: 'AI加速能力：',
-    nameSearch: '名称搜索'
+    nameSearch: '名称搜索',
+    getKpiError: '获取节点统计信息失败！'
   },
   footer: {
     about: '关于',

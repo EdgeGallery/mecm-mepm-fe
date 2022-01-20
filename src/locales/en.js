@@ -165,7 +165,8 @@ const en = {
     x86: 'X86 Resource:',
     GPU: 'GPU:',
     AI: 'AI:',
-    nameSearch: 'name search'
+    nameSearch: 'name search',
+    getKpiError: 'Failed to get node statistics!'
   },
   footer: {
     about: 'About',
