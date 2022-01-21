@@ -85,73 +85,16 @@
                   </div>
                 </div>
                 <div
-                  class="resources-k8sShow"
+                  class="resources-nodeShow"
                   v-if="showK8sDetail"
                 >
-                  <span class="info-title">
-                    {{ $t('overview.resourceDetails') }}
-                  </span>
-                  <el-popover
-                    placement="bottom"
-                    trigger="hover"
-                  >
-                    <span
-                      slot="reference"
-                      class="infoBtn"
-                      style="float: right;cursor: pointer;"
-                    >{{ $t('overview.moreDetails') }}<em class="el-icon-right" /></span>
-                    <div
-                      class="detail"
-                    >
-                      <p class="info-title">
-                        {{ $t('overview.moreResource') }}
-                      </p>
-                      <el-form>
-                        <el-form-item :label="$t('overview.network')">
-                          {{ item.detailInfo.resource.inter }}
-                        </el-form-item>
-                        <el-form-item :label="$t('overview.x86')">
-                          {{ item.detailInfo.resource.x86Resource }}
-                        </el-form-item>
-                        <el-form-item :label="$t('overview.GPU')">
-                          {{ item.detailInfo.resource.GPU }}
-                        </el-form-item>
-                        <el-form-item :label="$t('overview.AI')">
-                          {{ item.detailInfo.resource.AI }}
-                        </el-form-item>
-                      </el-form>
-                    </div>
-                  </el-popover>
-
-                  <div class="resources">
-                    <div
-                      class="chartPie"
-                    >
-                      <div
-                        class="sumchart"
-                        id="cpuChart"
-                        ref="cpuChart"
-                      />
-                      <div
-                        class="sumchart"
-                        id="memoryChart"
-                        ref="memoryChart"
-                      />
-                    </div>
-                    <div style="text-align:center;margin-top:4px;">
-                      <span
-                        class="occupiedBefore"
-                        style="margin-right:15px;"
-                      >{{ $t('overview.occupied') }}</span>
-                      <span class="UsableBefore">{{ $t('overview.usable') }}</span>
-                    </div>
-                    <p style="text-align:center;margin-top:4px;">
-                      {{ $t('overview.computeResources') }}
-                    </p>
-                  </div>
+                  <K8sOverView
+                    :percent-k8s-value="percentK8sValue"
+                    :item="item"
+                  />
                 </div>
                 <div
-                  class="resources-openStackShow"
+                  class="resources-nodeShow"
                   v-else
                 >
                   <OpenStackOverView
@@ -176,10 +119,11 @@
 <script>
 import { lcmController } from '../tools/request.js'
 import EgFooter from 'eg-view/src/components/EgFooter.vue'
+import K8sOverView from './K8sOverView.vue'
 import OpenStackOverView from './OpenStackOverView.vue'
 
 export default {
-  components: { EgFooter, OpenStackOverView },
+  components: { EgFooter, K8sOverView, OpenStackOverView },
   data () {
     return {
       nodeList: [],
@@ -200,6 +144,7 @@ export default {
       showFullFooterPage: true,
       specificBg: true,
       specificBgColor: '#ffffff',
+      percentK8sValue: {},
       percentValue: {},
       currentApp: {},
       currentNodeIndex: 0,
@@ -306,16 +251,35 @@ export default {
     },
     getNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
-        this.cpudata = res.data.data.cpuusage
-        this.memdata = res.data.data.memusage
-        this.showK8sDetail = true
+        this.percentK8sValue = {
+          cpudata: res.data.data.cpuusage,
+          memdata: res.data.data.memusage
+        }
+        this.showK8sDetail = false
         this.$nextTick(() => {
-          this.drawCpuChart()
-          this.drawMemoryChart()
+          this.showK8sDetail = true
         })
       }).catch(error => {
         console.log(error)
+        this.handleError()
       })
+    },
+    handleError () {
+      this.showK8sDetail = false
+      this.percentK8sValue = {
+        cpudata: {
+          used: 0,
+          total: 100
+        },
+        memdata: {
+          used: 0,
+          total: 100
+        }
+      }
+      this.$nextTick(() => {
+        this.showK8sDetail = true
+      })
+      this.$message.error(this.$t('overview.getKpiError'))
     },
     getOpenStackNodeKpi (ip) {
       lcmController.getNodeKpi(ip).then(res => {
@@ -336,7 +300,10 @@ export default {
           vCpu: statistivCpuData,
           ram: statisticRamData
         }
-        this.showK8sDetail = false
+        this.showK8sDetail = true
+        this.$nextTick(() => {
+          this.showK8sDetail = false
+        })
       }).catch(error => {
         console.log(error)
       })
@@ -375,126 +342,6 @@ export default {
       } else {
         this.$router.push('/mepm/resource/container')
       }
-    },
-    drawCpuChart () {
-      let cpuChart = this.$echarts.init(document.getElementById('cpuChart'))
-      let colors = ['#7152db', '#9686e1']
-      let option = {
-        color: colors,
-        title: {
-          text: 'CPU',
-          x: 'center',
-          y: 'bottom',
-          padding: 0,
-          textStyle: {
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 'normal'
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '70%',
-            data: [
-              {
-                value: parseInt((this.cpudata.used / this.cpudata.total) * 100),
-                name: this.$t('overview.occupied'),
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                }
-              },
-              {
-                value: parseInt(((this.cpudata.total - this.cpudata.used) / this.cpudata.total) * 100),
-                name: this.$t('overview.usable'),
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-      cpuChart.setOption(option)
-      window.addEventListener('resize', () => {
-        if (cpuChart) {
-          cpuChart.resize()
-        }
-      })
-    },
-    drawMemoryChart () {
-      let memChart = this.$echarts.init(document.getElementById('memoryChart'))
-      let colors = ['#7152db', '#9686e1']
-      let option = {
-        color: colors,
-        title: {
-          text: 'MEMORY',
-          x: 'center',
-          y: 'bottom',
-          padding: 0,
-          textStyle: {
-            fontSize: 14,
-            fontStyle: 'normal',
-            fontWeight: 'normal'
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: '70%',
-            data: [
-              {
-                value: parseInt((this.memdata.used / this.memdata.total) * 100),
-                name: this.$t('overview.occupied'),
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                }
-              },
-              {
-                value: parseInt(((this.memdata.total - this.memdata.used) / this.memdata.total) * 100),
-                name: this.$t('overview.usable'),
-                label: {
-                  normal: {
-                    position: 'inner',
-                    textStyle: {
-                      fontSize: 10
-                    },
-                    show: true,
-                    formatter: '{d}%'
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-      memChart.setOption(option)
-      window.addEventListener('resize', () => {
-        if (memChart) {
-          memChart.resize()
-        }
-      })
     },
     handleSelect (selectItem) {
       this.nodeList[this.currentNodeIndex].appList.forEach(item => {
@@ -654,7 +501,7 @@ export default {
             }
           }
         }
-        .resources-openStackShow{
+        .resources-nodeShow{
           position: absolute;
           background-color: #dedfea;
           border-radius: 10px;
@@ -662,70 +509,6 @@ export default {
           padding: 20px 15px;
           top: 135px;
           right: 10%;
-        }
-        .resources-k8sShow{
-          position: absolute;
-          background-color: #dedfea;
-          border-radius: 10px;
-          width: 30%;
-          padding: 20px 15px;
-          top: 135px;
-          right: 10%;
-          .info-title{
-            font-size: 18px;
-            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-            color: #5e40c8;
-          }
-          .info-title::before{
-            content: '';
-            display: inline-block;
-            background-image: url('../assets/images/info-title.png');
-            width: 12px;
-            height: 12px;
-          }
-          .infoBtn{
-            font-size: 14px;
-            font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-            color: #5e40c8;
-          }
-          .resources{
-            padding-left: 24px;
-            p{
-              color: #827792;
-              font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-            }
-            .chartPie{
-              display: flex;
-              .sumchart{
-                width: 80%;
-                height: 100px;
-              }
-            }
-            .occupiedBefore,.UsableBefore{
-              color: #827792;
-              font-size: 14px;
-              font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-            }
-            .occupiedBefore::before{
-              content: '';
-              display: inline-block;
-              width: 8px;
-              height: 8px;
-              background-color: #7152db;
-              border-radius: 50%;
-              margin-right: 5px;
-            }
-            .UsableBefore::before{
-              content: '';
-              display: inline-block;
-              width: 8px;
-              height: 8px;
-              background-color: #9686e1;
-              border-radius: 50%;
-              margin-right: 5px;
-            }
-          }
         }
       }
       .leftArrow,.rightArrow{
