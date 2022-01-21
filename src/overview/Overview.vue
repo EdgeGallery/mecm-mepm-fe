@@ -144,8 +144,30 @@ export default {
       showFullFooterPage: true,
       specificBg: true,
       specificBgColor: '#ffffff',
-      percentK8sValue: {},
-      percentValue: {},
+      percentK8sValue: {
+        cpudata: {
+          used: 0,
+          total: 100
+        },
+        memdata: {
+          used: 0,
+          total: 100
+        }
+      },
+      percentValue: {
+        instance: {
+          used: 0,
+          unUsed: 100
+        },
+        vCpu: {
+          used: 0,
+          unUsed: 100
+        },
+        ram: {
+          used: 0,
+          unUsed: 100
+        }
+      },
       currentApp: {},
       currentNodeIndex: 0,
       inputAppName: ''
@@ -261,10 +283,10 @@ export default {
         })
       }).catch(error => {
         console.log(error)
-        this.handleError()
+        this.handleK8sError()
       })
     },
-    handleError () {
+    handleK8sError () {
       this.showK8sDetail = false
       this.percentK8sValue = {
         cpudata: {
@@ -278,6 +300,27 @@ export default {
       }
       this.$nextTick(() => {
         this.showK8sDetail = true
+      })
+      this.$message.error(this.$t('overview.getKpiError'))
+    },
+    handleOSError () {
+      this.showK8sDetail = true
+      this.percentValue = {
+        instance: {
+          used: 0,
+          unUsed: 100
+        },
+        vCpu: {
+          used: 0,
+          unUsed: 100
+        },
+        ram: {
+          used: 0,
+          unUsed: 100
+        }
+      }
+      this.$nextTick(() => {
+        this.showK8sDetail = false
       })
       this.$message.error(this.$t('overview.getKpiError'))
     },
@@ -306,6 +349,7 @@ export default {
         })
       }).catch(error => {
         console.log(error)
+        this.handleOSError()
       })
     },
     handleNodeChange (nodeIndex, status) {
@@ -315,7 +359,7 @@ export default {
       } else {
         this.getOpenStackNodeKpi(this.nodeList[nodeIndex].mechostIp)
       }
-      this.currentApp = this.nodeList[nodeIndex].appList[0]
+      this.currentApp = this.nodeList[nodeIndex].appList.length === 0 ? {} : this.nodeList[nodeIndex].appList[0]
       this.inputAppName = this.currentApp.appPkgName
       this.currentNodeIndex = nodeIndex
     },
