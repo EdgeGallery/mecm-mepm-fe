@@ -298,7 +298,6 @@ export default {
         if (error.response && error.response.status === 404) {
           this.$message.warning(this.$t('tip.getStatusDelay'))
         }
-        this.loginStatus(error)
       })
     },
     getUsageData () {
@@ -411,7 +410,7 @@ export default {
       lcmController.batchDeleteInstanceApp(obj).then(response => {
         this.handleDeleteResponse()
       }).catch(() => {
-        this.$message.error(this.$t('instanceList.failedBatchDeleteInstance'))
+        this.$message.error(this.$t('app.instanceList.failedBatchDeleteInstance'))
       })
     },
     confirmDetlete (appInstanceId) {
@@ -419,7 +418,7 @@ export default {
       lcmController.deleteInstanceApp(appInstanceId).then(response => {
         this.handleDeleteResponse()
       }).catch(() => {
-        this.$message.error(this.$t('instanceList.failedDeleteInstance'))
+        this.$message.error(this.$t('app.instanceList.failedDeleteInstance'))
       })
     },
     handleDeleteResponse () {
