@@ -196,12 +196,11 @@ export default {
 .content{
   .openstack-content{
     display: flex;
-    margin-top: 10px;
     .chart-div{
       width: 110px;
       height: 130px;
-      margin-left: 25px;
       text-align: center;
+      margin: 0 auto;
       .chart{
         width: 100px;
         height: 100px;
