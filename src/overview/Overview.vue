@@ -541,7 +541,7 @@ export default {
           .searchAppBox{
             margin-left: 20px;
             .inline-input{
-              width: 170px;
+              width: 150px;
             }
           }
         }
@@ -550,8 +550,8 @@ export default {
           background-color: #dedfea;
           border-radius: 10px;
           width: 30%;
-          padding: 20px 15px;
-          top: 135px;
+          padding: 10px 15px;
+          top: 125px;
           right: 10%;
         }
       }

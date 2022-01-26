@@ -207,10 +207,10 @@ export default {
       display: flex;
       margin-top: 10px;
       .chart-div{
-        width: 110px;
+        width: 150px;
         height: 130px;
-        margin-left: 25px;
         text-align: center;
+        margin: 0 auto;
         .sumchart{
           width: 100px;
           height: 100px;
