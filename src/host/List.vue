@@ -144,198 +144,199 @@
           />
         </div>
       </div>
-      <el-dialog
-        :close-on-click-modal="false"
-        :visible.sync="dialogVisible"
-        style="padding-right:30px;"
-        width="40%"
-        class="default_dialog"
-      >
-        <div
-          slot="title"
-          class="el-dialog__title"
+      <div v-if="dialogVisible">
+        <el-dialog
+          :close-on-click-modal="false"
+          :visible.sync="dialogVisible"
+          style="padding-right:30px;"
+          width="40%"
+          class="default_dialog"
         >
-          <em class="title_icon" />{{ title }}
-        </div>
-        <div class="k8s">
-          <el-row>
-            <el-form
-              label-width="auto"
-              :model="currForm"
-              ref="currForm"
-              :rules="rules"
-              size="small"
-            >
-              <el-form-item
-                :label="$t('system.edgeNodes.systemPlatform')"
+          <div
+            slot="title"
+            class="el-dialog__title"
+          >
+            <em class="title_icon" />{{ title }}
+          </div>
+          <div class="k8s">
+            <el-row>
+              <el-form
+                label-width="auto"
+                :model="currForm"
+                ref="currForm"
+                :rules="rules"
+                size="small"
               >
-                <el-radio-group
-                  v-model="currForm.vim"
-                  @change="changeType"
-                  class="default_radio"
+                <el-form-item
+                  :label="$t('system.edgeNodes.systemPlatform')"
                 >
-                  <el-radio
-                    label="K8S"
+                  <el-radio-group
+                    v-model="currForm.vim"
+                    class="default_radio"
                   >
-                    K8S
-                  </el-radio>
-                  <el-radio
-                    label="OpenStack"
-                  >
-                    OpenStack
-                  </el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item
-                :label="$t('app.packageList.name')"
-                prop="mechostName"
-              >
-                <el-input
-                  id="hostname"
-                  maxlength="20"
-                  v-model="currForm.mechostName"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('app.packageList.ip')"
-                prop="mechostIp"
-              >
-                <el-input
-                  id="ip"
-                  v-model="currForm.mechostIp"
-                  :disabled="isDisable"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('system.edgeNodes.location')"
-                prop="city"
-              >
-                <area-select
-                  v-model="selectedArea"
-                  :data="$pcaa"
-                  @change="cityChanged"
-                  :level="2"
-                  type="text"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('system.edgeNodes.address')"
-                prop="address"
-              >
-                <el-input
-                  id="address"
-                  v-model="currForm.address"
-                  :placeholder="$t('system.edgeNodes.address')"
-                />
-              </el-form-item>
-              <el-form-item
-                :label="$t('system.edgeNodes.coordinates')"
-                prop="coordinates"
-              >
-                <el-input
-                  id="coord"
-                  v-model="currForm.coordinates"
-                  :placeholder="$t('system.edgeNodes.coordPlaceholder')"
-                />
-                <p class="referCoord">
-                  {{ $t('system.edgeNodes.referCoord') }}
-                  <a
-                    href="https://www.openstreetmap.org/#map=11/39.9064/116.3913"
-                    target="_blank"
-                  >OpenStreetMap</a>
-                </p>
-              </el-form-item>
-              <el-form-item
-                :label="$t('app.packageList.affinity')"
-                prop="affinity"
-              >
-                <el-radio-group
-                  v-model="currForm.affinity"
-                  class="default_radio"
+                    <el-radio
+                      label="K8S"
+                    >
+                      K8S
+                    </el-radio>
+                    <el-radio
+                      label="OpenStack"
+                    >
+                      OpenStack
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('app.packageList.name')"
+                  prop="mechostName"
                 >
-                  <el-radio
-                    v-for="(item,index) in affinityList"
-                    :key="index"
-                    :label="item"
-                  >
-                    {{ item }}
-                  </el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item
-                :label="$t('system.edgeNodes.hwCapability')"
-              >
-                <el-checkbox-group
-                  v-model="capabilities"
-                >
-                  <el-checkbox
-                    v-for="(item,index) in capability"
-                    :key="index"
-                    :label="item"
+                  <el-input
+                    id="hostname"
+                    maxlength="20"
+                    v-model="currForm.mechostName"
                   />
-                </el-checkbox-group>
-              </el-form-item>
-              <el-form-item
-                label="GPU Info"
-                v-if="capabilities.includes('GPU')"
-              >
-                <el-row :gutter="24">
-                  <el-col :span="5">
-                    <el-input
-                      type="text"
-                      v-model="gpuModel"
-                      placeholder="Model"
+                </el-form-item>
+                <el-form-item
+                  :label="$t('app.packageList.ip')"
+                  prop="mechostIp"
+                >
+                  <el-input
+                    id="ip"
+                    v-model="currForm.mechostIp"
+                    :disabled="isDisable"
+                  />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('system.edgeNodes.location')"
+                  prop="city"
+                >
+                  <area-select
+                    v-model="selectedArea"
+                    :data="$pcaa"
+                    @change="cityChanged"
+                    :level="2"
+                    type="text"
+                  />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('system.edgeNodes.address')"
+                  prop="address"
+                >
+                  <el-input
+                    id="address"
+                    v-model="currForm.address"
+                    :placeholder="$t('system.edgeNodes.address')"
+                  />
+                </el-form-item>
+                <el-form-item
+                  :label="$t('system.edgeNodes.coordinates')"
+                  prop="coordinates"
+                >
+                  <el-input
+                    id="coord"
+                    v-model="currForm.coordinates"
+                    :placeholder="$t('system.edgeNodes.coordPlaceholder')"
+                  />
+                  <p class="referCoord">
+                    {{ $t('system.edgeNodes.referCoord') }}
+                    <a
+                      href="https://www.openstreetmap.org/#map=11/39.9064/116.3913"
+                      target="_blank"
+                    >OpenStreetMap</a>
+                  </p>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('app.packageList.affinity')"
+                  prop="affinity"
+                >
+                  <el-radio-group
+                    v-model="currForm.affinity"
+                    class="default_radio"
+                  >
+                    <el-radio
+                      v-for="(item,index) in affinityList"
+                      :key="index"
+                      :label="item"
+                    >
+                      {{ item }}
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('system.edgeNodes.hwCapability')"
+                >
+                  <el-checkbox-group
+                    v-model="capabilities"
+                  >
+                    <el-checkbox
+                      v-for="(item,index) in capability"
+                      :key="index"
+                      :label="item"
                     />
-                  </el-col>
-                  <el-col :span="5">
-                    <el-input
-                      type="text"
-                      v-model="gpuVendor"
-                      placeholder="Vendor"
-                    />
-                  </el-col>
-                </el-row>
-              </el-form-item>
-              <el-form-item
-                label="NPU Info"
-                v-if="capabilities.includes('NPU')"
-              >
-                <el-row :gutter="24">
-                  <el-col :span="5">
-                    <el-input
-                      type="text"
-                      v-model="npuModel"
-                      placeholder="Model"
-                    />
-                  </el-col>
-                  <el-col :span="5">
-                    <el-input
-                      type="text"
-                      v-model="npuVendor"
-                      placeholder="Vendor"
-                    />
-                  </el-col>
-                </el-row>
-              </el-form-item>
-            </el-form>
-          </el-row>
-        </div>
-        <span
-          slot="footer"
-          class="dialog-footer"
-        >
-          <el-button
-            id="cancelBtn"
-            class="bgBtn"
-            @click="cancel()"
-          >{{ $t('common.cancel') }}</el-button>
-          <el-button
-            id="confirmBtn"
-            class="bgBtn"
-            @click="confirm('currForm')"
-          >{{ $t('common.confirm') }}</el-button>
-        </span>
-      </el-dialog>
+                  </el-checkbox-group>
+                </el-form-item>
+                <el-form-item
+                  label="GPU Info"
+                  v-if="capabilities.includes('GPU')"
+                >
+                  <el-row :gutter="24">
+                    <el-col :span="5">
+                      <el-input
+                        type="text"
+                        v-model="gpuModel"
+                        placeholder="Model"
+                      />
+                    </el-col>
+                    <el-col :span="5">
+                      <el-input
+                        type="text"
+                        v-model="gpuVendor"
+                        placeholder="Vendor"
+                      />
+                    </el-col>
+                  </el-row>
+                </el-form-item>
+                <el-form-item
+                  label="NPU Info"
+                  v-if="capabilities.includes('NPU')"
+                >
+                  <el-row :gutter="24">
+                    <el-col :span="5">
+                      <el-input
+                        type="text"
+                        v-model="npuModel"
+                        placeholder="Model"
+                      />
+                    </el-col>
+                    <el-col :span="5">
+                      <el-input
+                        type="text"
+                        v-model="npuVendor"
+                        placeholder="Vendor"
+                      />
+                    </el-col>
+                  </el-row>
+                </el-form-item>
+              </el-form>
+            </el-row>
+          </div>
+          <span
+            slot="footer"
+            class="dialog-footer"
+          >
+            <el-button
+              id="cancelBtn"
+              class="bgBtn"
+              @click="cancel()"
+            >{{ $t('common.cancel') }}</el-button>
+            <el-button
+              id="confirmBtn"
+              class="bgBtn"
+              @click="confirm('currForm')"
+            >{{ $t('common.confirm') }}</el-button>
+          </span>
+        </el-dialog>
+      </div>
       <el-dialog
         :close-on-click-modal="false"
         :visible.sync="dialogVisibleUpload"
@@ -403,8 +404,6 @@ export default {
       dialogVisible: false,
       dialogVisibleUpload: false,
       fileList: [],
-      op: false,
-      area: false,
       selectedArea: [],
       currForm: {
         address: '',
@@ -448,17 +447,17 @@ export default {
           { pattern: /^[\da-zA-Z_\u4e00-\u9f5a]{1,16}$/, message: this.$t('verify.edgeNodeNameVerify') }
         ],
         city: [
-          { required: true, message: this.$t('tip.typeAddress'), trigger: 'change' }
+          { required: true, message: this.$t('tip.typeAddress'), trigger: 'blur' }
         ],
         address: [
-          { required: true, message: this.$t('tip.typeCity'), trigger: 'change' }
+          { required: true, message: this.$t('tip.typeCity'), trigger: 'blur' }
         ],
         coordinates: [
           { required: true, message: this.$t('verify.coordinates'), trigger: 'blur' },
           { pattern: /^([789][3-9](?:\.\d{1,10})?|[1][0-2][0-9](?:\.\d{1,10})?|[13][0-6](?:\.\d{1,10})?)[,]\s?([3-9](?:\.\d{1,10})?|[1234][0-9](?:\.\d{1,10})?|[5][0-4](?:\.\d{1,10})?)$/, message: this.$t('verify.coordinates') }
         ],
         affinity: [
-          { required: true, message: this.$t('verify.affinityTip'), trigger: 'change' }
+          { required: true, message: this.$t('verify.affinityTip'), trigger: 'blur' }
         ]
       }
     }
@@ -506,9 +505,6 @@ export default {
         this.location = []
       }
     },
-    changeType () {
-      this.op = !this.op
-    },
     uploadFile (row) {
       this.fileList = []
       this.dialogVisibleUpload = true
@@ -523,7 +519,6 @@ export default {
       this.currForm.vim = this.currForm.vim.toLowerCase() === 'k8s' ? 'K8S' : this.currForm.vim
       this.selectedArea = row.city.split('/')
       this.dialogVisible = true
-      this.area = true
       row.hwcapabilities.forEach(item => {
         this.capabilities.push(item.hwType)
       })
@@ -542,8 +537,6 @@ export default {
     },
     cancel (row) {
       this.dialogVisible = false
-      this.area = false
-      this.area = false
       this.isDisable = false
       this.resetForm()
     },
@@ -607,9 +600,8 @@ export default {
       this.resetForm()
       this.isDisable = false
       this.dialogVisible = true
-      this.area = true
       this.$nextTick(() => {
-        this.$refs.currForm.resetFields()
+        this.$refs.currForm.clearValidate()
       })
     },
     beforeUpload (file) {
@@ -655,7 +647,6 @@ export default {
               this.showMessage('success', this.$t('tip.sucToRegNode'), 1500)
               this.getNodeListInPage()
               this.dialogVisible = false
-              this.area = false
               this.isDisable = false
             }).catch(() => {
               this.$message.error(this.$t('tip.failToAddNode'))
@@ -665,7 +656,6 @@ export default {
               this.showMessage('success', this.$t('tip.sucToModNode'), 1500)
               this.getNodeListInPage()
               this.dialogVisible = false
-              this.area = false
               this.isDisable = false
               this.resetForm()
             }).catch(() => {
