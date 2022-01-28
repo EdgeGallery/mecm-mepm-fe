@@ -42,7 +42,7 @@
                   <span>{{ item.mechostName }}</span>
                 </div>
                 <img
-                  v-if="!bgImg"
+                  v-if="!isShowInstancebgImg"
                   class="content-img"
                   :src="language==='cn'? bgImgUrloneCn : bgImgUrloneEn"
                   alt=""
@@ -129,7 +129,7 @@ export default {
       nodeList: [],
       nodeIndex: 0,
       appIndex: 0,
-      bgImg: false,
+      isShowInstancebgImg: false,
       carouselHeight: '',
       detailInfoShow: false,
       language: localStorage.getItem('language'),
@@ -264,7 +264,7 @@ export default {
             })
           })
         })
-        this.bgImg = this.nodeList[0].appList[0].status
+        this.isShowInstancebgImg = this.nodeList[0].appList[0].status !== undefined
         this.currentApp = this.nodeList[0].appList[0]
         this.inputAppName = this.currentApp.appPkgName
       }).catch(error => {
@@ -360,12 +360,9 @@ export default {
         this.getOpenStackNodeKpi(this.nodeList[nodeIndex].mechostIp)
       }
       this.currentApp = this.nodeList[nodeIndex].appList.length === 0 ? {} : this.nodeList[nodeIndex].appList[0]
+      this.isShowInstancebgImg = this.currentApp.status !== undefined
       this.inputAppName = this.currentApp.appPkgName
       this.currentNodeIndex = nodeIndex
-    },
-    handleAppChange (index, status) {
-      this.appIndex = Number(index)
-      this.bgImg = this.nodeList[this.nodeIndex].appList[index].status
     },
     setDivHeight () {
       this.$nextTick(() => {
@@ -391,6 +388,7 @@ export default {
       this.nodeList[this.currentNodeIndex].appList.forEach(item => {
         if (item.appId === selectItem.id) {
           this.currentApp = item
+          this.isShowInstancebgImg = item.status !== undefined
         }
       })
     },
