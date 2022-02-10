@@ -18,13 +18,14 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
-const serverPort = 31252
-
-let api
+let api = window.location.href.split(':')[0]
+let serverPort = 31252
 if (window.location.href.indexOf('31252') > -1) {
-  api = 'https://' + window.location.href.split('//')[1].split(':')[0]
+  serverPort = 31252
+} else if (window.location.href.indexOf('30102') > -1) {
+  serverPort = 30102
 } else {
-  api = 'https://' + window.location.hostname
+  serverPort = 30000
 }
 
 let lcmcontrollerApi = api + ':' + serverPort + '/lcmcontroller/v1'
