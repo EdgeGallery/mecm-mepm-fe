@@ -18,7 +18,7 @@ import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import { uuid } from 'vue-uuid'
 
-let api = window.location.href.split(':')[0]
+let api = window.location.href.split(':')[0] + window.location.href.split(':')[1]
 let serverPort = 31252
 if (window.location.href.indexOf('31252') > -1) {
   serverPort = 31252
