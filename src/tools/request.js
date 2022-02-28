@@ -283,9 +283,6 @@ let resController = {
   },
   operateVM (hostIp, serverId, params) {
     return POST(resControllerApi + '/tenants/' + getUserId() + '/hosts/' + hostIp + '/servers/' + serverId, params)
-  },
-  querySysImages (url) {
-    return axios.get(url)
   }
 }
 

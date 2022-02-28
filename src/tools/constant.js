@@ -76,29 +76,6 @@ const TOPOLOGY = {
   }
 }
 
-const IMAGESTATUS = [
-  {
-    labelcn: '未瘦身',
-    labelen: 'No Slim',
-    value: 0
-  },
-  {
-    labelcn: '瘦身中',
-    labelen: 'Sliming',
-    value: 1
-  },
-  {
-    labelcn: '瘦身成功',
-    labelen: 'Slim Succeed',
-    value: 2
-  },
-  {
-    labelcn: '瘦身失败',
-    labelen: 'Slim Failed',
-    value: 3
-  }
-]
-
 export {
-  TYPES, AFFINITY, TOPOLOGY, IMAGESTATUS
+  TYPES, AFFINITY, TOPOLOGY
 }
