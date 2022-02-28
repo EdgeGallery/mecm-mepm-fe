@@ -39,14 +39,7 @@
           class="create-col"
         >
           <el-button
-            class="create-btn"
-            id="createImageBtn"
-            @click="openSysImage()"
-          >
-            {{ $t('resourceMgr.importSysImage') }}
-          </el-button>
-          <el-button
-            class="create-btn"
+            :class="language==='cn'? 'create-btn':'create-btn-en'"
             id="createImageBtn"
             @click="createImage()"
           >
@@ -147,24 +140,16 @@
         @reloadTableData="reloadTableData"
       />
     </div>
-    <div v-if="isShowSysImageDlg">
-      <SysImageDlg
-        v-model="isShowSysImageDlg"
-        @reloadTableData="reloadTableData"
-      />
-    </div>
   </div>
 </template>
 <script>
 import pagination from '../../components/Pagination.vue'
 import ImageForm from '../form/ImageForm.vue'
-import SysImageDlg from '../form/SysImageDlg.vue'
 import { resController } from '../../tools/request.js'
 export default {
   components: {
     pagination,
-    ImageForm,
-    SysImageDlg
+    ImageForm
   },
   data () {
     return {
@@ -172,7 +157,6 @@ export default {
       paginationData: [],
       currentPageData: [],
       isShowForm: false,
-      isShowSysImageDlg: false,
       dataLoading: true,
       language: localStorage.getItem('language')
     }
@@ -270,9 +254,6 @@ export default {
           return 1
         })
       }
-    },
-    openSysImage () {
-      this.isShowSysImageDlg = true
     }
   },
   mounted () {
@@ -298,9 +279,20 @@ export default {
       margin-left: 30px;
     }
     .create-col{
-      text-align: right;
-      margin-left: 115px;
+      text-align: center;
       .create-btn{
+        margin-left: 486px;
+        margin-top: 30px;
+        height: 40px;
+        color: #fff;
+        font-size: 20px !important;
+        border-radius: 10px;
+        padding: 0 35px;
+        background-image: linear-gradient(127deg, #4444d0, #6724cb);
+        border: none;
+      }
+      .create-btn-en{
+        margin-left: 445px;
         margin-top: 30px;
         height: 40px;
         color: #fff;

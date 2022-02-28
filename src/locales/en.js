@@ -837,16 +837,7 @@ const en = {
     softRebootVMTitle: 'Confirm Soft reboot the instance',
     task: 'Task',
     rebootTask: 'restarting...',
-    noTask: 'None',
-    importSysImage: 'Import System Image',
-    slimStatus: 'Slim Status',
-    diskSize: 'Disk Size',
-    imageFormat: 'Image Format',
-    sysIamge: 'System Image',
-    imageSize: 'Image Size',
-    importImageSuccess: 'Import image successfully!',
-    importImageFailed: 'Failed to import image!',
-    querySysImageFailed: 'Failed to query system image!'
+    noTask: 'None'
   },
   ...enLocale
 }
