@@ -250,6 +250,7 @@ export default {
     font-size: 14px;
     color: #6c92fa;
     width: 70px;
+    margin-right: 30px;
     span {
       width:60px!important;
       top:3px!important;
@@ -301,8 +302,8 @@ export default {
 #usericon{
   position: relative;
   z-index: 99;
-  top: 22px;
-  right:40px;
+  top: 20px;
+  right:10px;
   padding-right: 10px;
   cursor: pointer;
 }
