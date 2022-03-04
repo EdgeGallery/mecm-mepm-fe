@@ -200,7 +200,7 @@
           <el-table
             ref="multipleEdgeNodeTable"
             :data="currPageEdgeNodeTableData"
-            class="mt20"
+            class="tableStyle mt20"
             border
             size="small"
             style="width: 100%;"

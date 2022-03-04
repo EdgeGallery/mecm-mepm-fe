@@ -144,7 +144,7 @@ export default {
     }
     .login-area {
       padding: 25px 45px 45px 45px;
-      background: #fff;
+      background: rgba(46,20,124,.7);
       border-radius: 15px;
       width: 420px;
       box-sizing: border-box;
@@ -157,7 +157,7 @@ export default {
       font-size: 18px;
       font-weight: bold;
       font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-      color: #5d3da0;
+      color: #FFFFFF;
       margin: 10px 0 35px 0;
     }
     .login-certify {
@@ -199,7 +199,7 @@ export default {
       border: none;
       border-radius: 22px;
       font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-      background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
+      background:linear-gradient(to right, #4e3494 , #53dabd)!important;
     }
     .verify-box em{
       top: 0;
