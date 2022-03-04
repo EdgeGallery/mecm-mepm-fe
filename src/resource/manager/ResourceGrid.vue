@@ -90,7 +90,7 @@ export default {
     .statistic-div{
       padding: 3px;
       .statistic-detail{
-        color: #1F1348;
+        color: #FFFFFF;
       }
     }
   }
@@ -104,9 +104,12 @@ export default {
     .statistic-div-en{
       padding: 3px;
       .statistic-detail{
-        color: #1F1348;
+        color: #FFFFFF;
       }
     }
   }
+}
+.el-progress__text {
+  color: #ffffff
 }
 </style>

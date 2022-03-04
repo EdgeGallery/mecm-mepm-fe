@@ -227,7 +227,7 @@ export default {
 
 <style lang='less' scoped>
 .navgation{
-  background: #5e40c8;
+  background: transparent;
   height: 65px;
   top: 0px;
   width: 100%;
@@ -240,7 +240,7 @@ export default {
     margin-left:17px;
     img{
       position: relative;
-      top: 0px;
+      top: 10px;
       width:150px;
     }
   }

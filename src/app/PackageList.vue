@@ -80,6 +80,8 @@
                 id="distributeBtn"
                 @click="distribute(scope.row)"
                 class="operations_btn"
+                type="text"
+                size="small"
               >
                 {{ $t('app.packageList.distribute') }}
               </el-button>
@@ -87,6 +89,8 @@
                 id="detailAnddeployBtn"
                 @click="checkDetail(scope.row)"
                 class="operations_btn"
+                type="text"
+                size="small"
               >
                 {{ $t('app.distriList.detailAnddeploy') }}
               </el-button>
@@ -547,7 +551,7 @@ export default {
   }
   .apacList {
     height: 100%;
-    background: #fff;
+    background: rgba(46,20,124,.7);
     padding: 30px 60px;
     border-radius: 20px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);

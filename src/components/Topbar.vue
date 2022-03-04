@@ -22,8 +22,8 @@
       router
       @select="handleSelect"
       text-color="#bdb1e4"
-      background-color="#5e40c8"
-      active-text-color="#fff"
+      background-color="transparent"
+      active-text-color="#ffffff"
       mode="horizontal"
     >
       <!-- 一级菜单 -->
@@ -146,7 +146,7 @@ export default {
 <style lang='less'>
 .main-sidebar{
   position: relative;
-  top:6px;
+  top:10px;
   z-index: 0;
   .el-menu.el-menu--horizontal{
     height: 50px;
@@ -154,6 +154,9 @@ export default {
     .el-menu-item{
       height: 50px;
       line-height: 50px;
+    }
+    .el-menu-item:hover {
+      background-color: transparent !important;
     }
   }
   .el-menu--horizontal>.el-submenu .el-submenu__title{
@@ -163,7 +166,7 @@ export default {
   .el-menu{
     display: flex;
     .first-menu{
-      font-size: 13px;
+      font-size: 16px;
       font-weight: bold;
     }
     .second-menu{

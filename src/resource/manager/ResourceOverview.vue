@@ -202,6 +202,7 @@ export default {
     margin-left: 50px;
     .resourcePercentage{
       text-align: center;
+      color: #FFFFFF;
       .title-icon-blue{
         display: inline-block;
         width: 14px;
@@ -239,6 +240,7 @@ export default {
     .resource-status{
       font-weight: 600;
       margin-left: 10px;
+      color: #FFFFFF;
     }
   }
   .resource-content{
