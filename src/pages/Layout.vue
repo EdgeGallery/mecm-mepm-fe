@@ -58,6 +58,5 @@ export default {
 <style lang='less'>
 .home-container{
   padding-top: 60px;
-  background-color: #f6f5f8;
 }
 </style>

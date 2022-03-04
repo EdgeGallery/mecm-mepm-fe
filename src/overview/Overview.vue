@@ -454,14 +454,13 @@ export default {
 }
 .overview{
   margin-top: 60px;
-  background-color: #f6f5f8;
   .mid-content{
     padding: 0 13%;
     .title_top{
       padding: 80px 0 40px;
       margin-left: 140px;
       font-size: 36px;
-      color: #380879;
+      color: #FFFFFF;
       background-image: url('../assets/images/overview-title-bg.png');
       background-repeat: no-repeat;
       background-position: center;
@@ -479,7 +478,7 @@ export default {
     .content{
       position: relative;
       .edge-info{
-        background-color: #fff;
+        background-color: rgba(46,20,124,.7);
         border-radius: 10px;
         padding: 34px 56px;
         margin-bottom: 40px;
@@ -489,7 +488,7 @@ export default {
           justify-content: space-between;
           padding-bottom: 15px;
           span{
-            color: #7a6e8a;
+            color: #FFFFFF;
             font-size: 26px;
             font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
           }

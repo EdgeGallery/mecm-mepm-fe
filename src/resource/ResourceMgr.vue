@@ -219,11 +219,10 @@ export default {
 .resource-content{
   .main-tabs{
     min-height:750px;
-    background-color:#fbfbfb;
     margin-top:20px;
     border-radius:20px;
     padding:43px 57px 60px 48.5px;
-    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+    border: 1px solid #FFFFFF;
     .nodeIP{
       text-align: right;
       margin-right: 25px;
@@ -251,7 +250,7 @@ export default {
         margin-left: 30px;
       }
       .host-text{
-        color: #5E40C8;
+        color: #FFFFFF;
       }
     }
     .elTabs{
@@ -311,18 +310,15 @@ export default {
       }
     }
     .el-tabs--left .el-tabs__item.is-left:hover {
-      background:#fff;
-      color: #5e40c8;
+      color: #FFFFFF;
       box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
     }
     .el-tabs--left .el-tabs__item.is-left.is-active{
-      background:#fff;
-      color: #5e40c8;
+      color: #FFFFFF;
       box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
     }
     .el-tabs--left .el-tabs__item.is-left{
       text-align: left;
-      background: #fbfbfb;
       font-size:20px;
       color: #7a6e8a;
     }

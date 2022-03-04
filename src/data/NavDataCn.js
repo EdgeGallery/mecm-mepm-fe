@@ -19,27 +19,32 @@ const NavDataCn = [
     'id': '2.1',
     'icon': '',
     'name': '概览',
-    'path': '/'
+    'path': '/',
+    'display': true
   },
   {
     'id': '2.2.1',
     'name': '边缘应用市场',
-    'path': '/mepm/apac/list'
+    'path': '/mepm/apac/list',
+    'display': true
   },
   {
     'id': '2.2.3',
     'name': '应用实例管理',
-    'path': '/mepm/ains/list'
+    'path': '/mepm/ains/list',
+    'display': true
   },
   {
     'id': '2.3',
     'name': '边缘节点管理',
-    'path': '/mepm/node/list'
+    'path': '/mepm/node/list',
+    'display': true
   },
   {
     'id': '2.4',
     'name': '资源管理',
-    'path': '/mepm/resource/manager'
+    'path': '/mepm/resource/manager',
+    'display': true
   }
 ]
 

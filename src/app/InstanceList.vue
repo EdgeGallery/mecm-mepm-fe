@@ -448,7 +448,7 @@ export default {
 <style lang='less'>
 .ainsList{
     height: 100%;
-    background: #fff;
+    background: rgba(46,20,124,.7);
     padding: 30px 60px;
     border-radius: 20px;
     box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);

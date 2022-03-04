@@ -19,27 +19,32 @@ const NavData = [
     'id': '2.1',
     'icon': '',
     'name': 'Overview',
-    'path': '/'
+    'path': '/',
+    'display': true
   },
   {
     'id': '2.2.1',
     'name': 'Package Management',
-    'path': '/mepm/apac/list'
+    'path': '/mepm/apac/list',
+    'display': true
   },
   {
     'id': '2.2.3',
     'name': 'App Instance List',
-    'path': '/mepm/ains/list'
+    'path': '/mepm/ains/list',
+    'display': true
   },
   {
     'id': '2.3',
     'name': 'EdgeNodes Management',
-    'path': '/mepm/node/list'
+    'path': '/mepm/node/list',
+    'display': true
   },
   {
     'id': '2.4',
     'name': 'Resource Management',
-    'path': '/mepm/resource/manager'
+    'path': '/mepm/resource/manager',
+    'display': true
   }
 ]
 

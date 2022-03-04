@@ -36,7 +36,8 @@ export default {
   font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f6f5f8;
+  background: url('./assets/images/common_bg.png') center no-repeat;
+  overflow: auto;
   background-size:cover;
   position: absolute;
   height: 100%;
