@@ -64,7 +64,7 @@ export default {
   .nodeDetails-div{
     margin: 0 5%;
     height: 100%;
-    background: #ffffff;
+    background: rgba(46,20,124,.7);
     border-radius: 8px;
   }
 }
