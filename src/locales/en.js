@@ -514,7 +514,7 @@ const en = {
     regAppManSuc: 'You have created one app rule manager successfully.',
     modAppRuleSuc: 'You have modified one app rule manager successfully.',
     ifContinue: 'This operation will permanently delete the diversion rule, continue?',
-    oneAtLeast: 'Please select one rule at least.',
+    oneAtLeast: 'Please select at least one rule.',
     loginStatusFailed: 'The login status has expired, please refresh the page and log in again.',
     loginOperation: 'Please log in to perform this operation.',
     operationInfo: 'Operation Info',
