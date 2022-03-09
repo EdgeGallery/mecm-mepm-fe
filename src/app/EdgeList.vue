@@ -97,6 +97,7 @@
             id="deleteBtn"
             @click.native.prevent="beforeDelete(scope.row)"
             class="operations_btn"
+            type="text"
           >
             {{ $t('common.delete') }}
           </el-button>
@@ -105,6 +106,7 @@
             @click="deploy(scope.row,1)"
             :disabled="scope.row.status !=='Distributed'"
             class="operations_btn"
+            type="text"
           >
             {{ $t('app.distriList.deploy') }}
           </el-button>
@@ -173,11 +175,13 @@
       >
         <el-button
           id="cancelBtn"
+          class="bgBtn"
           size="small"
           @click="dialogVisible = false,loading=false"
         >{{ $t('common.cancel') }}</el-button>
         <el-button
           id="confirmBtn"
+          class="bgBtn"
           type="primary"
           size="small"
           @click="confirmToDeploy('configForm')"
@@ -456,7 +460,7 @@ export default {
     width:3px;
     height:15px;
     margin-right:3px;
-    background: #409EFF;
+    background: #4e3494;
     position: relative;
     top:3px;
   }
