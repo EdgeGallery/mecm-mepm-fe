@@ -502,14 +502,14 @@ export default {
     width: 178px;
     font-weight: 400;
     .type-div{
-      background: #FFFFFF;
+      background: #4e3494;
       border: 1px solid #F2F3F5;
       border-radius: 4px;
       padding: 5px 23px 12px;
       margin-bottom: 15px;
       .type-title{
         font-size: 16px;
-        color: #2B0E52;
+        color: #FFFFFF;
         line-height: 36px;
       }
       .item{

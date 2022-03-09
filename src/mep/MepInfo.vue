@@ -34,6 +34,7 @@
         </div>
         <el-button
           plain
+          class="bgBtn"
           @click="returnLastPage()"
         >
           {{ $t('SERVICE_PAGE.BACK_BUTTON_NAME') }}
@@ -259,7 +260,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .inner-page-background{
-  background-color: #FFFFFF;
+  background-color: rgba(46,20,124,.7);
 }
 .box {
   .inner-nav{
@@ -276,7 +277,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 18px;
-        color: #696969;
+        color: #FFFFFF;
         .tab-item{
           cursor: pointer;
         }
@@ -284,7 +285,7 @@ export default {
           padding-left: 44px;
         }
         .active {
-          color: #280B4E;
+          color: #DEDBE5;
           &::after {
             display: block;
             content: "";
@@ -303,7 +304,7 @@ export default {
     }
     .tab-gap-con{
       height: 10px;
-      background: #F2F3F5;
+      background: rgba(46,20,124,.7);
     }
   }
   .cont {

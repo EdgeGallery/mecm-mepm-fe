@@ -242,6 +242,10 @@ export default {
     th{
       background: #EFEFEF;
       height: 48px;
+      .cell{
+        font-weight: bold!important;
+        color: #280B4E !important;
+      }
     }
   }
   thead{

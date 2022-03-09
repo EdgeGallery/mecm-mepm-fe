@@ -27,6 +27,7 @@
     <hr class="service-top-line">
     <el-table
       :data="sortedData"
+      class="tableStyle"
       stripe
       height="412"
       style="width: 100%;"
@@ -256,13 +257,10 @@ export default {
 // 表头
 /deep/ .el-table thead {
   font-size: 16px;
-  color: #666666;
+  color: #FFFFFF;
 }
 /deep/ .el-table th>.cell{
   font-weight: 400!important;
-}
-/deep/ .el-table .has-gutter th {
-  background: #FFFFFF;
 }
 
 // 行高
