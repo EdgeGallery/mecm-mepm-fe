@@ -31,7 +31,6 @@
       <el-form
         label-width="auto"
         :model="appTrafficRule"
-
         ref="appTrafficRule"
         :rules="formRules"
         size="small"
@@ -112,10 +111,8 @@
 
         <!-- filter table -->
         <el-table
-          class="mt20"
+          class="tableStyle"
           :data="trafficFilterData"
-          border
-          size="small"
           style="width: 100%;"
         >
           <el-table-column
@@ -217,10 +214,8 @@
         <!-- interface table -->
         <div>
           <el-table
-            class="mt20"
+            class="tableStyle"
             :data="trafficInterfaceData"
-            border
-            size="small"
             style="width: 100%;"
           >
             <el-table-column
@@ -552,3 +547,8 @@ export default {
   }
 }
 </script>
+<style lang='less' scoped>
+  /deep/ .el-table__body .el-table__row.hover-row td{
+    background-color: #4E3494 !important;
+  }
+</style>

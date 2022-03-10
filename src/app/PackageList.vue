@@ -201,8 +201,6 @@
             ref="multipleEdgeNodeTable"
             :data="currPageEdgeNodeTableData"
             class="tableStyle mt20"
-            border
-            size="small"
             style="width: 100%;"
             @selection-change="handleEdgeNodeSelectionChange"
           >

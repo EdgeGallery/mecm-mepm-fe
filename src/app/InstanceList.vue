@@ -85,6 +85,7 @@
                 id="deleteBtn"
                 @click="beforeDelete(scope.row,2)"
                 class="operations_btn"
+                type="text"
               >
                 {{ $t('common.delete') }}
               </el-button>
@@ -92,12 +93,14 @@
                 id="detailBtn"
                 @click="handleRowSelection(scope.row)"
                 class="operations_btn"
+                type="text"
               >
                 {{ $t('common.detail') }}
               </el-button>
               <el-button
                 class="operations_btn"
                 @click="showReason(scope.row)"
+                type="text"
                 :disabled="scope.row.operationalStatus === 'Instantiated'"
               >
                 {{ $t('tip.operationInfo') }}
@@ -105,6 +108,7 @@
               <el-button
                 class="operations_btn"
                 @click="jump(scope.row)"
+                type="text"
               >
                 {{ $t('nav.ruleConfiguration') }}
               </el-button>

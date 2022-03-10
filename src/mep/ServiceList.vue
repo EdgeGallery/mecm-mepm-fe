@@ -273,7 +273,10 @@ export default {
 
 // 斑马色
 /deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
-    background: #F2F3F5;
+  background: #F2F3F5;
+}
+/deep/ .el-table-filter {
+  background: rgba(46,20,124,.7) !important;
 }
 
 .pageInner {

@@ -35,10 +35,9 @@
         {{ $t('app.instanceList.batchDeleteDnsRules') }}
       </el-button>
       <el-table
-        class="mt20"
+        class="tableStyle"
         :data="dnsRuleTableData"
         v-loading="loading"
-        border
         style="width: 100%;"
         @selection-change="handleSelectionChange"
       >
@@ -412,6 +411,8 @@ export default {
 </script>
 <style lang='less' scoped>
 .btn{
+  color: #FFFFFF;
+  background-image: linear-gradient(127deg, #4444d0, #6724cb);
   margin:15px 15px 15px 0;
 }
 </style>

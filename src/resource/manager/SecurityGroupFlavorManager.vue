@@ -269,6 +269,9 @@ export default {
   .security-group-table{
     width: 1000px;
     margin: 30px auto;
+    .tableStyle /deep/ .el-table__body .el-table__row.hover-row td{
+      background-color: #4E3494 !important;
+    }
   }
 }
 </style>

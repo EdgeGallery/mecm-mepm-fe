@@ -141,12 +141,13 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (!sessionStorage.getItem('userName')) {
-        this.ifLogin = false
-        this.$router.push('/login')
-      } else {
-        this.ifLogin = true
-      }
+      // if (!sessionStorage.getItem('userName')) {
+      //   this.ifLogin = false
+      //   this.$router.push('/login')
+      // } else {
+      //   this.ifLogin = true
+      // }
+      this.ifLogin = true
     }
   },
   mounted () {
