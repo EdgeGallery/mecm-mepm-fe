@@ -107,29 +107,35 @@ export default {
 </script>
 <style lang='less' scoped>
 .ruleconfigcontent {
-    height: 100%;
-    background: #fff;
-    padding: 30px 60px;
-    border-radius: 20px;
-    box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
+  height: 100%;
+  background: rgba(46,20,124,.7);
+  padding: 30px 60px;
+  border-radius: 20px;
+  box-shadow: 0 6px 68px 0 rgba(94, 64, 200, 0.06);
 }
 .newproject_btn{
-    position: absolute;
-    right: 0;
-    bottom: 30px;
-    height: 50px;
-    color: #fff;
-    font-size: 20px !important;
-    border-radius: 25px;
-    padding: 0 35px;
-    .new_icon{
-      display: inline-block;
-      width: 19px;
-      height: 19px;
-      background: url('../../assets/images/new_icon.png');
-      margin-right: 3px;
-      position: relative;
-      top: 2px;
-    }
+  position: absolute;
+  right: 0;
+  bottom: 30px;
+  height: 50px;
+  color: #fff;
+  font-size: 20px !important;
+  border-radius: 25px;
+  padding: 0 35px;
+  .new_icon{
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background: url('../../assets/images/new_icon.png');
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
   }
+}
+/deep/ .el-tabs__item {
+  color: #7a6e8a !important;
+}
+/deep/ .el-tabs__item.is-active {
+  color: #FFFFFF !important;
+}
 </style>

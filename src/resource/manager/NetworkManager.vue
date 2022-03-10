@@ -340,6 +340,9 @@ export default {
     .tableStyle /deep/ .el-table__fixed-right-patch{
       background-color: #edeef8 !important;
     }
+    .tableStyle /deep/ .el-table__body .el-table__row.hover-row td{
+      background-color: #4E3494 !important;
+    }
   }
 }
 </style>

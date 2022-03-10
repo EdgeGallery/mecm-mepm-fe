@@ -125,6 +125,7 @@
       :title="$t('app.distriList.deploymentConf')"
       :visible.sync="dialogVisible"
       width="40%"
+      class="default_dialog"
     >
       <el-form
         label-width="auto"
