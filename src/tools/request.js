@@ -167,15 +167,15 @@ let lcmController = {
     return DELETE(lcmcontrollerApi + '/tenants/' + getUserId() + '/app_instances/batchTerminate', params)
   },
   getAbilityCallTimesInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
+    let lcmBasicUrl = window.location.href.split(':')[0] + '://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/kong_log')
   },
   getServiceList (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
+    let lcmBasicUrl = window.location.href.split(':')[0] + '://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/services')
   },
   getSubscribeInfo (nodeIp) {
-    let lcmBasicUrl = 'https://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
+    let lcmBasicUrl = window.location.href.split(':')[0] + '://' + nodeIp + ':' + serverPort + '/lcmcontroller/v1'
     return GET(lcmBasicUrl + '/mep/subscribe_statistic')
   }
 }
