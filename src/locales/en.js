@@ -651,7 +651,7 @@ const en = {
     flavor: 'Specification',
     securityGroup: 'Security Group',
     createVMInstance: 'Create Instance',
-    createImage: 'Create Image'D,
+    createImage: 'Create Image',
     edit: 'Edit',
     delete: 'Delete',
     noData: 'No Data',
