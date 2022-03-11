@@ -731,4 +731,7 @@ export default {
     padding-left:0 !important;
   }
 }
+/deep/ .area-select {
+  background: #4e3494 !important;
+}
 </style>
