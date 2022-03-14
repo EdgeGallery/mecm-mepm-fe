@@ -344,7 +344,7 @@ export default {
         margin-top: 41px;
         font-size: 18px;
         font-weight: 400;
-        color: #280B4E;
+        color: #FFFFFF;
         line-height: 19px;
       }
       .mep-ability-line{

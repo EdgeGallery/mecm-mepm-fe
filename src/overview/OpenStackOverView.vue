@@ -208,11 +208,14 @@ export default {
       .desc{
         width: 100px;
         height: 30px;
+        .desc-font{
+          color: #FFFFFF;
+        }
       }
     }
   }
   .occupiedBefore,.UsableBefore{
-    color: #827792;
+    color: #FFFFFF;
     font-size: 14px;
     font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
   }

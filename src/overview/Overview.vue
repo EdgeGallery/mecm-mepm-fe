@@ -544,7 +544,7 @@ export default {
         }
         .resources-nodeShow{
           position: absolute;
-          background-color: #dedfea;
+          background-color: rgba(46,20,124,.7);
           border-radius: 10px;
           width: 30%;
           padding: 10px 15px;
