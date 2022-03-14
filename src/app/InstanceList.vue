@@ -150,7 +150,7 @@
                 <el-table
                   ref="podTable"
                   :data="podTable"
-                  class="mt20 detailTab"
+                  class="tableStyle detailTab"
                   size="small"
                 >
                   <el-table-column
@@ -551,7 +551,7 @@ export default {
   }
   .detail_dialog{
     .el-dialog,.el-dialog__header{
-      background: #ffffff !important;
+      color: #ffffff !important;
     }
   }
 }
