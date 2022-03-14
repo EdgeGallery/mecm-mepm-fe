@@ -150,7 +150,7 @@ export default {
     }
     .modify-area {
       padding: 25px 45px 35px 45px;
-      background: #fff;
+      background: rgba(46,20,124,.7);
       border-radius: 15px;
       width: 420px;
       height: auto;
@@ -164,7 +164,7 @@ export default {
       font-size: 18px;
       font-weight: bold;
       font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-      color: #5d3da0;
+      color: #FFFFFF;
       margin: 10px 0 35px 0;
     }
     .info-title {
@@ -179,7 +179,7 @@ export default {
       font-size: 18px;
       border: none;
       font-family: HarmonyHeiTi, Arial, Helvetica, sans-serif;
-      background:linear-gradient(to right, #54aaf3 , #53dabd)!important;
+      background:linear-gradient(90deg,#4e3494,#53dabd) !important;
       border-radius: 22px;
     }
     .el-button--text{
