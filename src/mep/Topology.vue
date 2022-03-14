@@ -481,7 +481,7 @@ export default {
   .title-div {
     font-size: 16px;
     font-weight: 400;
-    color: #280B4E;
+    color: #FFFFFF;
   }
   .title-div::before{
     content:'';

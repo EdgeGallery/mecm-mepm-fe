@@ -182,7 +182,7 @@ export default {
   .info-title{
     font-size: 18px;
     font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-    color: #5e40c8;
+    color: #FFFFFF;
   }
   .info-title::before{
     content: '';
@@ -194,7 +194,7 @@ export default {
   .infoBtn{
     font-size: 14px;
     font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
-    color: #5e40c8;
+    color: #FFFFFF;
   }
   .resources{
     padding-left: 24px;
@@ -218,11 +218,14 @@ export default {
         .desc{
           width: 100px;
           height: 30px;
+          .desc-font{
+            color: #FFFFFF;
+          }
         }
       }
     }
     .occupiedBefore,.UsableBefore{
-      color: #827792;
+      color: #FFFFFF;
       font-size: 14px;
       font-family: HarmonyOS_Sans_Regular, Arial, Helvetica, sans-serif;
     }
