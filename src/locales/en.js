@@ -158,7 +158,7 @@ const en = {
     resourceDetails: 'Resource Details',
     moreDetails: 'More',
     moreResource: ' More Details',
-    computeResources: 'x86 Computing Resources',
+    computeResources: 'Computing Resources',
     occupied: 'Occupied',
     usable: 'Available',
     network: 'Network:',

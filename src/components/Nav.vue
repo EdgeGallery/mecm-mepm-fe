@@ -227,7 +227,7 @@ export default {
 
 <style lang='less' scoped>
 .navgation{
-  background: transparent;
+  background: rgb(62, 39, 155);
   height: 65px;
   top: 0px;
   width: 100%;
