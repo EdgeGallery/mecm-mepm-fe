@@ -243,7 +243,7 @@ export default {
       display: inline-block;
       width: 8px;
       height: 8px;
-      background-color: #9686e1;
+      background-color: #9385d6;
       border-radius: 50%;
       margin-right: 5px;
     }
