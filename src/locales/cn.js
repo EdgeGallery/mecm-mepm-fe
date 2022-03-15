@@ -156,7 +156,7 @@ const cn = {
     resourceDetails: '资源详情',
     moreDetails: '更多详情',
     moreResource: '更多资源展示',
-    computeResources: 'x86计算资源',
+    computeResources: '计算资源',
     occupied: '已占用',
     usable: '未占用',
     network: '网络：',
