@@ -398,4 +398,8 @@ export default {
     width: 85%;
   }
 }
+/deep/ .el-textarea__inner{
+  background-color: rgba(46,20,124,.7);
+  color: #FFFFFF;
+}
 </style>

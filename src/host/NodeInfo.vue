@@ -20,7 +20,10 @@
       {{ $t('nav.nodeDetails') }}
       <span class="line_bot1" />
     </div>
-    <div class="nodeDetails-div">
+    <div
+      class="nodeDetails-div"
+      v-if="isShowNodeDetail"
+    >
       <NodeDetails
         :detail="curShownNodeInfo"
       />
@@ -35,6 +38,7 @@ export default {
   components: { NodeDetails },
   data () {
     return {
+      isShowNodeDetail: false,
       curShownNodeInfo: {}
     }
   },
@@ -42,6 +46,7 @@ export default {
     initNodoInfo (nodeIp) {
       lcmController.getHostList().then(response => {
         this.curShownNodeInfo = response.data.find(item => item.mechostIp === nodeIp)
+        this.isShowNodeDetail = true
       }).catch((error) => {
         console.log(error)
         this.$message.error(this.$t('tip.failedToGetList'))
@@ -52,6 +57,7 @@ export default {
     console.log('this.$route.params.nodeIp: ' + this.$route.params.nodeIp)
     if (this.$route.params.nodeInfo) {
       this.curShownNodeInfo = this.$route.params.nodeInfo
+      this.isShowNodeDetail = true
     } else {
       this.initNodoInfo(this.$route.params.nodeIp)
     }

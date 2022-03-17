@@ -52,7 +52,7 @@
             @mouseenter="groupListHover('1')"
             @mouseleave="groupListLeave('1')"
           >
-            <em :class="[selectedName==='1' || activeName==='1'?'overview_active':'overview_default']" />{{ $t('resourceMgr.resourceOverview') }}
+            <em class="overview_default" />{{ $t('resourceMgr.resourceOverview') }}
           </span>
           <div v-if="activeName==='1'">
             <ResourceOverview />
@@ -66,7 +66,7 @@
             @mouseenter="groupListHover('2')"
             @mouseleave="groupListLeave('2')"
           >
-            <em :class="[selectedName==='2' || activeName==='2'?'vm_active':'vm_default']" />{{ $t('resourceMgr.vm') }}
+            <em class="vm_default" />{{ $t('resourceMgr.vm') }}
           </span>
           <div v-if="activeName==='2'">
             <VMManager />
@@ -80,7 +80,7 @@
             @mouseenter="groupListHover('3')"
             @mouseleave="groupListLeave('3')"
           >
-            <em :class="[selectedName==='3' || activeName==='3'?'image_active':'image_default']" />{{ $t('resourceMgr.image') }}
+            <em class="image_default" />{{ $t('resourceMgr.image') }}
           </span>
           <div v-if="activeName==='3'">
             <ImageManager />
@@ -94,7 +94,7 @@
             @mouseenter="groupListHover('4')"
             @mouseleave="groupListLeave('4')"
           >
-            <em :class="[selectedName==='4' || activeName==='4'?'network_active':'network_default']" />{{ $t('resourceMgr.network') }}
+            <em class="network_default" />{{ $t('resourceMgr.network') }}
           </span>
           <div v-if="activeName==='4'">
             <NetworkManager />
@@ -108,7 +108,7 @@
             @mouseenter="groupListHover('5')"
             @mouseleave="groupListLeave('5')"
           >
-            <em :class="[selectedName==='5' || activeName==='5'?'flavor_active':'flavor_default']" />{{ $t('resourceMgr.flavor') }}
+            <em class="flavor_default" />{{ $t('resourceMgr.flavor') }}
           </span>
           <div v-if="activeName==='5'">
             <FlavorManager />
@@ -122,7 +122,7 @@
             @mouseenter="groupListHover('6')"
             @mouseleave="groupListLeave('6')"
           >
-            <em :class="[selectedName==='6' || activeName==='6'?'securityGroup_active':'securityGroup_default']" />{{ $t('resourceMgr.securityGroup') }}
+            <em class="securityGroup_default" />{{ $t('resourceMgr.securityGroup') }}
           </span>
           <div v-if="activeName==='6'">
             <SecurityGroupManager />
@@ -222,7 +222,7 @@ export default {
     margin-top:20px;
     border-radius:20px;
     padding:43px 57px 60px 48.5px;
-    border: 1px solid #FFFFFF;
+    background: rgba(46,20,124,.7);
     .nodeIP{
       text-align: right;
       margin-right: 25px;
@@ -265,38 +265,20 @@ export default {
       .overview_default{
         background: url('../assets/images/overview_default.png') no-repeat;
       }
-      .overview_active{
-        background: url('../assets/images/overview_active.png') no-repeat;
-      }
       .vm_default{
         background: url('../assets/images/vm_default.png') no-repeat;
-      }
-      .vm_active{
-        background: url('../assets/images/vm_active.png') no-repeat;
       }
       .image_default{
         background: url('../assets/images/image_default.png') no-repeat;
       }
-      .image_active{
-        background: url('../assets/images/image_active.png') no-repeat;
-      }
       .network_default{
         background: url('../assets/images/network_default.png') no-repeat;
-      }
-      .network_active{
-        background: url('../assets/images/network_active.png') no-repeat;
       }
       .flavor_default{
         background: url('../assets/images/flavor_default.png') no-repeat;
       }
-      .flavor_active{
-        background: url('../assets/images/flavor_active.png') no-repeat;
-      }
       .securityGroup_default{
         background: url('../assets/images/securityGroup_default.png') no-repeat;
-      }
-      .securityGroup_active{
-        background: url('../assets/images/securityGroup_active.png') no-repeat;
       }
       span{
         display: inline-block;
@@ -310,17 +292,15 @@ export default {
       }
     }
     .el-tabs--left .el-tabs__item.is-left:hover {
-      color: #FFFFFF;
-      box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
+      border: 1px solid #43F6AD;
     }
     .el-tabs--left .el-tabs__item.is-left.is-active{
-      color: #FFFFFF;
-      box-shadow:-1px 0px 10px 0 rgba(40, 12, 128, 0.1);
+      border: 1px solid #43F6AD;
     }
     .el-tabs--left .el-tabs__item.is-left{
       text-align: left;
       font-size:20px;
-      color: #7a6e8a;
+      color: #FFFFFF;
     }
     .el-tabs--left .el-tabs__header.is-left{
       margin-right: 60px;

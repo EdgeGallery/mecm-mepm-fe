@@ -85,4 +85,8 @@ export default {
     text-align: left;
   }
 }
+/deep/ .el-textarea__inner{
+  background-color: rgba(46,20,124,.7);
+  color: #FFFFFF;
+}
 </style>
