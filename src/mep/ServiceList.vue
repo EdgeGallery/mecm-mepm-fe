@@ -28,7 +28,6 @@
     <el-table
       :data="sortedData"
       class="tableStyle"
-      stripe
       height="412"
       style="width: 100%;"
       header-cell-class-name="headerStyle"
@@ -269,11 +268,6 @@ export default {
 }
 /deep/ .el-table .cell{
   line-height: 40px;
-}
-
-// 斑马色
-/deep/ .el-table--striped .el-table__body tr.el-table__row--striped td {
-  background: #F2F3F5;
 }
 /deep/ .el-table-filter {
   background: rgba(46,20,124,.7) !important;
